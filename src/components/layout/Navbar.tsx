@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import { Menu, X, ChevronDown, MessageCircle } from "lucide-react";
 import { buildGeneralMessage } from "@/lib/whatsapp";
@@ -32,13 +33,16 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 shrink-0">
-            <div className="w-9 h-9 rounded-lg bg-[#1B3A6B] flex items-center justify-center">
-              <span className="text-white font-black text-sm">BJA</span>
-            </div>
-            <div className="hidden sm:block">
-              <p className="font-black text-[#1B3A6B] text-base leading-none">BJA Logistic</p>
-              <p className="text-xs text-gray-500 leading-none">Spesialis Papua & Indonesia Timur</p>
+          <Link href="/" className="shrink-0">
+            <div className="bg-[#1B3A6B] rounded-lg px-3 py-1.5">
+              <Image
+                src="/logo-putih-bja.webp"
+                alt="BJA Logistic"
+                width={120}
+                height={36}
+                className="h-9 w-auto"
+                priority
+              />
             </div>
           </Link>
 

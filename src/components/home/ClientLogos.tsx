@@ -1,9 +1,18 @@
+import Image from "next/image";
 import { buildCorporateMessage } from "@/lib/whatsapp";
 import { MessageCircle } from "lucide-react";
 
 const clients = [
-  "Indomaret", "Bank Negara Indonesia", "United Tractor",
-  "PLN", "Synnex Metrodata", "CAP", "Madesa", "SIGS",
+  { name: "Indomaret", src: "/client/indomaret.webp", width: 160, height: 80 },
+  { name: "BNI", src: "/client/bni.webp", width: 160, height: 55 },
+  { name: "United Tractors", src: "/client/united-tractor.webp", width: 180, height: 45 },
+  { name: "PLN", src: "/client/pln.webp", width: 60, height: 80 },
+  { name: "Chandra Asri", src: "/client/cap.webp", width: 180, height: 55 },
+  { name: "Synnex Metrodata", src: "/client/synnex.webp", width: 180, height: 55 },
+  { name: "Madesa", src: "/client/madesa.webp", width: 160, height: 45 },
+  { name: "Sonton", src: "/client/sonton.webp", width: 140, height: 60 },
+  { name: "SIGS", src: "/client/sigs.webp", width: 80, height: 55 },
+  { name: "Aksara Grafika", src: "/client/aksara.webp", width: 160, height: 60 },
 ];
 
 export function ClientLogos() {
@@ -19,16 +28,25 @@ export function ClientLogos() {
           </h2>
         </div>
 
-        <div className="flex flex-wrap items-center justify-center gap-4 mb-10">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-4">
           {clients.map((client) => (
             <div
-              key={client}
-              className="bg-white rounded-xl px-6 py-4 shadow-sm border border-gray-100 hover:border-[#1B3A6B]/30 hover:shadow-md transition-all"
+              key={client.name}
+              className="bg-white rounded-xl px-5 py-5 shadow-sm border border-gray-100 hover:border-[#1B3A6B]/30 hover:shadow-md transition-all flex items-center justify-center"
+              style={{ minHeight: 88 }}
             >
-              <span className="font-black text-[#1B3A6B] text-sm whitespace-nowrap">{client}</span>
+              <Image
+                src={client.src}
+                alt={client.name}
+                width={client.width}
+                height={client.height}
+                className="object-contain max-h-12 w-auto"
+              />
             </div>
           ))}
         </div>
+
+        <p className="text-center text-xs text-gray-400 mb-10">+ ratusan klien UKM & perorangan lainnya</p>
 
         {/* Corporate CTA */}
         <div className="bg-gradient-to-r from-[#1B3A6B] to-[#2a5298] rounded-2xl p-8 text-center">

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { MapPin, Phone, MessageCircle } from "lucide-react";
 import { buildGeneralMessage, WA_PHONE } from "@/lib/whatsapp";
 
@@ -27,14 +28,14 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Brand */}
           <div className="lg:col-span-1">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 rounded-lg bg-[#F97316] flex items-center justify-center">
-                <span className="text-white font-black text-sm">BJA</span>
-              </div>
-              <div>
-                <p className="font-black text-white text-lg leading-none">BJA Logistic</p>
-                <p className="text-xs text-blue-300 leading-none">Spesialis Papua & Indonesia Timur</p>
-              </div>
+            <div className="mb-4">
+              <Image
+                src="/logo-putih-bja.webp"
+                alt="BJA Logistic"
+                width={140}
+                height={42}
+                className="h-10 w-auto"
+              />
             </div>
             <p className="text-gray-400 text-sm leading-relaxed mb-5">
               Solusi logistik terpercaya ke Papua, Maluku, NTT, dan Sulawesi. Cepat, aman, dan harga kompetitif sejak lebih dari 10 tahun.
