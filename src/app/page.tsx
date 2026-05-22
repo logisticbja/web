@@ -3,12 +3,9 @@ import { Hero } from "@/components/home/Hero";
 import { StatsBar } from "@/components/home/StatsBar";
 import { ServicesGrid } from "@/components/home/ServicesGrid";
 import { WhyUs } from "@/components/home/WhyUs";
-import { PricingTable } from "@/components/home/PricingTable";
-import { CorporateBanner } from "@/components/home/CorporateBanner";
 import { CoverageSection } from "@/components/home/CoverageSection";
 import { Gallery } from "@/components/home/Gallery";
 import { ClientLogos } from "@/components/home/ClientLogos";
-import { CorporateSection } from "@/components/home/CorporateSection";
 import { Testimonials } from "@/components/home/Testimonials";
 import { FAQ } from "@/components/home/FAQ";
 import { FinalCTA } from "@/components/home/FinalCTA";
@@ -31,12 +28,9 @@ export default function HomePage() {
       <StatsBar />
       <ServicesGrid />
       <WhyUs />
-      <PricingTable />
-      <CorporateBanner />
       <CoverageSection />
       <Gallery />
       <ClientLogos />
-      <CorporateSection />
       <Testimonials />
       <FAQ />
       <FinalCTA />

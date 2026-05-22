@@ -36,5 +36,10 @@ export function buildVehicleMessage(type: "motor" | "mobil") {
   return WA_BASE + encode(msg);
 }
 
+export function buildDestinationMessage(city: string) {
+  const msg = `Halo BJA Logistic, saya ingin kirim cargo ke ${city}. Bisa bantu info harga, jadwal, dan estimasi pengirimannya? Terima kasih.`;
+  return WA_BASE + encode(msg);
+}
+
 export const WA_PHONE = "0815 1333 5157";
 export const WA_PHONE_RAW = "6281513335157";

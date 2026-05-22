@@ -21,6 +21,7 @@ const navLinks = [
   { label: "Cek Ongkir", href: "/cek-ongkir" },
   { label: "Jadwal Kapal", href: "/jadwal-kapal" },
   { label: "Tracking", href: "/tracking" },
+  { label: "Corporate", href: "/corporate" },
   { label: "Kontak", href: "/kontak" },
 ];
 
@@ -75,6 +76,14 @@ export function Navbar() {
                     ))}
                   </div>
                 </div>
+              ) : link.label === "Corporate" ? (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="px-3 py-1.5 rounded-lg text-sm font-black text-[#1A1A1A] bg-[#F5C518] hover:bg-[#D4A910] transition-colors"
+                >
+                  {link.label}
+                </Link>
               ) : (
                 <Link
                   key={link.href}
@@ -128,6 +137,14 @@ export function Navbar() {
                     </Link>
                   ))}
                 </>
+              ) : link.label === "Corporate" ? (
+                <Link
+                  href={link.href}
+                  onClick={() => setMobileOpen(false)}
+                  className="block px-3 py-2.5 rounded-lg text-sm font-black text-[#1A1A1A] bg-[#F5C518] hover:bg-[#D4A910] text-center"
+                >
+                  {link.label}
+                </Link>
               ) : (
                 <Link
                   href={link.href}

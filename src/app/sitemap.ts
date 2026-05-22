@@ -1,11 +1,16 @@
 import { MetadataRoute } from "next";
+import { destinationCities } from "@/lib/data/pricing";
 
 const BASE_URL = "https://bjalogistic.id";
+
+function toSlug(value: string) {
+  return value.replace(/_/g, "-");
+}
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
 
-  return [
+  const staticRoutes: MetadataRoute.Sitemap = [
     {
       url: BASE_URL,
       lastModified,
@@ -49,6 +54,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
+      url: `${BASE_URL}/corporate`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
       url: `${BASE_URL}/jadwal-kapal`,
       lastModified,
       changeFrequency: "weekly",
@@ -67,4 +78,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.6,
     },
   ];
+
+  const destinationRoutes: MetadataRoute.Sitemap = destinationCities.map((city) => ({
+    url: `${BASE_URL}/kirim-ke/${toSlug(city.value)}`,
+    lastModified,
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }));
+
+  return [...staticRoutes, ...destinationRoutes];
 }
