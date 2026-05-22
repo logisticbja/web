@@ -2,15 +2,30 @@ import { Metadata } from "next";
 import { Ship } from "lucide-react";
 import { ServicePageLayout } from "@/components/layout/ServicePageLayout";
 import { buildServiceMessage } from "@/lib/whatsapp";
+import { BreadcrumbJsonLd } from "@/components/JsonLd";
 
 export const metadata: Metadata = {
-  title: "Cargo Laut Papua",
-  description: "Layanan cargo laut ke Papua, Maluku, NTT dan Sulawesi via kapal Roro & PELNI. Mulai Rp 6.000/kg. Terpercaya dan tepat waktu.",
+  title: "Cargo Laut ke Papua & Indonesia Timur — Mulai Rp 6.000/kg",
+  description:
+    "Jasa cargo laut ke Papua, Maluku, NTT & Sulawesi via kapal Roro & PELNI. Harga mulai Rp 6.000/kg, min. 100 kg, estimasi 14–20 hari. Door to door Jabodetabek. Pesan via WhatsApp.",
+  keywords: [
+    "cargo laut papua", "ekspedisi laut papua", "kapal cargo papua",
+    "cargo laut jayapura", "cargo laut sorong", "cargo laut manokwari",
+    "cargo pelni papua", "cargo roro papua", "pengiriman laut indonesia timur",
+    "cargo laut murah ke papua",
+  ],
+  alternates: { canonical: "https://bjalogistic.id/layanan/cargo-laut" },
 };
 
 export default function CargoLautPage() {
   return (
-    <ServicePageLayout
+    <>
+      <BreadcrumbJsonLd items={[
+        { name: "Beranda", url: "https://bjalogistic.id" },
+        { name: "Layanan", url: "https://bjalogistic.id/layanan/cargo-laut" },
+        { name: "Cargo Laut", url: "https://bjalogistic.id/layanan/cargo-laut" },
+      ]} />
+      <ServicePageLayout
       icon={Ship}
       title="Cargo Laut ke Papua & Indonesia Timur"
       subtitle="Layanan Unggulan"
@@ -59,5 +74,6 @@ export default function CargoLautPage() {
         { name: "Kirim Mobil", href: "/layanan/kirim-mobil" },
       ]}
     />
+    </>
   );
 }

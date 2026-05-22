@@ -47,10 +47,10 @@ export default function KontakPage() {
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
       {/* Header */}
-      <div className="bg-[#1B3A6B] py-16 px-4">
+      <div className="bg-[#CC1F2A] py-16 px-4">
         <div className="max-w-5xl mx-auto text-center">
           <h1 className="text-3xl sm:text-4xl font-black text-white mb-3">Hubungi Kami</h1>
-          <p className="text-blue-200 text-lg">
+          <p className="text-white/70 text-lg">
             Tim kami siap membantu Anda — via WhatsApp, telepon, atau email
           </p>
         </div>
@@ -60,7 +60,7 @@ export default function KontakPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Contact options */}
           <div className="space-y-5">
-            <h2 className="text-xl font-black text-[#0F172A]">Cara Menghubungi Kami</h2>
+            <h2 className="text-xl font-black text-[#111111]">Cara Menghubungi Kami</h2>
 
             {/* WhatsApp */}
             <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
@@ -69,7 +69,7 @@ export default function KontakPage() {
                   <MessageCircle size={22} className="text-white" />
                 </div>
                 <div>
-                  <p className="font-black text-[#0F172A]">WhatsApp</p>
+                  <p className="font-black text-[#111111]">WhatsApp</p>
                   <p className="text-sm text-gray-500">Respon tercepat</p>
                 </div>
               </div>
@@ -100,17 +100,17 @@ export default function KontakPage() {
             {/* Phone */}
             <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
               <div className="flex items-center gap-3 mb-3">
-                <div className="w-12 h-12 rounded-xl bg-[#1B3A6B] flex items-center justify-center">
+                <div className="w-12 h-12 rounded-xl bg-[#CC1F2A] flex items-center justify-center">
                   <Phone size={22} className="text-white" />
                 </div>
                 <div>
-                  <p className="font-black text-[#0F172A]">Telepon</p>
+                  <p className="font-black text-[#111111]">Telepon</p>
                   <p className="text-sm text-gray-500">{WA_PHONE}</p>
                 </div>
               </div>
               <a
                 href={`tel:+${WA_PHONE_RAW}`}
-                className="flex items-center justify-center gap-2 bg-[#1B3A6B] hover:bg-[#0f2347] text-white font-bold py-3 rounded-xl transition-colors text-sm w-full"
+                className="flex items-center justify-center gap-2 bg-[#CC1F2A] hover:bg-[#1A1A1A] text-white font-bold py-3 rounded-xl transition-colors text-sm w-full"
               >
                 <Phone size={16} />
                 Telepon Sekarang
@@ -120,10 +120,10 @@ export default function KontakPage() {
             {/* Hours */}
             <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
               <div className="flex items-center gap-3 mb-3">
-                <div className="w-12 h-12 rounded-xl bg-orange-100 flex items-center justify-center">
-                  <Clock size={22} className="text-[#F97316]" />
+                <div className="w-12 h-12 rounded-xl bg-yellow-100 flex items-center justify-center">
+                  <Clock size={22} className="text-[#D4A910]" />
                 </div>
-                <p className="font-black text-[#0F172A]">Jam Operasional</p>
+                <p className="font-black text-[#111111]">Jam Operasional</p>
               </div>
               <div className="space-y-2 text-sm text-gray-600">
                 <div className="flex justify-between">
@@ -143,7 +143,7 @@ export default function KontakPage() {
 
             {/* Social */}
             <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-              <p className="font-black text-[#0F172A] mb-4">Ikuti Kami</p>
+              <p className="font-black text-[#111111] mb-4">Ikuti Kami</p>
               <div className="flex gap-3">
                 <a href="https://instagram.com/bja_logistic" target="_blank" rel="noopener noreferrer"
                   className="flex items-center gap-2 border border-gray-200 hover:border-pink-400 rounded-xl px-4 py-2.5 text-sm font-semibold text-gray-700 hover:text-pink-600 transition-colors">
@@ -161,17 +161,17 @@ export default function KontakPage() {
 
           {/* Offices */}
           <div>
-            <h2 className="text-xl font-black text-[#0F172A] mb-5">Lokasi Kantor Kami</h2>
+            <h2 className="text-xl font-black text-[#111111] mb-5">Lokasi Kantor Kami</h2>
             <div className="space-y-4">
               {offices.map((office) => (
                 <div key={office.name} className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
                   <div className="flex items-start gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-[#1B3A6B]/10 flex items-center justify-center shrink-0">
-                      <MapPin size={18} className="text-[#1B3A6B]" />
+                    <div className="w-10 h-10 rounded-xl bg-[#CC1F2A]/10 flex items-center justify-center shrink-0">
+                      <MapPin size={18} className="text-[#CC1F2A]" />
                     </div>
                     <div>
-                      <p className="font-black text-[#0F172A] mb-0.5">{office.name}</p>
-                      <p className="text-xs text-[#F97316] font-semibold mb-2">{office.type}</p>
+                      <p className="font-black text-[#111111] mb-0.5">{office.name}</p>
+                      <p className="text-xs text-[#CC1F2A] font-semibold mb-2">{office.type}</p>
                       <p className="text-gray-600 text-sm">{office.address}</p>
                     </div>
                   </div>
@@ -180,12 +180,12 @@ export default function KontakPage() {
             </div>
 
             {/* Corporate box */}
-            <div className="mt-6 bg-gradient-to-br from-[#1B3A6B] to-[#2a5298] rounded-2xl p-7 text-white">
+            <div className="mt-6 bg-gradient-to-br from-[#CC1F2A] to-[#A01820] rounded-2xl p-7 text-white">
               <h3 className="text-xl font-black mb-2">Tertarik Kerjasama Corporate?</h3>
-              <p className="text-blue-200 text-sm mb-5">
+              <p className="text-white/70 text-sm mb-5">
                 Dapatkan harga khusus, diskon volume, asuransi pengiriman, dan layanan dedicated team untuk bisnis Anda.
               </p>
-              <ul className="space-y-2 mb-5 text-sm text-blue-200">
+              <ul className="space-y-2 mb-5 text-sm text-white/70">
                 {[
                   "Harga kontrak khusus",
                   "Pembayaran tempo (NET 30/60)",
@@ -193,7 +193,7 @@ export default function KontakPage() {
                   "Laporan pengiriman bulanan",
                 ].map((item) => (
                   <li key={item} className="flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-[#F97316]" />
+                    <div className="w-1.5 h-1.5 rounded-full bg-[#F5C518]" />
                     {item}
                   </li>
                 ))}
@@ -202,7 +202,7 @@ export default function KontakPage() {
                 href={buildCorporateMessage()}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 bg-[#F97316] hover:bg-[#ea6c0a] text-white font-bold py-3 rounded-xl transition-colors text-sm w-full"
+                className="flex items-center justify-center gap-2 bg-[#F5C518] hover:bg-[#D4A910] text-[#1A1A1A] font-bold py-3 rounded-xl transition-colors text-sm w-full"
               >
                 <MessageCircle size={16} />
                 Hubungi untuk Kerjasama

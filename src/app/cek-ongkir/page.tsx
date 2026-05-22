@@ -32,15 +32,15 @@ export default function CekOngkirPage() {
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
       {/* Header */}
-      <div className="bg-[#1B3A6B] py-16 px-4">
+      <div className="bg-[#CC1F2A] py-16 px-4">
         <div className="max-w-3xl mx-auto text-center">
-          <div className="w-14 h-14 rounded-2xl bg-[#F97316] flex items-center justify-center mx-auto mb-4">
-            <Calculator size={28} className="text-white" />
+          <div className="w-14 h-14 rounded-2xl bg-[#F5C518] flex items-center justify-center mx-auto mb-4">
+            <Calculator size={28} className="text-[#1A1A1A]" />
           </div>
           <h1 className="text-3xl sm:text-4xl font-black text-white mb-3">
             Kalkulator Ongkir
           </h1>
-          <p className="text-blue-200 text-lg">
+          <p className="text-white/70 text-lg">
             Hitung estimasi biaya pengiriman ke Papua & Indonesia Timur dalam detik
           </p>
         </div>
@@ -57,7 +57,7 @@ export default function CekOngkirPage() {
                 <select
                   value={from}
                   onChange={(e) => setFrom(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#1B3A6B] focus:outline-none appearance-none bg-white font-medium text-gray-700"
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#CC1F2A] focus:outline-none appearance-none bg-white font-medium text-gray-700"
                 >
                   <option value="">Pilih kota asal...</option>
                   {originCities.map((c) => (
@@ -75,7 +75,7 @@ export default function CekOngkirPage() {
                 <select
                   value={to}
                   onChange={(e) => setTo(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#1B3A6B] focus:outline-none appearance-none bg-white font-medium text-gray-700"
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#CC1F2A] focus:outline-none appearance-none bg-white font-medium text-gray-700"
                 >
                   <option value="">Pilih kota tujuan...</option>
                   {destinationCities.map((c) => (
@@ -97,7 +97,7 @@ export default function CekOngkirPage() {
                   onChange={(e) => setWeight(e.target.value)}
                   placeholder="Contoh: 500"
                   min="1"
-                  className="w-full pl-9 pr-4 py-3 rounded-xl border border-gray-200 focus:border-[#1B3A6B] focus:outline-none font-medium text-gray-700"
+                  className="w-full pl-9 pr-4 py-3 rounded-xl border border-gray-200 focus:border-[#CC1F2A] focus:outline-none font-medium text-gray-700"
                 />
               </div>
               <p className="text-xs text-gray-400 mt-1">Minimum 100 kg untuk cargo laut/darat, 10 kg untuk udara</p>
@@ -113,7 +113,7 @@ export default function CekOngkirPage() {
                     onClick={() => setService(opt.value)}
                     className={`flex flex-col items-center gap-1.5 py-3 rounded-xl border-2 text-xs font-bold transition-all ${
                       service === opt.value
-                        ? "border-[#1B3A6B] bg-[#1B3A6B] text-white"
+                        ? "border-[#CC1F2A] bg-[#CC1F2A] text-white"
                         : "border-gray-200 text-gray-600 hover:border-gray-300"
                     }`}
                   >
@@ -128,7 +128,7 @@ export default function CekOngkirPage() {
           <button
             onClick={handleCalculate}
             disabled={!from || !to || !weight}
-            className="w-full bg-[#1B3A6B] hover:bg-[#0f2347] disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-black py-4 rounded-xl transition-colors text-lg"
+            className="w-full bg-[#CC1F2A] hover:bg-[#1A1A1A] disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-black py-4 rounded-xl transition-colors text-lg"
           >
             Hitung Ongkir
           </button>
@@ -137,24 +137,24 @@ export default function CekOngkirPage() {
         {/* Result */}
         {result && (
           <div className="mt-6 bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
-            <h2 className="text-xl font-black text-[#0F172A] mb-6 pb-4 border-b border-gray-100">
+            <h2 className="text-xl font-black text-[#111111] mb-6 pb-4 border-b border-gray-100">
               Estimasi Biaya Pengiriman
             </h2>
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
-              <div className="col-span-2 bg-[#1B3A6B] rounded-xl p-4 text-white">
-                <p className="text-blue-300 text-xs mb-1">Estimasi Harga Total</p>
+              <div className="col-span-2 bg-[#CC1F2A] rounded-xl p-4 text-white">
+                <p className="text-white/70 text-xs mb-1">Estimasi Harga Total</p>
                 <p className="text-2xl font-black">{priceRangeText}</p>
-                <p className="text-blue-300 text-xs mt-1">untuk {weight} kg via {result.serviceName}</p>
+                <p className="text-white/70 text-xs mt-1">untuk {weight} kg via {result.serviceName}</p>
               </div>
-              <div className="bg-orange-50 rounded-xl p-4">
+              <div className="bg-yellow-50 rounded-xl p-4">
                 <p className="text-gray-500 text-xs mb-1">Estimasi Tiba</p>
-                <p className="text-xl font-black text-[#F97316]">{result.etaMin}–{result.etaMax}</p>
+                <p className="text-xl font-black text-[#CC1F2A]">{result.etaMin}–{result.etaMax}</p>
                 <p className="text-gray-500 text-xs">hari kerja</p>
               </div>
               <div className="bg-gray-50 rounded-xl p-4">
                 <p className="text-gray-500 text-xs mb-1">Rute</p>
-                <p className="text-sm font-black text-[#0F172A]">{fromLabel}</p>
+                <p className="text-sm font-black text-[#111111]">{fromLabel}</p>
                 <p className="text-xs text-gray-400">→ {toLabel}</p>
               </div>
             </div>
@@ -183,9 +183,9 @@ export default function CekOngkirPage() {
             { icon: Plane, title: "Cargo Udara", desc: "Paling cepat untuk kebutuhan urgent" },
           ].map((item) => (
             <div key={item.title} className="bg-white rounded-xl p-5 border border-gray-100 flex gap-3">
-              <item.icon size={20} className="text-[#1B3A6B] shrink-0 mt-0.5" />
+              <item.icon size={20} className="text-[#CC1F2A] shrink-0 mt-0.5" />
               <div>
-                <p className="font-bold text-[#0F172A] text-sm">{item.title}</p>
+                <p className="font-bold text-[#111111] text-sm">{item.title}</p>
                 <p className="text-xs text-gray-500 mt-0.5">{item.desc}</p>
               </div>
             </div>

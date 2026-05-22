@@ -39,18 +39,18 @@ export function ServicePageLayout({
   return (
     <div>
       {/* Hero */}
-      <div className="bg-[#1B3A6B] py-16 px-4">
+      <div className="bg-[#CC1F2A] py-16 px-4">
         <div className="max-w-5xl mx-auto">
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 mb-6">
-            <div className="w-16 h-16 rounded-2xl bg-[#F97316] flex items-center justify-center shrink-0">
-              <Icon size={32} className="text-white" />
+            <div className="w-16 h-16 rounded-2xl bg-[#F5C518] flex items-center justify-center shrink-0">
+              <Icon size={32} className="text-[#1A1A1A]" />
             </div>
             <div>
-              <p className="text-blue-300 text-sm font-semibold mb-1">{subtitle}</p>
+              <p className="text-white/70 text-sm font-semibold mb-1">{subtitle}</p>
               <h1 className="text-3xl sm:text-4xl font-black text-white">{title}</h1>
             </div>
           </div>
-          <p className="text-blue-200 text-lg max-w-2xl mb-8">{description}</p>
+          <p className="text-white/70 text-lg max-w-2xl mb-8">{description}</p>
 
           <div className="flex flex-wrap gap-4">
             <a
@@ -79,7 +79,7 @@ export function ServicePageLayout({
           <div className="lg:col-span-2 space-y-8">
             {/* Features */}
             <div className="bg-white rounded-2xl p-7 shadow-sm border border-gray-100">
-              <h2 className="text-xl font-black text-[#0F172A] mb-5">Keunggulan Layanan</h2>
+              <h2 className="text-xl font-black text-[#111111] mb-5">Keunggulan Layanan</h2>
               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {features.map((f) => (
                   <li key={f} className="flex items-start gap-2.5">
@@ -92,13 +92,13 @@ export function ServicePageLayout({
 
             {/* Details */}
             <div className="bg-white rounded-2xl p-7 shadow-sm border border-gray-100">
-              <h2 className="text-xl font-black text-[#0F172A] mb-5">Detail Layanan</h2>
+              <h2 className="text-xl font-black text-[#111111] mb-5">Detail Layanan</h2>
               <div className="space-y-5">
                 {details.map((d) => (
                   <div key={d.title} className="flex gap-3">
-                    <div className="w-1.5 rounded-full bg-[#F97316] shrink-0 mt-1.5" />
+                    <div className="w-1.5 rounded-full bg-[#F5C518] shrink-0 mt-1.5" />
                     <div>
-                      <p className="font-bold text-[#0F172A] mb-1">{d.title}</p>
+                      <p className="font-bold text-[#111111] mb-1">{d.title}</p>
                       <p className="text-gray-500 text-sm leading-relaxed">{d.desc}</p>
                     </div>
                   </div>
@@ -110,19 +110,19 @@ export function ServicePageLayout({
           {/* Sidebar */}
           <div className="space-y-5">
             {/* Pricing card */}
-            <div className="bg-[#1B3A6B] rounded-2xl p-6 text-white">
-              <p className="text-blue-300 text-sm mb-1">Harga Mulai Dari</p>
+            <div className="bg-[#CC1F2A] rounded-2xl p-6 text-white">
+              <p className="text-white/70 text-sm mb-1">Harga Mulai Dari</p>
               <p className="text-3xl font-black mb-1">{priceFrom}</p>
-              <p className="text-blue-300 text-xs mb-4">{priceNote}</p>
+              <p className="text-white/60 text-xs mb-4">{priceNote}</p>
               <div className="flex items-center gap-2 mb-5 pb-4 border-b border-white/20">
-                <Clock size={14} className="text-[#F97316]" />
+                <Clock size={14} className="text-[#F5C518]" />
                 <span className="text-sm">Estimasi: <strong>{eta}</strong></span>
               </div>
               <a
                 href={waHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 bg-[#F97316] hover:bg-[#ea6c0a] text-white font-bold py-3 rounded-xl transition-colors text-sm w-full"
+                className="flex items-center justify-center gap-2 bg-[#F5C518] hover:bg-[#D4A910] text-[#1A1A1A] font-bold py-3 rounded-xl transition-colors text-sm w-full"
               >
                 <MessageCircle size={16} />
                 Pesan Sekarang
@@ -131,13 +131,13 @@ export function ServicePageLayout({
 
             {/* Related services */}
             <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-              <p className="font-bold text-[#0F172A] mb-4 text-sm">Layanan Lainnya</p>
+              <p className="font-bold text-[#111111] mb-4 text-sm">Layanan Lainnya</p>
               <ul className="space-y-2">
                 {relatedServices.map((s) => (
                   <li key={s.href}>
                     <Link
                       href={s.href}
-                      className="flex items-center justify-between text-sm text-gray-600 hover:text-[#1B3A6B] hover:font-semibold transition-all py-1.5"
+                      className="flex items-center justify-between text-sm text-gray-600 hover:text-[#CC1F2A] hover:font-semibold transition-all py-1.5"
                     >
                       {s.name}
                       <ArrowRight size={14} />

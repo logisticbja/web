@@ -2,15 +2,29 @@ import { Metadata } from "next";
 import { Truck } from "lucide-react";
 import { ServicePageLayout } from "@/components/layout/ServicePageLayout";
 import { buildServiceMessage } from "@/lib/whatsapp";
+import { BreadcrumbJsonLd } from "@/components/JsonLd";
 
 export const metadata: Metadata = {
-  title: "Cargo Darat Papua",
-  description: "Layanan cargo darat ke Papua & Indonesia Timur via armada truk. Mulai Rp 7.000/kg. Door to door Jabodetabek.",
+  title: "Cargo Darat ke Papua & Indonesia Timur — Mulai Rp 7.000/kg",
+  description:
+    "Jasa cargo darat ke Papua & Indonesia Timur via armada truk. Harga mulai Rp 7.000/kg, estimasi 7–14 hari. Door to door Jabodetabek & Surabaya. Hubungi WhatsApp.",
+  keywords: [
+    "cargo darat papua", "ekspedisi truk papua", "kirim barang via truk ke papua",
+    "cargo darat jakarta papua", "cargo darat surabaya papua",
+    "pengiriman darat indonesia timur", "jasa truk ke papua",
+  ],
+  alternates: { canonical: "https://bjalogistic.id/layanan/cargo-darat" },
 };
 
 export default function CargoDaratPage() {
   return (
-    <ServicePageLayout
+    <>
+      <BreadcrumbJsonLd items={[
+        { name: "Beranda", url: "https://bjalogistic.id" },
+        { name: "Layanan", url: "https://bjalogistic.id/layanan/cargo-darat" },
+        { name: "Cargo Darat", url: "https://bjalogistic.id/layanan/cargo-darat" },
+      ]} />
+      <ServicePageLayout
       icon={Truck}
       title="Cargo Darat ke Papua & Indonesia Timur"
       subtitle="Seimbang & Fleksibel"
@@ -55,5 +69,6 @@ export default function CargoDaratPage() {
         { name: "Kirim Mobil", href: "/layanan/kirim-mobil" },
       ]}
     />
+    </>
   );
 }

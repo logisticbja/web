@@ -1,19 +1,18 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-navy: #1B3A6B;
-  --color-navy-dark: #0f2347;
-  --color-navy-light: #2a5298;
-  --color-orange: #F97316;
-  --color-orange-dark: #ea6c0a;
-  --color-orange-light: #fb923c;
+  --color-red: #CC1F2A;
+  --color-red-dark: #A01820;
+  --color-yellow: #F5C518;
+  --color-yellow-dark: #D4A910;
+  --color-black: #1A1A1A;
   --color-gray-bg: #F8FAFC;
-  --color-text-dark: #0F172A;
+  --color-text-dark: #111111;
 }
 
 :root {
   --background: #ffffff;
-  --foreground: #0F172A;
+  --foreground: #111111;
 }
 
 body {
@@ -31,7 +30,7 @@ html {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  background-color: #F97316;
+  background-color: #CC1F2A;
   color: white;
   font-weight: 700;
   padding: 0.875rem 2rem;
@@ -44,9 +43,9 @@ html {
 }
 
 .btn-primary:hover {
-  background-color: #ea6c0a;
+  background-color: #A01820;
   transform: translateY(-1px);
-  box-shadow: 0 4px 20px rgba(249, 115, 22, 0.4);
+  box-shadow: 0 4px 20px rgba(204, 31, 42, 0.4);
 }
 
 .btn-secondary {

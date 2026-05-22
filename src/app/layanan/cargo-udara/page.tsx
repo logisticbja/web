@@ -2,15 +2,29 @@ import { Metadata } from "next";
 import { Plane } from "lucide-react";
 import { ServicePageLayout } from "@/components/layout/ServicePageLayout";
 import { buildServiceMessage } from "@/lib/whatsapp";
+import { BreadcrumbJsonLd } from "@/components/JsonLd";
 
 export const metadata: Metadata = {
-  title: "Cargo Udara Papua",
-  description: "Layanan cargo udara (air freight) paling cepat ke Papua & Indonesia Timur. Tiba 2-4 hari. Cocok untuk pengiriman urgent.",
+  title: "Cargo Udara ke Papua — Tiba 2–4 Hari, Paling Cepat",
+  description:
+    "Jasa cargo udara (air freight) tercepat ke Papua & Indonesia Timur. Tiba 2–4 hari via pesawat komersial. Cocok untuk barang urgent & bernilai tinggi. Hubungi BJA Logistic.",
+  keywords: [
+    "cargo udara papua", "air freight papua", "kirim cepat ke papua",
+    "ekspedisi udara papua", "cargo pesawat ke papua", "pengiriman express papua",
+    "kirim barang urgent papua", "air cargo jayapura sorong",
+  ],
+  alternates: { canonical: "https://bjalogistic.id/layanan/cargo-udara" },
 };
 
 export default function CargoUdaraPage() {
   return (
-    <ServicePageLayout
+    <>
+      <BreadcrumbJsonLd items={[
+        { name: "Beranda", url: "https://bjalogistic.id" },
+        { name: "Layanan", url: "https://bjalogistic.id/layanan/cargo-udara" },
+        { name: "Cargo Udara", url: "https://bjalogistic.id/layanan/cargo-udara" },
+      ]} />
+      <ServicePageLayout
       icon={Plane}
       title="Cargo Udara ke Papua & Indonesia Timur"
       subtitle="Paling Cepat — Untuk Kebutuhan Urgent"
@@ -55,5 +69,6 @@ export default function CargoUdaraPage() {
         { name: "Kirim Mobil", href: "/layanan/kirim-mobil" },
       ]}
     />
+    </>
   );
 }

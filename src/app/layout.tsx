@@ -4,24 +4,65 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { FloatingWA } from "@/components/ui/FloatingWA";
 import { MobileCtaBar } from "@/components/ui/MobileCtaBar";
+import { LocalBusinessJsonLd } from "@/components/JsonLd";
+
+const BASE_URL = "https://bjalogistic.id";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(BASE_URL),
   title: {
     template: "%s | BJA Logistic",
     default: "BJA Logistic — Ekspedisi Cargo Papua & Indonesia Timur",
   },
   description:
-    "Jasa ekspedisi cargo terpercaya ke Papua, Maluku, NTT, dan Sulawesi. Cargo laut, darat, udara. Mulai Rp 6.000/kg. Door to door Jabodetabek. Hubungi WhatsApp: 0815 1333 5157.",
+    "Jasa ekspedisi cargo terpercaya ke Papua, Maluku, NTT, dan Sulawesi. Cargo laut mulai Rp 6.000/kg, door to door Jabodetabek. Spesialis pengiriman Papua 10+ tahun. ☎ 0815-1333-5157.",
   keywords: [
     "ekspedisi papua", "cargo papua", "kirim barang ke papua", "ongkir papua",
     "cargo laut papua", "ekspedisi indonesia timur", "cargo maluku", "cargo ntt",
-    "jasa pengiriman papua", "bjj logistic", "bja logistic",
+    "jasa pengiriman papua", "bja logistic", "ekspedisi surabaya papua",
+    "ekspedisi jakarta papua", "kirim motor ke papua", "kirim mobil ke papua",
+    "cargo jayapura", "cargo sorong", "cargo manokwari", "cargo merauke",
+    "ekspedisi murah ke papua", "pengiriman ke papua terpercaya",
+    "cargo laut ke papua murah", "jasa kirim barang papua indonesia timur",
   ],
+  authors: [{ name: "BJA Logistic", url: BASE_URL }],
+  creator: "BJA Logistic",
+  publisher: "BJA Logistic",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  alternates: {
+    canonical: BASE_URL,
+  },
   openGraph: {
     title: "BJA Logistic — Ekspedisi Cargo Papua & Indonesia Timur",
-    description: "Jasa ekspedisi terpercaya ke Papua, Maluku, NTT, Sulawesi. Mulai Rp 6.000/kg.",
+    description:
+      "Jasa ekspedisi terpercaya ke Papua, Maluku, NTT, Sulawesi. Cargo laut mulai Rp 6.000/kg. Door to door Jabodetabek. 10+ tahun pengalaman.",
+    url: BASE_URL,
+    siteName: "BJA Logistic",
     type: "website",
     locale: "id_ID",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "BJA Logistic — Ekspedisi Cargo Papua & Indonesia Timur",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "BJA Logistic — Ekspedisi Cargo Papua & Indonesia Timur",
+    description: "Jasa ekspedisi terpercaya ke Papua & Indonesia Timur. Mulai Rp 6.000/kg.",
+    images: ["/og-image.png"],
   },
 };
 
@@ -32,6 +73,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="id" className="h-full">
+      <head>
+        <LocalBusinessJsonLd />
+      </head>
       <body className="min-h-full flex flex-col antialiased">
         <Navbar />
         <main className="flex-1 pb-16 md:pb-0">{children}</main>

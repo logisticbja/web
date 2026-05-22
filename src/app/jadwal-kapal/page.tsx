@@ -16,15 +16,15 @@ export default function JadwalKapalPage() {
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
       {/* Header */}
-      <div className="bg-[#1B3A6B] py-16 px-4">
+      <div className="bg-[#CC1F2A] py-16 px-4">
         <div className="max-w-5xl mx-auto text-center">
-          <div className="w-14 h-14 rounded-2xl bg-[#F97316] flex items-center justify-center mx-auto mb-4">
-            <Ship size={28} className="text-white" />
+          <div className="w-14 h-14 rounded-2xl bg-[#F5C518] flex items-center justify-center mx-auto mb-4">
+            <Ship size={28} className="text-[#1A1A1A]" />
           </div>
           <h1 className="text-3xl sm:text-4xl font-black text-white mb-3">
             Jadwal Kapal
           </h1>
-          <p className="text-blue-200 text-lg">
+          <p className="text-white/70 text-lg">
             Jadwal keberangkatan kapal PELNI & Roro ke Papua & Indonesia Timur
           </p>
         </div>
@@ -41,8 +41,8 @@ export default function JadwalKapalPage() {
               onClick={() => setActiveRegion(r)}
               className={`px-4 py-2 rounded-full text-sm font-bold transition-all ${
                 activeRegion === r
-                  ? "bg-[#1B3A6B] text-white"
-                  : "bg-white border border-gray-200 text-gray-600 hover:border-[#1B3A6B]"
+                  ? "bg-[#CC1F2A] text-white"
+                  : "bg-white border border-gray-200 text-gray-600 hover:border-[#CC1F2A]"
               }`}
             >
               {r}
@@ -54,7 +54,7 @@ export default function JadwalKapalPage() {
         <div className="hidden md:block bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-6">
           <table className="w-full">
             <thead>
-              <tr className="bg-[#1B3A6B] text-white">
+              <tr className="bg-[#CC1F2A] text-white">
                 <th className="text-left px-6 py-4 text-sm font-bold">Rute</th>
                 <th className="text-left px-6 py-4 text-sm font-bold">Kapal</th>
                 <th className="text-left px-6 py-4 text-sm font-bold">Operator</th>
@@ -67,8 +67,8 @@ export default function JadwalKapalPage() {
               {filtered.map((s, i) => (
                 <tr key={s.id} className={i % 2 === 0 ? "bg-white" : "bg-gray-50/50"}>
                   <td className="px-6 py-4">
-                    <p className="font-bold text-[#0F172A] text-sm">{s.route}</p>
-                    <span className="text-xs px-2 py-0.5 rounded-full bg-[#1B3A6B]/10 text-[#1B3A6B] font-semibold mt-1 inline-block">
+                    <p className="font-bold text-[#111111] text-sm">{s.route}</p>
+                    <span className="text-xs px-2 py-0.5 rounded-full bg-[#CC1F2A]/10 text-[#CC1F2A] font-semibold mt-1 inline-block">
                       {s.region}
                     </span>
                   </td>
@@ -76,7 +76,7 @@ export default function JadwalKapalPage() {
                   <td className="px-6 py-4 text-sm text-gray-500">{s.operator}</td>
                   <td className="px-6 py-4 text-sm text-gray-700">{s.departure}</td>
                   <td className="px-6 py-4">
-                    <span className="font-bold text-[#F97316] text-sm">{s.eta}</span>
+                    <span className="font-bold text-[#CC1F2A] text-sm">{s.eta}</span>
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-500">{s.frequency}</td>
                 </tr>
@@ -91,12 +91,12 @@ export default function JadwalKapalPage() {
             <div key={s.id} className="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
               <div className="flex items-start justify-between mb-3">
                 <div>
-                  <p className="font-black text-[#0F172A]">{s.route}</p>
-                  <span className="text-xs px-2 py-0.5 rounded-full bg-[#1B3A6B]/10 text-[#1B3A6B] font-semibold mt-1 inline-block">
+                  <p className="font-black text-[#111111]">{s.route}</p>
+                  <span className="text-xs px-2 py-0.5 rounded-full bg-[#CC1F2A]/10 text-[#CC1F2A] font-semibold mt-1 inline-block">
                     {s.region}
                   </span>
                 </div>
-                <span className="font-bold text-[#F97316] text-sm">{s.eta}</span>
+                <span className="font-bold text-[#CC1F2A] text-sm">{s.eta}</span>
               </div>
               <div className="grid grid-cols-2 gap-2 text-sm">
                 <div>

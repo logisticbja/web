@@ -34,7 +34,7 @@ export function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="shrink-0">
-            <div className="bg-[#1B3A6B] rounded-lg px-3 py-1.5">
+            <div className="bg-[#CC1F2A] rounded-lg px-3 py-1.5">
               <Image
                 src="/logo-putih-bja.webp"
                 alt="BJA Logistic"
@@ -52,7 +52,7 @@ export function Navbar() {
               link.children ? (
                 <div key={link.label} className="relative group">
                   <button
-                    className="flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-semibold text-gray-700 hover:text-[#1B3A6B] hover:bg-gray-50 transition-colors"
+                    className="flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-semibold text-gray-700 hover:text-[#CC1F2A] hover:bg-gray-50 transition-colors"
                     onMouseEnter={() => setDropdownOpen(true)}
                     onMouseLeave={() => setDropdownOpen(false)}
                   >
@@ -68,7 +68,7 @@ export function Navbar() {
                       <Link
                         key={child.href}
                         href={child.href}
-                        className="block px-4 py-2.5 text-sm text-gray-700 hover:text-[#1B3A6B] hover:bg-gray-50 font-medium transition-colors"
+                        className="block px-4 py-2.5 text-sm text-gray-700 hover:text-[#CC1F2A] hover:bg-gray-50 font-medium transition-colors"
                       >
                         {child.label}
                       </Link>
@@ -79,7 +79,7 @@ export function Navbar() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="px-3 py-2 rounded-lg text-sm font-semibold text-gray-700 hover:text-[#1B3A6B] hover:bg-gray-50 transition-colors"
+                  className="px-3 py-2 rounded-lg text-sm font-semibold text-gray-700 hover:text-[#CC1F2A] hover:bg-gray-50 transition-colors"
                 >
                   {link.label}
                 </Link>
@@ -93,7 +93,7 @@ export function Navbar() {
               href={buildGeneralMessage()}
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden sm:flex items-center gap-2 bg-[#F97316] hover:bg-[#ea6c0a] text-white font-bold px-4 py-2 rounded-lg text-sm transition-all duration-200 hover:shadow-lg"
+              className="hidden sm:flex items-center gap-2 bg-[#CC1F2A] hover:bg-[#A01820] text-white font-bold px-4 py-2 rounded-lg text-sm transition-all duration-200 hover:shadow-lg"
             >
               <MessageCircle size={16} />
               Chat WhatsApp
@@ -122,7 +122,7 @@ export function Navbar() {
                       key={child.href}
                       href={child.href}
                       onClick={() => setMobileOpen(false)}
-                      className="block px-6 py-2.5 rounded-lg text-sm font-medium text-gray-700 hover:text-[#1B3A6B] hover:bg-gray-50"
+                      className="block px-6 py-2.5 rounded-lg text-sm font-medium text-gray-700 hover:text-[#CC1F2A] hover:bg-gray-50"
                     >
                       {child.label}
                     </Link>
@@ -132,7 +132,7 @@ export function Navbar() {
                 <Link
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
-                  className="block px-3 py-2.5 rounded-lg text-sm font-semibold text-gray-700 hover:text-[#1B3A6B] hover:bg-gray-50"
+                  className="block px-3 py-2.5 rounded-lg text-sm font-semibold text-gray-700 hover:text-[#CC1F2A] hover:bg-gray-50"
                 >
                   {link.label}
                 </Link>
@@ -144,7 +144,7 @@ export function Navbar() {
               href={buildGeneralMessage()}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 bg-[#F97316] text-white font-bold py-3 rounded-xl text-base w-full"
+              className="flex items-center justify-center gap-2 bg-[#CC1F2A] text-white font-bold py-3 rounded-xl text-base w-full"
             >
               <MessageCircle size={18} />
               Chat WhatsApp Sekarang

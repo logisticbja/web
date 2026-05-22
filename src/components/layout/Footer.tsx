@@ -23,7 +23,7 @@ function IconFacebook({ size = 16 }: { size?: number }) {
 
 export function Footer() {
   return (
-    <footer className="bg-[#0f2347] text-white">
+    <footer className="bg-[#1A1A1A] text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Brand */}
@@ -42,11 +42,11 @@ export function Footer() {
             </p>
             <div className="flex gap-3">
               <a href="https://instagram.com/bja_logistic" target="_blank" rel="noopener noreferrer"
-                className="w-9 h-9 rounded-lg bg-white/10 hover:bg-[#F97316] flex items-center justify-center transition-colors">
+                className="w-9 h-9 rounded-lg bg-white/10 hover:bg-[#F5C518] hover:text-[#1A1A1A] flex items-center justify-center transition-colors">
                 <IconInstagram size={16} />
               </a>
               <a href="https://facebook.com/BJALogistick" target="_blank" rel="noopener noreferrer"
-                className="w-9 h-9 rounded-lg bg-white/10 hover:bg-[#F97316] flex items-center justify-center transition-colors">
+                className="w-9 h-9 rounded-lg bg-white/10 hover:bg-[#F5C518] hover:text-[#1A1A1A] flex items-center justify-center transition-colors">
                 <IconFacebook size={16} />
               </a>
               <a href={buildGeneralMessage()} target="_blank" rel="noopener noreferrer"
@@ -105,13 +105,13 @@ export function Footer() {
               <li>
                 <a href={`https://wa.me/6281513335157`} target="_blank" rel="noopener noreferrer"
                   className="flex items-start gap-3 text-gray-400 hover:text-white transition-colors">
-                  <Phone size={16} className="mt-0.5 shrink-0 text-[#F97316]" />
+                  <Phone size={16} className="mt-0.5 shrink-0 text-[#F5C518]" />
                   <span className="text-sm">{WA_PHONE}</span>
                 </a>
               </li>
               <li>
                 <div className="flex items-start gap-3 text-gray-400">
-                  <MapPin size={16} className="mt-0.5 shrink-0 text-[#F97316]" />
+                  <MapPin size={16} className="mt-0.5 shrink-0 text-[#F5C518]" />
                   <div className="text-sm space-y-3">
                     <p><span className="text-white font-semibold">Surabaya (Pusat)</span><br />
                       Jl. Tanjung Sadari No. 125, Perak Barat, Krembangan</p>

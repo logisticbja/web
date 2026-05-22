@@ -29,8 +29,8 @@ export function Testimonials() {
     <section className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <p className="text-[#F97316] font-bold text-sm uppercase tracking-wider mb-2">Testimoni</p>
-          <h2 className="text-3xl lg:text-4xl font-black text-[#0F172A]">
+          <p className="text-[#CC1F2A] font-bold text-sm uppercase tracking-wider mb-2">Testimoni</p>
+          <h2 className="text-3xl lg:text-4xl font-black text-[#111111]">
             Apa Kata Pelanggan Kami
           </h2>
           <p className="text-gray-500 text-lg mt-3">
@@ -41,7 +41,7 @@ export function Testimonials() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {testimonials.map((t) => (
             <div key={t.name} className="bg-[#F8FAFC] rounded-2xl p-7 relative border border-gray-100">
-              <Quote size={32} className="text-[#1B3A6B]/10 absolute top-6 right-6" />
+              <Quote size={32} className="text-[#CC1F2A]/10 absolute top-6 right-6" />
 
               {/* Stars */}
               <div className="flex gap-1 mb-4">
@@ -55,11 +55,11 @@ export function Testimonials() {
 
               {/* Author */}
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-[#1B3A6B] flex items-center justify-center">
+                <div className="w-10 h-10 rounded-full bg-[#CC1F2A] flex items-center justify-center">
                   <span className="text-white font-black text-sm">{t.initial}</span>
                 </div>
                 <div>
-                  <p className="font-bold text-[#0F172A] text-sm">{t.name}</p>
+                  <p className="font-bold text-[#111111] text-sm">{t.name}</p>
                   <p className="text-xs text-gray-500">{t.role}</p>
                 </div>
               </div>

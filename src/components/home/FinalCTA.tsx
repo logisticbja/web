@@ -3,26 +3,26 @@ import { buildGeneralMessage, WA_PHONE, WA_PHONE_RAW } from "@/lib/whatsapp";
 
 export function FinalCTA() {
   return (
-    <section className="py-20 bg-[#1B3A6B] relative overflow-hidden">
+    <section className="py-20 bg-[#CC1F2A] relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute inset-0" style={{
-          backgroundImage: "radial-gradient(circle at 20% 50%, #F97316 0%, transparent 60%), radial-gradient(circle at 80% 50%, #ffffff 0%, transparent 60%)",
+          backgroundImage: "radial-gradient(circle at 20% 50%, #F5C518 0%, transparent 60%), radial-gradient(circle at 80% 50%, #ffffff 0%, transparent 60%)",
         }} />
       </div>
 
       <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <div className="inline-flex items-center gap-2 bg-[#F97316]/20 border border-[#F97316]/40 rounded-full px-4 py-1.5 mb-6">
-          <div className="w-2 h-2 rounded-full bg-[#F97316] animate-pulse" />
-          <span className="text-[#F97316] text-sm font-semibold">Siap Kirim Sekarang?</span>
+        <div className="inline-flex items-center gap-2 bg-[#F5C518]/20 border border-[#F5C518]/40 rounded-full px-4 py-1.5 mb-6">
+          <div className="w-2 h-2 rounded-full bg-[#F5C518] animate-pulse" />
+          <span className="text-[#F5C518] text-sm font-semibold">Siap Kirim Sekarang?</span>
         </div>
 
         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white mb-5 leading-tight">
           Konsultasi Gratis,<br />
-          <span className="text-[#F97316]">Harga Langsung Transparan</span>
+          <span className="text-[#F5C518]">Harga Langsung Transparan</span>
         </h2>
 
-        <p className="text-blue-200 text-lg mb-10 max-w-2xl mx-auto">
+        <p className="text-white/70 text-lg mb-10 max-w-2xl mx-auto">
           Chat WhatsApp kami sekarang — tim kami siap bantu hitung ongkir, konfirmasi jadwal, dan proses pengiriman Anda dalam hitungan menit.
         </p>
 
@@ -46,7 +46,7 @@ export function FinalCTA() {
           </a>
         </div>
 
-        <p className="text-blue-300 text-sm mt-8">
+        <p className="text-white/60 text-sm mt-8">
           Senin – Sabtu, 08.00 – 20.00 WIB &nbsp;·&nbsp; Respon dalam 5 menit
         </p>
       </div>

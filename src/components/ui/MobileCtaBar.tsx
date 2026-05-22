@@ -7,7 +7,7 @@ export function MobileCtaBar() {
     <div className="fixed bottom-0 left-0 right-0 z-40 flex md:hidden border-t border-gray-200 bg-white shadow-2xl">
       <a
         href={`tel:+${WA_PHONE_RAW}`}
-        className="flex-1 flex flex-col items-center justify-center gap-1 py-3 text-[#1B3A6B] hover:bg-gray-50 transition-colors"
+        className="flex-1 flex flex-col items-center justify-center gap-1 py-3 text-[#CC1F2A] hover:bg-gray-50 transition-colors"
       >
         <Phone size={20} />
         <span className="text-xs font-semibold">Telepon</span>

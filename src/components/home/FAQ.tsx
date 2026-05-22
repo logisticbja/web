@@ -44,8 +44,8 @@ export function FAQ() {
     <section className="py-20 bg-[#F8FAFC]">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <p className="text-[#F97316] font-bold text-sm uppercase tracking-wider mb-2">FAQ</p>
-          <h2 className="text-3xl lg:text-4xl font-black text-[#0F172A]">
+          <p className="text-[#CC1F2A] font-bold text-sm uppercase tracking-wider mb-2">FAQ</p>
+          <h2 className="text-3xl lg:text-4xl font-black text-[#111111]">
             Pertanyaan yang Sering Ditanyakan
           </h2>
         </div>
@@ -57,7 +57,7 @@ export function FAQ() {
                 onClick={() => setOpen(open === i ? null : i)}
                 className="w-full flex items-center justify-between px-6 py-4 text-left hover:bg-gray-50 transition-colors"
               >
-                <span className="font-bold text-[#0F172A] pr-4">{faq.q}</span>
+                <span className="font-bold text-[#111111] pr-4">{faq.q}</span>
                 <ChevronDown
                   size={20}
                   className={`shrink-0 text-gray-400 transition-transform duration-200 ${open === i ? "rotate-180" : ""}`}

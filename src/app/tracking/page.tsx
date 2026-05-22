@@ -14,15 +14,15 @@ export default function TrackingPage() {
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
       {/* Header */}
-      <div className="bg-[#1B3A6B] py-16 px-4">
+      <div className="bg-[#CC1F2A] py-16 px-4">
         <div className="max-w-3xl mx-auto text-center">
-          <div className="w-14 h-14 rounded-2xl bg-[#F97316] flex items-center justify-center mx-auto mb-4">
-            <Package size={28} className="text-white" />
+          <div className="w-14 h-14 rounded-2xl bg-[#F5C518] flex items-center justify-center mx-auto mb-4">
+            <Package size={28} className="text-[#1A1A1A]" />
           </div>
           <h1 className="text-3xl sm:text-4xl font-black text-white mb-3">
             Tracking Pengiriman
           </h1>
-          <p className="text-blue-200 text-lg">
+          <p className="text-white/70 text-lg">
             Cek status pengiriman Anda dengan nomor resi
           </p>
         </div>
@@ -39,14 +39,14 @@ export default function TrackingPage() {
                 value={resi}
                 onChange={(e) => { setResi(e.target.value); setSubmitted(false); }}
                 placeholder="Masukkan nomor resi..."
-                className="w-full pl-9 pr-4 py-3 rounded-xl border border-gray-200 focus:border-[#1B3A6B] focus:outline-none font-medium text-gray-700"
+                className="w-full pl-9 pr-4 py-3 rounded-xl border border-gray-200 focus:border-[#CC1F2A] focus:outline-none font-medium text-gray-700"
                 onKeyDown={(e) => e.key === "Enter" && handleTrack()}
               />
             </div>
             <button
               onClick={handleTrack}
               disabled={!resi.trim()}
-              className="bg-[#1B3A6B] hover:bg-[#0f2347] disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-bold px-6 py-3 rounded-xl transition-colors"
+              className="bg-[#CC1F2A] hover:bg-[#1A1A1A] disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-bold px-6 py-3 rounded-xl transition-colors"
             >
               Cek
             </button>
@@ -60,7 +60,7 @@ export default function TrackingPage() {
                 <CheckCircle size={20} className="text-green-600" />
               </div>
               <div>
-                <p className="font-black text-[#0F172A]">Resi #{resi}</p>
+                <p className="font-black text-[#111111]">Resi #{resi}</p>
                 <p className="text-sm text-gray-500">Informasi pengiriman</p>
               </div>
             </div>
@@ -88,7 +88,7 @@ export default function TrackingPage() {
                     )}
                   </div>
                   <div>
-                    <p className={`text-sm font-semibold ${step.done ? "text-[#0F172A]" : "text-gray-400"}`}>
+                    <p className={`text-sm font-semibold ${step.done ? "text-[#111111]" : "text-gray-400"}`}>
                       {step.label}
                     </p>
                     <p className="text-xs text-gray-400">{step.time}</p>
@@ -129,9 +129,9 @@ export default function TrackingPage() {
             },
           ].map((item) => (
             <div key={item.title} className="bg-white rounded-xl p-5 border border-gray-100 flex gap-3">
-              <item.icon size={20} className="text-[#1B3A6B] shrink-0 mt-0.5" />
+              <item.icon size={20} className="text-[#CC1F2A] shrink-0 mt-0.5" />
               <div>
-                <p className="font-bold text-[#0F172A] text-sm">{item.title}</p>
+                <p className="font-bold text-[#111111] text-sm">{item.title}</p>
                 <p className="text-xs text-gray-500 mt-0.5">{item.desc}</p>
               </div>
             </div>

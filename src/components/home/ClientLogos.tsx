@@ -23,7 +23,7 @@ export function ClientLogos() {
           <p className="text-gray-500 text-sm font-semibold uppercase tracking-wider mb-2">
             Dipercaya oleh perusahaan-perusahaan terkemuka
           </p>
-          <h2 className="text-2xl font-black text-[#0F172A]">
+          <h2 className="text-2xl font-black text-[#111111]">
             Klien Corporate Kami
           </h2>
         </div>
@@ -32,7 +32,7 @@ export function ClientLogos() {
           {clients.map((client) => (
             <div
               key={client.name}
-              className="bg-white rounded-xl px-5 py-5 shadow-sm border border-gray-100 hover:border-[#1B3A6B]/30 hover:shadow-md transition-all flex items-center justify-center"
+              className="bg-white rounded-xl px-5 py-5 shadow-sm border border-gray-100 hover:border-[#CC1F2A]/30 hover:shadow-md transition-all flex items-center justify-center"
               style={{ minHeight: 88 }}
             >
               <Image
@@ -49,16 +49,16 @@ export function ClientLogos() {
         <p className="text-center text-xs text-gray-400 mb-10">+ ratusan klien UKM & perorangan lainnya</p>
 
         {/* Corporate CTA */}
-        <div className="bg-gradient-to-r from-[#1B3A6B] to-[#2a5298] rounded-2xl p-8 text-center">
+        <div className="bg-gradient-to-r from-[#CC1F2A] to-[#A01820] rounded-2xl p-8 text-center">
           <h3 className="text-2xl font-black text-white mb-2">Untuk Kebutuhan Corporate?</h3>
-          <p className="text-blue-200 mb-6 max-w-lg mx-auto">
+          <p className="text-white/70 mb-6 max-w-lg mx-auto">
             Dapatkan harga khusus, diskon volume, pembayaran tempo (TOP), dan tim dedicated untuk bisnis Anda
           </p>
           <a
             href={buildCorporateMessage()}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-[#F97316] hover:bg-[#ea6c0a] text-white font-bold px-8 py-3.5 rounded-xl transition-all hover:shadow-lg"
+            className="inline-flex items-center gap-2 bg-[#F5C518] hover:bg-[#D4A910] text-[#1A1A1A] font-bold px-8 py-3.5 rounded-xl transition-all hover:shadow-lg"
           >
             <MessageCircle size={18} />
             Hubungi untuk Kerjasama Corporate
