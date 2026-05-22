@@ -1,41 +1,65 @@
+import Link from "next/link";
 import { MapPin, MessageCircle } from "lucide-react";
 import { buildServiceMessage } from "@/lib/whatsapp";
 
-const regions = [
+type City = { name: string; slug?: string };
+
+const regions: { name: string; color: string; cities: City[] }[] = [
   {
     name: "Papua & Papua Barat",
     color: "bg-[#CC1F2A]",
     cities: [
-      "Jayapura", "Sorong", "Manokwari", "Merauke", "Timika",
-      "Wamena", "Nabire", "Biak", "Fakfak", "Raja Ampat",
-      "+ semua kab/kota & pelosok Papua",
+      { name: "Jayapura", slug: "jayapura" },
+      { name: "Sorong", slug: "sorong" },
+      { name: "Manokwari", slug: "manokwari" },
+      { name: "Merauke", slug: "merauke" },
+      { name: "Timika", slug: "timika" },
+      { name: "Wamena", slug: "wamena" },
+      { name: "Nabire", slug: "nabire" },
+      { name: "Biak", slug: "biak" },
+      { name: "Fakfak", slug: "fakfak" },
+      { name: "Raja Ampat", slug: "raja-ampat" },
+      { name: "+ semua kab/kota & pelosok Papua" },
     ],
   },
   {
     name: "Maluku & Maluku Utara",
     color: "bg-[#A01820]",
     cities: [
-      "Ambon", "Ternate", "Tidore", "Tual", "Saumlaki",
-      "Namlea", "Masohi",
-      "+ semua pulau & kepulauan Maluku",
+      { name: "Ambon", slug: "ambon" },
+      { name: "Ternate", slug: "ternate" },
+      { name: "Tidore", slug: "tidore" },
+      { name: "Tual", slug: "tual" },
+      { name: "Saumlaki" },
+      { name: "Namlea" },
+      { name: "Masohi" },
+      { name: "+ semua pulau & kepulauan Maluku" },
     ],
   },
   {
     name: "Nusa Tenggara Timur",
     color: "bg-[#CC1F2A]",
     cities: [
-      "Kupang", "Ende", "Maumere", "Labuan Bajo", "Waingapu",
-      "Atambua", "Ruteng",
-      "+ semua kab/kota NTT",
+      { name: "Kupang", slug: "kupang" },
+      { name: "Ende", slug: "ende" },
+      { name: "Maumere", slug: "maumere" },
+      { name: "Labuan Bajo", slug: "labuan-bajo" },
+      { name: "Waingapu" },
+      { name: "Atambua" },
+      { name: "Ruteng" },
+      { name: "+ semua kab/kota NTT" },
     ],
   },
   {
     name: "Sulawesi Tenggara & Sekitarnya",
     color: "bg-[#A01820]",
     cities: [
-      "Kendari", "Baubau", "Kolaka", "Raha",
-      "Pomalaa",
-      "+ semua wilayah Sulawesi Tenggara",
+      { name: "Kendari", slug: "kendari" },
+      { name: "Baubau", slug: "baubau" },
+      { name: "Kolaka" },
+      { name: "Raha" },
+      { name: "Pomalaa" },
+      { name: "+ semua wilayah Sulawesi Tenggara" },
     ],
   },
 ];
@@ -64,10 +88,22 @@ export function CoverageSection() {
                 <MapPin size={18} className="text-[#F5C518]" />
                 <h3 className="font-black text-base">{region.name}</h3>
               </div>
-              <ul className="space-y-2 flex-1 mb-6">
+              <ul className="space-y-1.5 flex-1 mb-6">
                 {region.cities.map((city) => (
-                  <li key={city} className={`text-sm ${city.startsWith("+") ? "text-white/60 italic" : "text-white/80"}`}>
-                    {city.startsWith("+") ? city : `• ${city}`}
+                  <li key={city.name} className="text-sm">
+                    {city.name.startsWith("+") ? (
+                      <span className="text-white/50 italic">{city.name}</span>
+                    ) : city.slug ? (
+                      <Link
+                        href={`/kirim-ke/${city.slug}`}
+                        className="flex items-center gap-1.5 text-white/80 hover:text-[#F5C518] transition-colors group"
+                      >
+                        <span className="text-white/40 group-hover:text-[#F5C518]/60">•</span>
+                        <span className="underline-offset-2 group-hover:underline">{city.name}</span>
+                      </Link>
+                    ) : (
+                      <span className="text-white/60">• {city.name}</span>
+                    )}
                   </li>
                 ))}
               </ul>
