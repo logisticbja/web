@@ -5,6 +5,7 @@ import { ServicesGrid } from "@/components/home/ServicesGrid";
 import { WhyUs } from "@/components/home/WhyUs";
 import { PricingTable } from "@/components/home/PricingTable";
 import { CoverageSection } from "@/components/home/CoverageSection";
+import { Gallery } from "@/components/home/Gallery";
 import { ClientLogos } from "@/components/home/ClientLogos";
 import { Testimonials } from "@/components/home/Testimonials";
 import { FAQ } from "@/components/home/FAQ";
@@ -30,6 +31,7 @@ export default function HomePage() {
       <WhyUs />
       <PricingTable />
       <CoverageSection />
+      <Gallery />
       <ClientLogos />
       <Testimonials />
       <FAQ />
