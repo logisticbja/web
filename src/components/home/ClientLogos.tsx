@@ -1,6 +1,4 @@
 import Image from "next/image";
-import { buildCorporateMessage } from "@/lib/whatsapp";
-import { MessageCircle } from "lucide-react";
 
 const clients = [
   { name: "Indomaret", src: "/client/indomaret.webp", width: 160, height: 80 },
@@ -46,24 +44,7 @@ export function ClientLogos() {
           ))}
         </div>
 
-        <p className="text-center text-xs text-gray-400 mb-10">+ ratusan klien UKM & perorangan lainnya</p>
-
-        {/* Corporate CTA */}
-        <div className="bg-gradient-to-r from-[#CC1F2A] to-[#A01820] rounded-2xl p-8 text-center">
-          <h3 className="text-2xl font-black text-white mb-2">Untuk Kebutuhan Corporate?</h3>
-          <p className="text-white/70 mb-6 max-w-lg mx-auto">
-            Dapatkan harga khusus, diskon volume, pembayaran tempo (TOP), dan tim dedicated untuk bisnis Anda
-          </p>
-          <a
-            href={buildCorporateMessage()}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-[#F5C518] hover:bg-[#D4A910] text-[#1A1A1A] font-bold px-8 py-3.5 rounded-xl transition-all hover:shadow-lg"
-          >
-            <MessageCircle size={18} />
-            Hubungi untuk Kerjasama Corporate
-          </a>
-        </div>
+        <p className="text-center text-xs text-gray-400">+ ratusan klien UKM & perorangan lainnya</p>
       </div>
     </section>
   );

@@ -1,6 +1,13 @@
 import Image from "next/image";
-import { MessageCircle, ChevronDown, CheckCircle } from "lucide-react";
-import { buildGeneralMessage } from "@/lib/whatsapp";
+import Link from "next/link";
+import { MessageCircle, ChevronDown, CheckCircle, Calculator, Ship, MapPin, Building2 } from "lucide-react";
+import { buildGeneralMessage, buildCorporateMessage } from "@/lib/whatsapp";
+
+const quickLinks = [
+  { icon: Calculator, label: "Cek Ongkir", href: "/cek-ongkir", external: false },
+  { icon: Ship, label: "Jadwal Kapal", href: "/jadwal-kapal", external: false },
+  { icon: MapPin, label: "Track Resi", href: "/tracking", external: false },
+];
 
 const trustBadges = [
   "10+ Tahun Pengalaman",
@@ -73,13 +80,42 @@ export function Hero() {
           </div>
 
           {/* Trust badges */}
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-3 mb-8">
             {trustBadges.map((badge) => (
               <div key={badge} className="flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-3 py-1.5">
                 <CheckCircle size={14} className="text-[#F5C518] shrink-0" />
                 <span className="text-white text-xs font-medium">{badge}</span>
               </div>
             ))}
+          </div>
+
+          {/* Quick intent shortcuts */}
+          <div className="flex items-center gap-1 flex-wrap pt-5 border-t border-white/15">
+            <span className="text-white/35 text-xs mr-2 shrink-0">Langsung ke:</span>
+            {quickLinks.map((item, i) => (
+              <span key={item.href} className="flex items-center gap-1">
+                {i > 0 && <span className="text-white/20 text-sm mx-1">·</span>}
+                <Link
+                  href={item.href}
+                  className="flex items-center gap-1.5 text-white/65 hover:text-[#F5C518] text-sm font-semibold px-3 py-1.5 rounded-lg hover:bg-white/10 transition-all"
+                >
+                  <item.icon size={13} />
+                  {item.label}
+                </Link>
+              </span>
+            ))}
+
+            {/* Corporate — visually distinct */}
+            <span className="text-white/20 text-sm mx-1">·</span>
+            <a
+              href={buildCorporateMessage()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 bg-[#F5C518] hover:bg-[#D4A910] text-[#1A1A1A] text-xs font-black px-3 py-1.5 rounded-lg transition-colors"
+            >
+              <Building2 size={12} />
+              Corporate
+            </a>
           </div>
         </div>
       </div>

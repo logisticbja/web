@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { FloatingWA } from "@/components/ui/FloatingWA";
@@ -77,6 +78,7 @@ export default function RootLayout({
         <LocalBusinessJsonLd />
       </head>
       <body className="min-h-full flex flex-col antialiased">
+        <AnnouncementBar />
         <Navbar />
         <main className="flex-1 pb-16 md:pb-0">{children}</main>
         <Footer />
