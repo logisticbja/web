@@ -14,13 +14,9 @@ export interface CityOption {
 }
 
 export const originCities: CityOption[] = [
-  { value: "jakarta", label: "Jakarta", region: "Jawa" },
+  { value: "jabodetabek", label: "Jabodetabek", region: "Jawa" },
   { value: "surabaya", label: "Surabaya", region: "Jawa" },
-  { value: "bekasi", label: "Bekasi", region: "Jawa" },
-  { value: "bandung", label: "Bandung", region: "Jawa" },
-  { value: "semarang", label: "Semarang", region: "Jawa" },
-  { value: "medan", label: "Medan", region: "Sumatera" },
-  { value: "makassar", label: "Makassar", region: "Sulawesi" },
+  { value: "sidoarjo", label: "Sidoarjo", region: "Jawa" },
 ];
 
 export const destinationCities: CityOption[] = [
@@ -76,6 +72,11 @@ const basePrices: Record<string, Record<ServiceType, { min: number; max: number 
     darat: { min: 5500, max: 7500 },
     udara: { min: 15000, max: 22000 },
   },
+  jawa: {
+    laut: { min: 3000, max: 5000 },
+    darat: { min: 2000, max: 3500 },
+    udara: { min: 8000, max: 15000 },
+  },
 };
 
 const etaDays: Record<ServiceType, { min: number; max: number }> = {
@@ -102,6 +103,20 @@ const regionMap: Record<string, string> = {
 export function calculatePrice(destination: string, service: ServiceType, weight: number): PricingResult {
   const region = regionMap[destination] || "papua";
   const prices = basePrices[region][service];
+  const eta = etaDays[service];
+
+  return {
+    serviceName: serviceNames[service],
+    priceMin: prices.min * weight,
+    priceMax: prices.max * weight,
+    etaMin: eta.min,
+    etaMax: eta.max,
+    unit: "kg",
+  };
+}
+
+export function calculatePriceByRegion(region: string, service: ServiceType, weight: number): PricingResult {
+  const prices = (basePrices[region] ?? basePrices["papua"])[service];
   const eta = etaDays[service];
 
   return {

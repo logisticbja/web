@@ -1,6 +1,7 @@
 "use client";
 import { MessageCircle, Phone } from "lucide-react";
 import { buildGeneralMessage, WA_PHONE_RAW } from "@/lib/whatsapp";
+import { WALink } from "@/components/ui/WALink";
 
 export function MobileCtaBar() {
   return (
@@ -12,15 +13,13 @@ export function MobileCtaBar() {
         <Phone size={20} />
         <span className="text-xs font-semibold">Telepon</span>
       </a>
-      <a
+      <WALink
         href={buildGeneralMessage()}
-        target="_blank"
-        rel="noopener noreferrer"
         className="flex-1 flex flex-col items-center justify-center gap-1 py-3 bg-[#25D366] text-white hover:bg-[#20bc59] transition-colors"
       >
         <MessageCircle size={20} />
         <span className="text-xs font-bold">WhatsApp</span>
-      </a>
+      </WALink>
     </div>
   );
 }

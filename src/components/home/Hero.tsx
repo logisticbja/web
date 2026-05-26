@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { MessageCircle, ChevronDown, CheckCircle, Calculator, Ship, MapPin, Building2 } from "lucide-react";
 import { buildGeneralMessage, buildCorporateMessage } from "@/lib/whatsapp";
+import { WALink } from "@/components/ui/WALink";
 
 const quickLinks = [
   { icon: Calculator, label: "Cek Ongkir", href: "/cek-ongkir", external: false },
@@ -61,15 +62,13 @@ export function Hero() {
 
           {/* CTAs */}
           <div className="flex flex-wrap gap-4 mb-10">
-            <a
+            <WALink
               href={buildGeneralMessage()}
-              target="_blank"
-              rel="noopener noreferrer"
               className="btn-primary text-base sm:text-lg px-7 py-4 rounded-xl shadow-2xl"
             >
               <MessageCircle size={20} />
               Cek Ongkir via WhatsApp
-            </a>
+            </WALink>
             <a
               href="#harga"
               className="btn-secondary text-base sm:text-lg px-7 py-4 rounded-xl"
@@ -107,15 +106,14 @@ export function Hero() {
 
             {/* Corporate — visually distinct */}
             <span className="text-white/20 text-sm mx-1">·</span>
-            <a
+            <WALink
               href={buildCorporateMessage()}
-              target="_blank"
-              rel="noopener noreferrer"
+              conversion="waCorporate"
               className="flex items-center gap-1.5 bg-[#F5C518] hover:bg-[#D4A910] text-[#1A1A1A] text-xs font-black px-3 py-1.5 rounded-lg transition-colors"
             >
               <Building2 size={12} />
               Corporate
-            </a>
+            </WALink>
           </div>
         </div>
       </div>

@@ -3,6 +3,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { X, Ship, Building2 } from "lucide-react";
 import { buildCorporateMessage } from "@/lib/whatsapp";
+import { WALink } from "@/components/ui/WALink";
 
 export function AnnouncementBar() {
   const [dismissed, setDismissed] = useState(false);
@@ -31,15 +32,14 @@ export function AnnouncementBar() {
         <span className="hidden sm:block w-px h-3.5 bg-white/20" />
 
         {/* Corporate CTA — highlighted */}
-        <a
+        <WALink
           href={buildCorporateMessage()}
-          target="_blank"
-          rel="noopener noreferrer"
+          conversion="waCorporate"
           className="flex items-center gap-1.5 bg-[#F5C518] hover:bg-[#D4A910] text-[#1A1A1A] font-black text-xs px-3.5 py-1.5 rounded-lg transition-colors"
         >
           <Building2 size={12} />
           Corporate & Volume Besar? Harga Kontrak Khusus →
-        </a>
+        </WALink>
 
       </div>
 

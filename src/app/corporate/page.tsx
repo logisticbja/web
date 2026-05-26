@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { MessageCircle, Tag, CreditCard, Users, BarChart3, Shield, FileText, CheckCircle, ArrowRight } from "lucide-react";
 import { buildCorporateMessage } from "@/lib/whatsapp";
 import { BreadcrumbJsonLd } from "@/components/JsonLd";
+import { WALink } from "@/components/ui/WALink";
 
 export const metadata: Metadata = {
   title: "Solusi Logistik Corporate & B2B — Harga Kontrak Khusus",
@@ -59,15 +60,14 @@ export default function CorporatePage() {
             Program eksklusif untuk bisnis dengan kebutuhan pengiriman rutin ke Papua & Indonesia Timur — harga kontrak, pembayaran tempo, dan layanan dedicated yang tidak tersedia di tarif reguler.
           </p>
           <div className="flex flex-wrap gap-4">
-            <a
+            <WALink
               href={buildCorporateMessage()}
-              target="_blank"
-              rel="noopener noreferrer"
+              conversion="waCorporate"
               className="flex items-center gap-2 bg-[#F5C518] hover:bg-[#D4A910] text-[#1A1A1A] font-black px-7 py-4 rounded-xl transition-all hover:shadow-lg text-base"
             >
               <MessageCircle size={18} />
               Hubungi Tim Corporate
-            </a>
+            </WALink>
             <a href="#cara-daftar" className="flex items-center gap-2 border-2 border-white/20 text-white hover:bg-white/10 font-bold px-7 py-4 rounded-xl transition-all text-base">
               Lihat Cara Daftar <ArrowRight size={16} />
             </a>
@@ -167,15 +167,14 @@ export default function CorporatePage() {
           <div className="relative">
             <h2 className="text-3xl font-black text-white mb-3">Siap Memulai Kerjasama?</h2>
             <p className="text-white/55 mb-8 max-w-lg mx-auto">Tim corporate kami siap membantu Anda mendapatkan penawaran terbaik. Respon dalam 1×24 jam.</p>
-            <a
+            <WALink
               href={buildCorporateMessage()}
-              target="_blank"
-              rel="noopener noreferrer"
+              conversion="waCorporate"
               className="inline-flex items-center gap-2 bg-[#F5C518] hover:bg-[#D4A910] text-[#1A1A1A] font-black px-8 py-4 rounded-xl transition-all hover:shadow-[0_0_30px_rgba(245,197,24,0.3)] text-lg"
             >
               <MessageCircle size={20} />
               Chat Tim Corporate Sekarang
-            </a>
+            </WALink>
             <p className="text-white/30 text-xs mt-4">Senin–Sabtu 08.00–20.00 WIB · Respon dalam 1×24 jam</p>
           </div>
         </div>

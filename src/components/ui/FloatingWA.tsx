@@ -2,6 +2,7 @@
 import { MessageCircle, X } from "lucide-react";
 import { useState } from "react";
 import { buildGeneralMessage, WA_PHONE } from "@/lib/whatsapp";
+import { WALink } from "@/components/ui/WALink";
 
 export function FloatingWA() {
   const [expanded, setExpanded] = useState(false);
@@ -28,15 +29,13 @@ export function FloatingWA() {
           <div className="bg-gray-50 rounded-xl p-3 mb-3 text-sm text-gray-700">
             Halo! Ada yang bisa kami bantu? Chat kami langsung untuk cek ongkir & pesan pengiriman ke Papua & Indonesia Timur.
           </div>
-          <a
+          <WALink
             href={buildGeneralMessage()}
-            target="_blank"
-            rel="noopener noreferrer"
             className="w-full flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20bc59] text-white font-bold py-3 rounded-xl transition-colors text-sm"
           >
             <MessageCircle size={16} />
             Mulai Chat — {WA_PHONE}
-          </a>
+          </WALink>
         </div>
       )}
       <button

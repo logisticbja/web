@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import "./globals.css";
 import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
 import { Navbar } from "@/components/layout/Navbar";
@@ -6,6 +7,7 @@ import { Footer } from "@/components/layout/Footer";
 import { FloatingWA } from "@/components/ui/FloatingWA";
 import { MobileCtaBar } from "@/components/ui/MobileCtaBar";
 import { LocalBusinessJsonLd } from "@/components/JsonLd";
+import { GOOGLE_ADS_ID } from "@/lib/gtag";
 
 const BASE_URL = "https://bjalogistic.id";
 
@@ -84,6 +86,19 @@ export default function RootLayout({
         <Footer />
         <FloatingWA />
         <MobileCtaBar />
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ADS_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-ads-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            window.gtag = gtag;
+            gtag('js', new Date());
+            gtag('config', '${GOOGLE_ADS_ID}');
+          `}
+        </Script>
       </body>
     </html>
   );
