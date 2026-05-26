@@ -14,7 +14,7 @@ export const services: Service[] = [
   {
     id: "cargo-laut",
     name: "Cargo Laut",
-    description: "Pengiriman via kapal Roro & PELNI, solusi ekonomis untuk barang berat",
+    description: "Pengiriman cargo via kapal ke Papua, Maluku, NTT & Sulawesi — solusi ekonomis untuk muatan besar",
     priceFrom: "Rp 6.000/kg",
     eta: "14–20 hari",
     icon: "Ship",
@@ -25,7 +25,7 @@ export const services: Service[] = [
   {
     id: "cargo-darat",
     name: "Cargo Darat",
-    description: "Pengiriman via truk armada sendiri, cepat dan fleksibel untuk rute tertentu",
+    description: "Jaringan truk door-to-door ke Sulawesi dan area yang terjangkau jalur darat dari pelabuhan tujuan",
     priceFrom: "Rp 7.000/kg",
     eta: "7–14 hari",
     icon: "Truck",
@@ -36,7 +36,7 @@ export const services: Service[] = [
   {
     id: "cargo-udara",
     name: "Cargo Udara",
-    description: "Pengiriman via pesawat untuk barang urgent yang butuh tiba cepat",
+    description: "Layanan ekspres via pesawat untuk pengiriman mendesak ke kota-kota besar Indonesia Timur",
     priceFrom: "Rp 20.000/kg",
     eta: "2–4 hari",
     icon: "Plane",
@@ -47,7 +47,7 @@ export const services: Service[] = [
   {
     id: "kirim-motor",
     name: "Kirim Motor",
-    description: "Layanan khusus pengiriman sepeda motor ke seluruh Papua dan Indonesia Timur",
+    description: "Pengiriman sepeda motor dengan penanganan khusus ke Papua, Maluku, NTT & Sulawesi",
     priceFrom: "Hubungi kami",
     eta: "Sesuai rute",
     icon: "Bike",
@@ -58,7 +58,7 @@ export const services: Service[] = [
   {
     id: "kirim-mobil",
     name: "Kirim Mobil",
-    description: "Pengiriman mobil dan kendaraan roda empat dengan armada khusus",
+    description: "Pengiriman kendaraan roda empat dengan penanganan khusus ke Indonesia Timur",
     priceFrom: "Hubungi kami",
     eta: "Sesuai rute",
     icon: "Car",
@@ -69,12 +69,12 @@ export const services: Service[] = [
   {
     id: "corporate",
     name: "Corporate & B2B",
-    description: "Harga kontrak khusus, pembayaran NET 30/60, dan dedicated AM untuk bisnis volume besar",
+    description: "Harga kontrak khusus dan dedicated AM untuk bisnis dengan kebutuhan pengiriman volume besar",
     priceFrom: "Harga Kontrak",
     eta: "Custom SLA",
     icon: "Building2",
     href: "/kontak",
     waService: "corporate",
-    highlights: ["Harga kontrak & diskon volume", "Pembayaran NET 30/60", "Dedicated account manager"],
+    highlights: ["Harga kontrak & diskon volume", "Dedicated account manager", "Laporan pengiriman bulanan"],
   },
 ];

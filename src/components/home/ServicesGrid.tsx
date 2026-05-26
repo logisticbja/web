@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Ship, Truck, Plane, Bike, Car, Package, Building2, Clock, ArrowRight, MessageCircle } from "lucide-react";
+import { Ship, Truck, Plane, Bike, Car, Package, Building2, ArrowRight, MessageCircle } from "lucide-react";
 import { WAButton } from "@/components/ui/WAButton";
 import { buildServiceMessage, buildCorporateMessage } from "@/lib/whatsapp";
 import { services } from "@/lib/data/services";
@@ -15,10 +15,11 @@ export function ServicesGrid() {
         <div className="text-center mb-12">
           <p className="text-[#CC1F2A] font-bold text-sm uppercase tracking-wider mb-2">Layanan Kami</p>
           <h2 className="text-3xl lg:text-4xl font-black text-[#111111]">
-            Semua Kebutuhan Logistik Anda
+            Cargo Spesialis{" "}
+            <span className="text-[#CC1F2A]">Indonesia Timur</span>
           </h2>
           <p className="text-gray-500 text-lg mt-3 max-w-2xl mx-auto">
-            Dari cargo reguler hingga kendaraan dan kebutuhan corporate — kami handle semuanya ke Papua & Indonesia Timur
+            Spesialis pengiriman ke Papua, Maluku, NTT, dan Sulawesi — dengan armada laut dan darat yang terintegrasi selama 10+ tahun
           </p>
         </div>
 
@@ -62,20 +63,6 @@ export function ServicesGrid() {
                     ))}
                   </ul>
 
-                  {/* Price & ETA */}
-                  <div className="flex items-center justify-between py-3 border-t border-white/10 mb-4">
-                    <div>
-                      <p className="text-xs text-white/35">Harga</p>
-                      <p className="font-black text-[#F5C518]">{service.priceFrom}</p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-xs text-white/35 flex items-center gap-1 justify-end">
-                        <Clock size={11} /> Jadwal
-                      </p>
-                      <p className="font-bold text-white/70 text-sm">{service.eta}</p>
-                    </div>
-                  </div>
-
                   {/* CTA */}
                   <a
                     href={buildCorporateMessage()}
@@ -113,20 +100,6 @@ export function ServicesGrid() {
                     </li>
                   ))}
                 </ul>
-
-                {/* Price & ETA */}
-                <div className="flex items-center justify-between py-3 border-t border-gray-100 mb-4">
-                  <div>
-                    <p className="text-xs text-gray-400">Mulai dari</p>
-                    <p className="font-black text-[#CC1F2A]">{service.priceFrom}</p>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-xs text-gray-400 flex items-center gap-1 justify-end">
-                      <Clock size={11} /> Estimasi
-                    </p>
-                    <p className="font-bold text-gray-700 text-sm">{service.eta}</p>
-                  </div>
-                </div>
 
                 {/* CTAs */}
                 <div className="flex gap-2">

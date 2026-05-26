@@ -1,4 +1,4 @@
-import { MessageCircle, Tag, CreditCard, Users, BarChart3, Shield, FileText } from "lucide-react";
+import { MessageCircle, Tag, Users, BarChart3, Shield, FileText } from "lucide-react";
 import { buildCorporateMessage } from "@/lib/whatsapp";
 
 const benefits = [
@@ -6,11 +6,6 @@ const benefits = [
     icon: Tag,
     title: "Harga Kontrak Khusus",
     desc: "Negosiasi tarif tetap per periode — jauh di bawah harga eceran",
-  },
-  {
-    icon: CreditCard,
-    title: "Pembayaran Tempo NET 30/60",
-    desc: "Fasilitas kredit untuk menjaga cash flow bisnis Anda tetap sehat",
   },
   {
     icon: Users,
@@ -36,8 +31,6 @@ const benefits = [
 
 const stats = [
   { value: "50+", label: "Klien Corporate Aktif" },
-  { value: "20%", label: "Lebih Hemat vs Eceran" },
-  { value: "NET 60", label: "Tenor Pembayaran Maks" },
   { value: "1 AM", label: "Dedicated per Klien" },
 ];
 

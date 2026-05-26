@@ -188,7 +188,6 @@ export default function KontakPage() {
               <ul className="space-y-2 mb-5 text-sm text-white/70">
                 {[
                   "Harga kontrak khusus",
-                  "Pembayaran tempo (NET 30/60)",
                   "Tim dedicated & account manager",
                   "Laporan pengiriman bulanan",
                 ].map((item) => (

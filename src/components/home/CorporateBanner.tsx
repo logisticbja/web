@@ -16,22 +16,13 @@ export function CorporateBanner() {
                 Pengiriman Volume Besar / Kebutuhan Corporate?
               </p>
               <p className="text-white/55 text-xs sm:text-sm">
-                Min. 500 kg/bulan — dapatkan harga kontrak, NET 60, & dedicated AM
+                Min. 500 kg/bulan — dapatkan harga kontrak & dedicated account manager
               </p>
             </div>
           </div>
 
           {/* Right: stats + CTA */}
           <div className="flex items-center gap-4 shrink-0">
-            <div className="hidden md:block text-center">
-              <p className="text-[#F5C518] font-black text-lg leading-tight">Hemat 20%</p>
-              <p className="text-white/40 text-xs">vs tarif eceran</p>
-            </div>
-            <div className="hidden md:block w-px h-8 bg-white/15" />
-            <div className="hidden md:block text-center">
-              <p className="text-[#F5C518] font-black text-lg leading-tight">NET 60</p>
-              <p className="text-white/40 text-xs">tenor pembayaran</p>
-            </div>
             <div className="hidden md:block w-px h-8 bg-white/15" />
             <a
               href={buildCorporateMessage()}

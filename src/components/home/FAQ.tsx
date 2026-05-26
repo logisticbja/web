@@ -33,7 +33,7 @@ const faqs = [
   },
   {
     q: "Apakah ada harga khusus untuk pengiriman volume besar / corporate?",
-    a: "Tentu! Kami memiliki program corporate dengan harga khusus, diskon volume, asuransi pengiriman, dan pembayaran tempo (TOP). Hubungi kami untuk diskusi lebih lanjut.",
+    a: "Tentu! Kami memiliki program corporate dengan harga kontrak khusus, diskon volume, dedicated account manager, dan asuransi pengiriman. Hubungi kami untuk diskusi lebih lanjut.",
   },
 ];
 

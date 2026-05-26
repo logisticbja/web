@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { MessageCircle, Tag, CreditCard, Users, BarChart3, Shield, FileText, CheckCircle, ArrowRight } from "lucide-react";
+import { MessageCircle, Tag, Users, BarChart3, Shield, FileText, CheckCircle, ArrowRight } from "lucide-react";
 import { buildCorporateMessage } from "@/lib/whatsapp";
 import { BreadcrumbJsonLd } from "@/components/JsonLd";
 import { WALink } from "@/components/ui/WALink";
@@ -7,13 +7,12 @@ import { WALink } from "@/components/ui/WALink";
 export const metadata: Metadata = {
   title: "Solusi Logistik Corporate & B2B — Harga Kontrak Khusus",
   description:
-    "Paket corporate BJA Logistic: harga kontrak khusus, pembayaran NET 30/60, dedicated account manager, dan laporan bulanan. Untuk bisnis dengan volume pengiriman 500 kg+/bulan ke Papua & Indonesia Timur.",
+    "Paket corporate BJA Logistic: harga kontrak khusus, dedicated account manager, dan laporan bulanan. Untuk bisnis dengan volume pengiriman 500 kg+/bulan ke Papua & Indonesia Timur.",
   alternates: { canonical: "https://bjalogistic.id/corporate" },
 };
 
 const benefits = [
   { icon: Tag, title: "Harga Kontrak Khusus", desc: "Negosiasi tarif tetap per periode — jauh di bawah harga eceran untuk volume rutin." },
-  { icon: CreditCard, title: "Pembayaran Tempo NET 30/60", desc: "Fasilitas kredit untuk menjaga cash flow bisnis Anda tetap sehat sepanjang bulan." },
   { icon: Users, title: "Dedicated Account Manager", desc: "Satu AM khusus yang mengenal bisnis Anda, siap dihubungi 7 hari seminggu." },
   { icon: BarChart3, title: "Laporan Pengiriman Bulanan", desc: "Rekap lengkap: volume, status, invoice, dan analytics setiap bulan." },
   { icon: Shield, title: "Asuransi Full Coverage", desc: "Perlindungan menyeluruh untuk setiap pengiriman tanpa batas nilai barang." },
@@ -32,7 +31,6 @@ const sectors = ["Distributor & FMCG", "Kontraktor & Konstruksi", "Mining & Ener
 const faqs = [
   { q: "Berapa minimum volume untuk program corporate?", a: "Volume pengiriman minimum 500 kg per bulan, atau komitmen kontrak minimum 3 bulan. Hubungi kami untuk diskusi lebih lanjut — kami fleksibel untuk bisnis baru yang sedang berkembang." },
   { q: "Berapa diskon yang bisa didapatkan vs tarif eceran?", a: "Penghematan rata-rata 15–25% dibanding tarif reguler, tergantung volume dan rute. Semakin besar volume dan frekuensi pengiriman, semakin kompetitif harga yang bisa kami berikan." },
-  { q: "Apa itu NET 30/60 dan bagaimana cara kerjanya?", a: "NET 30/60 berarti tagihan dapat dibayarkan 30 atau 60 hari setelah pengiriman selesai. Fasilitas ini tersedia setelah melalui proses credit check dan penandatanganan perjanjian kredit." },
   { q: "Apakah tersedia layanan untuk pengiriman alat berat dan proyek skala besar?", a: "Ya, kami memiliki divisi Project Logistics khusus untuk pengiriman alat berat, mesin industri, dan kargo oversized. Hubungi tim kami untuk survei dan penawaran khusus." },
   { q: "Berapa lama proses onboarding corporate?", a: "Proses onboarding biasanya selesai dalam 3–5 hari kerja: konsultasi → survei kebutuhan → penawaran → penandatanganan kontrak → aktivasi akun." },
 ];
@@ -57,7 +55,7 @@ export default function CorporatePage() {
             Solusi Logistik <span className="text-[#F5C518]">Corporate</span><br />yang Menguntungkan
           </h1>
           <p className="text-white/60 text-xl max-w-2xl mb-8 leading-relaxed">
-            Program eksklusif untuk bisnis dengan kebutuhan pengiriman rutin ke Papua & Indonesia Timur — harga kontrak, pembayaran tempo, dan layanan dedicated yang tidak tersedia di tarif reguler.
+            Program eksklusif untuk bisnis dengan kebutuhan pengiriman rutin ke Papua & Indonesia Timur — harga kontrak dan layanan dedicated yang tidak tersedia di tarif reguler.
           </p>
           <div className="flex flex-wrap gap-4">
             <WALink
@@ -77,11 +75,9 @@ export default function CorporatePage() {
 
       {/* Stats strip */}
       <div className="bg-[#F5C518] py-5 px-4">
-        <div className="max-w-5xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+        <div className="max-w-5xl mx-auto grid grid-cols-2 gap-4 text-center">
           {[
             { value: "50+", label: "Klien Corporate Aktif" },
-            { value: "Hemat 20%", label: "vs Tarif Eceran" },
-            { value: "NET 60", label: "Tenor Pembayaran Maks" },
             { value: "1 AM", label: "Dedicated per Klien" },
           ].map((s) => (
             <div key={s.label}>

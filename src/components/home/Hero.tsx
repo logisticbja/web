@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { MessageCircle, ChevronDown, CheckCircle, Calculator, Ship, MapPin, Building2 } from "lucide-react";
+import { MessageCircle, CheckCircle, Calculator, Ship, MapPin, Building2, ChevronDown } from "lucide-react";
 import { buildGeneralMessage, buildCorporateMessage } from "@/lib/whatsapp";
 import { WALink } from "@/components/ui/WALink";
 import { TrackingInput } from "@/components/ui/TrackingInput";
@@ -75,13 +75,6 @@ export function Hero() {
               <MessageCircle size={20} />
               Cek Ongkir via WhatsApp
             </WALink>
-            <a
-              href="#harga"
-              className="btn-secondary text-base sm:text-lg px-7 py-4 rounded-xl"
-            >
-              Lihat Harga
-              <ChevronDown size={18} />
-            </a>
           </div>
 
           {/* Trust badges */}
