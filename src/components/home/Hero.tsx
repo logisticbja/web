@@ -3,6 +3,7 @@ import Link from "next/link";
 import { MessageCircle, ChevronDown, CheckCircle, Calculator, Ship, MapPin, Building2 } from "lucide-react";
 import { buildGeneralMessage, buildCorporateMessage } from "@/lib/whatsapp";
 import { WALink } from "@/components/ui/WALink";
+import { TrackingInput } from "@/components/ui/TrackingInput";
 
 const quickLinks = [
   { icon: Calculator, label: "Cek Ongkir", href: "/cek-ongkir", external: false },
@@ -56,9 +57,14 @@ export function Hero() {
           </h1>
 
           {/* Subheadline */}
-          <p className="text-white/75 text-lg sm:text-xl mb-8 leading-relaxed">
+          <p className="text-white/75 text-lg sm:text-xl mb-6 leading-relaxed">
             Mulai <strong className="text-white">Rp 6.000/kg</strong> &nbsp;·&nbsp; Door to Door Jabodetabek &nbsp;·&nbsp; Kapal Roro, PELNI & Pesawat
           </p>
+
+          {/* Tracking input */}
+          <div className="mb-8">
+            <TrackingInput />
+          </div>
 
           {/* CTAs */}
           <div className="flex flex-wrap gap-4 mb-10">
