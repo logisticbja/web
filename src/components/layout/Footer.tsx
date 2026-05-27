@@ -32,8 +32,8 @@ export function Footer() {
               <Image
                 src="/logo-putih-bja.webp"
                 alt="BJA Logistic"
-                width={140}
-                height={42}
+                width={497}
+                height={80}
                 className="h-10 w-auto"
               />
             </div>

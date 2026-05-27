@@ -49,16 +49,14 @@ export function Hero() {
 
           {/* Headline */}
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-[1.1] mb-5">
-            Kirim Cargo ke{" "}
-            <span className="text-[#F5C518]">Papua</span> &{" "}
-            <span className="text-[#F5C518]">Indonesia Timur</span>
+            Ekspedisi ke Seluruh Indonesia,
             <br />
-            <span className="text-3xl sm:text-4xl lg:text-5xl">Cepat, Aman & Terjangkau</span>
+            <span className="text-[#F5C518]">Spesialis Indonesia Timur</span>
           </h1>
 
           {/* Subheadline */}
           <p className="text-white/75 text-lg sm:text-xl mb-6 leading-relaxed">
-            Mulai <strong className="text-white">Rp 6.000/kg</strong> &nbsp;·&nbsp; Door to Door Jabodetabek &nbsp;·&nbsp; Kapal Roro, PELNI & Pesawat
+            Mulai <strong className="text-white">Rp 6.000/kg</strong> &nbsp;·&nbsp; Door to Door Service &nbsp;·&nbsp; Kapal Roro, PELNI & Pesawat
           </p>
 
           {/* Tracking input */}

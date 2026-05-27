@@ -32,19 +32,17 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 bg-white shadow-sm border-b border-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link href="/" className="shrink-0">
-            <div className="bg-[#CC1F2A] rounded-lg px-3 py-1.5">
-              <Image
-                src="/logo-putih-bja.webp"
-                alt="BJA Logistic"
-                width={120}
-                height={36}
-                className="h-9 w-auto"
-                priority
-              />
-            </div>
+            <Image
+              src="/logo1.png"
+              alt="BJA Logistic"
+              width={1049}
+              height={313}
+              className="h-14 w-auto"
+              priority
+            />
           </Link>
 
           {/* Desktop nav */}

@@ -1,42 +1,17 @@
 import Image from "next/image";
 
 const photos = [
-  {
-    src: "/gallery-5.jpg",
-    alt: "Kapal container di pelabuhan",
-    caption: "Cargo Laut",
-    desktopCls: "col-span-2",
-  },
-  {
-    src: "/gallery-1.jpg",
-    alt: "Armada truk cargo di jalan raya",
-    caption: "Cargo Darat",
-    desktopCls: "row-span-2",
-  },
-  {
-    src: "/gallery-2.jpg",
-    alt: "Gudang penyimpanan barang BJA",
-    caption: "Gudang Kami",
-    desktopCls: "",
-  },
-  {
-    src: "/gallery-3.jpg",
-    alt: "Cargo udara via pesawat komersial",
-    caption: "Cargo Udara",
-    desktopCls: "",
-  },
-  {
-    src: "/gallery-4.jpg",
-    alt: "Pengiriman ke pelosok Indonesia",
-    caption: "Jangkauan Luas",
-    desktopCls: "",
-  },
-  {
-    src: "/gallery-6.jpg",
-    alt: "Lorong gudang BJA Logistic",
-    caption: "Pergudangan Modern",
-    desktopCls: "col-span-2",
-  },
+  { src: "/gallery/Galeri-Jasa-Ekspedisi-BJA-Logistic-8.webp",  alt: "Operasional ekspedisi BJA Logistic",    caption: "Operasional Kami",     desktopCls: "col-span-2" },
+  { src: "/gallery/Galeri-Jasa-Ekspedisi-BJA-Logistic-21.webp", alt: "Armada pengiriman BJA Logistic",        caption: "Armada Kami",          desktopCls: "" },
+  { src: "/gallery/Galeri-Jasa-Ekspedisi-BJA-Logistic-24.webp", alt: "Pengiriman cargo ke Indonesia Timur",   caption: "Cargo Laut",           desktopCls: "" },
+  { src: "/gallery/Galeri-Jasa-Ekspedisi-BJA-Logistic-26.webp", alt: "Kegiatan bongkar muat di pelabuhan",   caption: "Bongkar Muat",         desktopCls: "" },
+  { src: "/gallery/afesd-2048x1365.webp",                        alt: "Pengiriman barang BJA Logistic",       caption: "Pengiriman",           desktopCls: "" },
+  { src: "/gallery/1fewafd.webp",                                 alt: "Gudang BJA Logistic",                  caption: "Gudang Kami",          desktopCls: "col-span-2" },
+  { src: "/gallery/afvsbdbf.webp",                                alt: "Cargo darat BJA Logistic",             caption: "Cargo Darat",          desktopCls: "" },
+  { src: "/gallery/fefref.webp",                                  alt: "Proses pengiriman barang",             caption: "Proses Pengiriman",    desktopCls: "" },
+  { src: "/gallery/fvsdfvsvdvfsd.webp",                           alt: "Operasional logistik BJA",             caption: "Logistik",             desktopCls: "" },
+  { src: "/gallery/regfd.webp",                                   alt: "Armada truk BJA Logistic",             caption: "Cargo Darat",          desktopCls: "" },
+  { src: "/gallery/sdfvsd.webp",                                  alt: "Kegiatan pengiriman BJA Logistic",     caption: "Pengiriman",           desktopCls: "col-span-2" },
 ];
 
 function GalleryItem({ photo, className }: { photo: (typeof photos)[number]; className?: string }) {
@@ -75,10 +50,10 @@ export function Gallery() {
           </p>
         </div>
 
-        {/* Desktop bento grid */}
+        {/* Desktop grid */}
         <div
-          className="hidden lg:grid grid-cols-3 gap-4"
-          style={{ gridTemplateRows: "260px 200px 200px" }}
+          className="hidden lg:grid grid-cols-4 gap-4"
+          style={{ gridAutoRows: "220px" }}
         >
           {photos.map((photo) => (
             <GalleryItem
