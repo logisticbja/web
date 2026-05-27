@@ -21,17 +21,9 @@ function GalleryItem({ photo, className }: { photo: (typeof photos)[number]; cla
         src={photo.src}
         alt={photo.alt}
         fill
-        className="object-cover transition-transform duration-500 group-hover:scale-105"
+        className="object-cover transition-transform duration-500 group-hover:scale-105 group-hover:brightness-75"
         sizes="(max-width: 768px) 50vw, 33vw"
       />
-      {/* Dark overlay on hover */}
-      <div className="absolute inset-0 bg-[#1A1A1A]/0 group-hover:bg-[#1A1A1A]/50 transition-colors duration-300" />
-      {/* Caption badge */}
-      <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-        <span className="inline-block bg-[#CC1F2A] text-white text-xs font-bold px-3 py-1.5 rounded-lg">
-          {photo.caption}
-        </span>
-      </div>
     </div>
   );
 }
