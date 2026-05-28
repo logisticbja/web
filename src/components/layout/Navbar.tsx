@@ -36,11 +36,11 @@ export function Navbar() {
           {/* Logo */}
           <Link href="/" className="shrink-0">
             <Image
-              src="/logo1.png"
+              src="/bja-logo.png"
               alt="BJA Logistic"
-              width={1049}
-              height={313}
-              className="h-14 w-auto"
+              width={3958}
+              height={709}
+              className="h-12 w-auto"
               priority
             />
           </Link>

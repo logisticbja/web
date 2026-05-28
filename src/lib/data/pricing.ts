@@ -16,7 +16,6 @@ export interface CityOption {
 export const originCities: CityOption[] = [
   { value: "jabodetabek", label: "Jabodetabek", region: "Jawa" },
   { value: "surabaya", label: "Surabaya", region: "Jawa" },
-  { value: "sidoarjo", label: "Sidoarjo", region: "Jawa" },
 ];
 
 export const destinationCities: CityOption[] = [
