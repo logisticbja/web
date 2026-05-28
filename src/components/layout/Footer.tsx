@@ -113,12 +113,18 @@ export function Footer() {
                 <div className="flex items-start gap-3 text-gray-400">
                   <MapPin size={16} className="mt-0.5 shrink-0 text-[#F5C518]" />
                   <div className="text-sm space-y-3">
-                    <p><span className="text-white font-semibold">Surabaya (Pusat)</span><br />
-                      Jl. Tanjung Sadari No. 125, Perak Barat, Krembangan</p>
-                    <p><span className="text-white font-semibold">Bekasi</span><br />
-                      Ruko Grand Galaxy, Jl. Rose Garden 1 No. 33, Bekasi Selatan</p>
-                    <p><span className="text-white font-semibold">Papua</span><br />
-                      Jl. Timika Belakang, Abepura, Jayapura</p>
+                    <p>
+                      <span className="text-white font-semibold">Surabaya (Pusat)</span><br />
+                      <a href="https://www.google.com/maps/place/BJA+Logistic/@-7.2285461,112.7200165,17z/data=!3m1!4b1!4m6!3m5!1s0x2dd7f9bad78ff50b:0xde7d0ef09506ab57!8m2!3d-7.2285461!4d112.7225914!16s%2Fg%2F11hsx6s5g7" target="_blank" rel="noopener noreferrer" className="hover:text-white underline underline-offset-2 transition-colors">
+                        Jl. Tanjung Sadari No. 125, Perak Barat, Krembangan
+                      </a>
+                    </p>
+                    <p>
+                      <span className="text-white font-semibold">Jakarta</span><br />
+                      <a href="https://www.google.com/maps/place/BJA+Logistic/@-6.2689044,106.9726877,17z/data=!3m1!4b1!4m6!3m5!1s0x2e698d000e04fbd5:0x9ab27113fe6d1c4d!8m2!3d-6.2689044!4d106.9752626!16s%2Fg%2F11wy0nytrb" target="_blank" rel="noopener noreferrer" className="hover:text-white underline underline-offset-2 transition-colors">
+                        Ruko Grand Galaxy, Jl. Rose Garden 1 No. 33, Bekasi Selatan
+                      </a>
+                    </p>
                   </div>
                 </div>
               </li>

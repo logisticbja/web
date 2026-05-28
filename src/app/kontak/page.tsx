@@ -30,16 +30,13 @@ const offices = [
     name: "Kantor Pusat — Surabaya",
     address: "Jl. Tanjung Sadari No. 125, Perak Barat, Krembangan, Surabaya 60177",
     type: "Kantor Operasional & Gudang",
+    mapsUrl: "https://www.google.com/maps/place/BJA+Logistic/@-7.2285461,112.7200165,17z/data=!3m1!4b1!4m6!3m5!1s0x2dd7f9bad78ff50b:0xde7d0ef09506ab57!8m2!3d-7.2285461!4d112.7225914!16s%2Fg%2F11hsx6s5g7",
   },
   {
-    name: "Cabang Bekasi",
+    name: "Cabang Jakarta",
     address: "Ruko Grand Galaxy, Jl. Rose Garden 1 No. 33, Jaka Setia, Bekasi Selatan",
     type: "Kantor Perwakilan & Pickup Point",
-  },
-  {
-    name: "Cabang Papua — Jayapura",
-    address: "Jl. Timika Belakang ex Bioskop Dewi, Abepura, Jayapura",
-    type: "Kantor Perwakilan",
+    mapsUrl: "https://www.google.com/maps/place/BJA+Logistic/@-6.2689044,106.9726877,17z/data=!3m1!4b1!4m6!3m5!1s0x2e698d000e04fbd5:0x9ab27113fe6d1c4d!8m2!3d-6.2689044!4d106.9752626!16s%2Fg%2F11wy0nytrb",
   },
 ];
 
@@ -164,7 +161,13 @@ export default function KontakPage() {
             <h2 className="text-xl font-black text-[#111111] mb-5">Lokasi Kantor Kami</h2>
             <div className="space-y-4">
               {offices.map((office) => (
-                <div key={office.name} className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                <a
+                  key={office.name}
+                  href={office.mapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:border-[#CC1F2A]/40 hover:shadow-md transition-all"
+                >
                   <div className="flex items-start gap-3">
                     <div className="w-10 h-10 rounded-xl bg-[#CC1F2A]/10 flex items-center justify-center shrink-0">
                       <MapPin size={18} className="text-[#CC1F2A]" />
@@ -175,7 +178,7 @@ export default function KontakPage() {
                       <p className="text-gray-600 text-sm">{office.address}</p>
                     </div>
                   </div>
-                </div>
+                </a>
               ))}
             </div>
 
