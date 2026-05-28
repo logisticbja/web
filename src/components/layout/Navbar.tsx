@@ -2,6 +2,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 import { Menu, X, ChevronDown, MessageCircle } from "lucide-react";
 import { buildGeneralMessage } from "@/lib/whatsapp";
 
@@ -28,6 +29,13 @@ const navLinks = [
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const pathname = usePathname();
+
+  function isActive(href: string, children?: { href: string }[]) {
+    if (children) return children.some((c) => pathname.startsWith(c.href));
+    if (href === "/") return pathname === "/";
+    return pathname.startsWith(href);
+  }
 
   return (
     <header className="sticky top-0 z-50 bg-white shadow-sm border-b border-gray-100">
@@ -51,7 +59,11 @@ export function Navbar() {
               link.children ? (
                 <div key={link.label} className="relative group">
                   <button
-                    className="flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-semibold text-gray-700 hover:text-[#CC1F2A] hover:bg-gray-50 transition-colors"
+                    className={`flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-semibold transition-colors ${
+                      isActive(link.href, link.children)
+                        ? "text-[#CC1F2A] bg-red-50"
+                        : "text-gray-700 hover:text-[#CC1F2A] hover:bg-gray-50"
+                    }`}
                     onMouseEnter={() => setDropdownOpen(true)}
                     onMouseLeave={() => setDropdownOpen(false)}
                   >
@@ -67,7 +79,11 @@ export function Navbar() {
                       <Link
                         key={child.href}
                         href={child.href}
-                        className="block px-4 py-2.5 text-sm text-gray-700 hover:text-[#CC1F2A] hover:bg-gray-50 font-medium transition-colors"
+                        className={`block px-4 py-2.5 text-sm font-medium transition-colors ${
+                          pathname.startsWith(child.href)
+                            ? "text-[#CC1F2A] bg-red-50"
+                            : "text-gray-700 hover:text-[#CC1F2A] hover:bg-gray-50"
+                        }`}
                       >
                         {child.label}
                       </Link>
@@ -86,7 +102,11 @@ export function Navbar() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="px-3 py-2 rounded-lg text-sm font-semibold text-gray-700 hover:text-[#CC1F2A] hover:bg-gray-50 transition-colors"
+                  className={`px-3 py-2 rounded-lg text-sm font-semibold transition-colors ${
+                    isActive(link.href)
+                      ? "text-[#CC1F2A] bg-red-50"
+                      : "text-gray-700 hover:text-[#CC1F2A] hover:bg-gray-50"
+                  }`}
                 >
                   {link.label}
                 </Link>
@@ -129,7 +149,11 @@ export function Navbar() {
                       key={child.href}
                       href={child.href}
                       onClick={() => setMobileOpen(false)}
-                      className="block px-6 py-2.5 rounded-lg text-sm font-medium text-gray-700 hover:text-[#CC1F2A] hover:bg-gray-50"
+                      className={`block px-6 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                        pathname.startsWith(child.href)
+                          ? "text-[#CC1F2A] bg-red-50"
+                          : "text-gray-700 hover:text-[#CC1F2A] hover:bg-gray-50"
+                      }`}
                     >
                       {child.label}
                     </Link>
@@ -147,7 +171,11 @@ export function Navbar() {
                 <Link
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
-                  className="block px-3 py-2.5 rounded-lg text-sm font-semibold text-gray-700 hover:text-[#CC1F2A] hover:bg-gray-50"
+                  className={`block px-3 py-2.5 rounded-lg text-sm font-semibold transition-colors ${
+                    isActive(link.href)
+                      ? "text-[#CC1F2A] bg-red-50"
+                      : "text-gray-700 hover:text-[#CC1F2A] hover:bg-gray-50"
+                  }`}
                 >
                   {link.label}
                 </Link>
