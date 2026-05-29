@@ -4,8 +4,16 @@ import { ServicePageLayout } from "@/components/layout/ServicePageLayout";
 import { buildVehicleMessage } from "@/lib/whatsapp";
 
 export const metadata: Metadata = {
-  title: "Kirim Mobil ke Papua",
-  description: "Layanan pengiriman mobil ke Papua & Indonesia Timur. Aman, bergaransi, asuransi tersedia. Hubungi BJA Logistic.",
+  title: "Kirim Mobil ke Papua & Indonesia Timur — Penanganan Khusus",
+  description: "Jasa kirim mobil ke Papua, Maluku, NTT & Sulawesi. Semua jenis kendaraan diterima, asuransi wajib, penanganan profesional. Hubungi BJA Logistic untuk info harga.",
+  keywords: ["kirim mobil ke papua", "ekspedisi mobil papua", "jasa kirim mobil indonesia timur", "cargo mobil papua", "pengiriman kendaraan papua"],
+  alternates: { canonical: "https://bjalogistic.id/layanan/kirim-mobil" },
+  openGraph: {
+    title: "Kirim Mobil ke Papua & Indonesia Timur — BJA Logistic",
+    description: "Jasa kirim mobil ke Papua, Maluku, NTT & Sulawesi. Semua jenis kendaraan, asuransi wajib, penanganan profesional.",
+    url: "https://bjalogistic.id/layanan/kirim-mobil",
+    images: [{ url: "/og-image.png", width: 1200, height: 630 }],
+  },
 };
 
 export default function KirimMobilPage() {

@@ -4,8 +4,16 @@ import { ServicePageLayout } from "@/components/layout/ServicePageLayout";
 import { buildVehicleMessage } from "@/lib/whatsapp";
 
 export const metadata: Metadata = {
-  title: "Kirim Motor ke Papua",
-  description: "Layanan pengiriman sepeda motor ke Papua & Indonesia Timur. Aman, terlindungi asuransi. Hubungi BJA Logistic.",
+  title: "Kirim Motor ke Papua & Indonesia Timur — Aman Bergaransi",
+  description: "Jasa kirim motor ke Papua, Maluku, NTT & Sulawesi. Packing standar, asuransi tersedia, door to door service. Hubungi BJA Logistic untuk info harga.",
+  keywords: ["kirim motor ke papua", "ekspedisi motor papua", "jasa kirim motor indonesia timur", "kirim sepeda motor ke papua", "cargo motor papua"],
+  alternates: { canonical: "https://bjalogistic.id/layanan/kirim-motor" },
+  openGraph: {
+    title: "Kirim Motor ke Papua & Indonesia Timur — BJA Logistic",
+    description: "Jasa kirim motor ke Papua, Maluku, NTT & Sulawesi. Packing standar, asuransi tersedia, door to door.",
+    url: "https://bjalogistic.id/layanan/kirim-motor",
+    images: [{ url: "/og-image.png", width: 1200, height: 630 }],
+  },
 };
 
 export default function KirimMotorPage() {

@@ -22,7 +22,15 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Kontak",
-  description: "Hubungi BJA Logistic via WhatsApp, telepon, atau kunjungi kantor kami. Siap melayani pengiriman ke Papua & Indonesia Timur.",
+  description: "Hubungi BJA Logistic via WhatsApp, telepon, atau kunjungi kantor kami di Surabaya & Jakarta. Siap melayani pengiriman ke Papua & Indonesia Timur.",
+  keywords: ["kontak bja logistic", "hubungi bja logistic", "whatsapp ekspedisi papua", "kantor bja surabaya", "kantor bja jakarta"],
+  alternates: { canonical: "https://bjalogistic.id/kontak" },
+  openGraph: {
+    title: "Kontak BJA Logistic — Hubungi Kami via WhatsApp",
+    description: "Hubungi BJA Logistic via WhatsApp, telepon, atau kunjungi kantor kami di Surabaya & Jakarta.",
+    url: "https://bjalogistic.id/kontak",
+    images: [{ url: "/og-image.png", width: 1200, height: 630 }],
+  },
 };
 
 const offices = [

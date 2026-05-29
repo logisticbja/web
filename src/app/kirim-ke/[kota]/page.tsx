@@ -27,9 +27,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const laut = calculatePrice(city.value, "laut", 1);
   const priceStr = `Rp ${laut.priceMin.toLocaleString("id-ID")}–${laut.priceMax.toLocaleString("id-ID")}/kg`;
 
+  const canonical = `https://bjalogistic.id/kirim-ke/${kota}`;
+  const title = `Cargo ke ${city.label} — ${priceStr} | BJA Logistic`;
+  const description = `Jasa ekspedisi cargo ke ${city.label}, ${city.region}. Cargo laut ${priceStr}, estimasi ${laut.etaMin}–${laut.etaMax} hari. Door to door Jabodetabek & Surabaya. Hubungi BJA Logistic.`;
+
   return {
-    title: `Cargo ke ${city.label} — ${priceStr} | BJA Logistic`,
-    description: `Jasa ekspedisi cargo ke ${city.label}, ${city.region}. Cargo laut ${priceStr}, estimasi ${laut.etaMin}–${laut.etaMax} hari. Door to door Jabodetabek & Surabaya. Hubungi BJA Logistic.`,
+    title,
+    description,
     keywords: [
       `cargo ke ${city.label.toLowerCase()}`,
       `ekspedisi ${city.label.toLowerCase()}`,
@@ -37,7 +41,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       `ongkir ke ${city.label.toLowerCase()}`,
       `ekspedisi ${city.region.toLowerCase()} ${city.label.toLowerCase()}`,
     ],
-    alternates: { canonical: `https://bjalogistic.id/kirim-ke/${kota}` },
+    alternates: { canonical },
+    openGraph: {
+      title,
+      description,
+      url: canonical,
+      images: [{ url: "/og-image.png", width: 1200, height: 630 }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/og-image.png"],
+    },
   };
 }
 

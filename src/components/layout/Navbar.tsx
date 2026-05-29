@@ -7,7 +7,6 @@ import { Menu, X, ChevronDown, MessageCircle } from "lucide-react";
 import { buildGeneralMessage } from "@/lib/whatsapp";
 
 const navLinks = [
-  { label: "Beranda", href: "/" },
   {
     label: "Layanan",
     href: "/layanan/cargo-laut",
@@ -22,6 +21,7 @@ const navLinks = [
   { label: "Cek Ongkir", href: "/cek-ongkir" },
   { label: "Jadwal Kapal", href: "/jadwal-kapal" },
   { label: "Tracking", href: "/tracking" },
+  { label: "Blog", href: "/blog" },
   { label: "Corporate", href: "/corporate" },
   { label: "Kontak", href: "/kontak" },
 ];
