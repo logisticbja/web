@@ -33,3 +33,11 @@ export function pageview(url: string) {
   if (typeof window === "undefined" || !window.gtag || !GA_ID) return;
   window.gtag("config", GA_ID, { page_path: url });
 }
+
+export function fireWAEvent(label: string) {
+  if (typeof window === "undefined" || !window.gtag || !GA_ID) return;
+  window.gtag("event", "whatsapp_click", {
+    event_category: "WhatsApp",
+    event_label: label,
+  });
+}
