@@ -127,7 +127,7 @@ export default async function KirimKePage({ params }: Props) {
       ]} />
 
       {/* Hero */}
-      <div className="bg-[#CC1F2A] py-16 px-4">
+      <div className="bg-[#CC1F2A] py-8 px-4">
         <div className="max-w-5xl mx-auto">
           <div className="flex items-center gap-2 mb-3">
             <span className="text-white/60 text-sm">Tujuan</span>
@@ -145,10 +145,10 @@ export default async function KirimKePage({ params }: Props) {
                 </div>
                 <span className="text-white/70 text-sm font-semibold">{city.region}</span>
               </div>
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white mb-4 leading-tight">
+              <h1 className="text-2xl sm:text-3xl font-black text-white mb-3 leading-tight">
                 Ekspedisi Cargo<br />ke {city.label}
               </h1>
-              <p className="text-white/70 text-lg mb-6">
+              <p className="text-white/70 text-sm mb-5">
                 Pengiriman cargo ke {city.label} mulai dari{" "}
                 <strong className="text-[#F5C518]">
                   {formatPrice(lautPrice.priceMin)}/kg

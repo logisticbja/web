@@ -52,10 +52,10 @@ export default function KontakPage() {
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
       {/* Header */}
-      <div className="bg-[#CC1F2A] py-16 px-4">
+      <div className="bg-[#CC1F2A] py-8 px-4">
         <div className="max-w-5xl mx-auto text-center">
-          <h1 className="text-3xl sm:text-4xl font-black text-white mb-3">Hubungi Kami</h1>
-          <p className="text-white/70 text-lg">
+          <h1 className="text-xl sm:text-2xl font-black text-white mb-1.5">Hubungi Kami</h1>
+          <p className="text-white/70 text-sm">
             Tim kami siap membantu Anda — via WhatsApp, telepon, atau email
           </p>
         </div>

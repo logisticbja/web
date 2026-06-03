@@ -45,10 +45,10 @@ export default async function BlogPage() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="bg-[#CC1F2A] py-16 px-4">
+      <div className="bg-[#CC1F2A] py-8 px-4">
         <div className="max-w-5xl mx-auto text-center">
-          <h1 className="text-3xl sm:text-4xl font-black text-white mb-3">Blog BJA Logistic</h1>
-          <p className="text-white/70 text-lg">
+          <h1 className="text-xl sm:text-2xl font-black text-white mb-1.5">Blog BJA Logistic</h1>
+          <p className="text-white/70 text-sm">
             Tips pengiriman, info layanan, dan panduan ekspedisi ke Indonesia Timur
           </p>
         </div>

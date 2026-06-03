@@ -39,18 +39,18 @@ export function ServicePageLayout({
   return (
     <div>
       {/* Hero */}
-      <div className="bg-[#CC1F2A] py-16 px-4">
+      <div className="bg-[#CC1F2A] py-8 px-4">
         <div className="max-w-5xl mx-auto">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 mb-6">
-            <div className="w-16 h-16 rounded-2xl bg-[#F5C518] flex items-center justify-center shrink-0">
-              <Icon size={32} className="text-[#1A1A1A]" />
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-4">
+            <div className="w-10 h-10 rounded-xl bg-[#F5C518] flex items-center justify-center shrink-0">
+              <Icon size={20} className="text-[#1A1A1A]" />
             </div>
             <div>
-              <p className="text-white/70 text-sm font-semibold mb-1">{subtitle}</p>
-              <h1 className="text-3xl sm:text-4xl font-black text-white">{title}</h1>
+              <p className="text-white/70 text-xs font-semibold mb-0.5">{subtitle}</p>
+              <h1 className="text-xl sm:text-2xl font-black text-white">{title}</h1>
             </div>
           </div>
-          <p className="text-white/70 text-lg max-w-2xl mb-8">{description}</p>
+          <p className="text-white/70 text-sm max-w-2xl mb-6">{description}</p>
 
           <div className="flex flex-wrap gap-4">
             <a
