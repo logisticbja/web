@@ -8,7 +8,7 @@ function toSlug(value: string) {
   return value.replace(/_/g, "-");
 }
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const lastModified = new Date();
 
   const staticRoutes: MetadataRoute.Sitemap = [
@@ -86,7 +86,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
-  const blogPosts = getAllPosts();
+  const blogPosts = await getAllPosts();
   const blogRoutes: MetadataRoute.Sitemap = blogPosts.map((post) => ({
     url: `${BASE_URL}/blog/${post.slug}`,
     lastModified: post.date ? new Date(post.date) : lastModified,

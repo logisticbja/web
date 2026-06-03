@@ -1,10 +1,4 @@
-// ─── Tracking ────────────────────────────────────────────────────────────────
-// Sheet tab: "Tracking"
-// Columns: no_resi | asal | tujuan | layanan | status | waktu | estimasi_tiba | catatan
-//
-// One row per status event. Multiple rows can share the same no_resi.
-// asal/tujuan/layanan/estimasi_tiba only need to be filled on the first row.
-// waktu format: "DD/MM/YYYY HH:mm"  e.g. "15/01/2024 14:30"
+import { createServerClient } from "@/lib/supabase/server";
 
 export interface TrackingEvent {
   status: string;
@@ -22,37 +16,36 @@ export interface TrackingData {
 }
 
 export async function fetchTrackingByResi(resi: string): Promise<TrackingData | null> {
-  const id = process.env.GOOGLE_SHEETS_ID;
-  const key = process.env.GOOGLE_SHEETS_API_KEY;
-
-  if (!id || !key || id === "your_sheet_id_here") return null;
-
-  const range = encodeURIComponent("Tracking!A2:H");
-  const url = `https://sheets.googleapis.com/v4/spreadsheets/${id}/values/${range}?key=${key}`;
-
   try {
-    const res = await fetch(url, { cache: "no-store" });
-    if (!res.ok) return null;
+    const supabase = createServerClient();
 
-    const json = await res.json();
-    const rows: string[][] = json.values ?? [];
+    const { data: shipment } = await supabase
+      .from("tracking_shipments")
+      .select("*")
+      .ilike("no_resi", resi)
+      .single();
 
-    const matching = rows.filter(
-      (r) => r[0]?.trim().toUpperCase() === resi.toUpperCase()
-    );
-    if (!matching.length) return null;
+    if (!shipment) return null;
 
-    const first = matching[0];
+    const { data: events } = await supabase
+      .from("tracking_events")
+      .select("status, waktu, catatan")
+      .eq("resi_id", shipment.id)
+      .order("waktu", { ascending: true });
+
     return {
-      noResi: first[0]?.trim() ?? "",
-      asal: first[1]?.trim() ?? "",
-      tujuan: first[2]?.trim() ?? "",
-      layanan: first[3]?.trim() ?? "",
-      estimasiTiba: first[6]?.trim() ?? "",
-      events: matching.map((r) => ({
-        status: r[4]?.trim() ?? "",
-        waktu: r[5]?.trim() ?? "",
-        catatan: r[7]?.trim() ?? "",
+      noResi: shipment.no_resi,
+      asal: shipment.asal,
+      tujuan: shipment.tujuan,
+      layanan: shipment.layanan,
+      estimasiTiba: shipment.estimasi_tiba ?? "",
+      events: (events ?? []).map((e) => ({
+        status: e.status,
+        waktu: new Date(e.waktu).toLocaleString("id-ID", {
+          day: "2-digit", month: "2-digit", year: "numeric",
+          hour: "2-digit", minute: "2-digit",
+        }).replace(",", ""),
+        catatan: e.catatan ?? "",
       })),
     };
   } catch {

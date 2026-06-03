@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { MessageCircle } from "lucide-react";
-import { getAllPosts, getPostBySlug, formatDate } from "@/lib/blog";
+import { getPostBySlug, formatDate } from "@/lib/blog";
 import { buildGeneralMessage } from "@/lib/whatsapp";
 import { Metadata } from "next";
 
@@ -10,13 +10,11 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
-export async function generateStaticParams() {
-  return getAllPosts().map((post) => ({ slug: post.slug }));
-}
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const post = await getPostBySlug(slug);
   if (!post) return {};
 
   const canonical = `https://bjalogistic.id/blog/${slug}`;
@@ -47,7 +45,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const post = await getPostBySlug(slug);
 
   if (!post) notFound();
 

@@ -1,9 +1,5 @@
-import fs from "fs";
-import path from "path";
-import matter from "gray-matter";
+import { createServerClient } from "@/lib/supabase/server";
 import { marked } from "marked";
-
-const contentDir = path.join(process.cwd(), "src/content/blog");
 
 export interface PostMeta {
   slug: string;
@@ -19,47 +15,54 @@ export interface Post extends PostMeta {
   content: string;
 }
 
-export function getAllPosts(): PostMeta[] {
-  if (!fs.existsSync(contentDir)) return [];
+export async function getAllPosts(): Promise<PostMeta[]> {
+  try {
+    const supabase = createServerClient();
+    const { data } = await supabase
+      .from("posts")
+      .select("slug, title, date, excerpt, category, cover, author")
+      .eq("published", true)
+      .order("date", { ascending: false });
 
-  const files = fs.readdirSync(contentDir).filter((f) => f.endsWith(".md"));
-
-  const posts = files.map((filename) => {
-    const slug = filename.replace(/\.md$/, "");
-    const raw = fs.readFileSync(path.join(contentDir, filename), "utf-8");
-    const { data } = matter(raw);
-
-    return {
-      slug,
-      title: data.title ?? slug,
-      date: data.date ? String(data.date) : "",
-      excerpt: data.excerpt ?? "",
-      category: data.category ?? "Umum",
-      cover: data.cover,
-      author: data.author ?? "Tim BJA Logistic",
-    } as PostMeta;
-  });
-
-  return posts.sort((a, b) => (a.date < b.date ? 1 : -1));
+    return (data ?? []).map((row) => ({
+      slug: row.slug,
+      title: row.title,
+      date: row.date ?? "",
+      excerpt: row.excerpt ?? "",
+      category: row.category ?? "Umum",
+      cover: row.cover ?? undefined,
+      author: row.author ?? "Tim BJA Logistic",
+    }));
+  } catch {
+    return [];
+  }
 }
 
-export function getPostBySlug(slug: string): Post | null {
-  const filePath = path.join(contentDir, `${slug}.md`);
-  if (!fs.existsSync(filePath)) return null;
+export async function getPostBySlug(slug: string): Promise<Post | null> {
+  try {
+    const supabase = createServerClient();
+    const { data: row } = await supabase
+      .from("posts")
+      .select("*")
+      .eq("slug", slug)
+      .eq("published", true)
+      .single();
 
-  const raw = fs.readFileSync(filePath, "utf-8");
-  const { data, content: mdContent } = matter(raw);
+    if (!row) return null;
 
-  return {
-    slug,
-    title: data.title ?? slug,
-    date: data.date ? String(data.date) : "",
-    excerpt: data.excerpt ?? "",
-    category: data.category ?? "Umum",
-    cover: data.cover,
-    author: data.author ?? "Tim BJA Logistic",
-    content: marked(mdContent) as string,
-  };
+    return {
+      slug: row.slug,
+      title: row.title,
+      date: row.date ?? "",
+      excerpt: row.excerpt ?? "",
+      category: row.category ?? "Umum",
+      cover: row.cover ?? undefined,
+      author: row.author ?? "Tim BJA Logistic",
+      content: marked(row.content ?? "") as string,
+    };
+  } catch {
+    return null;
+  }
 }
 
 export function formatDate(dateStr: string): string {

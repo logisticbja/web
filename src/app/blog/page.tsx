@@ -3,6 +3,8 @@ import Image from "next/image";
 import { getAllPosts, formatDate } from "@/lib/blog";
 import { Metadata } from "next";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Blog — Tips & Panduan Pengiriman Cargo",
   description: "Tips pengiriman cargo, panduan packing, info jadwal kapal, dan panduan ekspedisi ke Papua & Indonesia Timur dari tim BJA Logistic.",
@@ -38,8 +40,8 @@ function CategoryBadge({ category }: { category: string }) {
   );
 }
 
-export default function BlogPage() {
-  const posts = getAllPosts();
+export default async function BlogPage() {
+  const posts = await getAllPosts();
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
