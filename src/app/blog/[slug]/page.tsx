@@ -18,26 +18,37 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!post) return {};
 
   const canonical = `https://bjalogistic.id/blog/${slug}`;
-  const ogImage = post.cover ?? "/og-image.png";
+
+  // Gunakan field SEO custom kalau ada, fallback ke field utama
+  const metaTitle    = post.metaTitle    ?? post.title;
+  const metaDesc     = post.metaDesc     ?? post.excerpt;
+  const ogTitle      = post.ogTitle      ?? metaTitle;
+  const ogDesc       = post.ogDesc       ?? metaDesc;
+  const ogImage      = post.ogImage      ?? post.cover ?? "/og-image.png";
+  const coverAlt     = post.coverAlt     ?? post.title;
 
   return {
-    title: post.title,
-    description: post.excerpt,
+    title: metaTitle,
+    description: metaDesc,
+    keywords: [
+      ...(post.focusKeyword ? [post.focusKeyword] : []),
+      ...(post.tags ?? []),
+    ],
     alternates: { canonical },
     openGraph: {
-      title: post.title,
-      description: post.excerpt,
+      title: ogTitle,
+      description: ogDesc,
       url: canonical,
       type: "article",
       publishedTime: post.date,
       authors: [post.author],
       siteName: "BJA Logistic",
-      images: [{ url: ogImage, width: 1200, height: 630 }],
+      images: [{ url: ogImage, width: 1200, height: 630, alt: coverAlt }],
     },
     twitter: {
       card: "summary_large_image",
-      title: post.title,
-      description: post.excerpt,
+      title: ogTitle,
+      description: ogDesc,
       images: [ogImage],
     },
   };
@@ -75,7 +86,7 @@ export default async function BlogPostPage({ params }: Props) {
       <div className="max-w-3xl mx-auto px-4 py-10">
         {post.cover && (
           <div className="relative h-64 sm:h-80 w-full rounded-2xl overflow-hidden mb-8 shadow-sm">
-            <Image src={post.cover} alt={post.title} fill className="object-cover" />
+            <Image src={post.cover} alt={post.coverAlt ?? post.title} fill className="object-cover" />
           </div>
         )}
 

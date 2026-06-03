@@ -8,10 +8,21 @@ export interface PostMeta {
   excerpt: string;
   category: string;
   cover?: string;
+  coverAlt?: string;
   author: string;
+  tags: string[];
 }
 
-export interface Post extends PostMeta {
+export interface PostSeo {
+  metaTitle?: string;
+  metaDesc?: string;
+  focusKeyword?: string;
+  ogTitle?: string;
+  ogDesc?: string;
+  ogImage?: string;
+}
+
+export interface Post extends PostMeta, PostSeo {
   content: string;
 }
 
@@ -20,7 +31,7 @@ export async function getAllPosts(): Promise<PostMeta[]> {
     const supabase = createServerClient();
     const { data } = await supabase
       .from("posts")
-      .select("slug, title, date, excerpt, category, cover, author")
+      .select("slug, title, date, excerpt, category, cover, cover_alt, author, tags")
       .eq("published", true)
       .order("date", { ascending: false });
 
@@ -31,7 +42,9 @@ export async function getAllPosts(): Promise<PostMeta[]> {
       excerpt: row.excerpt ?? "",
       category: row.category ?? "Umum",
       cover: row.cover ?? undefined,
+      coverAlt: row.cover_alt ?? undefined,
       author: row.author ?? "Tim BJA Logistic",
+      tags: row.tags ?? [],
     }));
   } catch {
     return [];
@@ -57,8 +70,16 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
       excerpt: row.excerpt ?? "",
       category: row.category ?? "Umum",
       cover: row.cover ?? undefined,
+      coverAlt: row.cover_alt ?? undefined,
       author: row.author ?? "Tim BJA Logistic",
+      tags: row.tags ?? [],
       content: marked(row.content ?? "") as string,
+      metaTitle: row.meta_title ?? undefined,
+      metaDesc: row.meta_desc ?? undefined,
+      focusKeyword: row.focus_keyword ?? undefined,
+      ogTitle: row.og_title ?? undefined,
+      ogDesc: row.og_desc ?? undefined,
+      ogImage: row.og_image ?? undefined,
     };
   } catch {
     return null;
