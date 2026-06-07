@@ -26,6 +26,14 @@ export default async function CekOngkirPage() {
           <p className="text-white/70 text-sm">
             Hitung estimasi biaya pengiriman ke Papua & Indonesia Timur dalam detik
           </p>
+          <div className="flex items-center justify-center gap-4 mt-3 flex-wrap">
+            <span className="inline-flex items-center gap-1.5 bg-white/15 text-white text-xs font-semibold px-3 py-1 rounded-full">
+              Regular: min. 100 kg
+            </span>
+            <span className="inline-flex items-center gap-1.5 bg-white/15 text-white text-xs font-semibold px-3 py-1 rounded-full">
+              Express: min. 10 kg
+            </span>
+          </div>
         </div>
       </div>
 
@@ -35,9 +43,9 @@ export default async function CekOngkirPage() {
         {/* Info cards */}
         <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
           {[
-            { icon: Ship, title: "Cargo Laut", desc: "Paling hemat, cocok untuk barang berat & besar (Regular)" },
-            { icon: Truck, title: "Cargo Darat", desc: "Tersedia untuk rute tertentu via angkutan darat" },
-            { icon: Zap, title: "Express", desc: "Layanan prioritas — lebih cepat sampai, harga premium" },
+            { icon: Ship, title: "Cargo Laut — Regular", desc: "Paling hemat untuk muatan besar. Minimum 100 kg per pengiriman." },
+            { icon: Truck, title: "Cargo Darat", desc: "Tersedia untuk rute tertentu via angkutan darat. Minimum 100 kg." },
+            { icon: Zap, title: "Express", desc: "Layanan prioritas, lebih cepat sampai. Minimum 10 kg per pengiriman." },
           ].map((item) => (
             <div key={item.title} className="bg-white rounded-xl p-5 border border-gray-100 flex gap-3">
               <item.icon size={20} className="text-[#CC1F2A] shrink-0 mt-0.5" />

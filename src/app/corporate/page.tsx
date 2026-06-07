@@ -47,15 +47,20 @@ export default function CorporatePage() {
       <div className="bg-[#1A1A1A] py-20 px-4 relative overflow-hidden">
         <div className="absolute inset-0 opacity-5" style={{ backgroundImage: "radial-gradient(circle at 70% 50%, #F5C518 0%, transparent 60%)" }} />
         <div className="relative max-w-5xl mx-auto">
-          <div className="inline-flex items-center gap-2 bg-[#F5C518]/20 border border-[#F5C518]/30 rounded-full px-4 py-1.5 mb-6">
-            <div className="w-2 h-2 rounded-full bg-[#F5C518] animate-pulse" />
-            <span className="text-[#F5C518] text-sm font-semibold">Untuk Bisnis & Enterprise</span>
+          <div className="flex flex-wrap gap-3 mb-6">
+            <div className="inline-flex items-center gap-2 bg-[#F5C518]/20 border border-[#F5C518]/30 rounded-full px-4 py-1.5">
+              <div className="w-2 h-2 rounded-full bg-[#F5C518] animate-pulse" />
+              <span className="text-[#F5C518] text-sm font-semibold">Untuk Bisnis & Enterprise</span>
+            </div>
+            <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5">
+              <span className="text-white text-sm font-semibold">📦 Pengiriman 100 kg ke atas</span>
+            </div>
           </div>
           <h1 className="text-4xl sm:text-5xl font-black text-white leading-tight mb-5">
             Solusi Logistik <span className="text-[#F5C518]">Corporate</span><br />yang Menguntungkan
           </h1>
           <p className="text-white/60 text-xl max-w-2xl mb-8 leading-relaxed">
-            Program eksklusif untuk bisnis dengan kebutuhan pengiriman rutin ke Papua & Indonesia Timur — harga kontrak dan layanan dedicated yang tidak tersedia di tarif reguler.
+            Program eksklusif untuk bisnis dengan kebutuhan pengiriman <strong className="text-white">100 kg ke atas</strong> secara rutin ke Papua & Indonesia Timur — harga kontrak dan layanan dedicated yang tidak tersedia di tarif reguler.
           </p>
           <div className="flex flex-wrap gap-4">
             <WALink
