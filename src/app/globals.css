@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 @theme inline {
   --color-red: #CC1F2A;
@@ -19,6 +20,77 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* Custom prose overrides for blog articles */
+.prose {
+  --tw-prose-body: #374151;
+  --tw-prose-headings: #111111;
+  --tw-prose-links: #CC1F2A;
+  --tw-prose-bold: #111111;
+  --tw-prose-counters: #6B7280;
+  --tw-prose-bullets: #CC1F2A;
+  --tw-prose-hr: #E5E7EB;
+  --tw-prose-quotes: #111111;
+  --tw-prose-quote-borders: #CC1F2A;
+  --tw-prose-code: #CC1F2A;
+  --tw-prose-th-borders: #D1D5DB;
+  --tw-prose-td-borders: #E5E7EB;
+  font-size: 1.0625rem;
+  line-height: 1.85;
+}
+
+.prose h2 {
+  font-size: 1.375rem;
+  font-weight: 900;
+  margin-top: 2.5rem;
+  margin-bottom: 0.875rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #F3F4F6;
+}
+
+.prose h3 {
+  font-size: 1.125rem;
+  font-weight: 800;
+  margin-top: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.prose p {
+  margin-bottom: 1.25rem;
+}
+
+.prose ul li, .prose ol li {
+  margin-bottom: 0.35rem;
+}
+
+.prose table {
+  font-size: 0.9rem;
+  border-collapse: collapse;
+}
+
+.prose th {
+  background-color: #FEF2F2;
+  color: #111111;
+  font-weight: 700;
+  padding: 0.625rem 0.875rem;
+}
+
+.prose td {
+  padding: 0.5rem 0.875rem;
+}
+
+.prose blockquote {
+  border-left-color: #CC1F2A;
+  background: #FFF5F5;
+  border-radius: 0 0.5rem 0.5rem 0;
+  padding: 1rem 1.25rem;
+  font-style: normal;
+  color: #374151;
+}
+
+.prose hr {
+  margin: 2.5rem 0;
 }
 
 html {

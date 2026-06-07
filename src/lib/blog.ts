@@ -26,12 +26,18 @@ export interface Post extends PostMeta, PostSeo {
   content: string;
 }
 
+function excerptFromContent(content: string, maxLength = 160): string {
+  const text = content.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+  if (text.length <= maxLength) return text;
+  return text.slice(0, maxLength).replace(/\s+\S*$/, "") + "…";
+}
+
 export async function getAllPosts(): Promise<PostMeta[]> {
   try {
     const supabase = createServerClient();
     const { data } = await supabase
       .from("posts")
-      .select("slug, title, date, excerpt, category, cover, cover_alt, author, tags")
+      .select("slug, title, date, excerpt, content, category, cover, cover_alt, author, tags")
       .eq("published", true)
       .order("date", { ascending: false });
 
@@ -39,7 +45,7 @@ export async function getAllPosts(): Promise<PostMeta[]> {
       slug: row.slug,
       title: row.title,
       date: row.date ?? "",
-      excerpt: row.excerpt ?? "",
+      excerpt: row.excerpt || excerptFromContent(row.content ?? ""),
       category: row.category ?? "Umum",
       cover: row.cover ?? undefined,
       coverAlt: row.cover_alt ?? undefined,

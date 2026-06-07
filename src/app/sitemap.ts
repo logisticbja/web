@@ -87,12 +87,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
 
   const blogPosts = await getAllPosts();
-  const blogRoutes: MetadataRoute.Sitemap = blogPosts.map((post) => ({
-    url: `${BASE_URL}/blog/${post.slug}`,
-    lastModified: post.date ? new Date(post.date) : lastModified,
-    changeFrequency: "monthly" as const,
-    priority: 0.7,
-  }));
+  const now = Date.now();
+  const blogRoutes: MetadataRoute.Sitemap = blogPosts.map((post) => {
+    const postDate = post.date ? new Date(post.date) : lastModified;
+    const ageMs = now - postDate.getTime();
+    const ageMonths = ageMs / (1000 * 60 * 60 * 24 * 30);
+    // Recent posts (<3 months) get higher priority
+    const priority = ageMonths < 1 ? 0.9 : ageMonths < 3 ? 0.8 : 0.7;
+    const changeFrequency: "weekly" | "monthly" = ageMonths < 3 ? "weekly" : "monthly";
+    return {
+      url: `${BASE_URL}/blog/${post.slug}`,
+      lastModified: postDate,
+      changeFrequency,
+      priority,
+    };
+  });
 
   const destinationRoutes: MetadataRoute.Sitemap = destinationCities.map((city) => ({
     url: `${BASE_URL}/kirim-ke/${toSlug(city.value)}`,

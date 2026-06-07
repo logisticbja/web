@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.106.2",
+    "@tailwindcss/typography": "^0.5.19",
     "clsx": "^2.1.1",
     "docx": "^9.7.1",
     "gray-matter": "^4.0.3",

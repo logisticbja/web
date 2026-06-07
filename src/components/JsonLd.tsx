@@ -159,6 +159,59 @@ export function FaqJsonLd() {
   );
 }
 
+interface ArticleJsonLdProps {
+  url: string;
+  title: string;
+  description: string;
+  image: string;
+  datePublished: string;
+  author: string;
+  keywords?: string[];
+  section?: string;
+}
+
+export function ArticleJsonLd({
+  url, title, description, image, datePublished, author, keywords = [], section,
+}: ArticleJsonLdProps) {
+  const data = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "@id": `${url}#article`,
+    headline: title,
+    description,
+    image: { "@type": "ImageObject", url: image, width: 1200, height: 630 },
+    datePublished,
+    dateModified: datePublished,
+    inLanguage: "id",
+    ...(section && { articleSection: section }),
+    ...(keywords.length > 0 && { keywords: keywords.join(", ") }),
+    author: {
+      "@type": "Organization",
+      name: author,
+      url: "https://bjalogistic.id",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "BJA Logistic",
+      url: "https://bjalogistic.id",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://bjalogistic.id/logo-putih-bja.webp",
+        width: 200,
+        height: 60,
+      },
+    },
+    mainEntityOfPage: { "@type": "WebPage", "@id": url },
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+    />
+  );
+}
+
 export function BreadcrumbJsonLd({ items }: { items: { name: string; url: string }[] }) {
   const data = {
     "@context": "https://schema.org",
