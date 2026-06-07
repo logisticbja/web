@@ -1,7 +1,20 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "bjalogistic.id",
+        pathname: "/wp-content/**",
+      },
+      {
+        protocol: "https",
+        hostname: "wgvzgvpqqoluavrwnufi.supabase.co",
+        pathname: "/storage/**",
+      },
+    ],
+  },
 };
 
 export default nextConfig;
