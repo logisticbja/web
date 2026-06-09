@@ -59,8 +59,12 @@ export function CekOngkirForm({ rows }: Props) {
     setResult(null);
   };
 
+  const MIN_WEIGHT = 100;
+  const weightNum = Number(weight);
+  const weightTooLow = weight !== "" && weightNum > 0 && weightNum < MIN_WEIGHT;
+
   const handleCalculate = () => {
-    if (!from || !to || !weight) return;
+    if (!from || !to || !weight || weightTooLow) return;
     const fromLabel = originCities.find((c) => c.value === from)?.label ?? from;
     const toInfo = findOngkirCity(to);
     const toLabel = toInfo?.city.label ?? to;
@@ -165,11 +169,21 @@ export function CekOngkirForm({ rows }: Props) {
               type="number"
               value={weight}
               onChange={(e) => { setWeight(e.target.value); setResult(null); }}
-              placeholder="Contoh: 500"
-              min="1"
-              className="w-full pl-9 pr-4 py-3 rounded-xl border border-gray-200 focus:border-[#CC1F2A] focus:outline-none font-medium text-gray-700"
+              placeholder="Min. 100 kg"
+              min="100"
+              className={`w-full pl-9 pr-4 py-3 rounded-xl border focus:outline-none font-medium text-gray-700 transition-colors ${
+                weightTooLow
+                  ? "border-red-400 focus:border-red-500 bg-red-50"
+                  : "border-gray-200 focus:border-[#CC1F2A]"
+              }`}
             />
           </div>
+          {weightTooLow && (
+            <p className="mt-1.5 flex items-center gap-1.5 text-xs font-semibold text-red-600">
+              <AlertCircle size={13} />
+              Minimum pengiriman 100 kg. Untuk kiriman lebih kecil, hubungi kami langsung.
+            </p>
+          )}
         </div>
 
         {/* Service */}
@@ -197,7 +211,7 @@ export function CekOngkirForm({ rows }: Props) {
 
       <button
         onClick={handleCalculate}
-        disabled={!from || !to || !weight}
+        disabled={!from || !to || !weight || weightTooLow}
         className="w-full bg-[#CC1F2A] hover:bg-[#1A1A1A] disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-black py-4 rounded-xl transition-colors text-lg flex items-center justify-center gap-2"
       >
         <Calculator size={20} />
