@@ -1,6 +1,7 @@
 import { MetadataRoute } from "next";
 import { destinationCities } from "@/lib/data/pricing";
 import { getAllPosts } from "@/lib/blog";
+import { regionConfigs } from "@/lib/data/regions";
 
 const BASE_URL = "https://bjalogistic.id";
 
@@ -110,5 +111,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
-  return [...staticRoutes, ...blogRoutes, ...destinationRoutes];
+  const cargoRoutes: MetadataRoute.Sitemap = regionConfigs.map((r) => ({
+    url: `${BASE_URL}/cargo/${r.slug}`,
+    lastModified,
+    changeFrequency: "monthly" as const,
+    priority: 0.9,
+  }));
+
+  return [...staticRoutes, ...cargoRoutes, ...blogRoutes, ...destinationRoutes];
 }

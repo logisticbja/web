@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Laporan Google Ads — BJA Logistic | Mei–Jun 2026</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f4f6f9;
+      color: #1a1a1a;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .page {
+      max-width: 860px;
+      margin: 40px auto;
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Header */
+    .header {
+      background: linear-gradient(135deg, #CC1F2A 0%, #8B1219 100%);
+      padding: 40px 48px 36px;
+      color: #fff;
+    }
+
+    .header-meta {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.6);
+      margin-bottom: 10px;
+    }
+
+    .header h1 {
+      font-size: 26px;
+      font-weight: 900;
+      line-height: 1.25;
+      margin-bottom: 6px;
+    }
+
+    .header-sub {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .header-period {
+      margin-top: 20px;
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 8px;
+      padding: 6px 14px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    /* Body */
+    .body {
+      padding: 40px 48px;
+    }
+
+    /* Section */
+    .section {
+      margin-bottom: 40px;
+    }
+
+    .section-label {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #CC1F2A;
+      margin-bottom: 14px;
+    }
+
+    .section h2 {
+      font-size: 18px;
+      font-weight: 900;
+      color: #111;
+      margin-bottom: 16px;
+    }
+
+    /* KPI Cards */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .kpi-card {
+      background: #f8fafc;
+      border: 1px solid #e8ecf0;
+      border-radius: 12px;
+      padding: 16px 14px;
+      text-align: center;
+    }
+
+    .kpi-card.highlight {
+      background: #fff5f5;
+      border-color: #fcc;
+    }
+
+    .kpi-card.green {
+      background: #f0fdf4;
+      border-color: #bbf7d0;
+    }
+
+    .kpi-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #888;
+      margin-bottom: 6px;
+    }
+
+    .kpi-value {
+      font-size: 22px;
+      font-weight: 900;
+      color: #111;
+      line-height: 1;
+    }
+
+    .kpi-value.red {
+      color: #CC1F2A;
+    }
+
+    .kpi-value.green {
+      color: #16a34a;
+    }
+
+    .kpi-note {
+      font-size: 10px;
+      color: #999;
+      margin-top: 4px;
+    }
+
+    /* Funnel */
+    .funnel {
+      background: #f8fafc;
+      border: 1px solid #e8ecf0;
+      border-radius: 14px;
+      padding: 28px 32px;
+    }
+
+    .funnel-step {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 10px 0;
+    }
+
+    .funnel-step+.funnel-step {
+      border-top: 1px dashed #e0e4e8;
+    }
+
+    .funnel-arrow {
+      text-align: center;
+      color: #ccc;
+      font-size: 18px;
+      line-height: 1;
+      padding: 4px 0;
+    }
+
+    .funnel-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .funnel-info {
+      flex: 1;
+    }
+
+    .funnel-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: #333;
+    }
+
+    .funnel-desc {
+      font-size: 11px;
+      color: #999;
+      margin-top: 1px;
+    }
+
+    .funnel-right {
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .funnel-num {
+      font-size: 22px;
+      font-weight: 900;
+      color: #111;
+    }
+
+    .funnel-rate {
+      font-size: 11px;
+      font-weight: 700;
+      color: #CC1F2A;
+      background: #fff0f0;
+      padding: 2px 8px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-top: 2px;
+    }
+
+    .funnel-rate.ok {
+      color: #16a34a;
+      background: #f0fdf4;
+    }
+
+    .funnel-cost {
+      font-size: 11px;
+      color: #888;
+      margin-top: 2px;
+    }
+
+    /* Insight cards */
+    .insight-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .insight-card {
+      border-radius: 12px;
+      padding: 18px 20px;
+      border: 1px solid transparent;
+    }
+
+    .insight-card.good {
+      background: #f0fdf4;
+      border-color: #bbf7d0;
+    }
+
+    .insight-card.warn {
+      background: #fffbeb;
+      border-color: #fde68a;
+    }
+
+    .insight-card.bad {
+      background: #fff5f5;
+      border-color: #fecaca;
+    }
+
+    .insight-tag {
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .insight-tag.good {
+      color: #16a34a;
+    }
+
+    .insight-tag.warn {
+      color: #d97706;
+    }
+
+    .insight-tag.bad {
+      color: #CC1F2A;
+    }
+
+    .insight-card h4 {
+      font-size: 13px;
+      font-weight: 800;
+      color: #111;
+      margin-bottom: 5px;
+    }
+
+    .insight-card p {
+      font-size: 12px;
+      color: #555;
+      line-height: 1.55;
+    }
+
+    /* ROI table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    thead tr {
+      background: #1a1a1a;
+      color: #fff;
+    }
+
+    thead th {
+      padding: 11px 14px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    thead th:last-child {
+      text-align: right;
+    }
+
+    tbody tr:nth-child(even) {
+      background: #f8fafc;
+    }
+
+    tbody tr.active {
+      background: #fff5f5;
+    }
+
+    tbody td {
+      padding: 11px 14px;
+      color: #333;
+      border-bottom: 1px solid #eee;
+    }
+
+    tbody td:last-child {
+      text-align: right;
+      font-weight: 700;
+    }
+
+    tbody td .badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 20px;
+      background: #fef9c3;
+      color: #92400e;
+    }
+
+    tbody td .badge.now {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    /* Action list */
+    .action-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .action-item {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid #e8ecf0;
+      background: #fafafa;
+    }
+
+    .action-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #CC1F2A;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .action-content h4 {
+      font-size: 13px;
+      font-weight: 800;
+      color: #111;
+      margin-bottom: 3px;
+    }
+
+    .action-content p {
+      font-size: 12px;
+      color: #666;
+      line-height: 1.5;
+    }
+
+    .action-content .tag {
+      display: inline-block;
+      margin-top: 5px;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 20px;
+    }
+
+    .tag.urgent {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .tag.medium {
+      background: #fef9c3;
+      color: #92400e;
+    }
+
+    .tag.low {
+      background: #f0fdf4;
+      color: #166534;
+    }
+
+    /* Divider */
+    .divider {
+      height: 1px;
+      background: #eee;
+      margin: 32px 0;
+    }
+
+    /* Footer */
+    .footer {
+      background: #f8fafc;
+      border-top: 1px solid #eee;
+      padding: 20px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer p {
+      font-size: 11px;
+      color: #999;
+    }
+
+    .footer strong {
+      color: #555;
+    }
+
+    /* Print */
+    @media print {
+      body {
+        background: #fff;
+      }
+
+      .page {
+        box-shadow: none;
+        margin: 0;
+        border-radius: 0;
+      }
+
+      .action-item,
+      .insight-card,
+      .funnel,
+      .kpi-card {
+        break-inside: avoid;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .body {
+        padding: 24px 20px;
+      }
+
+      .header {
+        padding: 28px 24px;
+      }
+
+      .kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .insight-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer {
+        flex-direction: column;
+        gap: 6px;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="page">
+
+    <!-- HEADER -->
+    <div class="header">
+      <div class="header-meta">Laporan Performa Iklan Digital</div>
+      <h1>Google Ads — Cargo Indonesia Timur</h1>
+      <div class="header-sub">BJA Logistic · Kampanye: BJA Search - Cargo Indonesia Timur</div>
+      <div class="header-period">📅 29 Mei – 14 Juni 2026 &nbsp;(16 hari aktif)</div>
+    </div>
+
+    <div class="body">
+
+      <!-- RINGKASAN EKSEKUTIF -->
+      <div class="section">
+        <div class="section-label">Ringkasan Eksekutif</div>
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-label">Total Pengeluaran</div>
+            <div class="kpi-value">Rp2,06 jt</div>
+            <div class="kpi-note">~Rp129rb/hari</div>
+          </div>
+          <div class="kpi-card highlight">
+            <div class="kpi-label">Lead Masuk WA</div>
+            <div class="kpi-value red">42</div>
+            <div class="kpi-note">~2,6 lead/hari</div>
+          </div>
+          <div class="kpi-card green">
+            <div class="kpi-label">Deal Berhasil</div>
+            <div class="kpi-value green">5</div>
+            <div class="kpi-note">dalam 16 hari</div>
+          </div>
+          <div class="kpi-card highlight">
+            <div class="kpi-label">Biaya per Deal</div>
+            <div class="kpi-value red">Rp413rb</div>
+            <div class="kpi-note">dari iklan</div>
+          </div>
+        </div>
+        <div class="kpi-grid" style="margin-top: 12px;">
+          <div class="kpi-card">
+            <div class="kpi-label">Klik Iklan</div>
+            <div class="kpi-value">535</div>
+            <div class="kpi-note">dari 5.945 tayang</div>
+          </div>
+          <div class="kpi-card green">
+            <div class="kpi-label">CTR</div>
+            <div class="kpi-value green">9%</div>
+            <div class="kpi-note">industri: 3–5%</div>
+          </div>
+          <div class="kpi-card green">
+            <div class="kpi-label">CPC Rata-rata</div>
+            <div class="kpi-value">Rp3.858</div>
+            <div class="kpi-note">per klik</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Biaya per Lead</div>
+            <div class="kpi-value">Rp49rb</div>
+            <div class="kpi-note">per lead WA</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- FUNNEL -->
+      <div class="section">
+        <div class="section-label">Alur Perjalanan Pelanggan</div>
+        <h2>Dari Iklan ke Deal</h2>
+        <div class="funnel">
+
+          <div class="funnel-step">
+            <div class="funnel-icon" style="background:#f1f5f9">👁️</div>
+            <div class="funnel-info">
+              <div class="funnel-name">Tayang (Impressi)</div>
+              <div class="funnel-desc">Iklan tampil di hasil pencarian Google</div>
+            </div>
+            <div class="funnel-right">
+              <div class="funnel-num">5.945</div>
+            </div>
+          </div>
+
+          <div class="funnel-step">
+            <div class="funnel-icon" style="background:#eff6ff">🖱️</div>
+            <div class="funnel-info">
+              <div class="funnel-name">Klik ke Website</div>
+              <div class="funnel-desc">Pengunjung yang tertarik masuk ke halaman</div>
+            </div>
+            <div class="funnel-right">
+              <div class="funnel-num">535</div>
+              <div class="funnel-rate ok">CTR 9% — Sangat Baik</div>
+              <div class="funnel-cost">Rp3.858/klik</div>
+            </div>
+          </div>
+
+          <div class="funnel-step">
+            <div class="funnel-icon" style="background:#f0fdf4">💬</div>
+            <div class="funnel-info">
+              <div class="funnel-name">Buka WhatsApp</div>
+              <div class="funnel-desc">Klik tombol WhatsApp di halaman</div>
+            </div>
+            <div class="funnel-right">
+              <div class="funnel-num">75</div>
+              <div class="funnel-rate ok">14% dari klik — Baik</div>
+              <div class="funnel-cost">Rp27.523/WA klik</div>
+            </div>
+          </div>
+
+          <div class="funnel-step">
+            <div class="funnel-icon" style="background:#fefce8">📩</div>
+            <div class="funnel-info">
+              <div class="funnel-name">Lead Masuk (Chat WA)</div>
+              <div class="funnel-desc">Calon pelanggan mengirim pesan pertama</div>
+            </div>
+            <div class="funnel-right">
+              <div class="funnel-num">42</div>
+              <div class="funnel-rate">56% dari WA klik — Perlu Dioptimasi</div>
+              <div class="funnel-cost">Rp49.147/lead</div>
+            </div>
+          </div>
+
+          <div class="funnel-step">
+            <div class="funnel-icon" style="background:#fef2f2">🤝</div>
+            <div class="funnel-info">
+              <div class="funnel-name">Deal Berhasil</div>
+              <div class="funnel-desc">Pelanggan jadi dan melakukan pengiriman</div>
+            </div>
+            <div class="funnel-right">
+              <div class="funnel-num" style="color:#CC1F2A">5</div>
+              <div class="funnel-rate">11,9% dari lead</div>
+              <div class="funnel-cost">Rp412.838/deal</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- INSIGHT -->
+      <div class="section">
+        <div class="section-label">Temuan Utama</div>
+        <h2>Yang Berjalan Baik & Yang Perlu Diperbaiki</h2>
+        <div class="insight-grid">
+
+          <div class="insight-card good">
+            <div class="insight-tag good">✅ Kekuatan</div>
+            <h4>CTR 9% — 2× rata-rata industri</h4>
+            <p>Rata-rata Google Ads B2B logistics hanya 3–5%. CTR 9% artinya iklan sangat relevan dan menarik bagi orang
+              yang mencari jasa cargo.</p>
+          </div>
+
+          <div class="insight-card good">
+            <div class="insight-tag good">✅ Kekuatan</div>
+            <h4>Biaya per klik efisien</h4>
+            <p>Rp3.858 per klik untuk keyword cargo ke Indonesia Timur tergolong sangat kompetitif. Artinya anggaran
+              digunakan secara efisien.</p>
+          </div>
+
+          <div class="insight-card warn">
+            <div class="insight-tag warn">⚠️ Perlu Perhatian</div>
+            <h4>44% orang buka WA tapi tidak chat</h4>
+            <p>Dari 75 orang yang klik tombol WhatsApp, hanya 42 yang benar-benar mengirim pesan. Kemungkinan pesan
+              default WA tidak memudahkan mereka untuk langsung chat.</p>
+          </div>
+
+          <div class="insight-card warn">
+            <div class="insight-tag warn">⚠️ Perlu Perhatian</div>
+            <h4>Closing rate 11,9% dari lead</h4>
+            <p>37 dari 42 lead tidak jadi deal. Perlu dievaluasi apakah karena harga tidak cocok, atau lead tidak
+              qualified (misal kiriman &lt;100 kg).</p>
+          </div>
+
+          <div class="insight-card bad">
+            <div class="insight-tag bad">🔴 Bottleneck Utama</div>
+            <h4>Iklan hanya muncul 27% di posisi teratas</h4>
+            <p>Google menunjukkan bahwa iklan kehilangan 73% kesempatan tampil di posisi paling atas. Penyebab utama:
+              <strong>budget Rp150rb/hari terlalu kecil</strong> untuk bersaing secara maksimal.
+            </p>
+          </div>
+
+          <div class="insight-card good">
+            <div class="insight-tag good">✅ Kesimpulan</div>
+            <h4>Iklan ini profitable — layak di-scale</h4>
+            <p>Dengan biaya akuisisi Rp413rb per deal, selama rata-rata nilai 1 order cargo melebihi angka tersebut,
+              iklan ini menghasilkan profit bersih dari setiap deal.</p>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- ROI SIMULATION -->
+      <div class="section">
+        <div class="section-label">Proyeksi</div>
+        <h2>Simulasi Jika Budget Dinaikkan</h2>
+        <p style="font-size:12px; color:#666; margin-bottom:16px;">
+          Asumsi: rasio funnel tetap sama (9% CTR, 14% WA click, 56% lead rate, 11,9% closing rate).
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th>Budget/Hari</th>
+              <th>Klik/Bln</th>
+              <th>Lead/Bln</th>
+              <th>Deal/Bln</th>
+              <th>Pengeluaran Iklan/Bln</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="active">
+              <td><strong>Rp150.000</strong> <span class="badge now">Sekarang</span></td>
+              <td>~1.000</td>
+              <td>~79</td>
+              <td>~9</td>
+              <td>Rp4.500.000</td>
+            </tr>
+            <tr>
+              <td><strong>Rp250.000</strong></td>
+              <td>~1.650</td>
+              <td>~131</td>
+              <td>~16</td>
+              <td>Rp7.500.000</td>
+            </tr>
+            <tr>
+              <td><strong>Rp400.000</strong></td>
+              <td>~2.640</td>
+              <td>~210</td>
+              <td>~25</td>
+              <td>Rp12.000.000</td>
+            </tr>
+            <tr>
+              <td><strong>Rp500.000</strong></td>
+              <td>~3.300</td>
+              <td>~262</td>
+              <td>~31</td>
+              <td>Rp15.000.000</td>
+            </tr>
+          </tbody>
+        </table>
+        <p style="font-size:11px; color:#999; margin-top:10px;">
+          * Proyeksi bersifat estimasi. Performa aktual dapat bervariasi tergantung kompetisi keyword dan musim.
+        </p>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- REKOMENDASI -->
+      <div class="section">
+        <div class="section-label">Langkah Selanjutnya</div>
+        <h2>Rekomendasi Aksi</h2>
+        <ul class="action-list">
+
+          <li class="action-item">
+            <div class="action-num">1</div>
+            <div class="action-content">
+              <h4>Naikkan budget harian ke Rp250.000–300.000</h4>
+              <p>Ini adalah langkah terpenting. Budget saat ini membatasi iklan hanya tampil 27% di posisi teratas.
+                Menaikkan budget secara bertahap akan membuka lebih banyak peluang lead masuk tanpa mengubah strategi
+                yang sudah terbukti bekerja.</p>
+              <span class="tag urgent">⚡ Prioritas Utama</span>
+            </div>
+          </li>
+
+          <li class="action-item">
+            <div class="action-num">2</div>
+            <div class="action-content">
+              <h4>Perbaiki pesan default WhatsApp</h4>
+              <p>44% orang yang buka WA tidak jadi chat. Dengan membuat pesan default yang lebih mudah dikirim (contoh:
+                "Halo kak, saya mau tanya ongkir ke [kota], berat sekitar... kg"), hambatan untuk memulai percakapan
+                berkurang signifikan.</p>
+              <span class="tag medium">🔧 Prioritas Menengah</span>
+            </div>
+          </li>
+
+          <li class="action-item">
+            <div class="action-num">3</div>
+            <div class="action-content">
+              <h4>Jangan aktifkan "Performance Max" atau "Maximize Conversion Value"</h4>
+              <p>Google merekomendasikan kedua fitur ini, namun untuk bisnis cargo B2B dengan target spesifik Indonesia
+                Timur, Google Search manual lebih efektif dan terkontrol. Performance Max akan menghamburkan budget ke
+                channel yang tidak relevan (YouTube, Gmail, Display).</p>
+              <span class="tag low">ℹ️ Catatan Penting</span>
+            </div>
+          </li>
+
+        </ul>
+      </div>
+
+    </div><!-- end .body -->
+
+    <!-- FOOTER -->
+    <div class="footer">
+      <p>Dibuat oleh <strong>Tim Marketing BJA Logistic</strong></p>
+      <p>Periode data: <strong>29 Mei – 14 Juni 2026</strong> &nbsp;·&nbsp; Dicetak: <strong>15 Juni 2026</strong></p>
+      <p style="color:#CC1F2A; font-weight:700;">bjalogistic.id</p>
+    </div>
+
+  </div><!-- end .page -->
+
+</body>
+
+</html>

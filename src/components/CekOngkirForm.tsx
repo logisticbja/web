@@ -4,26 +4,53 @@ import { Calculator, MessageCircle, ChevronDown, Package, Zap, Clock, AlertCircl
 import { originCities, formatPrice } from "@/lib/data/pricing";
 import { ongkirGroups, findOngkirCity } from "@/lib/data/ongkir";
 import { type PricingRow, findPrice } from "@/lib/sheets";
-import { buildOngkirMessage, buildGeneralMessage } from "@/lib/whatsapp";
+import { buildGeneralMessage } from "@/lib/whatsapp";
 
 type ServiceType = "Express" | "Regular";
 
+interface DefaultValues {
+  from?: string;
+  to?: string;
+  toLabel?: string;
+  weight?: string;
+  service?: ServiceType;
+}
+
 interface Props {
   rows: PricingRow[];
+  defaultValues?: DefaultValues;
+  autoCalculate?: boolean;
 }
 
 const allCities = ongkirGroups.flatMap((g) =>
   g.cities.map((c) => ({ ...c, group: g.groupLabel }))
 );
 
-export function CekOngkirForm({ rows }: Props) {
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("");
-  const [toSearch, setToSearch] = useState("");
+function computeInitialResult(
+  dv: DefaultValues | undefined,
+  rows: PricingRow[]
+): { row: PricingRow; total: number } | "not_found" | null {
+  if (!dv?.from || !dv?.to || !dv?.weight) return null;
+  const weightNum = Number(dv.weight);
+  if (!weightNum || weightNum < 100) return null;
+  const fromLabel = originCities.find((c) => c.value === dv.from)?.label ?? dv.from ?? "";
+  const toInfo = findOngkirCity(dv.to!);
+  const toLabel = toInfo?.city.label ?? dv.to ?? "";
+  const row = findPrice(rows, fromLabel, toLabel, dv.service ?? "Regular");
+  if (!row) return "not_found";
+  return { row, total: row.pricePerKg * weightNum };
+}
+
+export function CekOngkirForm({ rows, defaultValues, autoCalculate }: Props) {
+  const [from, setFrom] = useState(defaultValues?.from ?? "");
+  const [to, setTo] = useState(defaultValues?.to ?? "");
+  const [toSearch, setToSearch] = useState(defaultValues?.toLabel ?? "");
   const [showDropdown, setShowDropdown] = useState(false);
-  const [weight, setWeight] = useState("");
-  const [service, setService] = useState<ServiceType>("Regular");
-  const [result, setResult] = useState<{ row: PricingRow; total: number } | "not_found" | null>(null);
+  const [weight, setWeight] = useState(defaultValues?.weight ?? "");
+  const [service, setService] = useState<ServiceType>(defaultValues?.service ?? "Regular");
+  const [result, setResult] = useState<{ row: PricingRow; total: number } | "not_found" | null>(
+    () => (autoCalculate ? computeInitialResult(defaultValues, rows) : null)
+  );
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const selectedCity = to ? allCities.find((c) => c.value === to) : null;
@@ -209,14 +236,31 @@ export function CekOngkirForm({ rows }: Props) {
         </div>
       </div>
 
-      <button
-        onClick={handleCalculate}
-        disabled={!from || !to || !weight || weightTooLow}
-        className="w-full bg-[#CC1F2A] hover:bg-[#1A1A1A] disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-black py-4 rounded-xl transition-colors text-lg flex items-center justify-center gap-2"
-      >
-        <Calculator size={20} />
-        Hitung Ongkir
-      </button>
+      <div className="grid grid-cols-[1fr_auto] gap-3">
+        <button
+          onClick={handleCalculate}
+          disabled={!from || !to || !weight || weightTooLow}
+          className="bg-[#CC1F2A] hover:bg-[#1A1A1A] disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-black py-4 rounded-xl transition-colors text-lg flex items-center justify-center gap-2"
+        >
+          <Calculator size={20} />
+          Hitung Ongkir
+        </button>
+        <a
+          href={(() => {
+            const f = fromLabel || "Jabodetabek";
+            const t = toLabel || "-";
+            const w = weight ? `${weight} kg` : "-";
+            const msg = `Halo BJA Logistic, saya mau tanya ongkir cargo:\n- Dari: ${f}\n- Ke: ${t}\n- Berat: ${w}\n\nBisa bantu info harga dan jadwal pengirimannya?`;
+            return `https://api.whatsapp.com/send/?phone=6281513335157&text=${encodeURIComponent(msg)}`;
+          })()}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20bc59] text-white font-black py-4 px-5 rounded-xl transition-colors text-sm whitespace-nowrap"
+        >
+          <MessageCircle size={20} />
+          Minta Penawaran
+        </a>
+      </div>
 
       {/* Result */}
       {result === "not_found" && (
@@ -279,22 +323,6 @@ export function CekOngkirForm({ rows }: Props) {
           <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4 text-sm text-yellow-800">
             <strong>Catatan:</strong> Harga di atas adalah estimasi berdasarkan berat. Harga final tergantung berat aktual, dimensi (volume), dan ketersediaan jadwal. Konfirmasi via WhatsApp untuk harga pasti.
           </div>
-
-          <a
-            href={buildOngkirMessage(
-              fromLabel,
-              toLabel,
-              Number(weight),
-              result.row.service,
-              formatPrice(result.total)
-            )}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-3 bg-[#25D366] hover:bg-[#20bc59] text-white font-black text-lg py-4 rounded-xl transition-all hover:shadow-lg w-full"
-          >
-            <MessageCircle size={22} />
-            Pesan via WhatsApp — Konfirmasi Harga Final
-          </a>
         </div>
       )}
     </div>
