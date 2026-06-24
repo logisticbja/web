@@ -1,13 +1,14 @@
 import Link from "next/link";
-import { MapPin, MessageCircle } from "lucide-react";
+import { MapPin, MessageCircle, ArrowRight } from "lucide-react";
 import { buildServiceMessage } from "@/lib/whatsapp";
 
 type City = { name: string; slug?: string };
 
-const regions: { name: string; color: string; cities: City[] }[] = [
+const regions: { name: string; color: string; cargoSlug: string; cities: City[] }[] = [
   {
     name: "Papua & Papua Barat",
     color: "bg-[#CC1F2A]",
+    cargoSlug: "papua",
     cities: [
       { name: "Jayapura", slug: "jayapura" },
       { name: "Sorong", slug: "sorong" },
@@ -25,6 +26,7 @@ const regions: { name: string; color: string; cities: City[] }[] = [
   {
     name: "Maluku & Maluku Utara",
     color: "bg-[#A01820]",
+    cargoSlug: "maluku",
     cities: [
       { name: "Ambon", slug: "ambon" },
       { name: "Ternate", slug: "ternate" },
@@ -39,6 +41,7 @@ const regions: { name: string; color: string; cities: City[] }[] = [
   {
     name: "Nusa Tenggara Timur",
     color: "bg-[#CC1F2A]",
+    cargoSlug: "ntt",
     cities: [
       { name: "Kupang", slug: "kupang" },
       { name: "Ende", slug: "ende" },
@@ -53,6 +56,7 @@ const regions: { name: string; color: string; cities: City[] }[] = [
   {
     name: "Sulawesi Tenggara & Sekitarnya",
     color: "bg-[#A01820]",
+    cargoSlug: "sulawesi",
     cities: [
       { name: "Kendari", slug: "kendari" },
       { name: "Baubau", slug: "baubau" },
@@ -107,15 +111,24 @@ export function CoverageSection() {
                   </li>
                 ))}
               </ul>
-              <a
-                href={buildServiceMessage(`Pengiriman ke ${region.name}`)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 bg-[#F5C518] hover:bg-[#D4A910] text-[#1A1A1A] font-bold py-2.5 rounded-xl transition-colors text-sm"
-              >
-                <MessageCircle size={15} />
-                Kirim ke Sini
-              </a>
+              <div className="flex gap-2">
+                <Link
+                  href={`/cargo/${region.cargoSlug}`}
+                  className="flex-1 flex items-center justify-center gap-1.5 bg-white/15 hover:bg-white/25 border border-white/30 text-white font-bold py-2.5 rounded-xl transition-colors text-sm"
+                >
+                  <ArrowRight size={14} />
+                  Cek Harga
+                </Link>
+                <a
+                  href={buildServiceMessage(`Pengiriman ke ${region.name}`)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 flex items-center justify-center gap-1.5 bg-[#F5C518] hover:bg-[#D4A910] text-[#1A1A1A] font-bold py-2.5 rounded-xl transition-colors text-sm"
+                >
+                  <MessageCircle size={14} />
+                  Chat WA
+                </a>
+              </div>
             </div>
           ))}
         </div>

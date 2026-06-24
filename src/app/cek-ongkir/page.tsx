@@ -1,5 +1,6 @@
 import { Metadata } from "next";
-import { Calculator, Ship, Truck, Zap } from "lucide-react";
+import { Calculator, Ship, Truck, Zap, ArrowRight } from "lucide-react";
+import Link from "next/link";
 import { fetchPricing } from "@/lib/sheets";
 import { CekOngkirForm } from "@/components/CekOngkirForm";
 
@@ -39,6 +40,34 @@ export default async function CekOngkirPage() {
 
       <div className="max-w-3xl mx-auto px-4 py-12">
         <CekOngkirForm rows={rows} />
+
+        {/* Rute Populer */}
+        <div className="mt-8 mb-2">
+          <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Rute Populer</p>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            {[
+              { label: "Papua", slug: "papua", transit: "4–9 hari", cities: "Sorong, Jayapura, Manokwari" },
+              { label: "Maluku", slug: "maluku", transit: "3–6 hari", cities: "Ambon, Ternate, Tual" },
+              { label: "NTT", slug: "ntt", transit: "3–5 hari", cities: "Kupang, Flores, Ende" },
+              { label: "Sulawesi", slug: "sulawesi", transit: "2–5 hari", cities: "Makassar, Kendari, Palu" },
+            ].map((r) => (
+              <Link
+                key={r.slug}
+                href={`/cargo/${r.slug}`}
+                className="group bg-white rounded-xl border border-gray-100 hover:border-[#CC1F2A]/40 hover:shadow-md p-4 transition-all flex flex-col gap-1.5"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="font-black text-[#111] text-sm">{r.label}</span>
+                  <ArrowRight size={14} className="text-gray-300 group-hover:text-[#CC1F2A] transition-colors" />
+                </div>
+                <p className="text-[11px] text-gray-400 leading-snug">{r.cities}</p>
+                <span className="text-[10px] font-bold text-[#CC1F2A] bg-red-50 px-2 py-0.5 rounded-full self-start mt-auto">
+                  {r.transit}
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
 
         {/* Info cards */}
         <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">

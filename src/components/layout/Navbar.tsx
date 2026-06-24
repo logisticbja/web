@@ -18,6 +18,16 @@ const navLinks = [
       { label: "Kirim Mobil", href: "/layanan/kirim-mobil" },
     ],
   },
+  {
+    label: "Tujuan",
+    href: "/cargo/papua",
+    children: [
+      { label: "Cargo ke Papua", href: "/cargo/papua" },
+      { label: "Cargo ke Maluku", href: "/cargo/maluku" },
+      { label: "Cargo ke NTT", href: "/cargo/ntt" },
+      { label: "Cargo ke Sulawesi", href: "/cargo/sulawesi" },
+    ],
+  },
   { label: "Cek Ongkir", href: "/cek-ongkir" },
   { label: "Jadwal Kapal", href: "/jadwal-kapal" },
   { label: "Tracking", href: "/tracking" },
