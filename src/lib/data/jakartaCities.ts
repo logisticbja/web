@@ -46,6 +46,7 @@ export const jakartaCityMap: Record<string, JakartaCityEntry> = {
   "jakarta-Fakfak":     { displayName: "Fak-Fak",      region: "papua", cargoRegion: "papua", ongkirValue: "fak-fak",        ongkirLabel: "Fak-Fak" },
   "jakarta-Biak-Numfor":  { displayName: "Biak Numfor",  region: "papua", cargoRegion: "papua", ongkirValue: "biak-numfor",    ongkirLabel: "Biak Numfor" },
   "jakarta-Raja-Ampat":   { displayName: "Raja Ampat",   region: "papua", cargoRegion: "papua", ongkirValue: "raja-ampat",     ongkirLabel: "Raja Ampat" },
+  "jakarta-Deiyai":     { displayName: "Deiyai",       region: "papua", cargoRegion: "papua", ongkirValue: "deiyai",         ongkirLabel: "Deiyai" },
   "jakarta-Deiya":      { displayName: "Deiyai",       region: "papua", cargoRegion: "papua", ongkirValue: "deiyai",         ongkirLabel: "Deiyai" },
   "jakarta-Dogiyai":    { displayName: "Dogiyai",      region: "papua", cargoRegion: "papua", ongkirValue: "dogiyai",        ongkirLabel: "Dogiyai" },
   "jakarta-Paniai":     { displayName: "Paniai",       region: "papua", cargoRegion: "papua", ongkirValue: "paniai",         ongkirLabel: "Paniai" },
