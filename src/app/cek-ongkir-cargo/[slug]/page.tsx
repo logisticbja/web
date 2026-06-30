@@ -31,11 +31,16 @@ function resolveEntry(slug: string) {
   return null;
 }
 
-// Build all valid slugs from jakartaCityMap prefixed with "ekspedisi-"
+// Build all valid slugs — old URLs used lowercase (ekspedisi-jakarta-ambon)
 export function generateStaticParams() {
-  return Object.keys(jakartaCityMap).map((jakartaKey) => ({
-    slug: `ekspedisi-${jakartaKey}`,
-  }));
+  const seen = new Set<string>();
+  return Object.keys(jakartaCityMap).flatMap((jakartaKey) => {
+    const slugs: { slug: string }[] = [];
+    for (const candidate of [`ekspedisi-${jakartaKey}`, `ekspedisi-${jakartaKey.toLowerCase()}`]) {
+      if (!seen.has(candidate)) { seen.add(candidate); slugs.push({ slug: candidate }); }
+    }
+    return slugs;
+  });
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
