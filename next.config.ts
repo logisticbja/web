@@ -31,7 +31,6 @@ const nextConfig: NextConfig = {
       // ─── /ekspedisi-jakarta-* di root (berbeda dari /cek-ongkir-cargo/) ───
       { source: "/ekspedisi-jakarta-Makassar", destination: "/cargo/sulawesi", permanent: true },
       { source: "/ekspedisi-jakarta-Bone",     destination: "/cargo/sulawesi", permanent: true },
-      { source: "/ekspedisi-jakarta-:slug*",   destination: "/cek-ongkir",     permanent: true },
 
       // ─── /bja/jasa-ekspedisi/* ───
       { source: "/bja/jasa-ekspedisi/jasa-cargo-darat",           destination: "/layanan/cargo-darat", permanent: true },
