@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p /Users/candrasetiadiwahyu/Documents/SEC/bja-logistics/src/app/\\\\[slug\\\\])"
+    ],
+    "additionalDirectories": [
+      "/Users/candrasetiadiwahyu/Documents/SEC/bja-logistics/src/app"
+    ]
+  }
+}
