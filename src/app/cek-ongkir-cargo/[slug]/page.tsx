@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { Calculator } from "lucide-react";
 import { jakartaCityMap, getRegionLabel } from "@/lib/data/jakartaCities";
+import { cekOngkirArticles } from "@/lib/data/cekOngkirArticles";
 import { CekOngkirForm } from "@/components/CekOngkirForm";
 import { fetchPricing } from "@/lib/sheets";
 import { BreadcrumbJsonLd } from "@/components/JsonLd";
@@ -123,12 +124,18 @@ export default async function EkspedisiCekOngkirPage({ params }: Props) {
         </div>
       </div>
 
-      <div className="max-w-3xl mx-auto px-4 py-10">
+      <div className="max-w-3xl mx-auto px-4 py-10 space-y-10">
         <CekOngkirForm
           rows={rows}
           defaultValues={defaultValues}
           autoCalculate={!!entry.ongkirValue}
         />
+
+        {cekOngkirArticles[slug] && (
+          <section className="prose prose-sm max-w-none text-gray-700 leading-relaxed whitespace-pre-line">
+            {cekOngkirArticles[slug]}
+          </section>
+        )}
       </div>
     </>
   );

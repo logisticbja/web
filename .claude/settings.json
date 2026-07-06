@@ -14,7 +14,14 @@
       "WebFetch(domain:doc-08-9k-docstext.googleusercontent.com)",
       "WebFetch(domain:doc-00-9k-docstext.googleusercontent.com)",
       "WebFetch(domain:doc-0k-9k-docstext.googleusercontent.com)",
-      "Bash(curl -sL \"https://docs.google.com/document/d/1Rbd-Hgv8o12FZxyn_lqRak5dwOIvvGsC8qQUZZz1BIE/export?format=html\")"
+      "Bash(curl -sL \"https://docs.google.com/document/d/1Rbd-Hgv8o12FZxyn_lqRak5dwOIvvGsC8qQUZZz1BIE/export?format=html\")",
+      "WebFetch(domain:doc-04-2k-docstext.googleusercontent.com)",
+      "WebFetch(domain:doc-0c-2k-docstext.googleusercontent.com)",
+      "WebFetch(domain:doc-10-2k-docstext.googleusercontent.com)",
+      "WebFetch(domain:doc-0k-2k-docstext.googleusercontent.com)",
+      "WebFetch(domain:doc-0g-2o-docstext.googleusercontent.com)",
+      "WebFetch(domain:doc-10-2o-docstext.googleusercontent.com)",
+      "WebFetch(domain:doc-04-2o-docstext.googleusercontent.com)"
     ],
     "additionalDirectories": [
       "/Users/candrasetiadiwahyu/Documents/SEC/bja-logistics/src/app"
