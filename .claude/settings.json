@@ -1,7 +1,20 @@
 {
   "permissions": {
     "allow": [
-      "Bash(mkdir -p /Users/candrasetiadiwahyu/Documents/SEC/bja-logistics/src/app/\\\\[slug\\\\])"
+      "Bash(mkdir -p /Users/candrasetiadiwahyu/Documents/SEC/bja-logistics/src/app/\\\\[slug\\\\])",
+      "WebFetch(domain:docs.google.com)",
+      "WebFetch(domain:doc-00-9o-sheets.googleusercontent.com)",
+      "WebFetch(domain:doc-14-9k-docstext.googleusercontent.com)",
+      "WebFetch(domain:doc-0g-9k-docstext.googleusercontent.com)",
+      "WebFetch(domain:doc-0c-9k-docstext.googleusercontent.com)",
+      "WebFetch(domain:doc-04-9k-docstext.googleusercontent.com)",
+      "WebFetch(domain:doc-0s-9k-docstext.googleusercontent.com)",
+      "WebFetch(domain:doc-10-9k-docstext.googleusercontent.com)",
+      "WebFetch(domain:doc-0o-9k-docstext.googleusercontent.com)",
+      "WebFetch(domain:doc-08-9k-docstext.googleusercontent.com)",
+      "WebFetch(domain:doc-00-9k-docstext.googleusercontent.com)",
+      "WebFetch(domain:doc-0k-9k-docstext.googleusercontent.com)",
+      "Bash(curl -sL \"https://docs.google.com/document/d/1Rbd-Hgv8o12FZxyn_lqRak5dwOIvvGsC8qQUZZz1BIE/export?format=html\")"
     ],
     "additionalDirectories": [
       "/Users/candrasetiadiwahyu/Documents/SEC/bja-logistics/src/app"

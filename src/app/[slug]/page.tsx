@@ -3,6 +3,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { MessageCircle, MapPin, ArrowRight, CheckCircle, Calculator } from "lucide-react";
 import { jakartaCityMap, getRegionLabel } from "@/lib/data/jakartaCities";
+import { cityArticles } from "@/lib/data/cityArticles";
 import { CekOngkirForm } from "@/components/CekOngkirForm";
 import { fetchPricing } from "@/lib/sheets";
 import { buildDestinationMessage } from "@/lib/whatsapp";
@@ -177,6 +178,13 @@ export default async function JakartaCityPage({ params }: Props) {
               <MessageCircle size={15} />
               Tanya Harga via WhatsApp
             </a>
+          </section>
+        )}
+
+        {/* Artikel konten per kota */}
+        {cityArticles[slug] && (
+          <section className="prose prose-sm max-w-none text-gray-700 leading-relaxed whitespace-pre-line">
+            {cityArticles[slug]}
           </section>
         )}
 
