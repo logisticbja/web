@@ -22,12 +22,10 @@ interface ExternalData {
 
 function formatTime(iso: string): string {
   if (!iso) return "";
-  return new Date(iso).toLocaleString("id-ID", {
+  return new Date(iso).toLocaleDateString("id-ID", {
     day: "numeric",
     month: "short",
     year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
     timeZone: "Asia/Jakarta",
   });
 }
