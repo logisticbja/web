@@ -11,7 +11,9 @@ interface ExternalData {
   noResi: string;
   origin: string;
   destination: string;
+  service: string | null;
   etaDate: string | null;
+  etaDateDisplay: string | null;
   currentStep: number;
   currentStatus: string;
   completed: boolean;
@@ -66,7 +68,7 @@ export async function GET(request: NextRequest) {
     noResi:       d.noResi,
     asal:         d.origin,
     tujuan:       d.destination,
-    layanan:      "",
+    layanan:      d.service ?? "",
     estimasiTiba: d.etaDate ? formatTime(d.etaDate) : undefined,
     events:       d.timeline.map((t) => ({
       status:   t.status,
