@@ -208,7 +208,7 @@ export function CekOngkirForm({ rows, defaultValues, autoCalculate }: Props) {
           {weightTooLow && (
             <p className="mt-1.5 flex items-center gap-1.5 text-xs font-semibold text-red-600">
               <AlertCircle size={13} />
-              Minimum pengiriman 100 kg. Untuk kiriman lebih kecil, hubungi kami langsung.
+              Minimum pengiriman 100 kg.
             </p>
           )}
         </div>
