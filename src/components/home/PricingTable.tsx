@@ -43,7 +43,7 @@ const plans = [
     tagline: "Paling Cepat",
     priceFrom: "Rp 20.000",
     unit: "/kg",
-    minWeight: "min. 10 kg",
+    minWeight: "min. 100 kg",
     eta: "2–4 hari",
     waService: "Cargo Udara",
     popular: false,

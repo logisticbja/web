@@ -32,7 +32,7 @@ export default async function CekOngkirPage() {
               Regular: min. 100 kg
             </span>
             <span className="inline-flex items-center gap-1.5 bg-white/15 text-white text-xs font-semibold px-3 py-1 rounded-full">
-              Express: min. 10 kg
+              Express: min. 100 kg
             </span>
           </div>
         </div>
