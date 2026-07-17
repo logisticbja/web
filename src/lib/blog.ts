@@ -1,4 +1,3 @@
-import { createServerClient } from "@/lib/supabase/server";
 import { marked } from "marked";
 
 export interface PostMeta {
@@ -26,32 +25,33 @@ export interface Post extends PostMeta, PostSeo {
   content: string;
 }
 
-function excerptFromContent(content: string, maxLength = 160): string {
-  const text = content.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
-  if (text.length <= maxLength) return text;
-  return text.slice(0, maxLength).replace(/\s+\S*$/, "") + "…";
+function apiHeaders() {
+  return { "X-API-Key": process.env.TRACKING_API_KEY ?? "" };
+}
+
+function mapPost(row: Record<string, string>): PostMeta {
+  return {
+    slug:     row.slug,
+    title:    row.title,
+    date:     row.publishedAt ?? "",
+    excerpt:  row.excerpt ?? "",
+    category: row.category ?? "Umum",
+    cover:    row.coverUrl   || undefined,
+    coverAlt: row.coverAlt   || undefined,
+    author:   row.author     ?? "Tim BJA Logistic",
+    tags:     Array.isArray(row.tags) ? row.tags : [],
+  };
 }
 
 export async function getAllPosts(): Promise<PostMeta[]> {
   try {
-    const supabase = createServerClient();
-    const { data } = await supabase
-      .from("posts")
-      .select("slug, title, date, excerpt, content, category, cover, cover_alt, author, tags")
-      .eq("published", true)
-      .order("date", { ascending: false });
-
-    return (data ?? []).map((row) => ({
-      slug: row.slug,
-      title: row.title,
-      date: row.date ?? "",
-      excerpt: row.excerpt || excerptFromContent(row.content ?? ""),
-      category: row.category ?? "Umum",
-      cover: row.cover ?? undefined,
-      coverAlt: row.cover_alt ?? undefined,
-      author: row.author ?? "Tim BJA Logistic",
-      tags: row.tags ?? [],
-    }));
+    const res = await fetch(
+      `${process.env.BLOG_API_URL}?limit=200`,
+      { headers: apiHeaders(), next: { revalidate: 3600 } }
+    );
+    const json = await res.json();
+    if (json.status !== "success") return [];
+    return (json.data ?? []).map(mapPost);
   } catch {
     return [];
   }
@@ -59,33 +59,23 @@ export async function getAllPosts(): Promise<PostMeta[]> {
 
 export async function getPostBySlug(slug: string): Promise<Post | null> {
   try {
-    const supabase = createServerClient();
-    const { data: row } = await supabase
-      .from("posts")
-      .select("*")
-      .eq("slug", slug)
-      .eq("published", true)
-      .single();
+    const res = await fetch(
+      `${process.env.BLOG_API_URL}?slug=${encodeURIComponent(slug)}`,
+      { headers: apiHeaders(), next: { revalidate: 3600 } }
+    );
+    const json = await res.json();
+    if (json.status !== "success" || !json.data) return null;
 
-    if (!row) return null;
-
+    const row = json.data;
     return {
-      slug: row.slug,
-      title: row.title,
-      date: row.date ?? "",
-      excerpt: row.excerpt ?? "",
-      category: row.category ?? "Umum",
-      cover: row.cover ?? undefined,
-      coverAlt: row.cover_alt ?? undefined,
-      author: row.author ?? "Tim BJA Logistic",
-      tags: row.tags ?? [],
-      content: marked(row.content ?? "") as string,
-      metaTitle: row.meta_title ?? undefined,
-      metaDesc: row.meta_desc ?? undefined,
-      focusKeyword: row.focus_keyword ?? undefined,
-      ogTitle: row.og_title ?? undefined,
-      ogDesc: row.og_desc ?? undefined,
-      ogImage: row.og_image ?? undefined,
+      ...mapPost(row),
+      content:      await marked(row.content ?? "") as string,
+      metaTitle:    row.metaTitle       || undefined,
+      metaDesc:     row.metaDescription || undefined,
+      focusKeyword: undefined,
+      ogTitle:      row.ogTitle         || undefined,
+      ogDesc:       row.ogDescription   || undefined,
+      ogImage:      row.ogImage         || undefined,
     };
   } catch {
     return null;
@@ -94,6 +84,9 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
 
 export function formatDate(dateStr: string): string {
   if (!dateStr) return "";
-  const d = new Date(dateStr);
-  return d.toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" });
+  return new Date(dateStr).toLocaleDateString("id-ID", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
 }
