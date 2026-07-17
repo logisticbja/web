@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   description: "Jadwal keberangkatan kapal PELNI dan Roro dari Surabaya ke Papua, Maluku, NTT, dan Sulawesi. Cek estimasi waktu tiba dan frekuensi keberangkatan.",
 };
 
-export const revalidate = 3600;
+export const revalidate = 300;
 
 export default async function JadwalKapalPage() {
   const schedules = await getSchedules();

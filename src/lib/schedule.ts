@@ -23,7 +23,7 @@ export async function getSchedules(params?: {
 
     const res = await fetch(url.toString(), {
       headers: { "X-API-Key": process.env.TRACKING_API_KEY ?? "" },
-      next: { revalidate: 3600 },
+      next: { revalidate: 300 },
     });
 
     const json = await res.json();
