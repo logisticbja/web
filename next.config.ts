@@ -18,6 +18,10 @@ const nextConfig: NextConfig = {
         hostname: "invoice.bjalogistic.id",
         pathname: "/uploads/**",
       },
+      {
+        protocol: "https",
+        hostname: "assets.bjalogistic.id",
+      },
     ],
   },
 
