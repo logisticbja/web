@@ -72,7 +72,7 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
       content:      await marked(row.content ?? "") as string,
       metaTitle:    row.metaTitle       || undefined,
       metaDesc:     row.metaDescription || undefined,
-      focusKeyword: undefined,
+      focusKeyword: row.focusKeyword    || undefined,
       ogTitle:      row.ogTitle         || undefined,
       ogDesc:       row.ogDescription   || undefined,
       ogImage:      row.ogImage         || undefined,
