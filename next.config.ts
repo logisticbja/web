@@ -13,6 +13,11 @@ const nextConfig: NextConfig = {
         hostname: "wgvzgvpqqoluavrwnufi.supabase.co",
         pathname: "/storage/**",
       },
+      {
+        protocol: "https",
+        hostname: "invoice.bjalogistic.id",
+        pathname: "/uploads/**",
+      },
     ],
   },
 

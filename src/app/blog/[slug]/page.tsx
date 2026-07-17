@@ -11,7 +11,7 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
-export const revalidate = 3600;
+export const revalidate = 300;
 
 const BASE_URL = "https://bjalogistic.id";
 
