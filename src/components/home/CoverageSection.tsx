@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { MapPin, MessageCircle, ArrowRight } from "lucide-react";
 import { buildServiceMessage } from "@/lib/whatsapp";
+import { WALink } from "@/components/ui/WALink";
 
 type City = { name: string; slug?: string };
 
@@ -119,15 +120,13 @@ export function CoverageSection() {
                   <ArrowRight size={14} />
                   Cek Harga
                 </Link>
-                <a
+                <WALink
                   href={buildServiceMessage(`Pengiriman ke ${region.name}`)}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="flex-1 flex items-center justify-center gap-1.5 bg-[#F5C518] hover:bg-[#D4A910] text-[#1A1A1A] font-bold py-2.5 rounded-xl transition-colors text-sm"
                 >
                   <MessageCircle size={14} />
                   Chat WA
-                </a>
+                </WALink>
               </div>
             </div>
           ))}

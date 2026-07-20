@@ -1,5 +1,6 @@
 import { MessageCircle, Phone, ArrowRight } from "lucide-react";
 import { buildGeneralMessage, WA_PHONE, WA_PHONE_RAW } from "@/lib/whatsapp";
+import { WALink } from "@/components/ui/WALink";
 
 export function FinalCTA() {
   return (
@@ -27,16 +28,14 @@ export function FinalCTA() {
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <a
+          <WALink
             href={buildGeneralMessage()}
-            target="_blank"
-            rel="noopener noreferrer"
             className="flex items-center justify-center gap-3 bg-[#25D366] hover:bg-[#20bc59] text-white font-black text-lg px-10 py-4 rounded-2xl transition-all hover:shadow-2xl hover:-translate-y-0.5"
           >
             <MessageCircle size={22} />
             Chat WhatsApp Sekarang
             <ArrowRight size={18} />
-          </a>
+          </WALink>
           <a
             href={`tel:+${WA_PHONE_RAW}`}
             className="flex items-center justify-center gap-3 bg-white/10 hover:bg-white/20 border border-white/30 text-white font-bold text-lg px-10 py-4 rounded-2xl transition-all"

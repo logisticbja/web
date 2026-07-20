@@ -1,5 +1,6 @@
 import { MessageCircle, Tag, Users, BarChart3, Shield, FileText } from "lucide-react";
 import { buildCorporateMessage } from "@/lib/whatsapp";
+import { WALink } from "@/components/ui/WALink";
 
 const benefits = [
   {
@@ -68,15 +69,14 @@ export function CorporateSection() {
               ))}
             </div>
 
-            <a
+            <WALink
               href={buildCorporateMessage()}
-              target="_blank"
-              rel="noopener noreferrer"
+              conversion="waCorporate"
               className="inline-flex items-center gap-2.5 bg-[#F5C518] hover:bg-[#D4A910] text-[#1A1A1A] font-black px-7 py-4 rounded-xl transition-all hover:shadow-[0_0_30px_rgba(245,197,24,0.3)] text-base"
             >
               <MessageCircle size={18} />
               Hubungi Tim Corporate Kami
-            </a>
+            </WALink>
             <p className="text-white/30 text-xs mt-3">
               Respon dalam 1×24 jam · Tim corporate siap Senin–Sabtu
             </p>

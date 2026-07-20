@@ -1,5 +1,6 @@
 "use client";
 import { MessageCircle } from "lucide-react";
+import { appendUTMToWAHref } from "@/lib/utm";
 
 interface WAButtonProps {
   href: string;
@@ -30,9 +31,16 @@ export function WAButton({
 
   const iconSizes = { sm: 16, md: 18, lg: 22 };
 
+  function handleClick(e: React.MouseEvent<HTMLAnchorElement>) {
+    e.preventDefault();
+    const finalHref = appendUTMToWAHref(href);
+    window.open(finalHref, "_blank", "noopener,noreferrer");
+  }
+
   return (
     <a
       href={href}
+      onClick={handleClick}
       target="_blank"
       rel="noopener noreferrer"
       className={`inline-flex items-center justify-center font-bold rounded-lg transition-all duration-200 cursor-pointer ${sizeClasses[size]} ${variantClasses[variant]} ${className}`}

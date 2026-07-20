@@ -5,6 +5,7 @@ import { originCities, formatPrice } from "@/lib/data/pricing";
 import { ongkirGroups, findOngkirCity } from "@/lib/data/ongkir";
 import { type PricingRow, findPrice } from "@/lib/sheets";
 import { buildGeneralMessage } from "@/lib/whatsapp";
+import { WALink } from "@/components/ui/WALink";
 
 type ServiceType = "Express" | "Regular";
 
@@ -245,7 +246,7 @@ export function CekOngkirForm({ rows, defaultValues, autoCalculate }: Props) {
           <Calculator size={20} />
           Hitung Ongkir
         </button>
-        <a
+        <WALink
           href={(() => {
             const f = fromLabel || "Jabodetabek";
             const t = toLabel || "-";
@@ -253,13 +254,11 @@ export function CekOngkirForm({ rows, defaultValues, autoCalculate }: Props) {
             const msg = `Halo BJA Logistic, saya mau tanya ongkir cargo:\n- Dari: ${f}\n- Ke: ${t}\n- Berat: ${w}\n\nBisa bantu info harga dan jadwal pengirimannya?`;
             return `https://api.whatsapp.com/send/?phone=6281513335157&text=${encodeURIComponent(msg)}`;
           })()}
-          target="_blank"
-          rel="noopener noreferrer"
           className="flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20bc59] text-white font-black py-4 px-5 rounded-xl transition-colors text-sm whitespace-nowrap"
         >
           <MessageCircle size={20} />
           Minta Penawaran
-        </a>
+        </WALink>
       </div>
 
       {/* Result */}
@@ -271,15 +270,13 @@ export function CekOngkirForm({ rows, defaultValues, autoCalculate }: Props) {
             Rute <strong>{fromLabel} → {toLabel}</strong> ({service}) belum ada di sistem.
             Hubungi tim kami untuk harga langsung.
           </p>
-          <a
+          <WALink
             href={buildGeneralMessage()}
-            target="_blank"
-            rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#20bc59] text-white font-black px-6 py-3 rounded-xl transition-colors text-sm"
           >
             <MessageCircle size={16} />
             Tanya Harga via WhatsApp
-          </a>
+          </WALink>
         </div>
       )}
 

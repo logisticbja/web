@@ -9,15 +9,16 @@ interface WALinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
 
 export function WALink({ conversion = "waGeneral", waLabel, onClick, href, children, ...props }: WALinkProps) {
   function handleClick(e: React.MouseEvent<HTMLAnchorElement>) {
+    e.preventDefault();
     fireConversion(conversion);
     fireWAEvent(waLabel ?? conversion);
     onClick?.(e);
+    const finalHref = href ? appendUTMToWAHref(href) : href;
+    if (finalHref) window.open(finalHref, "_blank", "noopener,noreferrer");
   }
 
-  const finalHref = href ? appendUTMToWAHref(href) : href;
-
   return (
-    <a {...props} href={finalHref} onClick={handleClick} target="_blank" rel="noopener noreferrer">
+    <a {...props} href={href} onClick={handleClick} target="_blank" rel="noopener noreferrer">
       {children}
     </a>
   );

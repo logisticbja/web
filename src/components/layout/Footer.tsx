@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { MapPin, Phone, MessageCircle } from "lucide-react";
 import { buildGeneralMessage, WA_PHONE } from "@/lib/whatsapp";
+import { WALink } from "@/components/ui/WALink";
 
 function IconInstagram({ size = 16 }: { size?: number }) {
   return (
@@ -49,10 +50,10 @@ export function Footer() {
                 className="w-9 h-9 rounded-lg bg-white/10 hover:bg-[#F5C518] hover:text-[#1A1A1A] flex items-center justify-center transition-colors">
                 <IconFacebook size={16} />
               </a>
-              <a href={buildGeneralMessage()} target="_blank" rel="noopener noreferrer"
+              <WALink href={buildGeneralMessage()}
                 className="w-9 h-9 rounded-lg bg-white/10 hover:bg-[#25D366] flex items-center justify-center transition-colors">
                 <MessageCircle size={16} />
-              </a>
+              </WALink>
             </div>
           </div>
 

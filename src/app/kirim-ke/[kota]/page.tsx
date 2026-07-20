@@ -4,6 +4,7 @@ import Link from "next/link";
 import { MessageCircle, Clock, Ship, Truck, Plane, CheckCircle, ArrowRight, MapPin } from "lucide-react";
 import { destinationCities, calculatePrice, formatPrice } from "@/lib/data/pricing";
 import { buildDestinationMessage, buildOngkirMessage } from "@/lib/whatsapp";
+import { WALink } from "@/components/ui/WALink";
 import { BreadcrumbJsonLd } from "@/components/JsonLd";
 
 function toSlug(value: string) {
@@ -156,15 +157,13 @@ export default async function KirimKePage({ params }: Props) {
                 via cargo laut. Door to door dari Jabodetabek & Surabaya.
               </p>
               <div className="flex flex-wrap gap-3">
-                <a
+                <WALink
                   href={buildDestinationMessage(city.label)}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="flex items-center gap-2 bg-[#25D366] hover:bg-[#20bc59] text-white font-black px-6 py-3.5 rounded-xl transition-all hover:shadow-lg text-base"
                 >
                   <MessageCircle size={18} />
                   Tanya Harga ke {city.label}
-                </a>
+                </WALink>
                 <Link
                   href="/cek-ongkir"
                   className="flex items-center gap-2 border-2 border-white/30 text-white hover:bg-white/10 font-bold px-6 py-3.5 rounded-xl transition-all text-base"
@@ -233,15 +232,13 @@ export default async function KirimKePage({ params }: Props) {
                       </li>
                     ))}
                   </ul>
-                  <a
+                  <WALink
                     href={waMsg}
-                    target="_blank"
-                    rel="noopener noreferrer"
                     className="flex items-center justify-center gap-2 w-full bg-[#25D366] hover:bg-[#20bc59] text-white font-bold py-2.5 rounded-xl transition-colors text-sm"
                   >
                     <MessageCircle size={14} />
                     Pesan {svc.label}
-                  </a>
+                  </WALink>
                 </div>
               );
             })}
@@ -317,15 +314,13 @@ export default async function KirimKePage({ params }: Props) {
         <div className="bg-[#CC1F2A] rounded-3xl p-8 text-center">
           <h2 className="text-2xl font-black text-white mb-3">Siap Kirim Cargo ke {city.label}?</h2>
           <p className="text-white/70 mb-6">Chat WhatsApp sekarang — tim kami konfirmasi harga & jadwal dalam hitungan menit.</p>
-          <a
+          <WALink
             href={buildDestinationMessage(city.label)}
-            target="_blank"
-            rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-[#F5C518] hover:bg-[#D4A910] text-[#1A1A1A] font-black px-8 py-4 rounded-xl transition-all hover:shadow-lg text-base"
           >
             <MessageCircle size={18} />
             Chat Sekarang — Kirim ke {city.label}
-          </a>
+          </WALink>
         </div>
       </div>
     </>

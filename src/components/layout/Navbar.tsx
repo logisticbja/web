@@ -5,6 +5,7 @@ import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { Menu, X, ChevronDown, MessageCircle } from "lucide-react";
 import { buildGeneralMessage } from "@/lib/whatsapp";
+import { WALink } from "@/components/ui/WALink";
 
 const navLinks = [
   {
@@ -126,15 +127,13 @@ export function Navbar() {
 
           {/* CTA */}
           <div className="flex items-center gap-3">
-            <a
+            <WALink
               href={buildGeneralMessage()}
-              target="_blank"
-              rel="noopener noreferrer"
               className="hidden sm:flex items-center gap-2 bg-[#CC1F2A] hover:bg-[#A01820] text-white font-bold px-4 py-2 rounded-lg text-sm transition-all duration-200 hover:shadow-lg"
             >
               <MessageCircle size={16} />
               Chat WhatsApp
-            </a>
+            </WALink>
             <button
               className="lg:hidden p-2 rounded-lg text-gray-700 hover:bg-gray-100"
               onClick={() => setMobileOpen(!mobileOpen)}
@@ -193,15 +192,13 @@ export function Navbar() {
             </div>
           ))}
           <div className="pt-3">
-            <a
+            <WALink
               href={buildGeneralMessage()}
-              target="_blank"
-              rel="noopener noreferrer"
               className="flex items-center justify-center gap-2 bg-[#CC1F2A] text-white font-bold py-3 rounded-xl text-base w-full"
             >
               <MessageCircle size={18} />
               Chat WhatsApp Sekarang
-            </a>
+            </WALink>
           </div>
         </div>
       )}

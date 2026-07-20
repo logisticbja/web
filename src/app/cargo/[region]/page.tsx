@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { MessageCircle, MapPin, Star, ChevronDown, ChevronUp } from "lucide-react";
+import { WALink } from "@/components/ui/WALink";
 import { Metadata } from "next";
 import { CekOngkirForm } from "@/components/CekOngkirForm";
 import { fetchPricing } from "@/lib/sheets";
@@ -264,15 +265,13 @@ export default async function CargoRegionPage({ params }: Props) {
               <p className="text-white/70 text-sm mb-5 max-w-sm mx-auto">
                 Chat langsung dengan tim BJA Logistic — cek harga, konfirmasi jadwal, dan booking dalam satu percakapan.
               </p>
-              <a
+              <WALink
                 href={waUrl}
-                target="_blank"
-                rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2.5 bg-[#25D366] hover:bg-[#20bc59] text-white font-black py-3.5 px-8 rounded-xl transition-colors text-sm shadow-lg"
               >
                 <MessageCircle size={18} />
                 Chat via WhatsApp Sekarang
-              </a>
+              </WALink>
             </div>
           </div>
 

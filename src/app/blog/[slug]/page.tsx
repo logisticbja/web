@@ -4,6 +4,7 @@ import { MessageCircle, Clock, User, ArrowLeft, Tag } from "lucide-react";
 import BlogCoverImage from "../BlogCoverImage";
 import { getPostBySlug, formatDate } from "@/lib/blog";
 import { buildGeneralMessage } from "@/lib/whatsapp";
+import { WALink } from "@/components/ui/WALink";
 import { ArticleJsonLd, BreadcrumbJsonLd } from "@/components/JsonLd";
 import { Metadata } from "next";
 
@@ -188,15 +189,13 @@ export default async function BlogPostPage({ params }: Props) {
               <p className="text-white/70 text-sm mb-6 max-w-sm mx-auto">
                 Chat tim BJA Logistic via WhatsApp — kami siap bantu dari cek ongkir hingga tracking resi.
               </p>
-              <a
+              <WALink
                 href={buildGeneralMessage()}
-                target="_blank"
-                rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 bg-[#F5C518] hover:bg-[#D4A910] text-[#1A1A1A] font-bold py-3 px-8 rounded-xl transition-colors text-sm shadow-lg"
               >
                 <MessageCircle size={16} />
                 Chat via WhatsApp
-              </a>
+              </WALink>
             </div>
           </div>
 

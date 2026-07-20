@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Ship, MessageCircle, Filter } from "lucide-react";
 import { buildGeneralMessage } from "@/lib/whatsapp";
+import { WALink } from "@/components/ui/WALink";
 import type { ShipSchedule } from "@/lib/schedule";
 
 const regions = ["Semua", "Papua", "Maluku", "NTT", "Sulawesi"];
@@ -121,15 +122,13 @@ export function ScheduleClient({ schedules }: { schedules: ShipSchedule[] }) {
           <strong>Perhatian:</strong> Jadwal di atas bersifat estimasi dan dapat berubah sewaktu-waktu tergantung cuaca, kondisi laut, dan kebijakan operator. Konfirmasi jadwal terkini via WhatsApp.
         </div>
 
-        <a
+        <WALink
           href={buildGeneralMessage()}
-          target="_blank"
-          rel="noopener noreferrer"
           className="flex items-center justify-center gap-3 bg-[#25D366] hover:bg-[#20bc59] text-white font-black text-lg py-4 rounded-2xl transition-all hover:shadow-lg w-full"
         >
           <MessageCircle size={22} />
           Konfirmasi Jadwal via WhatsApp
-        </a>
+        </WALink>
       </div>
     </div>
   );

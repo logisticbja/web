@@ -1,5 +1,6 @@
 import { Building2, MessageCircle, ArrowRight } from "lucide-react";
 import { buildCorporateMessage } from "@/lib/whatsapp";
+import { WALink } from "@/components/ui/WALink";
 
 export function CorporateBanner() {
   return (
@@ -24,16 +25,15 @@ export function CorporateBanner() {
           {/* Right: stats + CTA */}
           <div className="flex items-center gap-4 shrink-0">
             <div className="hidden md:block w-px h-8 bg-white/15" />
-            <a
+            <WALink
               href={buildCorporateMessage()}
-              target="_blank"
-              rel="noopener noreferrer"
+              conversion="waCorporate"
               className="flex items-center gap-2 bg-[#F5C518] hover:bg-[#D4A910] text-[#1A1A1A] font-black px-5 py-2.5 rounded-xl transition-colors text-sm whitespace-nowrap"
             >
               <MessageCircle size={15} />
               Tanya Harga Corporate
               <ArrowRight size={14} />
-            </a>
+            </WALink>
           </div>
         </div>
       </div>

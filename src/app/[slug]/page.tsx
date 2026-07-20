@@ -7,6 +7,7 @@ import { cityArticles } from "@/lib/data/cityArticles";
 import { CekOngkirForm } from "@/components/CekOngkirForm";
 import { fetchPricing } from "@/lib/sheets";
 import { buildDestinationMessage } from "@/lib/whatsapp";
+import { WALink } from "@/components/ui/WALink";
 import { BreadcrumbJsonLd } from "@/components/JsonLd";
 
 export const dynamicParams = false;
@@ -96,15 +97,13 @@ export default async function JakartaCityPage({ params }: Props) {
           </p>
           <div className="flex flex-wrap gap-3">
             {isTimur && entry.ongkirValue && (
-              <a
+              <WALink
                 href={buildDestinationMessage(city)}
-                target="_blank"
-                rel="noopener noreferrer"
                 className="flex items-center gap-2 bg-[#25D366] hover:bg-[#20bc59] text-white font-black px-5 py-3 rounded-xl transition-all text-sm"
               >
                 <MessageCircle size={16} />
                 Tanya Harga ke {city}
-              </a>
+              </WALink>
             )}
             {isTimur && entry.cargoRegion && (
               <Link
@@ -169,15 +168,13 @@ export default async function JakartaCityPage({ params }: Props) {
               Kami spesialis cargo ke Papua, Maluku, NTT, dan Sulawesi. Untuk rute Jakarta →{" "}
               {city}, gunakan kalkulator di atas atau hubungi kami langsung.
             </p>
-            <a
+            <WALink
               href={buildDestinationMessage(city)}
-              target="_blank"
-              rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#20bc59] text-white font-bold px-5 py-2.5 rounded-xl text-sm transition-colors"
             >
               <MessageCircle size={15} />
               Tanya Harga via WhatsApp
-            </a>
+            </WALink>
           </section>
         )}
 
@@ -195,15 +192,13 @@ export default async function JakartaCityPage({ params }: Props) {
             <p className="text-white/70 text-sm mb-5">
               Chat tim BJA Logistic — konfirmasi harga, jadwal, dan booking dalam satu percakapan.
             </p>
-            <a
+            <WALink
               href={buildDestinationMessage(city)}
-              target="_blank"
-              rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-[#F5C518] hover:bg-[#D4A910] text-[#1A1A1A] font-black px-7 py-3.5 rounded-xl transition-all text-sm"
             >
               <MessageCircle size={16} />
               Chat Sekarang — Kirim ke {city}
-            </a>
+            </WALink>
           </div>
         )}
       </div>

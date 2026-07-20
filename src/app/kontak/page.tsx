@@ -18,6 +18,7 @@ function IconFacebook({ size = 16 }: { size?: number }) {
   );
 }
 import { buildGeneralMessage, buildCorporateMessage, WA_PHONE, WA_PHONE_RAW } from "@/lib/whatsapp";
+import { WALink } from "@/components/ui/WALink";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -82,23 +83,20 @@ export default function KontakPage() {
                 Chat langsung dengan tim kami via WhatsApp untuk cek ongkir, pemesanan, tracking, dan pertanyaan lainnya.
               </p>
               <div className="flex flex-col sm:flex-row gap-3">
-                <a
+                <WALink
                   href={buildGeneralMessage()}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="flex-1 flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20bc59] text-white font-bold py-3 rounded-xl transition-colors text-sm"
                 >
                   <MessageCircle size={16} />
                   Chat Sekarang
-                </a>
-                <a
+                </WALink>
+                <WALink
                   href={buildCorporateMessage()}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  conversion="waCorporate"
                   className="flex-1 flex items-center justify-center gap-2 border-2 border-[#25D366] text-[#25D366] hover:bg-[#25D366] hover:text-white font-bold py-3 rounded-xl transition-colors text-sm"
                 >
                   Kerjasama Corporate
-                </a>
+                </WALink>
               </div>
             </div>
 
@@ -208,15 +206,14 @@ export default function KontakPage() {
                   </li>
                 ))}
               </ul>
-              <a
+              <WALink
                 href={buildCorporateMessage()}
-                target="_blank"
-                rel="noopener noreferrer"
+                conversion="waCorporate"
                 className="flex items-center justify-center gap-2 bg-[#F5C518] hover:bg-[#D4A910] text-[#1A1A1A] font-bold py-3 rounded-xl transition-colors text-sm w-full"
               >
                 <MessageCircle size={16} />
                 Hubungi untuk Kerjasama
-              </a>
+              </WALink>
             </div>
           </div>
         </div>

@@ -14,6 +14,7 @@ import {
   Calendar,
 } from "lucide-react";
 import { buildTrackingMessage } from "@/lib/whatsapp";
+import { WALink } from "@/components/ui/WALink";
 import type { TrackingData } from "@/lib/sheets";
 
 // ─── Status definitions ───────────────────────────────────────────────────────
@@ -186,15 +187,13 @@ export function TrackingClient() {
 
           {/* WA CTA */}
           <div className="mt-7 pt-6 border-t border-gray-100">
-            <a
+            <WALink
               href={buildTrackingMessage(state.data.noResi)}
-              target="_blank"
-              rel="noopener noreferrer"
               className="flex items-center justify-center gap-3 bg-[#25D366] hover:bg-[#20bc59] text-white font-black py-4 rounded-xl transition-all hover:shadow-lg w-full"
             >
               <MessageCircle size={20} />
               Tanya CS via WhatsApp
-            </a>
+            </WALink>
           </div>
         </div>
       )}
@@ -216,15 +215,13 @@ export function TrackingClient() {
           <p className="text-sm text-gray-600 mb-6">
             Pastikan nomor resi sudah benar. Jika baru saja melakukan pengiriman, data mungkin belum diinput. Hubungi CS kami untuk konfirmasi.
           </p>
-          <a
+          <WALink
             href={buildTrackingMessage(state.resi)}
-            target="_blank"
-            rel="noopener noreferrer"
             className="flex items-center justify-center gap-3 bg-[#25D366] hover:bg-[#20bc59] text-white font-black py-4 rounded-xl transition-all hover:shadow-lg w-full"
           >
             <MessageCircle size={20} />
             Tanya CS via WhatsApp
-          </a>
+          </WALink>
         </div>
       )}
 
