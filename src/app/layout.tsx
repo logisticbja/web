@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import { Suspense } from "react";
 import "./globals.css";
 import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { FloatingWA } from "@/components/ui/FloatingWA";
 import { MobileCtaBar } from "@/components/ui/MobileCtaBar";
+import { UTMTracker } from "@/components/UTMTracker";
 import { LocalBusinessJsonLd } from "@/components/JsonLd";
 import { GA_ID, GOOGLE_ADS_ID } from "@/lib/gtag";
 
@@ -80,6 +82,9 @@ export default function RootLayout({
         <LocalBusinessJsonLd />
       </head>
       <body className="min-h-full flex flex-col antialiased">
+        <Suspense fallback={null}>
+          <UTMTracker />
+        </Suspense>
         <AnnouncementBar />
         <Navbar />
         <main className="flex-1 pb-16 md:pb-0">{children}</main>
