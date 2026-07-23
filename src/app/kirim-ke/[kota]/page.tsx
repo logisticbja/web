@@ -94,7 +94,8 @@ export default async function KirimKePage({ params }: Props) {
     {
       q: `Berapa lama pengiriman ke ${city.label}?`,
       a: `Estimasi waktu pengiriman ke ${city.label}: Reguler ${cp.regulerEtaMin ?? cp.expressEtaMin}–${cp.regulerEtaMax ?? cp.expressEtaMax} hari, Express ${cp.expressEtaMin}–${cp.expressEtaMax} hari, dihitung sejak kapal berangkat dari pelabuhan asal. Waktu dapat bervariasi tergantung jadwal kapal dan kondisi cuaca.`,
-    {
+   },
+   {
       q: `Apakah tersedia layanan door to door ke ${city.label}?`,
       a: `Ya, kami menyediakan layanan jemput barang langsung dari lokasi Anda di Jabodetabek dan Surabaya. Untuk pengantaran ke ${city.label}, tersedia untuk area tertentu — hubungi CS kami untuk konfirmasi.`,
     },
