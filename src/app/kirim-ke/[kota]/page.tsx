@@ -1,8 +1,8 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { MessageCircle, Clock, Ship, Truck, Plane, CheckCircle, ArrowRight, MapPin } from "lucide-react";
-import { destinationCities, calculatePrice, formatPrice } from "@/lib/data/pricing";
+import { MessageCircle, Clock, Ship, Zap, CheckCircle, ArrowRight, MapPin } from "lucide-react";
+import { destinationCities, calculatePrice, cityLautPricing, formatPrice } from "@/lib/data/pricing";
 import { buildDestinationMessage, buildOngkirMessage } from "@/lib/whatsapp";
 import { WALink } from "@/components/ui/WALink";
 import { BreadcrumbJsonLd } from "@/components/JsonLd";
@@ -60,28 +60,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 const serviceInfo = [
   {
-    type: "laut" as const,
-    label: "Cargo Laut",
+    type: "reguler" as const,
+    label: "Cargo Reguler",
     icon: Ship,
     color: "bg-blue-50 border-blue-200",
     iconColor: "text-blue-600",
-    highlights: ["Kapal Roro & PELNI", "Cocok barang berat & besar", "Harga paling ekonomis", "Tracking real-time"],
+    highlights: ["Kapal Roro & PELNI", "Harga paling ekonomis", "Cocok barang berat & besar", "Tracking real-time"],
   },
   {
-    type: "darat" as const,
-    label: "Cargo Darat",
-    icon: Truck,
-    color: "bg-orange-50 border-orange-200",
-    iconColor: "text-orange-600",
-    highlights: ["Armada truk sendiri", "Lebih cepat dari laut", "Door to door tersedia", "Fleksibel pickup"],
-  },
-  {
-    type: "udara" as const,
-    label: "Cargo Udara",
-    icon: Plane,
+    type: "express" as const,
+    label: "Cargo Express",
+    icon: Zap,
     color: "bg-purple-50 border-purple-200",
     iconColor: "text-purple-600",
-    highlights: ["Via pesawat komersial", "Paling cepat sampai", "Cocok barang urgent", "Tracking real-time"],
+    highlights: ["Lebih cepat sampai", "Prioritas muat kapal", "Cocok barang urgent", "Tracking real-time"],
   },
 ];
 
@@ -97,12 +89,11 @@ export default async function KirimKePage({ params }: Props) {
   const faqs = [
     {
       q: `Berapa ongkir ke ${city.label}?`,
-      a: `Ongkir ke ${city.label} mulai dari Rp ${calculatePrice(city.value, "laut", 1).priceMin.toLocaleString("id-ID")}/kg untuk cargo laut (min. 100 kg), Rp ${calculatePrice(city.value, "darat", 1).priceMin.toLocaleString("id-ID")}/kg untuk cargo darat, dan Rp ${calculatePrice(city.value, "udara", 1).priceMin.toLocaleString("id-ID")}/kg untuk cargo udara. Harga final tergantung berat aktual dan dimensi barang.`,
+      a: `Ongkir ke ${city.label} mulai dari Rp ${(cp.regulerPrice ?? cp.expressPrice).toLocaleString("id-ID")}/kg untuk layanan Reguler, dan Rp ${cp.expressPrice.toLocaleString("id-ID")}/kg untuk layanan Express (min. 100 kg). Harga final tergantung berat aktual dan dimensi barang.`,
     },
     {
       q: `Berapa lama pengiriman ke ${city.label}?`,
-      a: `Estimasi waktu pengiriman ke ${city.label}: Cargo Laut 14–20 hari, Cargo Darat 7–14 hari, Cargo Udara 2–4 hari. Waktu dapat bervariasi tergantung jadwal kapal dan kondisi cuaca.`,
-    },
+      a: `Estimasi waktu pengiriman ke ${city.label}: Reguler ${cp.regulerEtaMin ?? cp.expressEtaMin}–${cp.regulerEtaMax ?? cp.expressEtaMax} hari, Express ${cp.expressEtaMin}–${cp.expressEtaMax} hari, dihitung sejak kapal berangkat dari pelabuhan asal. Waktu dapat bervariasi tergantung jadwal kapal dan kondisi cuaca.`,
     {
       q: `Apakah tersedia layanan door to door ke ${city.label}?`,
       a: `Ya, kami menyediakan layanan jemput barang langsung dari lokasi Anda di Jabodetabek dan Surabaya. Untuk pengantaran ke ${city.label}, tersedia untuk area tertentu — hubungi CS kami untuk konfirmasi.`,
@@ -118,6 +109,7 @@ export default async function KirimKePage({ params }: Props) {
   ];
 
   const lautPrice = calculatePrice(city.value, "laut", 1);
+  const cp = cityLautPricing[city.value];
 
   return (
     <>
@@ -177,20 +169,16 @@ export default async function KirimKePage({ params }: Props) {
             <div className="sm:shrink-0 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-5 sm:w-52">
               <p className="text-white/60 text-xs mb-3 uppercase tracking-wide font-semibold">Estimasi harga</p>
               {[
-                { label: "Laut", type: "laut" as const, icon: "🚢" },
-                { label: "Darat", type: "darat" as const, icon: "🚛" },
-                { label: "Udara", type: "udara" as const, icon: "✈️" },
-              ].map((s) => {
-                const p = calculatePrice(city.value, s.type, 1);
-                return (
-                  <div key={s.type} className="flex items-center justify-between py-2 border-b border-white/10 last:border-0">
-                    <span className="text-white/70 text-sm">{s.icon} {s.label}</span>
-                    <span className="text-white font-bold text-sm">
-                      Rp {p.priceMin.toLocaleString("id-ID")}/kg
-                    </span>
+                { label: "Reguler", price: cp.regulerPrice ?? cp.expressPrice, icon: "🚢" },
+                { label: "Express", price: cp.expressPrice, icon: "⚡" },
+              ].map((s) => (
+                <div key={s.label} className="flex items-center justify-between py-2 border-b border-white/10 last:border-0">
+                  <span className="text-white/70 text-sm">{s.icon} {s.label}</span>
+                  <span className="text-white font-bold text-sm">
+                    Rp {s.price.toLocaleString("id-ID")}/kg
+                  </span>
                   </div>
-                );
-              })}
+                ))}
               <p className="text-white/40 text-xs mt-3">*Estimasi. Konfirmasi via WA.</p>
             </div>
           </div>
@@ -203,10 +191,13 @@ export default async function KirimKePage({ params }: Props) {
         <div>
           <h2 className="text-2xl font-black text-[#111111] mb-2">Pilih Layanan ke {city.label}</h2>
           <p className="text-gray-500 mb-8">Estimasi harga berdasarkan tarif per kg. Harga final menyesuaikan berat & volume aktual.</p>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-            {serviceInfo.map((svc) => {
-              const price = calculatePrice(city.value, svc.type, 1);
-              const waMsg = buildOngkirMessage("Jabodetabek", city.label, 100, svc.label, `${formatPrice(price.priceMin * 100)} – ${formatPrice(price.priceMax * 100)}`);
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+           {serviceInfo.map((svc) => {
+             const isExpress = svc.type === "express";
+             const price = isExpress
+             ? { min: cp.expressPrice, etaMin: cp.expressEtaMin, etaMax: cp.expressEtaMax }
+             : { min: cp.regulerPrice ?? cp.expressPrice, etaMin: cp.regulerEtaMin ?? cp.expressEtaMin, etaMax: cp.regulerEtaMax ?? cp.expressEtaMax };
+             const waMsg = buildOngkirMessage("Jabodetabek", city.label, 100, svc.label, formatPrice(price.min * 100));
               return (
                 <div key={svc.type} className={`rounded-2xl border-2 p-6 ${svc.color}`}>
                   <div className="flex items-center gap-3 mb-4">
@@ -215,10 +206,9 @@ export default async function KirimKePage({ params }: Props) {
                   </div>
                   <div className="mb-4">
                     <p className="text-2xl font-black text-[#111111]">
-                      {formatPrice(price.priceMin)}
+                      {formatPrice(price.min)}
                       <span className="text-base font-normal text-gray-500">/kg</span>
                     </p>
-                    <p className="text-gray-500 text-sm">s/d {formatPrice(price.priceMax)}/kg</p>
                   </div>
                   <div className="flex items-center gap-1.5 mb-4 text-sm text-gray-600">
                     <Clock size={13} />
@@ -243,6 +233,10 @@ export default async function KirimKePage({ params }: Props) {
               );
             })}
           </div>
+          })}
+          </div>
+          <p className="text-gray-400 text-xs mt-4">*Estimasi waktu dihitung sejak kapal berangkat dari pelabuhan asal, bukan sejak barang dipesan/di-pickup.</p>
+        </div>
         </div>
 
         {/* Why BJA for this city */}
