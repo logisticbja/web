@@ -104,8 +104,59 @@ const regionMap: Record<string, string> = {
   kendari: "sulawesi", baubau: "sulawesi",
   makassar: "sulawesi", manado: "sulawesi", palu: "sulawesi",
 };
+interface CityLautPricing {
+  expressPrice: number;
+  expressEtaMin: number;
+  expressEtaMax: number;
+  regulerPrice: number | null;
+  regulerEtaMin: number | null;
+  regulerEtaMax: number | null;
+}
 
+// Data resmi dari BJA Pricelist 2026 (cargo laut, tier Express & Reguler).
+// Kota yang regulerPrice-nya null berarti di pricelist cuma tersedia Express.
+const cityLautPricing: Record<string, CityLautPricing> = {
+  ambon:       { expressPrice: 14000, expressEtaMin: 4,  expressEtaMax: 5,  regulerPrice: 7000,  regulerEtaMin: 10, regulerEtaMax: 15 },
+  ternate:     { expressPrice: 14000, expressEtaMin: 8,  expressEtaMax: 10, regulerPrice: 8000,  regulerEtaMin: 20, regulerEtaMax: 25 },
+  tidore:      { expressPrice: 28000, expressEtaMin: 8,  expressEtaMax: 10, regulerPrice: 19500, regulerEtaMin: 20, regulerEtaMax: 25 },
+  tual:        { expressPrice: 21000, expressEtaMin: 8,  expressEtaMax: 10, regulerPrice: 11000, regulerEtaMin: 20, regulerEtaMax: 25 },
+
+  jayapura:    { expressPrice: 14000, expressEtaMin: 7,  expressEtaMax: 9,  regulerPrice: 7000,  regulerEtaMin: 15, regulerEtaMax: 20 },
+  sorong:      { expressPrice: 14000, expressEtaMin: 6,  expressEtaMax: 8,  regulerPrice: 7000,  regulerEtaMin: 15, regulerEtaMax: 20 },
+  manokwari:   { expressPrice: 14000, expressEtaMin: 7,  expressEtaMax: 9,  regulerPrice: 8000,  regulerEtaMin: 15, regulerEtaMax: 20 },
+  merauke:     { expressPrice: 25000, expressEtaMin: 15, expressEtaMax: 17, regulerPrice: 9000,  regulerEtaMin: 20, regulerEtaMax: 25 },
+  timika:      { expressPrice: 29000, expressEtaMin: 8,  expressEtaMax: 10, regulerPrice: 9000,  regulerEtaMin: 20, regulerEtaMax: 25 },
+  wamena:      { expressPrice: 30000, expressEtaMin: 9,  expressEtaMax: 10, regulerPrice: 25000, regulerEtaMin: 20, regulerEtaMax: 25 },
+  nabire:      { expressPrice: 16000, expressEtaMin: 8,  expressEtaMax: 9,  regulerPrice: 10000, regulerEtaMin: 15, regulerEtaMax: 20 },
+  biak:        { expressPrice: 16000, expressEtaMin: 8,  expressEtaMax: 9,  regulerPrice: 9000,  regulerEtaMin: 15, regulerEtaMax: 20 },
+  fakfak:      { expressPrice: 29000, expressEtaMin: 8,  expressEtaMax: 9,  regulerPrice: 12000, regulerEtaMin: 15, regulerEtaMax: 20 },
+  raja_ampat:  { expressPrice: 36000, expressEtaMin: 7,  expressEtaMax: 10, regulerPrice: 25000, regulerEtaMin: 20, regulerEtaMax: 25 },
+
+  kupang:      { expressPrice: 9000,  expressEtaMin: 5,  expressEtaMax: 6,  regulerPrice: 7000,  regulerEtaMin: 10, regulerEtaMax: 14 },
+  ende:        { expressPrice: 11000, expressEtaMin: 8,  expressEtaMax: 12, regulerPrice: null,  regulerEtaMin: null, regulerEtaMax: null },
+  maumere:     { expressPrice: 9500,  expressEtaMin: 8,  expressEtaMax: 12, regulerPrice: null,  regulerEtaMin: null, regulerEtaMax: null },
+  labuan_bajo: { expressPrice: 8000,  expressEtaMin: 3,  expressEtaMax: 4,  regulerPrice: null,  regulerEtaMin: null, regulerEtaMax: null },
+
+  kendari:     { expressPrice: 8000,  expressEtaMin: 7,  expressEtaMax: 10, regulerPrice: null,  regulerEtaMin: null, regulerEtaMax: null },
+  baubau:      { expressPrice: 10500, expressEtaMin: 7,  expressEtaMax: 10, regulerPrice: null,  regulerEtaMin: null, regulerEtaMax: null },
+  makassar:    { expressPrice: 7000,  expressEtaMin: 3,  expressEtaMax: 4,  regulerPrice: null,  regulerEtaMin: null, regulerEtaMax: null },
+  manado:      { expressPrice: 8000,  expressEtaMin: 7,  expressEtaMax: 10, regulerPrice: null,  regulerEtaMin: null, regulerEtaMax: null },
+  palu:        { expressPrice: 9000,  expressEtaMin: 6,  expressEtaMax: 7,  regulerPrice: null,  regulerEtaMin: null, regulerEtaMax: null },
+};
 export function calculatePrice(destination: string, service: ServiceType, weight: number): PricingResult {
+  if (service === "laut" && cityLautPricing[destination]) {
+    const c = cityLautPricing[destination];
+    const hasReguler = c.regulerPrice !== null;
+    return {
+      serviceName: serviceNames[service],
+      priceMin: (hasReguler ? c.regulerPrice! : c.expressPrice) * weight,
+      priceMax: c.expressPrice * weight,
+      etaMin: c.expressEtaMin,
+      etaMax: hasReguler ? c.regulerEtaMax! : c.expressEtaMax,
+      unit: "kg",
+    };
+  }
+
   const region = regionMap[destination] || "papua";
   const prices = basePrices[region][service];
   const eta = etaDays[service];
