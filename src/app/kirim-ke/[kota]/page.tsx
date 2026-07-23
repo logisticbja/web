@@ -86,6 +86,9 @@ export default async function KirimKePage({ params }: Props) {
     .filter((c) => c.region === city.region && c.value !== city.value)
     .slice(0, 5);
 
+  const lautPrice = calculatePrice(city.value, "laut", 1);
+  const cp = cityLautPricing[city.value];
+
   const faqs = [
     {
       q: `Berapa ongkir ke ${city.label}?`,
@@ -94,8 +97,8 @@ export default async function KirimKePage({ params }: Props) {
     {
       q: `Berapa lama pengiriman ke ${city.label}?`,
       a: `Estimasi waktu pengiriman ke ${city.label}: Reguler ${cp.regulerEtaMin ?? cp.expressEtaMin}–${cp.regulerEtaMax ?? cp.expressEtaMax} hari, Express ${cp.expressEtaMin}–${cp.expressEtaMax} hari, dihitung sejak kapal berangkat dari pelabuhan asal. Waktu dapat bervariasi tergantung jadwal kapal dan kondisi cuaca.`,
-   },
-   {
+    },
+    {
       q: `Apakah tersedia layanan door to door ke ${city.label}?`,
       a: `Ya, kami menyediakan layanan jemput barang langsung dari lokasi Anda di Jabodetabek dan Surabaya. Untuk pengantaran ke ${city.label}, tersedia untuk area tertentu — hubungi CS kami untuk konfirmasi.`,
     },
@@ -108,9 +111,6 @@ export default async function KirimKePage({ params }: Props) {
       a: `Ya, asuransi pengiriman tersedia untuk semua layanan. Biaya asuransi dihitung dari nilai barang yang diasuransikan. Sangat direkomendasikan untuk barang elektronik, mesin, dan barang bernilai tinggi.`,
     },
   ];
-
-  const lautPrice = calculatePrice(city.value, "laut", 1);
-  const cp = cityLautPricing[city.value];
 
   return (
     <>
@@ -178,8 +178,8 @@ export default async function KirimKePage({ params }: Props) {
                   <span className="text-white font-bold text-sm">
                     Rp {s.price.toLocaleString("id-ID")}/kg
                   </span>
-                  </div>
-                ))}
+                </div>
+              ))}
               <p className="text-white/40 text-xs mt-3">*Estimasi. Konfirmasi via WA.</p>
             </div>
           </div>
@@ -193,12 +193,12 @@ export default async function KirimKePage({ params }: Props) {
           <h2 className="text-2xl font-black text-[#111111] mb-2">Pilih Layanan ke {city.label}</h2>
           <p className="text-gray-500 mb-8">Estimasi harga berdasarkan tarif per kg. Harga final menyesuaikan berat & volume aktual.</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-           {serviceInfo.map((svc) => {
-             const isExpress = svc.type === "express";
-             const price = isExpress
-             ? { min: cp.expressPrice, etaMin: cp.expressEtaMin, etaMax: cp.expressEtaMax }
-             : { min: cp.regulerPrice ?? cp.expressPrice, etaMin: cp.regulerEtaMin ?? cp.expressEtaMin, etaMax: cp.regulerEtaMax ?? cp.expressEtaMax };
-             const waMsg = buildOngkirMessage("Jabodetabek", city.label, 100, svc.label, formatPrice(price.min * 100));
+            {serviceInfo.map((svc) => {
+              const isExpress = svc.type === "express";
+              const price = isExpress
+                ? { min: cp.expressPrice, etaMin: cp.expressEtaMin, etaMax: cp.expressEtaMax }
+                : { min: cp.regulerPrice ?? cp.expressPrice, etaMin: cp.regulerEtaMin ?? cp.expressEtaMin, etaMax: cp.regulerEtaMax ?? cp.expressEtaMax };
+              const waMsg = buildOngkirMessage("Jabodetabek", city.label, 100, svc.label, formatPrice(price.min * 100));
               return (
                 <div key={svc.type} className={`rounded-2xl border-2 p-6 ${svc.color}`}>
                   <div className="flex items-center gap-3 mb-4">
@@ -234,10 +234,7 @@ export default async function KirimKePage({ params }: Props) {
               );
             })}
           </div>
-          })}
-          </div>
           <p className="text-gray-400 text-xs mt-4">*Estimasi waktu dihitung sejak kapal berangkat dari pelabuhan asal, bukan sejak barang dipesan/di-pickup.</p>
-        </div>
         </div>
 
         {/* Why BJA for this city */}
