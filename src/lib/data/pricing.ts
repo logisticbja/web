@@ -115,7 +115,7 @@ interface CityLautPricing {
 
 // Data resmi dari BJA Pricelist 2026 (cargo laut, tier Express & Reguler).
 // Kota yang regulerPrice-nya null berarti di pricelist cuma tersedia Express.
-const cityLautPricing: Record<string, CityLautPricing> = {
+export const cityLautPricing: Record<string, CityLautPricing> = {
   ambon:       { expressPrice: 14000, expressEtaMin: 4,  expressEtaMax: 5,  regulerPrice: 7000,  regulerEtaMin: 10, regulerEtaMax: 15 },
   ternate:     { expressPrice: 14000, expressEtaMin: 8,  expressEtaMax: 10, regulerPrice: 8000,  regulerEtaMin: 20, regulerEtaMax: 25 },
   tidore:      { expressPrice: 28000, expressEtaMin: 8,  expressEtaMax: 10, regulerPrice: 19500, regulerEtaMin: 20, regulerEtaMax: 25 },
