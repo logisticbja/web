@@ -47,7 +47,9 @@ export async function middleware(request: NextRequest) {
     );
     const json = await res.json();
     if (json.status === "success" && json.data) {
-      return NextResponse.redirect(new URL(`/blog/${slug}`, request.url), 301);
+      const redirectUrl = new URL(`/blog/${slug}`, request.url);
+      redirectUrl.search = request.nextUrl.search;
+      return NextResponse.redirect(redirectUrl, 301);
     }
   } catch {
     // API error — fall through to 404
