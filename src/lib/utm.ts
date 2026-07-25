@@ -53,7 +53,7 @@ export function getUTMRef(): string {
     const raw = sessionStorage.getItem(UTM_KEY);
     if (!raw) return "";
     const data: UTMData = JSON.parse(raw);
-    const parts = [data.source, data.medium, data.campaign].filter(Boolean);
+    const parts = [data.source, data.medium, data.campaign, data.content].filter(Boolean);
     if (!parts.length) return "";
     return `\n[Ref: ${parts.join(" / ")}]`;
   } catch {

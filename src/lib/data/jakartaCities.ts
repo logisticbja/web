@@ -25,6 +25,7 @@ export const jakartaCityMap: Record<string, JakartaCityEntry> = {
   "jakarta-Masohi":   { displayName: "Masohi",       region: "maluku", cargoRegion: "maluku", ongkirValue: "masohi",   ongkirLabel: "Masohi" },
   "jakarta-Namlea":   { displayName: "Namlea",       region: "maluku", cargoRegion: "maluku", ongkirValue: "namlea",   ongkirLabel: "Namlea" },
   "jakarta-Saumlaki": { displayName: "Saumlaki",     region: "maluku", cargoRegion: "maluku", ongkirValue: "saumlaki", ongkirLabel: "Saumlaki" },
+  "jakarta-saumlaki": { displayName: "Saumlaki",     region: "maluku", cargoRegion: "maluku", ongkirValue: "saumlaki", ongkirLabel: "Saumlaki" },
   "jakarta-Seram":    { displayName: "Pulau Seram",  region: "maluku", cargoRegion: "maluku", ongkirValue: "seram",    ongkirLabel: "Seram" },
   "jakarta-Tanimbar": { displayName: "Tanimbar",     region: "maluku", cargoRegion: "maluku", ongkirValue: "tanimbar", ongkirLabel: "Tanimbar" },
   "jakarta-Tiakur":   { displayName: "Tiakur",       region: "maluku", cargoRegion: "maluku", ongkirValue: "tiakur",   ongkirLabel: "Tiakur" },
