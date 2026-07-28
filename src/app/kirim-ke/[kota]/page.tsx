@@ -1,7 +1,8 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { MessageCircle, Clock, Ship, Zap, CheckCircle, ArrowRight, MapPin } from "lucide-react";
+import Image from "next/image";
+import { MessageCircle, Clock, Ship, Zap, CheckCircle, ArrowRight, MapPin, Package, Star, Quote } from "lucide-react";
 import { destinationCities, calculatePrice, cityLautPricing, formatPrice } from "@/lib/data/pricing";
 import { buildDestinationMessage, buildOngkirMessage } from "@/lib/whatsapp";
 import { WALink } from "@/components/ui/WALink";
@@ -77,6 +78,53 @@ const serviceInfo = [
   },
 ];
 
+const trustStats = [
+  { value: "10+", label: "Tahun Pengalaman" },
+  { value: "50.000+", label: "Pengiriman Sukses" },
+  { value: "98%", label: "Tepat Waktu" },
+];
+
+const corporateClients = [
+  { src: "/client/indomaret.webp", alt: "Indomaret" },
+  { src: "/client/bni.webp", alt: "BNI" },
+  { src: "/client/united-tractor.webp", alt: "United Tractors" },
+  { src: "/client/pln.webp", alt: "PLN" },
+  { src: "/client/cap.webp", alt: "Chandra Asri" },
+  { src: "/client/synnex.webp", alt: "Synnex Metrodata" },
+  { src: "/client/madesa.webp", alt: "Madesa" },
+  { src: "/client/sonton.webp", alt: "Sonton" },
+  { src: "/client/sigs.webp", alt: "SIGS" },
+  { src: "/client/aksara.webp", alt: "Aksara Grafika" },
+];
+
+const orderSteps = [
+  { icon: MessageCircle, title: "Chat via WhatsApp", desc: "Konsultasi & cek ongkir gratis, respon cepat tim kami." },
+  { icon: Package, title: "Konfirmasi & Jemput Barang", desc: "Tim jemput langsung dari lokasi Anda di Jabodetabek & Surabaya." },
+  { icon: Ship, title: "Proses & Pengiriman", desc: "Barang ditimbang, dikemas, dan dikirim sesuai jadwal kapal." },
+  { icon: MapPin, title: "Tracking & Sampai Tujuan", desc: "Pantau status real-time hingga barang sampai." },
+];
+
+const testimonials = [
+  {
+    initial: "B",
+    name: "Budi Santoso",
+    role: "Owner Toko Material, Jayapura",
+    quote: "Sudah 3 tahun pakai BJA untuk kirim material bangunan dari Surabaya ke Jayapura. Harganya paling murah dibanding yang lain, dan barang selalu dateng tepat waktu. Pelayanan CS juga responsif banget!",
+  },
+  {
+    initial: "D",
+    name: "Dewi Rahayu",
+    role: "Distributor FMCG, Sorong",
+    quote: "Kirim 2-3 ton barang tiap bulan via cargo laut BJA. Trackingnya real-time, jadi saya bisa kasih info akurat ke customer saya di Sorong. Highly recommended untuk bisnis yang butuh logistik ke Papua!",
+  },
+  {
+    initial: "H",
+    name: "Hendra Wijaya",
+    role: "Pengusaha, Jakarta",
+    quote: "Awalnya ragu kirim mesin industri ke Timika, tapi BJA meyakinkan dengan solusi packing kayu dan asuransi. Alhamdulillah semua aman sampai tujuan. Proses koordinasinya juga mudah via WhatsApp.",
+  },
+];
+
 export default async function KirimKePage({ params }: Props) {
   const { kota } = await params;
   const city = destinationCities.find((c) => c.value === fromSlug(kota));
@@ -147,7 +195,7 @@ export default async function KirimKePage({ params }: Props) {
                 <strong className="text-[#F5C518]">
                   {formatPrice(lautPrice.priceMin)}/kg
                 </strong>{" "}
-                via cargo laut. Door to door dari Jabodetabek & Surabaya.
+                via cargo laut, minimal 100 kg. Door to door dari Jabodetabek & Surabaya.
               </p>
               <div className="flex flex-wrap gap-3">
                 <WALink
@@ -167,21 +215,31 @@ export default async function KirimKePage({ params }: Props) {
             </div>
 
             {/* Price snippet */}
-            <div className="sm:shrink-0 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-5 sm:w-52">
-              <p className="text-white/60 text-xs mb-3 uppercase tracking-wide font-semibold">Estimasi harga</p>
+            <div className="sm:shrink-0 bg-white rounded-2xl p-5 sm:w-56 shadow-xl border-2 border-[#F5C518]">
+              <p className="text-gray-500 text-xs mb-3 uppercase tracking-wide font-bold">Estimasi Harga</p>
               {[
                 { label: "Reguler", price: cp.regulerPrice ?? cp.expressPrice, icon: "🚢" },
                 { label: "Express", price: cp.expressPrice, icon: "⚡" },
               ].map((s) => (
-                <div key={s.label} className="flex items-center justify-between py-2 border-b border-white/10 last:border-0">
-                  <span className="text-white/70 text-sm">{s.icon} {s.label}</span>
-                  <span className="text-white font-bold text-sm">
+                <div key={s.label} className="flex items-center justify-between py-2.5 border-b border-gray-100 last:border-0">
+                  <span className="text-gray-600 text-sm font-semibold">{s.icon} {s.label}</span>
+                  <span className="text-[#CC1F2A] font-black text-base">
                     Rp {s.price.toLocaleString("id-ID")}/kg
                   </span>
                 </div>
               ))}
-              <p className="text-white/40 text-xs mt-3">*Estimasi. Konfirmasi via WA.</p>
+              <p className="text-gray-400 text-xs mt-3">*Estimasi. Min. 100 kg. Konfirmasi via WA.</p>
             </div>
+          </div>
+
+          {/* Trust stats */}
+          <div className="grid grid-cols-3 gap-4 mt-8 pt-6 border-t border-white/10">
+            {trustStats.map((s) => (
+              <div key={s.label} className="text-center">
+                <p className="text-white text-xl sm:text-2xl font-black">{s.value}</p>
+                <p className="text-white/60 text-xs sm:text-sm">{s.label}</p>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -210,6 +268,7 @@ export default async function KirimKePage({ params }: Props) {
                       {formatPrice(price.min)}
                       <span className="text-base font-normal text-gray-500">/kg</span>
                     </p>
+                    <p className="text-gray-500 text-xs mt-1">Minimal pengiriman 100 kg</p>
                   </div>
                   <div className="flex items-center gap-1.5 mb-4 text-sm text-gray-600">
                     <Clock size={13} />
@@ -254,6 +313,74 @@ export default async function KirimKePage({ params }: Props) {
                 <div>
                   <p className="font-black text-[#111111] mb-0.5">{item.title}</p>
                   <p className="text-gray-500 text-sm">{item.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Trusted by */}
+        <div>
+          <div className="text-center mb-6">
+            <p className="text-sm text-gray-500 mb-1">Dipercaya oleh perusahaan-perusahaan terkemuka</p>
+            <h2 className="text-2xl font-black text-[#111111]">Klien Corporate Kami</h2>
+          </div>
+          <div className="bg-[#F8FAFC] rounded-3xl p-8">
+            <div className="grid grid-cols-3 sm:grid-cols-5 gap-4">
+              {corporateClients.map((client) => (
+                <div key={client.alt} className="bg-white border border-gray-200 rounded-xl p-4 h-20 flex items-center justify-center">
+                  <Image src={client.src} alt={client.alt} width={120} height={48} className="object-contain w-full h-auto" />
+                </div>
+              ))}
+            </div>
+          </div>
+          <p className="text-center text-gray-400 text-xs mt-4">+ ratusan klien UKM & perorangan lainnya</p>
+        </div>
+
+        {/* Order process */}
+        <div>
+          <h2 className="text-2xl font-black text-[#111111] mb-6 text-center">
+            Cara Kirim Barang ke {city.label}
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-4 gap-5">
+            {orderSteps.map((step, i) => (
+              <div key={step.title} className="text-center">
+                <div className="w-12 h-12 rounded-xl bg-[#CC1F2A]/10 flex items-center justify-center mx-auto mb-3">
+                  <step.icon size={22} className="text-[#CC1F2A]" />
+                </div>
+                <p className="text-xs text-gray-400 font-bold mb-1">Langkah {i + 1}</p>
+                <p className="font-black text-[#111111] mb-1">{step.title}</p>
+                <p className="text-gray-500 text-sm">{step.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Testimonials */}
+        <div>
+          <div className="text-center mb-8">
+            <p className="text-sm font-bold text-[#CC1F2A] mb-2">TESTIMONI</p>
+            <h2 className="text-2xl font-black text-[#111111] mb-2">Apa Kata Pelanggan Kami</h2>
+            <p className="text-gray-500">Ribuan pelanggan sudah merasakan manfaat layanan kami</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+            {testimonials.map((t) => (
+              <div key={t.name} className="bg-[#F8FAFC] rounded-2xl p-6 relative overflow-hidden">
+                <Quote size={36} className="absolute top-5 right-5 text-[#CC1F2A]/10" />
+                <div className="flex gap-0.5 mb-3 relative">
+                  {[0, 1, 2, 3, 4].map((i) => (
+                    <Star key={i} size={16} className="text-[#F5C518] fill-[#F5C518]" />
+                  ))}
+                </div>
+                <p className="text-gray-600 text-sm leading-relaxed mb-4 relative">&ldquo;{t.quote}&rdquo;</p>
+                <div className="flex items-center gap-3 relative">
+                  <div className="w-9 h-9 rounded-full bg-[#CC1F2A]/10 flex items-center justify-center font-black text-[#CC1F2A] text-sm shrink-0">
+                    {t.initial}
+                  </div>
+                  <div>
+                    <p className="font-bold text-[#111111] text-sm">{t.name}</p>
+                    <p className="text-gray-500 text-xs">{t.role}</p>
+                  </div>
                 </div>
               </div>
             ))}
