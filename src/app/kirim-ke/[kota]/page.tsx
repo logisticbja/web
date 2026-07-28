@@ -328,8 +328,8 @@ export default async function KirimKePage({ params }: Props) {
           <div className="bg-[#F8FAFC] rounded-3xl p-8">
             <div className="grid grid-cols-3 sm:grid-cols-5 gap-4">
               {corporateClients.map((client) => (
-                <div key={client.alt} className="bg-white border border-gray-200 rounded-xl p-4 h-20 flex items-center justify-center">
-                  <Image src={client.src} alt={client.alt} width={120} height={48} className="object-contain w-full h-auto" />
+                <div key={client.alt} className="bg-white border border-gray-200 rounded-xl h-20 relative p-3">
+                  <Image src={client.src} alt={client.alt} fill className="object-contain" sizes="120px" />
                 </div>
               ))}
             </div>
