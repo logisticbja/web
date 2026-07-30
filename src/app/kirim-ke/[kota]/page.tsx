@@ -282,11 +282,11 @@ export default async function KirimKePage({ params }: Props) {
           </div>
 
           {/* Trust stats */}
-          <div className="grid grid-cols-3 gap-4 mt-8 pt-6 border-t border-white/10">
+          <div className="grid grid-cols-3 mt-8 bg-[#F5C518] rounded-xl overflow-hidden divide-x divide-black/10">
             {trustStats.map((s) => (
-              <div key={s.label} className="text-center">
-                <p className="text-[#F5C518] text-base sm:text-lg font-black">{s.value}</p>
-                <p className="text-white/60 text-xs">{s.label}</p>
+              <div key={s.label} className="text-center py-3 px-2">
+                <p className="text-[#1A1A1A] text-base sm:text-lg font-black">{s.value}</p>
+                <p className="text-[#1A1A1A]/70 text-xs">{s.label}</p>
               </div>
             ))}
           </div>
