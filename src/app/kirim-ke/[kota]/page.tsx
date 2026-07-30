@@ -89,12 +89,6 @@ const serviceInfo = [
   },
 ];
 
-const trustStats = [
-  { value: "10+", label: "Tahun Pengalaman" },
-  { value: "50.000+", label: "Pengiriman Sukses" },
-  { value: "98%", label: "Tepat Waktu" },
-];
-
 const corporateClients = [
   { src: "/client/indomaret.webp", alt: "Indomaret" },
   { src: "/client/bni.webp", alt: "BNI" },
@@ -281,18 +275,8 @@ export default async function KirimKePage({ params }: Props) {
             </div>
           </div>
 
-          {/* Trust stats */}
-          <div className="grid grid-cols-3 mt-8 bg-[#F5C518] rounded-xl overflow-hidden divide-x divide-black/10">
-            {trustStats.map((s) => (
-              <div key={s.label} className="text-center py-3 px-2">
-                <p className="text-[#1A1A1A] text-base sm:text-lg font-black">{s.value}</p>
-                <p className="text-[#1A1A1A]/70 text-xs">{s.label}</p>
-              </div>
-            ))}
-          </div>
-
           {/* Info kebijakan pengiriman */}
-          <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-5 pt-5 border-t border-white/10 text-white/80 text-xs sm:text-sm">
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-8 pt-6 border-t border-white/10 text-white/80 text-xs sm:text-sm">
             <span className="flex items-center gap-1.5">
               <Scale size={14} className="text-[#F5C518] shrink-0" />
               Minimal pengiriman 100 kg
