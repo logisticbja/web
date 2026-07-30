@@ -7,6 +7,9 @@ import { destinationCities, calculatePrice, cityLautPricing, formatPrice } from 
 import { buildDestinationMessage, buildOngkirMessage } from "@/lib/whatsapp";
 import { WALink } from "@/components/ui/WALink";
 import { BreadcrumbJsonLd } from "@/components/JsonLd";
+import { getCityPage } from "@/lib/cityPages";
+
+export const revalidate = 300;
 
 function toSlug(value: string) {
   return value.replace(/_/g, "-");
@@ -26,12 +29,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const city = destinationCities.find((c) => c.value === fromSlug(kota));
   if (!city) return {};
 
+  const apiData = await getCityPage(kota);
+
   const laut = calculatePrice(city.value, "laut", 1);
   const priceStr = `Rp ${laut.priceMin.toLocaleString("id-ID")}–${laut.priceMax.toLocaleString("id-ID")}/kg`;
 
   const canonical = `https://bjalogistic.id/kirim-ke/${kota}`;
-  const title = `Cargo ke ${city.label} — ${priceStr} | BJA Logistic`;
-  const description = `Jasa ekspedisi cargo ke ${city.label}, ${city.region}. Cargo laut ${priceStr}, estimasi ${laut.etaMin}–${laut.etaMax} hari. Door to door Jabodetabek & Surabaya. Hubungi BJA Logistic.`;
+  const title = apiData?.metaTitle || `Cargo ke ${city.label} — ${priceStr} | BJA Logistic`;
+  const description = apiData?.metaDescription || `Jasa ekspedisi cargo ke ${city.label}, ${city.region}. Cargo laut ${priceStr}, estimasi ${laut.etaMin}–${laut.etaMax} hari. Door to door Jabodetabek & Surabaya. Hubungi BJA Logistic.`;
 
   return {
     title,
@@ -130,6 +135,8 @@ export default async function KirimKePage({ params }: Props) {
   const city = destinationCities.find((c) => c.value === fromSlug(kota));
   if (!city) notFound();
 
+  const apiData = await getCityPage(kota);
+
   const relatedCities = destinationCities
     .filter((c) => c.region === city.region && c.value !== city.value)
     .slice(0, 5);
@@ -193,7 +200,7 @@ export default async function KirimKePage({ params }: Props) {
               <p className="text-white/70 text-sm mb-5">
                 Pengiriman cargo ke {city.label} mulai dari{" "}
                 <strong className="text-[#F5C518]">
-                  {formatPrice(lautPrice.priceMin)}/kg
+                  {apiData?.priceRegular || `${formatPrice(lautPrice.priceMin)}/kg`}
                 </strong>{" "}
                 via cargo laut, minimal 100 kg. Door to door dari Jabodetabek & Surabaya.
               </p>
@@ -218,14 +225,12 @@ export default async function KirimKePage({ params }: Props) {
             <div className="sm:shrink-0 bg-white rounded-2xl p-5 sm:w-56 shadow-xl border-2 border-[#F5C518]">
               <p className="text-gray-500 text-xs mb-3 uppercase tracking-wide font-bold">Estimasi Harga</p>
               {[
-                { label: "Reguler", price: cp.regulerPrice ?? cp.expressPrice, icon: "🚢" },
-                { label: "Express", price: cp.expressPrice, icon: "⚡" },
+                { label: "Reguler", icon: "🚢", price: apiData?.priceRegular || `Rp ${(cp.regulerPrice ?? cp.expressPrice).toLocaleString("id-ID")}/kg` },
+                { label: "Express", icon: "⚡", price: apiData?.priceExpress || `Rp ${cp.expressPrice.toLocaleString("id-ID")}/kg` },
               ].map((s) => (
                 <div key={s.label} className="flex items-center justify-between py-2.5 border-b border-gray-100 last:border-0">
                   <span className="text-gray-600 text-sm font-semibold">{s.icon} {s.label}</span>
-                  <span className="text-[#CC1F2A] font-black text-base">
-                    Rp {s.price.toLocaleString("id-ID")}/kg
-                  </span>
+                  <span className="text-[#CC1F2A] font-black text-base">{s.price}</span>
                 </div>
               ))}
               <p className="text-gray-400 text-xs mt-3">*Estimasi. Min. 100 kg. Konfirmasi via WA.</p>
@@ -296,6 +301,23 @@ export default async function KirimKePage({ params }: Props) {
           <p className="text-gray-400 text-xs mt-4">*Estimasi waktu dihitung sejak kapal berangkat dari pelabuhan asal, bukan sejak barang dipesan/di-pickup.</p>
         </div>
 
+        {/* Services (from API) */}
+        {apiData && apiData.services.length > 0 && (
+          <div>
+            <h2 className="text-2xl font-black text-[#111111] mb-6">
+              Layanan Pengiriman ke {city.label}
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+              {apiData.services.map((svc) => (
+                <div key={svc.title} className="bg-white border border-gray-200 rounded-2xl p-6">
+                  <h3 className="font-black text-[#111111] mb-2">{svc.title}</h3>
+                  <p className="text-gray-500 text-sm leading-relaxed">{svc.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Why BJA for this city */}
         <div className="bg-[#F8FAFC] rounded-3xl p-8">
           <h2 className="text-2xl font-black text-[#111111] mb-6">
@@ -356,19 +378,32 @@ export default async function KirimKePage({ params }: Props) {
           </div>
         </div>
 
-        {/* Testimonials */}
+        {/* Testimonials — dari API kalau tersedia, fallback ke testimoni umum */}
         <div>
           <div className="text-center mb-8">
             <p className="text-sm font-bold text-[#CC1F2A] mb-2">TESTIMONI</p>
-            <h2 className="text-2xl font-black text-[#111111] mb-2">Apa Kata Pelanggan Kami</h2>
+            <h2 className="text-2xl font-black text-[#111111] mb-2">
+              {apiData && apiData.testimonials.length > 0
+                ? `Apa Kata Pelanggan Kami di ${city.label}`
+                : "Apa Kata Pelanggan Kami"}
+            </h2>
             <p className="text-gray-500">Ribuan pelanggan sudah merasakan manfaat layanan kami</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-            {testimonials.map((t) => (
+            {(apiData && apiData.testimonials.length > 0
+              ? apiData.testimonials.map((t) => ({
+                  name: t.name,
+                  initial: t.name.charAt(0).toUpperCase(),
+                  role: "",
+                  quote: t.message,
+                  rating: t.rating,
+                }))
+              : testimonials.map((t) => ({ ...t, rating: 5 }))
+            ).map((t) => (
               <div key={t.name} className="bg-[#F8FAFC] rounded-2xl p-6 relative overflow-hidden">
                 <Quote size={36} className="absolute top-5 right-5 text-[#CC1F2A]/10" />
                 <div className="flex gap-0.5 mb-3 relative">
-                  {[0, 1, 2, 3, 4].map((i) => (
+                  {Array.from({ length: t.rating }).map((_, i) => (
                     <Star key={i} size={16} className="text-[#F5C518] fill-[#F5C518]" />
                   ))}
                 </div>
@@ -379,7 +414,7 @@ export default async function KirimKePage({ params }: Props) {
                   </div>
                   <div>
                     <p className="font-bold text-[#111111] text-sm">{t.name}</p>
-                    <p className="text-gray-500 text-xs">{t.role}</p>
+                    {t.role && <p className="text-gray-500 text-xs">{t.role}</p>}
                   </div>
                 </div>
               </div>
