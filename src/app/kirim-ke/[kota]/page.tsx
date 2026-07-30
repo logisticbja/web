@@ -165,7 +165,7 @@ export default async function KirimKePage({ params }: Props) {
     expressEtaMax: lautPrice.etaMax,
   };
 
-  const faqs = [
+  const hardcodedFaqs = [
     {
       q: `Berapa ongkir ke ${cityLabel}?`,
       a: `Ongkir ke ${cityLabel} mulai dari Rp ${(cp.regulerPrice ?? cp.expressPrice).toLocaleString("id-ID")}/kg untuk layanan Reguler, dan Rp ${cp.expressPrice.toLocaleString("id-ID")}/kg untuk layanan Express (min. 100 kg). Harga final tergantung berat aktual dan dimensi barang.`,
@@ -187,6 +187,11 @@ export default async function KirimKePage({ params }: Props) {
       a: `Ya, asuransi pengiriman tersedia untuk semua layanan. Biaya asuransi dihitung dari nilai barang yang diasuransikan. Sangat direkomendasikan untuk barang elektronik, mesin, dan barang bernilai tinggi.`,
     },
   ];
+
+  // FAQ dari API menggantikan yang hardcoded kalau isinya ada.
+  const faqs = apiData?.faqs && apiData.faqs.length > 0
+    ? apiData.faqs.map((f) => ({ q: f.question, a: f.answer }))
+    : hardcodedFaqs;
 
   return (
     <>

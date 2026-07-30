@@ -9,6 +9,11 @@ export interface CityPageTestimonial {
   rating: number;
 }
 
+export interface CityPageFaq {
+  question: string;
+  answer: string;
+}
+
 export interface CityPageData {
   city: string;
   slug: string;
@@ -19,6 +24,7 @@ export interface CityPageData {
   metaTitle: string;
   metaDescription: string;
   imageBanner?: string;
+  faqs?: CityPageFaq[];
 }
 
 // GET /public-city-pages.php?slug=<slug> — returns null on 404, API-key error,
