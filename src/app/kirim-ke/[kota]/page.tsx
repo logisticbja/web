@@ -194,8 +194,21 @@ export default async function KirimKePage({ params }: Props) {
       ]} />
 
       {/* Hero */}
-      <div className="bg-[#CC1F2A] py-8 px-4">
-        <div className="max-w-5xl mx-auto">
+      <div className={`relative py-8 px-4 overflow-hidden ${apiData?.imageBanner ? "" : "bg-[#CC1F2A]"}`}>
+        {apiData?.imageBanner && (
+          <>
+            <Image
+              src={apiData.imageBanner}
+              alt={`Banner ${cityLabel}`}
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-[#CC1F2A]/80" />
+          </>
+        )}
+        <div className="max-w-5xl mx-auto relative">
           <div className="flex items-center gap-2 mb-3">
             <span className="text-white/60 text-sm">Tujuan</span>
             <span className="text-white/40 text-sm">›</span>

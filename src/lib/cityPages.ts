@@ -18,6 +18,7 @@ export interface CityPageData {
   testimonials: CityPageTestimonial[];
   metaTitle: string;
   metaDescription: string;
+  imageBanner?: string;
 }
 
 // GET /public-city-pages.php?slug=<slug> — returns null on 404, API-key error,
