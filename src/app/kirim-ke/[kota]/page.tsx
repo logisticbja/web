@@ -27,26 +27,28 @@ type Props = { params: Promise<{ kota: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { kota } = await params;
   const city = destinationCities.find((c) => c.value === fromSlug(kota));
-  if (!city) return {};
-
   const apiData = await getCityPage(kota);
+  if (!city && !apiData) return {};
 
-  const laut = calculatePrice(city.value, "laut", 1);
+  const cityLabel = apiData?.city ?? city!.label;
+  const region = city?.region ?? "";
+
+  const laut = calculatePrice(city?.value ?? kota, "laut", 1);
   const priceStr = `Rp ${laut.priceMin.toLocaleString("id-ID")}–${laut.priceMax.toLocaleString("id-ID")}/kg`;
 
   const canonical = `https://bjalogistic.id/kirim-ke/${kota}`;
-  const title = apiData?.metaTitle || `Cargo ke ${city.label} — ${priceStr} | BJA Logistic`;
-  const description = apiData?.metaDescription || `Jasa ekspedisi cargo ke ${city.label}, ${city.region}. Cargo laut ${priceStr}, estimasi ${laut.etaMin}–${laut.etaMax} hari. Door to door Jabodetabek & Surabaya. Hubungi BJA Logistic.`;
+  const title = apiData?.metaTitle || `Cargo ke ${cityLabel} — ${priceStr} | BJA Logistic`;
+  const description = apiData?.metaDescription || `Jasa ekspedisi cargo ke ${cityLabel}${region ? `, ${region}` : ""}. Cargo laut ${priceStr}, estimasi ${laut.etaMin}–${laut.etaMax} hari. Door to door Jabodetabek & Surabaya. Hubungi BJA Logistic.`;
 
   return {
     title,
     description,
     keywords: [
-      `cargo ke ${city.label.toLowerCase()}`,
-      `ekspedisi ${city.label.toLowerCase()}`,
-      `kirim barang ke ${city.label.toLowerCase()}`,
-      `ongkir ke ${city.label.toLowerCase()}`,
-      `ekspedisi ${city.region.toLowerCase()} ${city.label.toLowerCase()}`,
+      `cargo ke ${cityLabel.toLowerCase()}`,
+      `ekspedisi ${cityLabel.toLowerCase()}`,
+      `kirim barang ke ${cityLabel.toLowerCase()}`,
+      `ongkir ke ${cityLabel.toLowerCase()}`,
+      ...(region ? [`ekspedisi ${region.toLowerCase()} ${cityLabel.toLowerCase()}`] : []),
     ],
     alternates: { canonical },
     openGraph: {
@@ -133,36 +135,52 @@ const testimonials = [
 export default async function KirimKePage({ params }: Props) {
   const { kota } = await params;
   const city = destinationCities.find((c) => c.value === fromSlug(kota));
-  if (!city) notFound();
-
   const apiData = await getCityPage(kota);
+  if (!city && !apiData) notFound();
 
-  const relatedCities = destinationCities
-    .filter((c) => c.region === city.region && c.value !== city.value)
-    .slice(0, 5);
+  // Kota bisa berasal dari data hardcoded (destinationCities), dari API/database
+  // saja, atau keduanya. cityLabel/region jadi sumber tunggal yang aman dipakai
+  // di seluruh halaman, walau `city` undefined untuk kota yang cuma ada di DB.
+  const cityLabel = apiData?.city ?? city!.label;
+  const region = city?.region ?? "";
 
-  const lautPrice = calculatePrice(city.value, "laut", 1);
-  const cp = cityLautPricing[city.value];
+  const relatedCities = region
+    ? destinationCities.filter((c) => c.region === region && c.value !== city?.value).slice(0, 5)
+    : [];
+
+  const lautPrice = calculatePrice(city?.value ?? kota, "laut", 1);
+
+  // Kota tanpa data pricelist khusus (belum ada di cityLautPricing) pakai
+  // estimasi generik dari calculatePrice — pola fallback yang sama dipakai
+  // halaman lain (mis. /[slug]) untuk kota di luar daftar kurasi.
+  const cp = cityLautPricing[city?.value ?? ""] ?? {
+    regulerPrice: lautPrice.priceMin,
+    regulerEtaMin: lautPrice.etaMin,
+    regulerEtaMax: lautPrice.etaMax,
+    expressPrice: lautPrice.priceMax,
+    expressEtaMin: lautPrice.etaMin,
+    expressEtaMax: lautPrice.etaMax,
+  };
 
   const faqs = [
     {
-      q: `Berapa ongkir ke ${city.label}?`,
-      a: `Ongkir ke ${city.label} mulai dari Rp ${(cp.regulerPrice ?? cp.expressPrice).toLocaleString("id-ID")}/kg untuk layanan Reguler, dan Rp ${cp.expressPrice.toLocaleString("id-ID")}/kg untuk layanan Express (min. 100 kg). Harga final tergantung berat aktual dan dimensi barang.`,
+      q: `Berapa ongkir ke ${cityLabel}?`,
+      a: `Ongkir ke ${cityLabel} mulai dari Rp ${(cp.regulerPrice ?? cp.expressPrice).toLocaleString("id-ID")}/kg untuk layanan Reguler, dan Rp ${cp.expressPrice.toLocaleString("id-ID")}/kg untuk layanan Express (min. 100 kg). Harga final tergantung berat aktual dan dimensi barang.`,
     },
     {
-      q: `Berapa lama pengiriman ke ${city.label}?`,
-      a: `Estimasi waktu pengiriman ke ${city.label}: Reguler ${cp.regulerEtaMin ?? cp.expressEtaMin}–${cp.regulerEtaMax ?? cp.expressEtaMax} hari, Express ${cp.expressEtaMin}–${cp.expressEtaMax} hari, dihitung sejak kapal berangkat dari pelabuhan asal. Waktu dapat bervariasi tergantung jadwal kapal dan kondisi cuaca.`,
+      q: `Berapa lama pengiriman ke ${cityLabel}?`,
+      a: `Estimasi waktu pengiriman ke ${cityLabel}: Reguler ${cp.regulerEtaMin ?? cp.expressEtaMin}–${cp.regulerEtaMax ?? cp.expressEtaMax} hari, Express ${cp.expressEtaMin}–${cp.expressEtaMax} hari, dihitung sejak kapal berangkat dari pelabuhan asal. Waktu dapat bervariasi tergantung jadwal kapal dan kondisi cuaca.`,
     },
     {
-      q: `Apakah tersedia layanan door to door ke ${city.label}?`,
-      a: `Ya, kami menyediakan layanan jemput barang langsung dari lokasi Anda di Jabodetabek dan Surabaya. Untuk pengantaran ke ${city.label}, tersedia untuk area tertentu — hubungi CS kami untuk konfirmasi.`,
+      q: `Apakah tersedia layanan door to door ke ${cityLabel}?`,
+      a: `Ya, kami menyediakan layanan jemput barang langsung dari lokasi Anda di Jabodetabek dan Surabaya. Untuk pengantaran ke ${cityLabel}, tersedia untuk area tertentu — hubungi CS kami untuk konfirmasi.`,
     },
     {
-      q: `Apa saja barang yang bisa dikirim ke ${city.label}?`,
+      q: `Apa saja barang yang bisa dikirim ke ${cityLabel}?`,
       a: `Hampir semua jenis barang: sembako, elektronik, material bangunan, perabotan, mesin industri, alat pertanian, pakaian, dan barang dagangan umum. Untuk barang khusus (B3, senjata, dll), hubungi kami terlebih dahulu.`,
     },
     {
-      q: `Apakah ada asuransi pengiriman ke ${city.label}?`,
+      q: `Apakah ada asuransi pengiriman ke ${cityLabel}?`,
       a: `Ya, asuransi pengiriman tersedia untuk semua layanan. Biaya asuransi dihitung dari nilai barang yang diasuransikan. Sangat direkomendasikan untuk barang elektronik, mesin, dan barang bernilai tinggi.`,
     },
   ];
@@ -172,7 +190,7 @@ export default async function KirimKePage({ params }: Props) {
       <BreadcrumbJsonLd items={[
         { name: "Beranda", url: "https://bjalogistic.id" },
         { name: "Kirim ke", url: "https://bjalogistic.id" },
-        { name: city.label, url: `https://bjalogistic.id/kirim-ke/${kota}` },
+        { name: cityLabel, url: `https://bjalogistic.id/kirim-ke/${kota}` },
       ]} />
 
       {/* Hero */}
@@ -181,9 +199,13 @@ export default async function KirimKePage({ params }: Props) {
           <div className="flex items-center gap-2 mb-3">
             <span className="text-white/60 text-sm">Tujuan</span>
             <span className="text-white/40 text-sm">›</span>
-            <span className="text-[#F5C518] text-sm font-semibold">{city.region}</span>
-            <span className="text-white/40 text-sm">›</span>
-            <span className="text-white text-sm font-bold">{city.label}</span>
+            {region && (
+              <>
+                <span className="text-[#F5C518] text-sm font-semibold">{region}</span>
+                <span className="text-white/40 text-sm">›</span>
+              </>
+            )}
+            <span className="text-white text-sm font-bold">{cityLabel}</span>
           </div>
 
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
@@ -192,13 +214,13 @@ export default async function KirimKePage({ params }: Props) {
                 <div className="w-10 h-10 rounded-xl bg-[#F5C518] flex items-center justify-center shrink-0">
                   <MapPin size={20} className="text-[#1A1A1A]" />
                 </div>
-                <span className="text-white/70 text-sm font-semibold">{city.region}</span>
+                {region && <span className="text-white/70 text-sm font-semibold">{region}</span>}
               </div>
               <h1 className="text-2xl sm:text-3xl font-black text-white mb-3 leading-tight">
-                Ekspedisi Cargo<br />ke {city.label}
+                Ekspedisi Cargo<br />ke {cityLabel}
               </h1>
               <p className="text-white/70 text-sm mb-5">
-                Pengiriman cargo ke {city.label} mulai dari{" "}
+                Pengiriman cargo ke {cityLabel} mulai dari{" "}
                 <strong className="text-[#F5C518]">
                   {apiData?.priceRegular || `${formatPrice(lautPrice.priceMin)}/kg`}
                 </strong>{" "}
@@ -206,11 +228,11 @@ export default async function KirimKePage({ params }: Props) {
               </p>
               <div className="flex flex-wrap gap-3">
                 <WALink
-                  href={buildDestinationMessage(city.label)}
+                  href={buildDestinationMessage(cityLabel)}
                   className="flex items-center gap-2 bg-[#25D366] hover:bg-[#20bc59] text-white font-black px-6 py-3.5 rounded-xl transition-all hover:shadow-lg text-base"
                 >
                   <MessageCircle size={18} />
-                  Tanya Harga ke {city.label}
+                  Tanya Harga ke {cityLabel}
                 </WALink>
                 <Link
                   href="/cek-ongkir"
@@ -253,7 +275,7 @@ export default async function KirimKePage({ params }: Props) {
 
         {/* Pricing cards */}
         <div>
-          <h2 className="text-2xl font-black text-[#111111] mb-2">Pilih Layanan ke {city.label}</h2>
+          <h2 className="text-2xl font-black text-[#111111] mb-2">Pilih Layanan ke {cityLabel}</h2>
           <p className="text-gray-500 mb-8">Estimasi harga berdasarkan tarif per kg. Harga final menyesuaikan berat & volume aktual.</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             {serviceInfo.map((svc) => {
@@ -261,7 +283,7 @@ export default async function KirimKePage({ params }: Props) {
               const price = isExpress
                 ? { min: cp.expressPrice, etaMin: cp.expressEtaMin, etaMax: cp.expressEtaMax }
                 : { min: cp.regulerPrice ?? cp.expressPrice, etaMin: cp.regulerEtaMin ?? cp.expressEtaMin, etaMax: cp.regulerEtaMax ?? cp.expressEtaMax };
-              const waMsg = buildOngkirMessage("Jabodetabek", city.label, 100, svc.label, formatPrice(price.min * 100));
+              const waMsg = buildOngkirMessage("Jabodetabek", cityLabel, 100, svc.label, formatPrice(price.min * 100));
               return (
                 <div key={svc.type} className={`rounded-2xl border-2 p-6 ${svc.color}`}>
                   <div className="flex items-center gap-3 mb-4">
@@ -305,7 +327,7 @@ export default async function KirimKePage({ params }: Props) {
         {apiData && apiData.services.length > 0 && (
           <div>
             <h2 className="text-2xl font-black text-[#111111] mb-6">
-              Layanan Pengiriman ke {city.label}
+              Layanan Pengiriman ke {cityLabel}
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
               {apiData.services.map((svc) => (
@@ -321,14 +343,19 @@ export default async function KirimKePage({ params }: Props) {
         {/* Why BJA for this city */}
         <div className="bg-[#F8FAFC] rounded-3xl p-8">
           <h2 className="text-2xl font-black text-[#111111] mb-6">
-            Mengapa Pilih BJA untuk Pengiriman ke {city.label}?
+            Mengapa Pilih BJA untuk Pengiriman ke {cityLabel}?
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             {[
-              { title: "10+ Tahun Pengalaman", desc: `Kami telah melayani pengiriman ke ${city.label} dan seluruh ${city.region} selama lebih dari 10 tahun.` },
-              { title: "Jaringan Agen Lokal", desc: `Agen dan mitra lokal di ${city.label} memastikan pengiriman selesai hingga ke alamat tujuan.` },
+              {
+                title: "10+ Tahun Pengalaman",
+                desc: region
+                  ? `Kami telah melayani pengiriman ke ${cityLabel} dan seluruh ${region} selama lebih dari 10 tahun.`
+                  : `Kami telah melayani pengiriman ke ${cityLabel} selama lebih dari 10 tahun.`,
+              },
+              { title: "Jaringan Agen Lokal", desc: `Agen dan mitra lokal di ${cityLabel} memastikan pengiriman selesai hingga ke alamat tujuan.` },
               { title: "Tracking Real-Time", desc: "Pantau status pengiriman Anda kapan saja via WhatsApp atau halaman tracking kami." },
-              { title: "Harga Kompetitif", desc: `Tarif pengiriman ke ${city.label} mulai ${formatPrice(lautPrice.priceMin)}/kg — salah satu yang paling kompetitif.` },
+              { title: "Harga Kompetitif", desc: `Tarif pengiriman ke ${cityLabel} mulai ${formatPrice(lautPrice.priceMin)}/kg — salah satu yang paling kompetitif.` },
             ].map((item) => (
               <div key={item.title} className="flex gap-3">
                 <CheckCircle size={18} className="text-[#CC1F2A] shrink-0 mt-0.5" />
@@ -362,7 +389,7 @@ export default async function KirimKePage({ params }: Props) {
         {/* Order process */}
         <div>
           <h2 className="text-2xl font-black text-[#111111] mb-6 text-center">
-            Cara Kirim Barang ke {city.label}
+            Cara Kirim Barang ke {cityLabel}
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-4 gap-5">
             {orderSteps.map((step, i) => (
@@ -384,7 +411,7 @@ export default async function KirimKePage({ params }: Props) {
             <p className="text-sm font-bold text-[#CC1F2A] mb-2">TESTIMONI</p>
             <h2 className="text-2xl font-black text-[#111111] mb-2">
               {apiData && apiData.testimonials.length > 0
-                ? `Apa Kata Pelanggan Kami di ${city.label}`
+                ? `Apa Kata Pelanggan Kami di ${cityLabel}`
                 : "Apa Kata Pelanggan Kami"}
             </h2>
             <p className="text-gray-500">Ribuan pelanggan sudah merasakan manfaat layanan kami</p>
@@ -426,7 +453,7 @@ export default async function KirimKePage({ params }: Props) {
         {relatedCities.length > 0 && (
           <div>
             <h2 className="text-2xl font-black text-[#111111] mb-6">
-              Kota Lain di {city.region}
+              Kota Lain di {region}
             </h2>
             <div className="flex flex-wrap gap-3">
               {relatedCities.map((c) => (
@@ -447,7 +474,7 @@ export default async function KirimKePage({ params }: Props) {
         {/* FAQ */}
         <div>
           <h2 className="text-2xl font-black text-[#111111] mb-6">
-            FAQ Pengiriman ke {city.label}
+            FAQ Pengiriman ke {cityLabel}
           </h2>
           <div className="space-y-3">
             {faqs.map((faq) => (
@@ -466,14 +493,14 @@ export default async function KirimKePage({ params }: Props) {
 
         {/* CTA */}
         <div className="bg-[#CC1F2A] rounded-3xl p-8 text-center">
-          <h2 className="text-2xl font-black text-white mb-3">Siap Kirim Cargo ke {city.label}?</h2>
+          <h2 className="text-2xl font-black text-white mb-3">Siap Kirim Cargo ke {cityLabel}?</h2>
           <p className="text-white/70 mb-6">Chat WhatsApp sekarang — tim kami konfirmasi harga & jadwal dalam hitungan menit.</p>
           <WALink
-            href={buildDestinationMessage(city.label)}
+            href={buildDestinationMessage(cityLabel)}
             className="inline-flex items-center gap-2 bg-[#F5C518] hover:bg-[#D4A910] text-[#1A1A1A] font-black px-8 py-4 rounded-xl transition-all hover:shadow-lg text-base"
           >
             <MessageCircle size={18} />
-            Chat Sekarang — Kirim ke {city.label}
+            Chat Sekarang — Kirim ke {cityLabel}
           </WALink>
         </div>
       </div>
