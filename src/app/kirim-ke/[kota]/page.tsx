@@ -2,12 +2,16 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { MessageCircle, Clock, Ship, Zap, CheckCircle, ArrowRight, MapPin, Package, Star, Quote } from "lucide-react";
+import { MessageCircle, Clock, Ship, Zap, CheckCircle, ArrowRight, MapPin, Package, Star, Quote, Scale, Ban } from "lucide-react";
 import { destinationCities, calculatePrice, cityLautPricing, formatPrice } from "@/lib/data/pricing";
 import { buildDestinationMessage, buildOngkirMessage } from "@/lib/whatsapp";
 import { WALink } from "@/components/ui/WALink";
 import { BreadcrumbJsonLd } from "@/components/JsonLd";
 import { getCityPage } from "@/lib/cityPages";
+import { getCitiesByRegion } from "@/lib/data/regions";
+import type { OngkirRegion } from "@/lib/data/ongkir";
+
+const ONGKIR_REGIONS = new Set(["papua", "maluku", "ntt", "sulawesi"]);
 
 export const revalidate = 300;
 
@@ -148,6 +152,11 @@ export default async function KirimKePage({ params }: Props) {
     ? destinationCities.filter((c) => c.region === region && c.value !== city?.value).slice(0, 5)
     : [];
 
+  const ongkirRegion = region && ONGKIR_REGIONS.has(region.toLowerCase())
+    ? (region.toLowerCase() as OngkirRegion)
+    : null;
+  const cityGroups = ongkirRegion ? getCitiesByRegion(ongkirRegion) : [];
+
   const lautPrice = calculatePrice(city?.value ?? kota, "laut", 1);
 
   // Kota tanpa data pricelist khusus (belum ada di cityLautPricing) pakai
@@ -280,6 +289,18 @@ export default async function KirimKePage({ params }: Props) {
                 <p className="text-white/60 text-xs sm:text-sm">{s.label}</p>
               </div>
             ))}
+          </div>
+
+          {/* Info kebijakan pengiriman */}
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-5 pt-5 border-t border-white/10 text-white/80 text-xs sm:text-sm">
+            <span className="flex items-center gap-1.5">
+              <Scale size={14} className="text-[#F5C518] shrink-0" />
+              Minimal pengiriman 100 kg
+            </span>
+            <span className="flex items-center gap-1.5">
+              <Ban size={14} className="text-[#F5C518] shrink-0" />
+              Tidak menerima pengiriman hewan & frozen food
+            </span>
           </div>
         </div>
       </div>
@@ -461,6 +482,35 @@ export default async function KirimKePage({ params }: Props) {
             ))}
           </div>
         </div>
+
+        {/* Kota yang Dilayani */}
+        {cityGroups.length > 0 && (
+          <div>
+            <h2 className="text-2xl font-black text-[#111111] mb-6">
+              Kota yang Dilayani di {region}
+            </h2>
+            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+              {cityGroups.map((group, gi) => (
+                <div key={group.groupLabel} className={gi > 0 ? "border-t border-gray-100" : ""}>
+                  <p className="text-[11px] font-black text-gray-400 uppercase tracking-wider px-5 pt-4 pb-2 flex items-center gap-1.5">
+                    <MapPin size={11} />
+                    {group.groupLabel}
+                  </p>
+                  <div className="px-5 pb-4 flex flex-wrap gap-2">
+                    {group.cities.map((c) => (
+                      <span
+                        key={c.value}
+                        className="bg-[#F8FAFC] border border-gray-200 text-gray-700 text-xs font-medium px-3 py-1.5 rounded-full"
+                      >
+                        {c.label}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Related cities */}
         {relatedCities.length > 0 && (
