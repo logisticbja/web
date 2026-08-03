@@ -6,6 +6,7 @@ import { Metadata } from "next";
 import { CekOngkirForm } from "@/components/CekOngkirForm";
 import { fetchPricing } from "@/lib/sheets";
 import { getSchedules, formatScheduleDate, formatServiceType } from "@/lib/schedule";
+import { buildScheduleMessage } from "@/lib/whatsapp";
 import { getRegionConfig, getCitiesByRegion, regionConfigs } from "@/lib/data/regions";
 import { BreadcrumbJsonLd } from "@/components/JsonLd";
 
@@ -213,7 +214,7 @@ export default async function CargoRegionPage({ params }: Props) {
                           {s.etaDate ? (
                             formatScheduleDate(s.etaDate)
                           ) : (
-                            <WALink href={waUrl} className="text-xs font-bold text-[#25D366] hover:underline">
+                            <WALink href={buildScheduleMessage(s.route, s.ship)} className="text-xs font-bold text-[#25D366] hover:underline">
                               Tanya CS →
                             </WALink>
                           )}
@@ -232,7 +233,7 @@ export default async function CargoRegionPage({ params }: Props) {
                       {s.etaDate ? (
                         <span className="font-bold text-[#CC1F2A] text-sm">{formatScheduleDate(s.etaDate)}</span>
                       ) : (
-                        <WALink href={waUrl} className="text-xs font-bold text-[#25D366] hover:underline">
+                        <WALink href={buildScheduleMessage(s.route, s.ship)} className="text-xs font-bold text-[#25D366] hover:underline">
                           Tanya CS →
                         </WALink>
                       )}
