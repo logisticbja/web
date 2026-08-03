@@ -21,6 +21,22 @@ function ServiceTypeBadge({ type }: { type: string }) {
   );
 }
 
+// ETA kosong (biasanya karena 1 kapal transit ke beberapa Wilayah sekaligus, jadi ETA per
+// tujuan beda-beda) -> tampilkan ajakan tanya CS langsung, bukan tanda "-" yang gak actionable.
+function EtaCell({ etaDate, bold = true }: { etaDate: string | null; bold?: boolean }) {
+  if (etaDate) {
+    return <span className={`text-[#CC1F2A] text-sm ${bold ? "font-bold" : ""}`}>{formatScheduleDate(etaDate)}</span>;
+  }
+  return (
+    <WALink
+      href={buildGeneralMessage()}
+      className="inline-flex items-center gap-1 text-xs font-bold text-[#25D366] hover:underline"
+    >
+      Tanya CS →
+    </WALink>
+  );
+}
+
 export function ScheduleClient({ schedules }: { schedules: ShipSchedule[] }) {
   const [activeRegion, setActiveRegion] = useState("Semua");
 
@@ -99,7 +115,7 @@ export function ScheduleClient({ schedules }: { schedules: ShipSchedule[] }) {
                   <td className="px-6 py-4 text-sm text-gray-700">{formatScheduleDate(s.closingDate)}</td>
                   <td className="px-6 py-4 text-sm text-gray-700">{formatScheduleDate(s.etdDate)}</td>
                   <td className="px-6 py-4">
-                    <span className="font-bold text-[#CC1F2A] text-sm">{formatScheduleDate(s.etaDate)}</span>
+                    <EtaCell etaDate={s.etaDate} />
                   </td>
                 </tr>
               ))}
@@ -137,7 +153,7 @@ export function ScheduleClient({ schedules }: { schedules: ShipSchedule[] }) {
                 </div>
                 <div>
                   <p className="text-gray-400 text-xs">ETA</p>
-                  <p className="font-bold text-[#CC1F2A]">{formatScheduleDate(s.etaDate)}</p>
+                  <EtaCell etaDate={s.etaDate} bold={false} />
                 </div>
               </div>
             </div>
