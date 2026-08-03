@@ -209,7 +209,15 @@ export default async function CargoRegionPage({ params }: Props) {
                         <td className="px-5 py-3 text-gray-600">{formatServiceType(s.serviceType)}</td>
                         <td className="px-5 py-3 text-gray-600">{formatScheduleDate(s.closingDate)}</td>
                         <td className="px-5 py-3 text-gray-600">{formatScheduleDate(s.etdDate)}</td>
-                        <td className="px-5 py-3 font-bold text-[#CC1F2A]">{formatScheduleDate(s.etaDate)}</td>
+                        <td className="px-5 py-3 font-bold text-[#CC1F2A]">
+                          {s.etaDate ? (
+                            formatScheduleDate(s.etaDate)
+                          ) : (
+                            <WALink href={waUrl} className="text-xs font-bold text-[#25D366] hover:underline">
+                              Tanya CS →
+                            </WALink>
+                          )}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -221,7 +229,13 @@ export default async function CargoRegionPage({ params }: Props) {
                   <div key={`${s.route}-${s.ship}-${s.etdDate}-${i}`} className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
                     <div className="flex justify-between items-start mb-1.5">
                       <p className="font-black text-[#111] text-sm">{s.route}</p>
-                      <span className="font-bold text-[#CC1F2A] text-sm">{formatScheduleDate(s.etaDate)}</span>
+                      {s.etaDate ? (
+                        <span className="font-bold text-[#CC1F2A] text-sm">{formatScheduleDate(s.etaDate)}</span>
+                      ) : (
+                        <WALink href={waUrl} className="text-xs font-bold text-[#25D366] hover:underline">
+                          Tanya CS →
+                        </WALink>
+                      )}
                     </div>
                     <p className="text-xs text-gray-500">
                       {s.ship || "-"} · {formatServiceType(s.serviceType)} · Closing {formatScheduleDate(s.closingDate)} · ETD {formatScheduleDate(s.etdDate)}
