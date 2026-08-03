@@ -5,7 +5,7 @@ import { WALink } from "@/components/ui/WALink";
 import { Metadata } from "next";
 import { CekOngkirForm } from "@/components/CekOngkirForm";
 import { fetchPricing } from "@/lib/sheets";
-import { schedules } from "@/lib/data/schedule";
+import { getSchedules, formatScheduleDate } from "@/lib/schedule";
 import { getRegionConfig, getCitiesByRegion, regionConfigs } from "@/lib/data/regions";
 import { BreadcrumbJsonLd } from "@/components/JsonLd";
 
@@ -86,7 +86,9 @@ export default async function CargoRegionPage({ params }: Props) {
 
   const rows = await fetchPricing();
 
-  const regionSchedules = schedules.filter((s) => s.region === config.scheduleRegion);
+  // Sumber jadwal kapal sekarang live dari CRM (public-ship-schedule.php), bukan lagi
+  // file statis lib/data/schedule.ts — supaya gak ada 2 sumber data yang bisa beda-beda.
+  const regionSchedules = await getSchedules({ region: config.scheduleRegion });
   const cityGroups = getCitiesByRegion(config.ongkirRegion);
   const canonical = `${BASE_URL}/cargo/${config.slug}`;
   const waUrl = `https://api.whatsapp.com/send/?phone=6281513335157&text=${encodeURIComponent(config.waText)}`;
@@ -192,20 +194,22 @@ export default async function CargoRegionPage({ params }: Props) {
                   <thead>
                     <tr className="bg-[#CC1F2A] text-white">
                       <th className="text-left px-5 py-3 font-bold">Rute</th>
-                      <th className="text-left px-5 py-3 font-bold">Kapal</th>
-                      <th className="text-left px-5 py-3 font-bold">Jadwal</th>
+                      <th className="text-left px-5 py-3 font-bold">Nama Kapal</th>
+                      <th className="text-left px-5 py-3 font-bold">Jenis</th>
+                      <th className="text-left px-5 py-3 font-bold">Closing Date</th>
+                      <th className="text-left px-5 py-3 font-bold">ETD</th>
                       <th className="text-left px-5 py-3 font-bold">ETA</th>
-                      <th className="text-left px-5 py-3 font-bold">Frekuensi</th>
                     </tr>
                   </thead>
                   <tbody>
                     {regionSchedules.map((s, i) => (
-                      <tr key={s.id} className={i % 2 === 0 ? "bg-white" : "bg-gray-50/50"}>
+                      <tr key={`${s.route}-${s.ship}-${s.etdDate}-${i}`} className={i % 2 === 0 ? "bg-white" : "bg-gray-50/50"}>
                         <td className="px-5 py-3 font-bold text-[#111]">{s.route}</td>
-                        <td className="px-5 py-3 text-gray-600">{s.ship}</td>
-                        <td className="px-5 py-3 text-gray-600">{s.departure}</td>
-                        <td className="px-5 py-3 font-bold text-[#CC1F2A]">{s.eta}</td>
-                        <td className="px-5 py-3 text-gray-500 text-xs">{s.frequency}</td>
+                        <td className="px-5 py-3 text-gray-600">{s.ship || "-"}</td>
+                        <td className="px-5 py-3 text-gray-600">{s.serviceType || "-"}</td>
+                        <td className="px-5 py-3 text-gray-600">{formatScheduleDate(s.closingDate)}</td>
+                        <td className="px-5 py-3 text-gray-600">{formatScheduleDate(s.etdDate)}</td>
+                        <td className="px-5 py-3 font-bold text-[#CC1F2A]">{formatScheduleDate(s.etaDate)}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -213,13 +217,15 @@ export default async function CargoRegionPage({ params }: Props) {
               </div>
 
               <div className="md:hidden space-y-3">
-                {regionSchedules.map((s) => (
-                  <div key={s.id} className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
+                {regionSchedules.map((s, i) => (
+                  <div key={`${s.route}-${s.ship}-${s.etdDate}-${i}`} className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
                     <div className="flex justify-between items-start mb-1.5">
                       <p className="font-black text-[#111] text-sm">{s.route}</p>
-                      <span className="font-bold text-[#CC1F2A] text-sm">{s.eta}</span>
+                      <span className="font-bold text-[#CC1F2A] text-sm">{formatScheduleDate(s.etaDate)}</span>
                     </div>
-                    <p className="text-xs text-gray-500">{s.ship} · {s.departure} · {s.frequency}</p>
+                    <p className="text-xs text-gray-500">
+                      {s.ship || "-"} · {s.serviceType || "-"} · Closing {formatScheduleDate(s.closingDate)} · ETD {formatScheduleDate(s.etdDate)}
+                    </p>
                   </div>
                 ))}
               </div>
