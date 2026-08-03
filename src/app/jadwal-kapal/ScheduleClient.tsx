@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Ship, MessageCircle, Filter } from "lucide-react";
 import { buildGeneralMessage } from "@/lib/whatsapp";
 import { WALink } from "@/components/ui/WALink";
-import { formatScheduleDate, type ShipSchedule } from "@/lib/schedule";
+import { formatScheduleDate, formatServiceType, type ShipSchedule } from "@/lib/schedule";
 
 const regions = ["Semua", "Papua", "Maluku", "NTT", "Sulawesi"];
 
@@ -16,7 +16,7 @@ function ServiceTypeBadge({ type }: { type: string }) {
         isExpress ? "bg-[#CC1F2A]/10 text-[#CC1F2A]" : "bg-blue-50 text-blue-600"
       }`}
     >
-      {type}
+      {formatServiceType(type)}
     </span>
   );
 }
