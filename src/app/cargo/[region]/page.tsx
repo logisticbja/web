@@ -5,7 +5,7 @@ import { WALink } from "@/components/ui/WALink";
 import { Metadata } from "next";
 import { CekOngkirForm } from "@/components/CekOngkirForm";
 import { fetchPricing } from "@/lib/sheets";
-import { getSchedules, formatScheduleDate } from "@/lib/schedule";
+import { getSchedules, formatScheduleDate, formatServiceType } from "@/lib/schedule";
 import { getRegionConfig, getCitiesByRegion, regionConfigs } from "@/lib/data/regions";
 import { BreadcrumbJsonLd } from "@/components/JsonLd";
 
@@ -206,7 +206,7 @@ export default async function CargoRegionPage({ params }: Props) {
                       <tr key={`${s.route}-${s.ship}-${s.etdDate}-${i}`} className={i % 2 === 0 ? "bg-white" : "bg-gray-50/50"}>
                         <td className="px-5 py-3 font-bold text-[#111]">{s.route}</td>
                         <td className="px-5 py-3 text-gray-600">{s.ship || "-"}</td>
-                        <td className="px-5 py-3 text-gray-600">{s.serviceType || "-"}</td>
+                        <td className="px-5 py-3 text-gray-600">{formatServiceType(s.serviceType)}</td>
                         <td className="px-5 py-3 text-gray-600">{formatScheduleDate(s.closingDate)}</td>
                         <td className="px-5 py-3 text-gray-600">{formatScheduleDate(s.etdDate)}</td>
                         <td className="px-5 py-3 font-bold text-[#CC1F2A]">{formatScheduleDate(s.etaDate)}</td>
@@ -224,7 +224,7 @@ export default async function CargoRegionPage({ params }: Props) {
                       <span className="font-bold text-[#CC1F2A] text-sm">{formatScheduleDate(s.etaDate)}</span>
                     </div>
                     <p className="text-xs text-gray-500">
-                      {s.ship || "-"} · {s.serviceType || "-"} · Closing {formatScheduleDate(s.closingDate)} · ETD {formatScheduleDate(s.etdDate)}
+                      {s.ship || "-"} · {formatServiceType(s.serviceType)} · Closing {formatScheduleDate(s.closingDate)} · ETD {formatScheduleDate(s.etdDate)}
                     </p>
                   </div>
                 ))}
