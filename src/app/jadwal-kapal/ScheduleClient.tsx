@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { Ship, MessageCircle, Filter } from "lucide-react";
-import { buildGeneralMessage } from "@/lib/whatsapp";
+import { buildGeneralMessage, buildScheduleMessage } from "@/lib/whatsapp";
 import { WALink } from "@/components/ui/WALink";
 import { formatScheduleDate, formatServiceType, type ShipSchedule } from "@/lib/schedule";
 
@@ -22,14 +22,15 @@ function ServiceTypeBadge({ type }: { type: string }) {
 }
 
 // ETA kosong (biasanya karena 1 kapal transit ke beberapa Wilayah sekaligus, jadi ETA per
-// tujuan beda-beda) -> tampilkan ajakan tanya CS langsung, bukan tanda "-" yang gak actionable.
-function EtaCell({ etaDate, bold = true }: { etaDate: string | null; bold?: boolean }) {
+// tujuan beda-beda) -> tampilkan ajakan tanya CS langsung (dengan rute & kapalnya udah
+// disebut di pesan WA), bukan tanda "-" yang gak actionable.
+function EtaCell({ etaDate, route, ship, bold = true }: { etaDate: string | null; route: string; ship: string; bold?: boolean }) {
   if (etaDate) {
     return <span className={`text-[#CC1F2A] text-sm ${bold ? "font-bold" : ""}`}>{formatScheduleDate(etaDate)}</span>;
   }
   return (
     <WALink
-      href={buildGeneralMessage()}
+      href={buildScheduleMessage(route, ship)}
       className="inline-flex items-center gap-1 text-xs font-bold text-[#25D366] hover:underline"
     >
       Tanya CS →
@@ -115,7 +116,7 @@ export function ScheduleClient({ schedules }: { schedules: ShipSchedule[] }) {
                   <td className="px-6 py-4 text-sm text-gray-700">{formatScheduleDate(s.closingDate)}</td>
                   <td className="px-6 py-4 text-sm text-gray-700">{formatScheduleDate(s.etdDate)}</td>
                   <td className="px-6 py-4">
-                    <EtaCell etaDate={s.etaDate} />
+                    <EtaCell etaDate={s.etaDate} route={s.route} ship={s.ship} />
                   </td>
                 </tr>
               ))}
@@ -153,7 +154,7 @@ export function ScheduleClient({ schedules }: { schedules: ShipSchedule[] }) {
                 </div>
                 <div>
                   <p className="text-gray-400 text-xs">ETA</p>
-                  <EtaCell etaDate={s.etaDate} bold={false} />
+                  <EtaCell etaDate={s.etaDate} route={s.route} ship={s.ship} bold={false} />
                 </div>
               </div>
             </div>
