@@ -2,12 +2,12 @@ export interface ShipSchedule {
   route: string;
   from: string;
   to: string;
-  ship: string;
-  operator: string;
-  departure: string;
-  eta: string;
-  frequency: string;
   region: string;
+  ship: string;
+  serviceType: string;        // "Express" | "Reguler" | ""
+  closingDate: string | null; // "YYYY-MM-DD"
+  etdDate: string | null;     // "YYYY-MM-DD"
+  etaDate: string | null;     // "YYYY-MM-DD"
 }
 
 export async function getSchedules(params?: {
@@ -32,4 +32,15 @@ export async function getSchedules(params?: {
   } catch {
     return [];
   }
+}
+
+// Format tanggal "YYYY-MM-DD" (atau null) jadi "10 Agu 2026" ala Indonesia.
+// Dipakai di ScheduleClient.tsx & halaman cargo per-wilayah supaya formatnya konsisten.
+const MONTHS_ID = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"];
+
+export function formatScheduleDate(dateStr: string | null): string {
+  if (!dateStr) return "-";
+  const [y, m, d] = dateStr.split("-").map(Number);
+  if (!y || !m || !d) return "-";
+  return `${d} ${MONTHS_ID[m - 1]} ${y}`;
 }
