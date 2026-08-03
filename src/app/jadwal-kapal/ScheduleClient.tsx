@@ -3,9 +3,23 @@ import { useState } from "react";
 import { Ship, MessageCircle, Filter } from "lucide-react";
 import { buildGeneralMessage } from "@/lib/whatsapp";
 import { WALink } from "@/components/ui/WALink";
-import type { ShipSchedule } from "@/lib/schedule";
+import { formatScheduleDate, type ShipSchedule } from "@/lib/schedule";
 
 const regions = ["Semua", "Papua", "Maluku", "NTT", "Sulawesi"];
+
+function ServiceTypeBadge({ type }: { type: string }) {
+  if (!type) return <span className="text-gray-300">-</span>;
+  const isExpress = type === "Express";
+  return (
+    <span
+      className={`text-xs px-2 py-0.5 rounded-full font-bold ${
+        isExpress ? "bg-[#CC1F2A]/10 text-[#CC1F2A]" : "bg-blue-50 text-blue-600"
+      }`}
+    >
+      {type}
+    </span>
+  );
+}
 
 export function ScheduleClient({ schedules }: { schedules: ShipSchedule[] }) {
   const [activeRegion, setActiveRegion] = useState("Semua");
@@ -26,7 +40,7 @@ export function ScheduleClient({ schedules }: { schedules: ShipSchedule[] }) {
             Jadwal Kapal
           </h1>
           <p className="text-white/70 text-sm">
-            Jadwal keberangkatan kapal PELNI & Roro ke Papua & Indonesia Timur
+            Jadwal keberangkatan kapal ke Papua & Indonesia Timur
           </p>
         </div>
       </div>
@@ -51,45 +65,54 @@ export function ScheduleClient({ schedules }: { schedules: ShipSchedule[] }) {
           ))}
         </div>
 
+        {filtered.length === 0 && (
+          <div className="bg-white rounded-2xl border border-gray-100 p-10 text-center text-sm text-gray-400 mb-6">
+            Belum ada jadwal kapal untuk wilayah ini. Konfirmasi jadwal terkini via WhatsApp.
+          </div>
+        )}
+
         {/* Table - desktop */}
+        {filtered.length > 0 && (
         <div className="hidden md:block bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-6">
           <table className="w-full">
             <thead>
               <tr className="bg-[#CC1F2A] text-white">
                 <th className="text-left px-6 py-4 text-sm font-bold">Rute</th>
-                <th className="text-left px-6 py-4 text-sm font-bold">Kapal</th>
-                <th className="text-left px-6 py-4 text-sm font-bold">Operator</th>
-                <th className="text-left px-6 py-4 text-sm font-bold">Jadwal</th>
+                <th className="text-left px-6 py-4 text-sm font-bold">Nama Kapal</th>
+                <th className="text-left px-6 py-4 text-sm font-bold">Jenis</th>
+                <th className="text-left px-6 py-4 text-sm font-bold">Closing Date</th>
+                <th className="text-left px-6 py-4 text-sm font-bold">ETD</th>
                 <th className="text-left px-6 py-4 text-sm font-bold">ETA</th>
-                <th className="text-left px-6 py-4 text-sm font-bold">Frekuensi</th>
               </tr>
             </thead>
             <tbody>
               {filtered.map((s, i) => (
-                <tr key={`${s.route}-${i}`} className={i % 2 === 0 ? "bg-white" : "bg-gray-50/50"}>
+                <tr key={`${s.route}-${s.ship}-${s.etdDate}-${i}`} className={i % 2 === 0 ? "bg-white" : "bg-gray-50/50"}>
                   <td className="px-6 py-4">
                     <p className="font-bold text-[#111111] text-sm">{s.route}</p>
                     <span className="text-xs px-2 py-0.5 rounded-full bg-[#CC1F2A]/10 text-[#CC1F2A] font-semibold mt-1 inline-block">
                       {s.region}
                     </span>
                   </td>
-                  <td className="px-6 py-4 font-semibold text-sm text-gray-700">{s.ship}</td>
-                  <td className="px-6 py-4 text-sm text-gray-500">{s.operator}</td>
-                  <td className="px-6 py-4 text-sm text-gray-700">{s.departure}</td>
+                  <td className="px-6 py-4 font-semibold text-sm text-gray-700">{s.ship || "-"}</td>
+                  <td className="px-6 py-4"><ServiceTypeBadge type={s.serviceType} /></td>
+                  <td className="px-6 py-4 text-sm text-gray-700">{formatScheduleDate(s.closingDate)}</td>
+                  <td className="px-6 py-4 text-sm text-gray-700">{formatScheduleDate(s.etdDate)}</td>
                   <td className="px-6 py-4">
-                    <span className="font-bold text-[#CC1F2A] text-sm">{s.eta}</span>
+                    <span className="font-bold text-[#CC1F2A] text-sm">{formatScheduleDate(s.etaDate)}</span>
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-500">{s.frequency}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
+        )}
 
         {/* Cards - mobile */}
+        {filtered.length > 0 && (
         <div className="md:hidden space-y-4 mb-6">
           {filtered.map((s, i) => (
-            <div key={`${s.route}-${i}`} className="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
+            <div key={`${s.route}-${s.ship}-${s.etdDate}-${i}`} className="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
               <div className="flex items-start justify-between mb-3">
                 <div>
                   <p className="font-black text-[#111111]">{s.route}</p>
@@ -97,25 +120,30 @@ export function ScheduleClient({ schedules }: { schedules: ShipSchedule[] }) {
                     {s.region}
                   </span>
                 </div>
-                <span className="font-bold text-[#CC1F2A] text-sm">{s.eta}</span>
+                <ServiceTypeBadge type={s.serviceType} />
               </div>
               <div className="grid grid-cols-2 gap-2 text-sm">
                 <div>
-                  <p className="text-gray-400 text-xs">Kapal</p>
-                  <p className="font-semibold text-gray-700">{s.ship}</p>
+                  <p className="text-gray-400 text-xs">Nama Kapal</p>
+                  <p className="font-semibold text-gray-700">{s.ship || "-"}</p>
                 </div>
                 <div>
-                  <p className="text-gray-400 text-xs">Operator</p>
-                  <p className="font-semibold text-gray-700">{s.operator}</p>
+                  <p className="text-gray-400 text-xs">Closing Date</p>
+                  <p className="font-semibold text-gray-700">{formatScheduleDate(s.closingDate)}</p>
                 </div>
-                <div className="col-span-2">
-                  <p className="text-gray-400 text-xs">Jadwal</p>
-                  <p className="font-semibold text-gray-700">{s.departure}</p>
+                <div>
+                  <p className="text-gray-400 text-xs">ETD</p>
+                  <p className="font-semibold text-gray-700">{formatScheduleDate(s.etdDate)}</p>
+                </div>
+                <div>
+                  <p className="text-gray-400 text-xs">ETA</p>
+                  <p className="font-bold text-[#CC1F2A]">{formatScheduleDate(s.etaDate)}</p>
                 </div>
               </div>
             </div>
           ))}
         </div>
+        )}
 
         {/* Disclaimer + CTA */}
         <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-5 mb-6 text-sm text-yellow-800">
