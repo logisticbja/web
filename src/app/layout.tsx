@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import { Suspense } from "react";
 import "./globals.css";
-import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
 import { RestrictionNotice } from "@/components/layout/RestrictionNotice";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
@@ -86,7 +85,6 @@ export default function RootLayout({
         <Suspense fallback={null}>
           <UTMTracker />
         </Suspense>
-        <AnnouncementBar />
         <Navbar />
         <RestrictionNotice />
         <main className="flex-1 pb-16 md:pb-0">{children}</main>
