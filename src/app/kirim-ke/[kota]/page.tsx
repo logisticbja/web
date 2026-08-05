@@ -296,6 +296,19 @@ export default async function KirimKePage({ params }: Props) {
 
       <div className="max-w-5xl mx-auto px-4 py-12 space-y-14">
 
+        {/* Restriction warning */}
+        <div className="bg-[#FEF2F2] border-2 border-[#CC1F2A]/30 rounded-2xl p-5 flex items-start gap-3">
+          <Ban size={20} className="text-[#CC1F2A] shrink-0 mt-0.5" />
+          <div>
+            <p className="font-black text-[#CC1F2A] text-sm sm:text-base mb-0.5">
+              TIDAK MENERIMA PENGIRIMAN HEWAN & FROZEN FOOD
+            </p>
+            <p className="text-[#7A1319] text-xs sm:text-sm">
+              Mohon pastikan barang yang dikirim ke {cityLabel} bukan termasuk hewan hidup/mati atau makanan beku. Hubungi CS jika ragu.
+            </p>
+          </div>
+        </div>
+
         {/* Pricing cards */}
         <div>
           <h2 className="text-2xl font-black text-[#111111] mb-2">Pilih Layanan ke {cityLabel}</h2>
