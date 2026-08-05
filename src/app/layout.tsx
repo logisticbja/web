@@ -3,6 +3,7 @@ import Script from "next/script";
 import { Suspense } from "react";
 import "./globals.css";
 import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
+import { RestrictionNotice } from "@/components/layout/RestrictionNotice";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { FloatingWA } from "@/components/ui/FloatingWA";
@@ -86,6 +87,7 @@ export default function RootLayout({
           <UTMTracker />
         </Suspense>
         <AnnouncementBar />
+        <RestrictionNotice />
         <Navbar />
         <main className="flex-1 pb-16 md:pb-0">{children}</main>
         <Footer />
