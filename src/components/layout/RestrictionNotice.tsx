@@ -5,19 +5,25 @@ export function RestrictionNotice() {
     <div className="bg-[#F5C518] overflow-hidden py-2">
       <div className="marquee-track">
         <span className="marquee-item">{text}</span>
+        <span className="marquee-item">{text}</span>
+        <span className="marquee-item">{text}</span>
+        <span className="marquee-item">{text}</span>
+        <span className="marquee-item" aria-hidden="true">{text}</span>
+        <span className="marquee-item" aria-hidden="true">{text}</span>
+        <span className="marquee-item" aria-hidden="true">{text}</span>
         <span className="marquee-item" aria-hidden="true">{text}</span>
       </div>
       <style>{`
         .marquee-track {
           display: flex;
           width: max-content;
-          animation: marquee-scroll 16s linear infinite;
+          animation: marquee-scroll 22s linear infinite;
         }
         .marquee-item {
           display: flex;
           align-items: center;
           white-space: nowrap;
-          padding-right: 4rem;
+          padding-right: 3rem;
           color: #CC1F2A;
           font-weight: 900;
           font-size: 0.875rem;
