@@ -229,61 +229,63 @@ export default async function KirimKePage({ params }: Props) {
             <span className="text-white text-sm font-bold">{cityLabel}</span>
           </div>
 
-          <div className="max-w-xl">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 rounded-xl bg-[#F5C518] flex items-center justify-center shrink-0">
-                <MapPin size={20} className="text-[#1A1A1A]" />
-              </div>
-              {region && <span className="text-white/70 text-sm font-semibold">{region}</span>}
-            </div>
-            <h1 className="text-2xl sm:text-3xl font-black text-white mb-3 leading-tight">
-              Ekspedisi Cargo<br />ke {cityLabel}
-            </h1>
-            <p className="text-white/70 text-sm mb-5">
-              Pengiriman cargo ke {cityLabel} mulai dari{" "}
-              <strong className="text-[#F5C518]">
-                {apiData?.priceRegular || `${formatPrice(lautPrice.priceMin)}/kg`}
-              </strong>{" "}
-              via cargo laut, minimal 100 kg. Door to door dari Jabodetabek & Surabaya.
-            </p>
-            <div className="flex flex-wrap gap-3">
-              <WALink
-                href={buildDestinationMessage(cityLabel)}
-                className="flex items-center gap-2 bg-[#25D366] hover:bg-[#20bc59] text-white font-black px-6 py-3.5 rounded-xl transition-all hover:shadow-lg text-base"
-              >
-                <MessageCircle size={18} />
-                Tanya Harga ke {cityLabel}
-              </WALink>
-              <Link
-                href="/cek-ongkir"
-                className="flex items-center gap-2 border-2 border-white/30 text-white hover:bg-white/10 font-bold px-6 py-3.5 rounded-xl transition-all text-base"
-              >
-                Hitung Ongkir <ArrowRight size={16} />
-              </Link>
-            </div>
-          </div>
-
-          {/* Estimasi Ongkir — centered */}
-          <div className="text-center mt-10">
-            <p className="text-white/70 text-xs sm:text-sm font-bold uppercase tracking-wide mb-4">
-              Estimasi Ongkir ke {cityLabel}
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-8">
-              {[
-                { label: "Reguler", price: apiData?.priceRegular || `Rp ${(cp.regulerPrice ?? cp.expressPrice).toLocaleString("id-ID")}/kg` },
-                { label: "Express", price: apiData?.priceExpress || `Rp ${cp.expressPrice.toLocaleString("id-ID")}/kg` },
-              ].map((s) => (
-                <div key={s.label} className="relative">
-                  <div className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-[#CC1F2A] z-10" />
-                  <div className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-[#F5C518] z-20" />
-                  <div className="bg-white rounded-full pl-8 pr-6 py-3 flex items-center gap-2 shadow-lg">
-                    <span className="font-black text-[#111111] underline decoration-2 underline-offset-2 text-base sm:text-lg whitespace-nowrap">
-                      {s.label} →
-                    </span>
-                    <span className="text-[#CC1F2A] font-black text-base sm:text-lg whitespace-nowrap">{s.price}</span>
-                  </div>
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
+            <div className="max-w-xl">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-10 h-10 rounded-xl bg-[#F5C518] flex items-center justify-center shrink-0">
+                  <MapPin size={20} className="text-[#1A1A1A]" />
                 </div>
-              ))}
+                {region && <span className="text-white/70 text-sm font-semibold">{region}</span>}
+              </div>
+              <h1 className="text-2xl sm:text-3xl font-black text-white mb-3 leading-tight">
+                Ekspedisi Cargo<br />ke {cityLabel}
+              </h1>
+              <p className="text-white/70 text-sm mb-5">
+                Pengiriman cargo ke {cityLabel} mulai dari{" "}
+                <strong className="text-[#F5C518]">
+                  {apiData?.priceRegular || `${formatPrice(lautPrice.priceMin)}/kg`}
+                </strong>{" "}
+                via cargo laut, minimal 100 kg. Door to door dari Jabodetabek & Surabaya.
+              </p>
+              <div className="flex flex-wrap gap-3">
+                <WALink
+                  href={buildDestinationMessage(cityLabel)}
+                  className="flex items-center gap-2 bg-[#25D366] hover:bg-[#20bc59] text-white font-black px-6 py-3.5 rounded-xl transition-all hover:shadow-lg text-base"
+                >
+                  <MessageCircle size={18} />
+                  Tanya Harga ke {cityLabel}
+                </WALink>
+                <Link
+                  href="/cek-ongkir"
+                  className="flex items-center gap-2 border-2 border-white/30 text-white hover:bg-white/10 font-bold px-6 py-3.5 rounded-xl transition-all text-base"
+                >
+                  Hitung Ongkir <ArrowRight size={16} />
+                </Link>
+              </div>
+            </div>
+
+            {/* Estimasi Ongkir */}
+            <div className="shrink-0 lg:pl-6">
+              <p className="text-white/70 text-xs sm:text-sm font-bold uppercase tracking-wide mb-4 text-center lg:text-left">
+                Estimasi Ongkir ke {cityLabel}
+              </p>
+              <div className="flex flex-col gap-4">
+                {[
+                  { label: "Reguler", price: apiData?.priceRegular || `Rp ${(cp.regulerPrice ?? cp.expressPrice).toLocaleString("id-ID")}/kg` },
+                  { label: "Express", price: apiData?.priceExpress || `Rp ${cp.expressPrice.toLocaleString("id-ID")}/kg` },
+                ].map((s) => (
+                  <div key={s.label} className="relative">
+                    <div className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-[#CC1F2A] z-10" />
+                    <div className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-[#F5C518] z-20" />
+                    <div className="bg-white rounded-full pl-10 pr-8 py-4 flex items-center gap-3 shadow-lg min-w-[280px]">
+                      <span className="font-black text-[#111111] text-lg sm:text-xl whitespace-nowrap">
+                        {s.label} →
+                      </span>
+                      <span className="text-[#CC1F2A] font-black text-lg sm:text-xl whitespace-nowrap">{s.price}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 
