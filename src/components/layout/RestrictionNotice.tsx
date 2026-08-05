@@ -17,7 +17,7 @@ export function RestrictionNotice() {
         .marquee-track {
           display: flex;
           width: max-content;
-          animation: marquee-scroll 22s linear infinite;
+          animation: marquee-scroll 45s linear infinite;
         }
         .marquee-item {
           display: flex;
