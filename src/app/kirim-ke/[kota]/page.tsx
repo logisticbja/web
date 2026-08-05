@@ -265,18 +265,21 @@ export default async function KirimKePage({ params }: Props) {
             </div>
 
             {/* Price snippet */}
-            <div className="sm:shrink-0 bg-white rounded-2xl p-5 sm:w-56 shadow-xl border-2 border-[#F5C518]">
-              <p className="text-gray-500 text-xs mb-3 uppercase tracking-wide font-bold">Estimasi Harga</p>
+            <div className="sm:shrink-0 sm:w-72 space-y-3">
               {[
-                { label: "Reguler", icon: "🚢", price: apiData?.priceRegular || `Rp ${(cp.regulerPrice ?? cp.expressPrice).toLocaleString("id-ID")}/kg` },
-                { label: "Express", icon: "⚡", price: apiData?.priceExpress || `Rp ${cp.expressPrice.toLocaleString("id-ID")}/kg` },
+                { label: "Reguler", price: apiData?.priceRegular || `Rp ${(cp.regulerPrice ?? cp.expressPrice).toLocaleString("id-ID")}/kg` },
+                { label: "Express", price: apiData?.priceExpress || `Rp ${cp.expressPrice.toLocaleString("id-ID")}/kg` },
               ].map((s) => (
-                <div key={s.label} className="flex items-center justify-between py-2.5 border-b border-gray-100 last:border-0">
-                  <span className="text-gray-600 text-sm font-semibold">{s.icon} {s.label}</span>
-                  <span className="text-[#CC1F2A] font-black text-base">{s.price}</span>
+                <div key={s.label} className="relative">
+                  <div className="absolute -left-3 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-[#CC1F2A] z-10" />
+                  <div className="bg-white rounded-full pl-8 pr-6 py-3.5 flex items-center gap-2 shadow-lg">
+                    <span className="font-black text-[#111111] underline decoration-2 underline-offset-2 text-base sm:text-lg whitespace-nowrap">
+                      {s.label} →
+                    </span>
+                    <span className="text-[#CC1F2A] font-black text-base sm:text-lg whitespace-nowrap">{s.price}</span>
+                  </div>
                 </div>
               ))}
-              <p className="text-gray-400 text-xs mt-3">*Estimasi. Min. 100 kg. Konfirmasi via WA.</p>
             </div>
           </div>
 
@@ -295,19 +298,6 @@ export default async function KirimKePage({ params }: Props) {
       </div>
 
       <div className="max-w-5xl mx-auto px-4 py-12 space-y-14">
-
-        {/* Restriction warning */}
-        <div className="bg-[#FEF2F2] border-2 border-[#CC1F2A]/30 rounded-2xl p-5 flex items-start gap-3">
-          <Ban size={20} className="text-[#CC1F2A] shrink-0 mt-0.5" />
-          <div>
-            <p className="font-black text-[#CC1F2A] text-sm sm:text-base mb-0.5">
-              TIDAK MENERIMA PENGIRIMAN HEWAN & FROZEN FOOD
-            </p>
-            <p className="text-[#7A1319] text-xs sm:text-sm">
-              Mohon pastikan barang yang dikirim ke {cityLabel} bukan termasuk hewan hidup/mati atau makanan beku. Hubungi CS jika ragu.
-            </p>
-          </div>
-        </div>
 
         {/* Pricing cards */}
         <div>
