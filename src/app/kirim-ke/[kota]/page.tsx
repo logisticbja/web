@@ -265,19 +265,19 @@ export default async function KirimKePage({ params }: Props) {
             </div>
 
             {/* Estimasi Ongkir */}
-            <div className="shrink-0 lg:pl-6">
-              <p className="text-white/70 text-xs sm:text-sm font-bold uppercase tracking-wide mb-4 text-center lg:text-left">
+            <div className="shrink-0 lg:pl-10">
+              <p className="text-[#F5C518] text-xs sm:text-sm font-bold uppercase tracking-wide mb-5 text-center lg:text-left">
                 Estimasi Ongkir ke {cityLabel}
               </p>
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-6">
                 {[
                   { label: "Reguler", price: apiData?.priceRegular || `Rp ${(cp.regulerPrice ?? cp.expressPrice).toLocaleString("id-ID")}/kg` },
                   { label: "Express", price: apiData?.priceExpress || `Rp ${cp.expressPrice.toLocaleString("id-ID")}/kg` },
                 ].map((s) => (
                   <div key={s.label} className="relative">
-                    <div className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-[#CC1F2A] z-10" />
-                    <div className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-[#F5C518] z-20" />
-                    <div className="bg-white rounded-full pl-10 pr-8 py-4 flex items-center gap-3 shadow-lg min-w-[280px]">
+                    <div className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-full bg-[#CC1F2A] z-10" />
+                    <div className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-[#F5C518] z-20" />
+                    <div className="bg-white rounded-full pl-16 pr-10 py-4 flex items-center gap-3 shadow-lg min-w-[320px]">
                       <span className="font-black text-[#111111] text-lg sm:text-xl whitespace-nowrap">
                         {s.label} →
                       </span>
