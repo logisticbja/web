@@ -87,8 +87,8 @@ export default function RootLayout({
           <UTMTracker />
         </Suspense>
         <AnnouncementBar />
-        <RestrictionNotice />
         <Navbar />
+        <RestrictionNotice />
         <main className="flex-1 pb-16 md:pb-0">{children}</main>
         <Footer />
         <FloatingWA />
