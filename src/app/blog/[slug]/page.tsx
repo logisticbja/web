@@ -5,7 +5,13 @@ import BlogCoverImage from "../BlogCoverImage";
 import { getPostBySlug, formatDate } from "@/lib/blog";
 import { buildGeneralMessage } from "@/lib/whatsapp";
 import { WALink } from "@/components/ui/WALink";
-import { ArticleJsonLd, BreadcrumbJsonLd } from "@/components/JsonLd";
+import {
+  ArticleJsonLd,
+  ArticleFaqJsonLd,
+  HowToJsonLd,
+  ProductJsonLd,
+  BreadcrumbJsonLd,
+} from "@/components/JsonLd";
 import { Metadata } from "next";
 
 interface Props {
@@ -81,6 +87,11 @@ export default async function BlogPostPage({ params }: Props) {
     ...(post.tags ?? []),
   ];
 
+  // Artikel berita pakai @type NewsArticle, sisanya (termasuk FAQ/HowTo/Product)
+  // tetap dapat schema Article dasar sebagai pelengkap — beberapa blok JSON-LD
+  // sekaligus di satu halaman itu valid & lazim (mis. Article + FAQPage).
+  const articleType = post.schemaType === "NewsArticle" ? "NewsArticle" : "Article";
+
   return (
     <>
       {/* Structured data */}
@@ -93,7 +104,25 @@ export default async function BlogPostPage({ params }: Props) {
         author={post.author}
         keywords={allKeywords}
         section={post.category}
+        type={articleType}
       />
+      {post.schemaType === "FAQPage" && post.faqItems.length > 0 && (
+        <ArticleFaqJsonLd items={post.faqItems} />
+      )}
+      {post.schemaType === "HowTo" && post.howToSteps.length > 0 && (
+        <HowToJsonLd name={post.title} steps={post.howToSteps} />
+      )}
+      {post.schemaType === "Product" && (
+        <ProductJsonLd
+          name={post.title}
+          image={ogImage}
+          description={post.metaDesc ?? post.excerpt}
+          price={post.productPrice}
+          currency={post.productCurrency}
+          availability={post.productAvailability}
+          url={canonical}
+        />
+      )}
       <BreadcrumbJsonLd
         items={[
           { name: "Beranda", url: BASE_URL },
@@ -165,6 +194,49 @@ export default async function BlogPostPage({ params }: Props) {
             className="bg-white rounded-2xl p-7 sm:p-10 shadow-sm border border-gray-100 prose prose-gray max-w-none"
             dangerouslySetInnerHTML={{ __html: post.content }}
           />
+
+          {/* HowTo — daftar langkah, cuma tampil kalau Schema Type = HowTo dan diisi */}
+          {post.schemaType === "HowTo" && post.howToSteps.length > 0 && (
+            <div className="mt-6 bg-white rounded-2xl p-7 sm:p-9 shadow-sm border border-gray-100">
+              <h2 className="text-lg sm:text-xl font-black text-[#111111] mb-5">Langkah-Langkah</h2>
+              <ol className="space-y-5">
+                {post.howToSteps.map((step, i) => (
+                  <li key={i} className="flex gap-4">
+                    <span className="shrink-0 w-8 h-8 rounded-full bg-[#CC1F2A] text-white font-black text-sm flex items-center justify-center">
+                      {i + 1}
+                    </span>
+                    <div>
+                      <p className="font-bold text-[#111111] mb-1">{step.title}</p>
+                      <p className="text-gray-600 text-sm leading-relaxed">{step.desc}</p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          )}
+
+          {/* FAQ — blurb + daftar tanya-jawab, cuma tampil kalau Schema Type = FAQ dan diisi */}
+          {post.schemaType === "FAQPage" && post.faqItems.length > 0 && (
+            <div className="mt-6 bg-white rounded-2xl p-7 sm:p-9 shadow-sm border border-gray-100">
+              <h2 className="text-lg sm:text-xl font-black text-[#111111] mb-3">Pertanyaan Umum</h2>
+              {post.faqBlurb && (
+                <p className="text-gray-500 text-sm leading-relaxed mb-5">{post.faqBlurb}</p>
+              )}
+              <div className="space-y-3">
+                {post.faqItems.map((item, i) => (
+                  <details key={i} className="group border border-gray-100 rounded-xl overflow-hidden">
+                    <summary className="flex items-center justify-between px-5 py-3.5 cursor-pointer font-bold text-[#111111] text-sm list-none hover:bg-gray-50 transition-colors">
+                      {item.question}
+                      <span className="ml-4 shrink-0 text-gray-400 group-open:rotate-180 transition-transform duration-200">▼</span>
+                    </summary>
+                    <div className="px-5 pb-4 pt-1 text-gray-600 text-sm leading-relaxed border-t border-gray-100">
+                      {item.answer}
+                    </div>
+                  </details>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Tags */}
           {post.tags && post.tags.length > 0 && (
