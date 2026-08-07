@@ -168,6 +168,134 @@ interface ArticleJsonLdProps {
   author: string;
   keywords?: string[];
   section?: string;
+  type?: "Article" | "NewsArticle";
+}
+
+export function ArticleJsonLd({
+  url, title, description, image, datePublished, author, keywords = [], section, type = "Article",
+}: ArticleJsonLdProps) {
+  const data = {
+    "@context": "https://schema.org",
+    "@type": type,
+    "@id": `${url}#article`,
+    headline: title,
+    description,
+    image: { "@type": "ImageObject", url: image, width: 1200, height: 630 },
+    datePublished,
+    dateModified: datePublished,
+    inLanguage: "id",
+    ...(section && { articleSection: section }),
+    ...(keywords.length > 0 && { keywords: keywords.join(", ") }),
+    author: {
+      "@type": "Organization",
+      name: author,
+      url: "https://bjalogistic.id",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "BJA Logistic",
+      url: "https://bjalogistic.id",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://bjalogistic.id/logo-putih-bja.webp",
+        width: 200,
+        height: 60,
+      },
+    },
+    mainEntityOfPage: { "@type": "WebPage", "@id": url },
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+    />
+  );
+}
+
+// FAQ per-artikel (beda dari FaqJsonLd statis di homepage) — dipakai kalau
+// penulis pilih Schema Type "FAQ (FAQPage)" di CRM dan isi minimal 1 FAQ.
+interface ArticleFaqJsonLdProps {
+  items: { question: string; answer: string }[];
+}
+export function ArticleFaqJsonLd({ items }: ArticleFaqJsonLdProps) {
+  if (!items.length) return null;
+  const data = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: { "@type": "Answer", text: item.answer },
+    })),
+  };
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+    />
+  );
+}
+
+interface HowToJsonLdProps {
+  name: string;
+  steps: { title: string; desc: string }[];
+}
+export function HowToJsonLd({ name, steps }: HowToJsonLdProps) {
+  if (!steps.length) return null;
+  const data = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name,
+    step: steps.map((s) => ({
+      "@type": "HowToStep",
+      name: s.title,
+      text: s.desc,
+    })),
+  };
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+    />
+  );
+}
+
+interface ProductJsonLdProps {
+  name: string;
+  image: string;
+  description: string;
+  price?: string;
+  currency: string;
+  availability: string;
+  url: string;
+}
+export function ProductJsonLd({
+  name, image, description, price, currency, availability, url,
+}: ProductJsonLdProps) {
+  const data: Record<string, unknown> = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name,
+    image,
+    description,
+    url,
+  };
+  if (price) {
+    data.offers = {
+      "@type": "Offer",
+      price,
+      priceCurrency: currency,
+      availability: `https://schema.org/${availability}`,
+      url,
+    };
+  }
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+    />
+  );
 }
 
 export function ArticleJsonLd({
