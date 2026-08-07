@@ -159,18 +159,6 @@ export function FaqJsonLd() {
   );
 }
 
-interface ArticleJsonLdProps {
-  url: string;
-  title: string;
-  description: string;
-  image: string;
-  datePublished: string;
-  author: string;
-  keywords?: string[];
-  section?: string;
-  type?: "Article" | "NewsArticle";
-}
-
 export function ArticleJsonLd({
   url, title, description, image, datePublished, author, keywords = [], section, type = "Article",
 }: ArticleJsonLdProps) {
