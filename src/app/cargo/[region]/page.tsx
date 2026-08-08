@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { MessageCircle, MapPin, Star, ChevronDown, ChevronUp } from "lucide-react";
+import Image from "next/image";
+import { MessageCircle, MapPin, Star, ChevronDown, ChevronUp, ChevronRight, Package } from "lucide-react";
 import { WALink } from "@/components/ui/WALink";
 import { Metadata } from "next";
 import { CekOngkirForm } from "@/components/CekOngkirForm";
@@ -8,6 +9,7 @@ import { fetchPricing } from "@/lib/sheets";
 import { getSchedules, formatScheduleDate, formatServiceType } from "@/lib/schedule";
 import { buildScheduleMessage } from "@/lib/whatsapp";
 import { getRegionConfig, getCitiesByRegion, regionConfigs } from "@/lib/data/regions";
+import { getCargoHeroImage } from "@/lib/cargoHero";
 import { BreadcrumbJsonLd } from "@/components/JsonLd";
 
 const BASE_URL = "https://bjalogistic.id";
@@ -86,6 +88,7 @@ export default async function CargoRegionPage({ params }: Props) {
   if (!config) notFound();
 
   const rows = await fetchPricing();
+  const heroImage = await getCargoHeroImage(config.slug);
 
   // Sumber jadwal kapal sekarang live dari CRM (public-ship-schedule.php), bukan lagi
   // file statis lib/data/schedule.ts — supaya gak ada 2 sumber data yang bisa beda-beda.
@@ -106,28 +109,75 @@ export default async function CargoRegionPage({ params }: Props) {
 
       <div className="min-h-screen bg-[#F8FAFC]">
 
-        {/* Compact hero — thin banner */}
-        <div className="bg-gradient-to-r from-[#CC1F2A] to-[#8B1219] px-4 py-4">
-          <div className="max-w-6xl mx-auto flex items-center gap-4 flex-wrap">
-            <div className="flex-1 min-w-0">
-              <p className="text-white/50 text-[10px] font-bold uppercase tracking-widest leading-none mb-1">
-                BJA Logistic · Ekspedisi Indonesia Timur
-              </p>
-              <h1 className="text-sm sm:text-base font-black text-white leading-tight truncate">
-                {config.tagline}
-              </h1>
+        {/* Hero — full width, breadcrumb + judul besar + badge info + CTA. Gambar dari CRM kalau ada, fallback ikon kotak kalau kosong */}
+        <div className="relative overflow-hidden bg-gradient-to-br from-[#CC1F2A] to-[#8B1219] min-h-[440px] sm:min-h-[480px] lg:min-h-[540px] flex items-end">
+
+          {heroImage?.image ? (
+            <>
+              <div className="absolute inset-0">
+                <Image
+                  src={heroImage.image}
+                  alt={heroImage.alt || `Cargo ke ${config.label}`}
+                  fill
+                  priority
+                  className="object-cover"
+                />
+              </div>
+              {/* Gradient tipis di bawah biar teks tetap kebaca, foto tetap terang */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
+            </>
+          ) : (
+            <div className="absolute inset-y-0 right-0 w-2/5 hidden md:flex items-center justify-center pointer-events-none">
+              <div className="absolute inset-0 bg-gradient-to-l from-black/10 to-transparent" />
+              <div className="flex flex-col gap-3 relative">
+                {[0, 1, 2, 3].map((i) => (
+                  <div
+                    key={i}
+                    className="w-16 h-16 lg:w-20 lg:h-20 bg-white/10 border-2 border-white/25 rounded-2xl flex items-center justify-center backdrop-blur-sm shadow-lg"
+                    style={{ marginLeft: i % 2 === 0 ? "2.5rem" : "0", opacity: 1 - i * 0.12 }}
+                  >
+                    <Package size={30} className="text-white/80" strokeWidth={1.75} />
+                  </div>
+                ))}
+              </div>
             </div>
-            <div className="flex gap-2 shrink-0">
+          )}
+
+          <div className="relative max-w-6xl mx-auto px-4 py-10 sm:py-12 w-full">
+            <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-white/70 text-xs sm:text-sm mb-6">
+              <Link href="/" className="hover:text-white transition-colors">Beranda</Link>
+              <ChevronRight size={13} />
+              <Link href="/cargo" className="hover:text-white transition-colors">Cargo</Link>
+              <ChevronRight size={13} />
+              <span className="text-white font-semibold">{config.label}</span>
+            </nav>
+
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white leading-tight mb-4 max-w-xl">
+              {config.tagline}
+            </h1>
+
+            <p className="text-white/70 text-sm sm:text-base max-w-lg mb-6 leading-relaxed">
+              {config.description}
+            </p>
+
+            <div className="flex gap-2 flex-wrap mb-7">
               {config.stats.map((s) => (
-                <div
+                <span
                   key={s.label}
-                  className="bg-white/15 border border-white/20 rounded-lg px-3 py-1.5 text-center hidden sm:block"
+                  className="inline-flex items-center gap-1.5 bg-white/15 border border-white/20 text-white text-xs font-semibold px-3 py-1.5 rounded-full"
                 >
-                  <p className="text-white font-black text-xs leading-none">{s.value}</p>
-                  <p className="text-white/60 text-[10px] mt-0.5">{s.label}</p>
-                </div>
+                  <strong className="font-black">{s.value}</strong> {s.label}
+                </span>
               ))}
             </div>
+
+            <WALink
+              href={waUrl}
+              className="inline-flex items-center justify-center gap-2.5 bg-[#25D366] hover:bg-[#20bc59] text-white font-black py-3.5 px-8 rounded-xl transition-colors text-sm shadow-lg w-fit"
+            >
+              <MessageCircle size={18} />
+              Chat WhatsApp Sekarang
+            </WALink>
           </div>
         </div>
 
