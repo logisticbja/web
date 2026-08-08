@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = await getPostBySlug(slug);
   if (!post) return {};
 
-  const canonical   = `${BASE_URL}/blog/${slug}`;
+  const canonical   = ${BASE_URL}/blog/${slug};
   const metaTitle   = post.metaTitle   ?? post.title;
   const metaDesc    = post.metaDesc    ?? post.excerpt;
   const ogTitle     = post.ogTitle     ?? metaTitle;
@@ -51,7 +51,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: "article",
       publishedTime: post.date,
       modifiedTime: post.date,
-      authors: [`${BASE_URL}/tentang-kami`],
+      authors: [${BASE_URL}/tentang-kami],
       section: post.category,
       tags: post.tags ?? [],
       siteName: "BJA Logistic",
@@ -79,7 +79,7 @@ export default async function BlogPostPage({ params }: Props) {
 
   if (!post) notFound();
 
-  const canonical  = `${BASE_URL}/blog/${slug}`;
+  const canonical  = ${BASE_URL}/blog/${slug};
   const ogImage    = post.ogImage ?? post.cover ?? "/og-image.png";
   const readTime   = estimateReadTime(post.content);
   const allKeywords = [
@@ -126,72 +126,69 @@ export default async function BlogPostPage({ params }: Props) {
       <BreadcrumbJsonLd
         items={[
           { name: "Beranda", url: BASE_URL },
-          { name: "Blog", url: `${BASE_URL}/blog` },
+          { name: "Blog", url: ${BASE_URL}/blog },
           { name: post.title, url: canonical },
         ]}
       />
 
-      <div className="min-h-screen bg-[#F8FAFC]">
-        {/* Header / Hero — cover image sebagai background */}
-        <div className="relative overflow-hidden">
-          {/* Background image layer */}
-          <div className="absolute inset-0">
+      <div className="min-h-screen bg-[
+#F8FAFC]">
+        {/* Header */}
+        <div className="bg-gradient-to-br from-[
+#CC1F2A] to-[
+#8B1219] py-10 px-4">
+          <div className="max-w-3xl mx-auto">
+            <nav aria-label="Breadcrumb">
+              <Link
+                href="/blog"
+                className="inline-flex items-center gap-1.5 text-white/70 hover:text-white text-sm mb-7 transition-colors group"
+              >
+                <ArrowLeft size={15} className="group-hover:-translate-x-0.5 transition-transform" />
+                Kembali ke Blog
+              </Link>
+            </nav>
+
+            <div className="flex items-center gap-2 mb-4">
+              <span className="inline-block bg-white/25 text-white text-xs font-bold px-3 py-1 rounded-full">
+                {post.category}
+              </span>
+            </div>
+
+            <h1 className="text-xl sm:text-2xl lg:text-3xl font-black text-white leading-snug mb-5">
+              {post.title}
+            </h1>
+
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-white/60 text-sm">
+              <span className="flex items-center gap-1.5">
+                <User size={13} />
+                {post.author}
+              </span>
+              <span className="text-white/30">·</span>
+              <time dateTime={post.date}>{formatDate(post.date)}</time>
+              <span className="text-white/30">·</span>
+              <span className="flex items-center gap-1.5">
+                <Clock size={13} />
+                {readTime} menit baca
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div className="max-w-3xl mx-auto px-4 py-10">
+          {/* Cover image */}
+          <div className="relative h-64 sm:h-80 w-full rounded-2xl overflow-hidden mb-8 shadow-md">
             <BlogCoverImage
               src={post.cover}
               alt={post.coverAlt ?? post.title}
               category={post.category}
               priority
             />
-            {/* Overlay merah brand, biar teks tetap kebaca di atas foto apapun */}
-            <div className="absolute inset-0 bg-gradient-to-br from-[#CC1F2A]/92 to-[#8B1219]/92" />
-            {/* Darkening tambahan di bawah, buat kontras baris meta */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
           </div>
 
-          {/* Content layer */}
-          <div className="relative py-10 px-4">
-            <div className="max-w-3xl mx-auto">
-              <nav aria-label="Breadcrumb">
-                <Link
-                  href="/blog"
-                  className="inline-flex items-center gap-1.5 text-white/70 hover:text-white text-sm mb-7 transition-colors group"
-                >
-                  <ArrowLeft size={15} className="group-hover:-translate-x-0.5 transition-transform" />
-                  Kembali ke Blog
-                </Link>
-              </nav>
-
-              <div className="flex items-center gap-2 mb-4">
-                <span className="inline-block bg-white/25 text-white text-xs font-bold px-3 py-1 rounded-full">
-                  {post.category}
-                </span>
-              </div>
-
-              <h1 className="text-xl sm:text-2xl lg:text-3xl font-black text-white leading-snug mb-5">
-                {post.title}
-              </h1>
-
-              <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-white/60 text-sm">
-                <span className="flex items-center gap-1.5">
-                  <User size={13} />
-                  {post.author}
-                </span>
-                <span className="text-white/30">·</span>
-                <time dateTime={post.date}>{formatDate(post.date)}</time>
-                <span className="text-white/30">·</span>
-                <span className="flex items-center gap-1.5">
-                  <Clock size={13} />
-                  {readTime} menit baca
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="max-w-3xl mx-auto px-4 py-10">
           {/* Excerpt / intro callout */}
           {post.excerpt && (
-            <div className="bg-white border-l-4 border-[#CC1F2A] rounded-r-xl px-6 py-4 mb-8 shadow-sm">
+            <div className="bg-white border-l-4 border-[
+#CC1F2A] rounded-r-xl px-6 py-4 mb-8 shadow-sm">
               <p className="text-gray-600 text-sm sm:text-base leading-relaxed italic">{post.excerpt}</p>
             </div>
           )}
@@ -205,15 +202,18 @@ export default async function BlogPostPage({ params }: Props) {
           {/* HowTo — daftar langkah, cuma tampil kalau Schema Type = HowTo dan diisi */}
           {post.schemaType === "HowTo" && post.howToSteps.length > 0 && (
             <div className="mt-6 bg-white rounded-2xl p-7 sm:p-9 shadow-sm border border-gray-100">
-              <h2 className="text-lg sm:text-xl font-black text-[#111111] mb-5">Langkah-Langkah</h2>
+              <h2 className="text-lg sm:text-xl font-black text-[
+#111111] mb-5">Langkah-Langkah</h2>
               <ol className="space-y-5">
                 {post.howToSteps.map((step, i) => (
                   <li key={i} className="flex gap-4">
-                    <span className="shrink-0 w-8 h-8 rounded-full bg-[#CC1F2A] text-white font-black text-sm flex items-center justify-center">
+                    <span className="shrink-0 w-8 h-8 rounded-full bg-[
+#CC1F2A] text-white font-black text-sm flex items-center justify-center">
                       {i + 1}
                     </span>
                     <div>
-                      <p className="font-bold text-[#111111] mb-1">{step.title}</p>
+                      <p className="font-bold text-[
+#111111] mb-1">{step.title}</p>
                       <p className="text-gray-600 text-sm leading-relaxed">{step.desc}</p>
                     </div>
                   </li>
@@ -225,14 +225,16 @@ export default async function BlogPostPage({ params }: Props) {
           {/* FAQ — blurb + daftar tanya-jawab, cuma tampil kalau Schema Type = FAQ dan diisi */}
           {post.schemaType === "FAQPage" && post.faqItems.length > 0 && (
             <div className="mt-6 bg-white rounded-2xl p-7 sm:p-9 shadow-sm border border-gray-100">
-              <h2 className="text-lg sm:text-xl font-black text-[#111111] mb-3">Pertanyaan Umum</h2>
+              <h2 className="text-lg sm:text-xl font-black text-[
+#111111] mb-3">Pertanyaan Umum</h2>
               {post.faqBlurb && (
                 <p className="text-gray-500 text-sm leading-relaxed mb-5">{post.faqBlurb}</p>
               )}
               <div className="space-y-3">
                 {post.faqItems.map((item, i) => (
                   <details key={i} className="group border border-gray-100 rounded-xl overflow-hidden">
-                    <summary className="flex items-center justify-between px-5 py-3.5 cursor-pointer font-bold text-[#111111] text-sm list-none hover:bg-gray-50 transition-colors">
+                    <summary className="flex items-center justify-between px-5 py-3.5 cursor-pointer font-bold text-[
+#111111] text-sm list-none hover:bg-gray-50 transition-colors">
                       {item.question}
                       <span className="ml-4 shrink-0 text-gray-400 group-open:rotate-180 transition-transform duration-200">▼</span>
                     </summary>
@@ -261,7 +263,9 @@ export default async function BlogPostPage({ params }: Props) {
           )}
 
           {/* CTA */}
-          <div className="mt-8 bg-gradient-to-br from-[#CC1F2A] to-[#8B1219] rounded-2xl p-7 sm:p-9 text-white text-center relative overflow-hidden">
+          <div className="mt-8 bg-gradient-to-br from-[
+#CC1F2A] to-[
+#8B1219] rounded-2xl p-7 sm:p-9 text-white text-center relative overflow-hidden">
             <div className="absolute top-0 right-0 w-40 h-40 bg-white/5 rounded-full translate-x-1/2 -translate-y-1/2 pointer-events-none" />
             <div className="relative">
               <h3 className="text-lg sm:text-xl font-black mb-2">Siap Kirim Barang?</h3>
@@ -270,7 +274,10 @@ export default async function BlogPostPage({ params }: Props) {
               </p>
               <WALink
                 href={buildGeneralMessage()}
-                className="inline-flex items-center justify-center gap-2 bg-[#F5C518] hover:bg-[#D4A910] text-[#1A1A1A] font-bold py-3 px-8 rounded-xl transition-colors text-sm shadow-lg"
+                className="inline-flex items-center justify-center gap-2 bg-[
+#F5C518] hover:bg-[
+#D4A910] text-[
+#1A1A1A] font-bold py-3 px-8 rounded-xl transition-colors text-sm shadow-lg"
               >
                 <MessageCircle size={16} />
                 Chat via WhatsApp
@@ -282,7 +289,8 @@ export default async function BlogPostPage({ params }: Props) {
           <div className="mt-8 text-center">
             <Link
               href="/blog"
-              className="inline-flex items-center gap-1.5 text-gray-500 hover:text-[#CC1F2A] text-sm font-medium transition-colors"
+              className="inline-flex items-center gap-1.5 text-gray-500 hover:text-[
+#CC1F2A] text-sm font-medium transition-colors"
             >
               <ArrowLeft size={14} />
               Lihat semua artikel
