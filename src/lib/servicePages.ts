@@ -11,6 +11,11 @@ export interface ServicePageData {
   slug: string;
   icon: string;
   subtitle: string;
+  // Gambar banner halaman layanan (opsional — kalau kosong/tidak ada,
+  // hero tetap tampil dengan background warna merah polos seperti sebelumnya).
+  // Ditambahkan Agustus 2026, sejalan dengan field `imageBanner` yang sudah
+  // ada di ServicePageLayout & CRM (menu Halaman Layanan).
+  imageBanner?: string;
   description: string;
   priceFrom: string;
   priceNote: string;
@@ -22,7 +27,6 @@ export interface ServicePageData {
   metaTitle: string;
   metaDescription: string;
 }
-
 // GET /public-service-pages.php?slug=<slug> — returns null on 404, API-key
 // error, or any network/parse failure, so callers can fall back to
 // hardcoded content. Sama pola persis dengan lib/cityPages.ts.
@@ -41,7 +45,6 @@ export async function getServicePage(slug: string): Promise<ServicePageData | nu
     return null;
   }
 }
-
 // GET /public-service-pages.php (tanpa slug) — daftar semua layanan published.
 // Dipakai buat generateStaticParams, biar layanan baru dari CRM otomatis
 // kebentuk halamannya sendiri tanpa perlu deploy kode baru.
