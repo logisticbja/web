@@ -1,6 +1,7 @@
 import { CheckCircle, MessageCircle, Clock, ArrowRight } from "lucide-react";
 import { WAButton } from "@/components/ui/WAButton";
 import Link from "next/link";
+import Image from "next/image";
 
 interface Feature {
   title: string;
@@ -11,6 +12,10 @@ interface ServicePageLayoutProps {
   icon: React.FC<{ size?: number; className?: string }>;
   title: string;
   subtitle: string;
+  // Gambar banner (opsional) — kalau diisi, jadi background hero full-bleed
+  // dengan overlay merah transparan. Kalau kosong, hero tetap background
+  // merah polos seperti sebelumnya (tidak ada perubahan visual).
+  imageBanner?: string;
   description: string;
   priceFrom: string;
   priceNote: string;
@@ -26,6 +31,7 @@ export function ServicePageLayout({
   icon: Icon,
   title,
   subtitle,
+  imageBanner,
   description,
   priceFrom,
   priceNote,
@@ -38,9 +44,24 @@ export function ServicePageLayout({
 }: ServicePageLayoutProps) {
   return (
     <div>
-      {/* Hero */}
-      <div className="bg-[#CC1F2A] py-8 px-4">
-        <div className="max-w-5xl mx-auto">
+      {/* Hero — pola gambar banner sama persis dengan halaman kota (/kirim-ke/{kota}):
+          Image full-bleed + overlay merah transparan kalau imageBanner diisi dari CRM,
+          fallback ke background merah polos kalau kosong. */}
+      <div className={`relative py-8 px-4 overflow-hidden ${imageBanner ? "" : "bg-[#CC1F2A]"}`}>
+        {imageBanner && (
+          <>
+            <Image
+              src={imageBanner}
+              alt={`Banner ${title}`}
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-[#CC1F2A]/80" />
+          </>
+        )}
+        <div className="max-w-5xl mx-auto relative">
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-4">
             <div className="w-10 h-10 rounded-xl bg-[#F5C518] flex items-center justify-center shrink-0">
               <Icon size={20} className="text-[#1A1A1A]" />
