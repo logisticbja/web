@@ -133,7 +133,7 @@ export default async function BlogPostPage({ params }: Props) {
 
       <div className="min-h-screen bg-[#F8FAFC]">
         {/* Header / Hero — cover image sebagai background */}
-        <div className="relative overflow-hidden">
+        <div className="relative overflow-hidden min-h-[420px] sm:min-h-[480px] lg:min-h-[560px] flex items-end">
           {/* Background image layer */}
           <div className="absolute inset-0">
   <BlogCoverImage
@@ -147,7 +147,7 @@ export default async function BlogPostPage({ params }: Props) {
 </div>
 
           {/* Content layer */}
-          <div className="relative py-10 px-4">
+          <div className="relative py-10 px-4 w-full">
             <div className="max-w-3xl mx-auto">
               <nav aria-label="Breadcrumb">
                 <Link
