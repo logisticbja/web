@@ -234,65 +234,69 @@ export default async function BlogPage() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
-      {/* Hero */}
-      <div className="bg-gradient-to-br from-[#CC1F2A] to-[#8B1219] py-14 px-4 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 right-0 w-72 h-72 rounded-full bg-white/20 translate-x-1/3 -translate-y-1/3" />
-          <div className="absolute bottom-0 left-0 w-48 h-48 rounded-full bg-white/20 -translate-x-1/3 translate-y-1/3" />
-        </div>
-        <div className="max-w-5xl mx-auto text-center relative">
-          <span className="inline-block bg-white/20 text-white text-xs font-bold tracking-widest uppercase px-3 py-1 rounded-full mb-4">
-            Blog BJA Logistic
+  {/* Header / Hero — cover image sebagai background */}
+  <div className="relative overflow-hidden">
+    {/* Background image layer */}
+    <div className="absolute inset-0">
+      <BlogCoverImage
+        src={post.cover}
+        alt={post.coverAlt ?? post.title}
+        category={post.category}
+        priority
+      />
+      {/* Overlay merah supaya teks tetap kebaca di atas foto apapun */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#CC1F2A]/92 to-[#8B1219]/92" />
+      {/* Extra darkening di bawah, buat kontras teks meta */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+    </div>
+
+    {/* Content layer */}
+    <div className="relative py-10 px-4">
+      <div className="max-w-3xl mx-auto">
+        <nav aria-label="Breadcrumb">
+          <Link
+            href="/blog"
+            className="inline-flex items-center gap-1.5 text-white/70 hover:text-white text-sm mb-7 transition-colors group"
+          >
+            <ArrowLeft size={15} className="group-hover:-translate-x-0.5 transition-transform" />
+            Kembali ke Blog
+          </Link>
+        </nav>
+
+        <div className="flex items-center gap-2 mb-4">
+          <span className="inline-block bg-white/25 text-white text-xs font-bold px-3 py-1 rounded-full">
+            {post.category}
           </span>
-          <h1 className="text-2xl sm:text-3xl font-black text-white mb-3 leading-tight">
-            Tips & Panduan Pengiriman
-          </h1>
-          <p className="text-white/75 text-sm sm:text-base max-w-md mx-auto">
-            Panduan ekspedisi, tips packing, dan info layanan cargo ke Papua & Indonesia Timur
-          </p>
+        </div>
+
+        <h1 className="text-xl sm:text-2xl lg:text-3xl font-black text-white leading-snug mb-5">
+          {post.title}
+        </h1>
+
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-white/60 text-sm">
+          <span className="flex items-center gap-1.5">
+            <User size={13} />
+            {post.author}
+          </span>
+          <span className="text-white/30">·</span>
+          <time dateTime={post.date}>{formatDate(post.date)}</time>
+          <span className="text-white/30">·</span>
+          <span className="flex items-center gap-1.5">
+            <Clock size={13} />
+            {readTime} menit baca
+          </span>
         </div>
       </div>
+    </div>
+  </div>
 
-      <div className="max-w-5xl mx-auto px-4 py-12">
-        {posts.length === 0 ? (
-          <p className="text-center text-gray-500 py-20">Belum ada artikel.</p>
-        ) : (
-          <>
-            {/* Featured post */}
-            {featured && (
-              <Link
-                href={`/blog/${featured.slug}`}
-                className="group block bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:border-[#CC1F2A]/30 hover:shadow-lg transition-all mb-10"
-              >
-                <div className="md:flex">
-                  <div className="relative md:w-2/5 h-56 md:h-auto overflow-hidden flex-shrink-0">
-                    <BlogCoverImage
-                      src={featured.cover}
-                      alt={featured.title}
-                      category={featured.category}
-                      className="group-hover:scale-105 transition-transform duration-500"
-                      priority
-                    />
-                  </div>
-                  <div className="p-7 md:p-8 flex flex-col justify-center">
-                    <div className="flex items-center gap-2 mb-3">
-                      <CategoryBadge category={featured.category} />
-                      <span className="text-xs text-gray-400">{formatDate(featured.date)}</span>
-                    </div>
-                    <h2 className="font-black text-[#111111] text-xl sm:text-2xl leading-snug mb-3 group-hover:text-[#CC1F2A] transition-colors">
-                      {featured.title}
-                    </h2>
-                    <p className="text-gray-500 text-sm leading-relaxed line-clamp-3 mb-5">{featured.excerpt}</p>
-                    <div className="flex items-center gap-1.5 text-[#CC1F2A] text-sm font-bold">
-                      Baca Artikel
-                      <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            )}
+  <div className="max-w-3xl mx-auto px-4 py-10">
+    {/* Excerpt / intro callout */}
+    {post.excerpt && (
+      <div className="bg-white border-l-4 border-[#CC1F2A] rounded-r-xl px-6 py-4 mb-8 shadow-sm">
+        <p className="text-gray-600 text-sm sm:text-base leading-relaxed italic">{post.excerpt}</p>
+      </div>
+    )}
 
             {/* Bento grid */}
             {rest.length > 0 && (
