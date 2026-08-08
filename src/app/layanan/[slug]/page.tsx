@@ -196,6 +196,7 @@ export default async function LayananSlugPage({ params }: Props) {
         icon={Icon}
         title={data.title}
         subtitle={data.subtitle}
+        imageBanner={data.imageBanner}
         description={data.description}
         priceFrom={data.priceFrom}
         priceNote={data.priceNote}
