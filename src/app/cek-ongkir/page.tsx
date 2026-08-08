@@ -23,17 +23,17 @@ export default async function CekOngkirPage() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
-      {/* Header */}
-      <div className={`relative overflow-hidden py-8 px-4 ${hero?.image ? "" : "bg-[#CC1F2A]"}`}>
+      {/* Header — ukuran & gaya disamakan dengan hero /layanan/{slug} & /cargo/{region}. */}
+      <div className="relative overflow-hidden bg-gradient-to-br from-[#CC1F2A] to-[#8B1219] min-h-[220px] aspect-[1470/437] flex items-center">
         {hero?.image && (
           <>
             <div className="absolute inset-0">
               <Image src={hero.image} alt={hero.alt || "Cek Ongkir"} fill priority sizes="100vw" className="object-cover" />
             </div>
-            <div className="absolute inset-0 bg-[#CC1F2A]/80" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
           </>
         )}
-        <div className="relative max-w-3xl mx-auto text-center">
+        <div className="relative max-w-3xl mx-auto text-center px-4 w-full">
           <div className="w-10 h-10 rounded-xl bg-[#F5C518] flex items-center justify-center mx-auto mb-3">
             <Calculator size={20} className="text-[#1A1A1A]" />
           </div>
