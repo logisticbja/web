@@ -136,17 +136,15 @@ export default async function BlogPostPage({ params }: Props) {
         <div className="relative overflow-hidden">
           {/* Background image layer */}
           <div className="absolute inset-0">
-            <BlogCoverImage
-              src={post.cover}
-              alt={post.coverAlt ?? post.title}
-              category={post.category}
-              priority
-            />
-            {/* Overlay merah brand, biar teks tetap kebaca di atas foto apapun */}
-            <div className="absolute inset-0 bg-gradient-to-br from-[#CC1F2A]/92 to-[#8B1219]/92" />
-            {/* Darkening tambahan di bawah, buat kontras baris meta */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
-          </div>
+  <BlogCoverImage
+    src={post.cover}
+    alt={post.coverAlt ?? post.title}
+    category={post.category}
+    priority
+  />
+  {/* Gradient tipis cuma di bawah — foto tetap full terang, teks tetap kebaca */}
+  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
+</div>
 
           {/* Content layer */}
           <div className="relative py-10 px-4">
@@ -162,10 +160,10 @@ export default async function BlogPostPage({ params }: Props) {
               </nav>
 
               <div className="flex items-center gap-2 mb-4">
-                <span className="inline-block bg-white/25 text-white text-xs font-bold px-3 py-1 rounded-full">
-                  {post.category}
-                </span>
-              </div>
+  <span className="inline-block bg-black/40 backdrop-blur-sm text-white text-xs font-bold px-3 py-1 rounded-full">
+    {post.category}
+  </span>
+</div>
 
               <h1 className="text-xl sm:text-2xl lg:text-3xl font-black text-white leading-snug mb-5">
                 {post.title}
