@@ -4,6 +4,7 @@ import { MessageCircle, CheckCircle, Calculator, Ship, MapPin, Building2, Chevro
 import { buildGeneralMessage, buildCorporateMessage } from "@/lib/whatsapp";
 import { WALink } from "@/components/ui/WALink";
 import { TrackingInput } from "@/components/ui/TrackingInput";
+import { getPageHero } from "@/lib/pageHero";
 
 const quickLinks = [
   { icon: Calculator, label: "Cek Ongkir", href: "/cek-ongkir", external: false },
@@ -18,24 +19,36 @@ const trustBadges = [
   "98% Tepat Waktu",
 ];
 
-export function Hero() {
+export async function Hero() {
+  // Konten hero (gambar/judul/deskripsi/badge) opsional dari CRM — menu "Hero
+  // Halaman" > Homepage. Kosongkan di CRM untuk tetap pakai teks default di
+  // bawah ini. Pola sama seperti getCargoHeroImage() di lib/cargoHero.ts.
+  const hero = await getPageHero("home");
+  const heroImage = hero?.image || "/hero-bg.jpg";
+  const heroAlt = hero?.alt || "Pelabuhan cargo Indonesia";
+  const badges = hero?.stats && hero.stats.length > 0
+    ? hero.stats.map((s) => (s.value ? `${s.value} ${s.label}` : s.label))
+    : trustBadges;
+
   return (
-    <section className="relative min-h-[90vh] flex items-center overflow-hidden">
-      {/* Background image */}
-      <Image
-        src="/hero-bg.jpg"
-        alt="Pelabuhan cargo Indonesia"
-        fill
-        priority
-        className="object-cover object-center"
-        sizes="100vw"
-      />
-
-      {/* Dark gradient overlay — left heavy for text legibility */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#1A1A1A]/95 via-[#1A1A1A]/80 to-[#CC1F2A]/50" />
-
-      {/* Subtle red bottom bar accent */}
-      <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#CC1F2A]" />
+    <section className="relative min-h-[220px] aspect-[1470/437] flex items-center">
+      {/* Background image — di-clip terpisah dari konten teks, supaya badge/tombol
+          di bawah gak ikut kepotong kalau kontennya lebih tinggi dari rasio gambar
+          (mis. di layar sempit). */}
+      <div className="absolute inset-0 overflow-hidden">
+        <Image
+          src={heroImage}
+          alt={heroAlt}
+          fill
+          priority
+          className="object-cover object-center"
+          sizes="100vw"
+        />
+        {/* Dark gradient overlay — left heavy for text legibility */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#1A1A1A]/95 via-[#1A1A1A]/80 to-[#CC1F2A]/50" />
+        {/* Subtle red bottom bar accent */}
+        <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#CC1F2A]" />
+      </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-24">
         <div className="max-w-3xl">
@@ -47,17 +60,28 @@ export function Hero() {
             </span>
           </div>
 
-          {/* Headline */}
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-[1.1] mb-5">
-            Ekspedisi ke Seluruh Indonesia,
-            <br />
-            <span className="text-[#F5C518]">Spesialis Indonesia Timur</span>
-          </h1>
+          {/* Headline — kalau diisi dari CRM, tampil polos 1 warna (tanpa aksen
+              kuning di baris kedua, karena itu cuma ada di teks default). */}
+          {hero?.tagline ? (
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-[1.1] mb-5">
+              {hero.tagline}
+            </h1>
+          ) : (
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-[1.1] mb-5">
+              Ekspedisi ke Seluruh Indonesia,
+              <br />
+              <span className="text-[#F5C518]">Spesialis Indonesia Timur</span>
+            </h1>
+          )}
 
           {/* Subheadline */}
-          <p className="text-white/75 text-lg sm:text-xl mb-6 leading-relaxed">
-            Mulai <strong className="text-white">Rp 6.000/kg</strong> &nbsp;·&nbsp; Door to Door Service &nbsp;·&nbsp; Kapal Roro, PELNI & Pesawat
-          </p>
+          {hero?.description ? (
+            <p className="text-white/75 text-lg sm:text-xl mb-6 leading-relaxed">{hero.description}</p>
+          ) : (
+            <p className="text-white/75 text-lg sm:text-xl mb-6 leading-relaxed">
+              Mulai <strong className="text-white">Rp 6.000/kg</strong> &nbsp;·&nbsp; Door to Door Service &nbsp;·&nbsp; Kapal Roro, PELNI & Pesawat
+            </p>
+          )}
 
           {/* Tracking input */}
           <div className="mb-8">
@@ -77,7 +101,7 @@ export function Hero() {
 
           {/* Trust badges */}
           <div className="flex flex-wrap gap-3 mb-8">
-            {trustBadges.map((badge) => (
+            {badges.map((badge) => (
               <div key={badge} className="flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-3 py-1.5">
                 <CheckCircle size={14} className="text-[#F5C518] shrink-0" />
                 <span className="text-white text-xs font-medium">{badge}</span>
