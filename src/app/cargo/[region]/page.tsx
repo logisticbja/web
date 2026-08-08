@@ -153,15 +153,15 @@ export default async function CargoRegionPage({ params }: Props) {
             </nav>
 
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white leading-tight mb-4 max-w-xl">
-              {config.tagline}
+              {heroImage?.tagline || config.tagline}
             </h1>
 
             <p className="text-white/70 text-sm sm:text-base max-w-lg mb-6 leading-relaxed">
-              {config.description}
+              {heroImage?.description || config.description}
             </p>
 
             <div className="flex gap-2 flex-wrap mb-7">
-              {config.stats.map((s) => (
+              {(heroImage?.stats && heroImage.stats.length > 0 ? heroImage.stats : config.stats).map((s) => (
                 <span
                   key={s.label}
                   className="inline-flex items-center gap-1.5 bg-white/15 border border-white/20 text-white text-xs font-semibold px-3 py-1.5 rounded-full"
