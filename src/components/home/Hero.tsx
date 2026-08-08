@@ -31,10 +31,9 @@ export async function Hero() {
     : trustBadges;
 
   return (
-    <section className="relative min-h-[220px] aspect-[1470/437] flex items-center">
+    <section className="relative min-h-[560px] sm:min-h-[600px] lg:min-h-[640px] flex items-center">
       {/* Background image — di-clip terpisah dari konten teks, supaya badge/tombol
-          di bawah gak ikut kepotong kalau kontennya lebih tinggi dari rasio gambar
-          (mis. di layar sempit). */}
+          di bawah gak ikut kepotong kalau kontennya lebih tinggi dari tinggi minimum. */}
       <div className="absolute inset-0 overflow-hidden">
         <Image
           src={heroImage}
@@ -50,7 +49,7 @@ export async function Hero() {
         <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#CC1F2A]" />
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-24">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
         <div className="max-w-3xl">
           {/* Badge */}
           <div className="inline-flex items-center gap-2 bg-[#F5C518]/20 border border-[#F5C518]/40 rounded-full px-4 py-1.5 mb-6">
@@ -63,11 +62,11 @@ export async function Hero() {
           {/* Headline — kalau diisi dari CRM, tampil polos 1 warna (tanpa aksen
               kuning di baris kedua, karena itu cuma ada di teks default). */}
           {hero?.tagline ? (
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-[1.1] mb-5">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white leading-[1.15] mb-5">
               {hero.tagline}
             </h1>
           ) : (
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-[1.1] mb-5">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white leading-[1.15] mb-5">
               Ekspedisi ke Seluruh Indonesia,
               <br />
               <span className="text-[#F5C518]">Spesialis Indonesia Timur</span>
