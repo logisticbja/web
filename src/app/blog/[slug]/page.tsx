@@ -132,56 +132,63 @@ export default async function BlogPostPage({ params }: Props) {
       />
 
       <div className="min-h-screen bg-[#F8FAFC]">
-        {/* Header */}
-        <div className="bg-gradient-to-br from-[#CC1F2A] to-[#8B1219] py-10 px-4">
-          <div className="max-w-3xl mx-auto">
-            <nav aria-label="Breadcrumb">
-              <Link
-                href="/blog"
-                className="inline-flex items-center gap-1.5 text-white/70 hover:text-white text-sm mb-7 transition-colors group"
-              >
-                <ArrowLeft size={15} className="group-hover:-translate-x-0.5 transition-transform" />
-                Kembali ke Blog
-              </Link>
-            </nav>
-
-            <div className="flex items-center gap-2 mb-4">
-              <span className="inline-block bg-white/25 text-white text-xs font-bold px-3 py-1 rounded-full">
-                {post.category}
-              </span>
-            </div>
-
-            <h1 className="text-xl sm:text-2xl lg:text-3xl font-black text-white leading-snug mb-5">
-              {post.title}
-            </h1>
-
-            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-white/60 text-sm">
-              <span className="flex items-center gap-1.5">
-                <User size={13} />
-                {post.author}
-              </span>
-              <span className="text-white/30">·</span>
-              <time dateTime={post.date}>{formatDate(post.date)}</time>
-              <span className="text-white/30">·</span>
-              <span className="flex items-center gap-1.5">
-                <Clock size={13} />
-                {readTime} menit baca
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <div className="max-w-3xl mx-auto px-4 py-10">
-          {/* Cover image */}
-          <div className="relative h-64 sm:h-80 w-full rounded-2xl overflow-hidden mb-8 shadow-md">
+        {/* Header / Hero — cover image sebagai background */}
+        <div className="relative overflow-hidden">
+          {/* Background image layer */}
+          <div className="absolute inset-0">
             <BlogCoverImage
               src={post.cover}
               alt={post.coverAlt ?? post.title}
               category={post.category}
               priority
             />
+            {/* Overlay merah brand, biar teks tetap kebaca di atas foto apapun */}
+            <div className="absolute inset-0 bg-gradient-to-br from-[#CC1F2A]/92 to-[#8B1219]/92" />
+            {/* Darkening tambahan di bawah, buat kontras baris meta */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
           </div>
 
+          {/* Content layer */}
+          <div className="relative py-10 px-4">
+            <div className="max-w-3xl mx-auto">
+              <nav aria-label="Breadcrumb">
+                <Link
+                  href="/blog"
+                  className="inline-flex items-center gap-1.5 text-white/70 hover:text-white text-sm mb-7 transition-colors group"
+                >
+                  <ArrowLeft size={15} className="group-hover:-translate-x-0.5 transition-transform" />
+                  Kembali ke Blog
+                </Link>
+              </nav>
+
+              <div className="flex items-center gap-2 mb-4">
+                <span className="inline-block bg-white/25 text-white text-xs font-bold px-3 py-1 rounded-full">
+                  {post.category}
+                </span>
+              </div>
+
+              <h1 className="text-xl sm:text-2xl lg:text-3xl font-black text-white leading-snug mb-5">
+                {post.title}
+              </h1>
+
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-white/60 text-sm">
+                <span className="flex items-center gap-1.5">
+                  <User size={13} />
+                  {post.author}
+                </span>
+                <span className="text-white/30">·</span>
+                <time dateTime={post.date}>{formatDate(post.date)}</time>
+                <span className="text-white/30">·</span>
+                <span className="flex items-center gap-1.5">
+                  <Clock size={13} />
+                  {readTime} menit baca
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="max-w-3xl mx-auto px-4 py-10">
           {/* Excerpt / intro callout */}
           {post.excerpt && (
             <div className="bg-white border-l-4 border-[#CC1F2A] rounded-r-xl px-6 py-4 mb-8 shadow-sm">
