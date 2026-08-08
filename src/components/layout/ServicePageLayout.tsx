@@ -13,8 +13,8 @@ interface ServicePageLayoutProps {
   title: string;
   subtitle: string;
   // Gambar banner (opsional) — kalau diisi, jadi background hero full-bleed
-  // dengan overlay merah transparan. Kalau kosong, hero tetap background
-  // merah polos seperti sebelumnya (tidak ada perubahan visual).
+  // dengan overlay gelap, ukuran & gaya disamakan dengan hero /cargo/{region}.
+  // Kalau kosong, hero tetap gradient merah polos seperti sebelumnya.
   imageBanner?: string;
   description: string;
   priceFrom: string;
@@ -44,34 +44,42 @@ export function ServicePageLayout({
 }: ServicePageLayoutProps) {
   return (
     <div>
-      {/* Hero — pola gambar banner sama persis dengan halaman kota (/kirim-ke/{kota}):
-          Image full-bleed + overlay merah transparan kalau imageBanner diisi dari CRM,
-          fallback ke background merah polos kalau kosong. */}
-      <div className={`relative py-8 px-4 overflow-hidden ${imageBanner ? "" : "bg-[#CC1F2A]"}`}>
+      {/* Hero — ukuran & gaya disamakan PERSIS dengan hero /cargo/{region} (lihat
+          app/cargo/[region]/page.tsx): min-height sama, padding sama, gradient
+          overlay sama, biar konsisten di seluruh situs. */}
+      <div className="relative overflow-hidden bg-gradient-to-br from-[#CC1F2A] to-[#8B1219] min-h-[440px] sm:min-h-[480px] lg:min-h-[540px] flex items-end">
         {imageBanner && (
           <>
-            <Image
-              src={imageBanner}
-              alt={`Banner ${title}`}
-              fill
-              priority
-              sizes="100vw"
-              className="object-cover"
-            />
-            <div className="absolute inset-0 bg-[#CC1F2A]/80" />
+            <div className="absolute inset-0">
+              <Image
+                src={imageBanner}
+                alt={`Banner ${title}`}
+                fill
+                priority
+                sizes="100vw"
+                className="object-cover"
+              />
+            </div>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
           </>
         )}
-        <div className="max-w-5xl mx-auto relative">
+        <div className="relative max-w-5xl mx-auto px-4 py-10 sm:py-12 w-full">
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-4">
-            <div className="w-10 h-10 rounded-xl bg-[#F5C518] flex items-center justify-center shrink-0">
-              <Icon size={20} className="text-[#1A1A1A]" />
+            <div className="w-11 h-11 rounded-xl bg-[#F5C518] flex items-center justify-center shrink-0">
+              <Icon size={22} className="text-[#1A1A1A]" />
             </div>
             <div>
               <p className="text-white/70 text-xs font-semibold mb-0.5">{subtitle}</p>
-              <h1 className="text-xl sm:text-2xl font-black text-white">{title}</h1>
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white">{title}</h1>
             </div>
           </div>
-          <p className="text-white/70 text-sm max-w-2xl mb-6">{description}</p>
+          {/* Deskripsi disimpan sebagai HTML (dari editor teks di CRM) — pakai
+              dangerouslySetInnerHTML supaya tag-nya dirender, bukan tampil mentah.
+              Konten ini cuma diisi lewat CRM oleh tim BJA sendiri, bukan input publik. */}
+          <div
+            className="text-white/70 text-sm sm:text-base max-w-2xl mb-6 leading-relaxed [&_p]:mb-0"
+            dangerouslySetInnerHTML={{ __html: description }}
+          />
 
           <div className="flex flex-wrap gap-4">
             <a
