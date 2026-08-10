@@ -20,6 +20,11 @@ export interface CargoHeroImage {
   tagline?: string;
   description?: string;
   stats?: CargoHeroStat[];
+  // ── SEO on-page (Agustus 2026) — diedit dari CRM menu "Hero Cargo" ──
+  seoMetaTitle?: string;
+  seoMetaDescription?: string;
+  seoFocusKeyword?: string;
+  seoOgImage?: string;
 }
 
 const CRM_BASE_URL = process.env.CRM_API_URL ?? "https://invoice.bjalogistic.id";
