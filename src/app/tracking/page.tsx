@@ -5,10 +5,33 @@ import type { Metadata } from "next";
 import { TrackingClient } from "@/components/TrackingClient";
 import { getPageHero } from "@/lib/pageHero";
 
-export const metadata: Metadata = {
-  title: "Tracking Resi | BJA Logistic",
-  description: "Cek status pengiriman Anda dengan nomor resi BJA Logistic.",
-};
+const BASE_URL = "https://bjalogistic.id";
+const DEFAULT_TITLE = "Tracking Resi";
+const DEFAULT_DESCRIPTION = "Cek status pengiriman Anda dengan nomor resi BJA Logistic.";
+
+// generateMetadata (bukan `export const metadata` statis) — supaya bisa ambil
+// override SEO dari CRM (menu Hero Halaman > Tracking > bagian SEO).
+// Catatan bug yang diperbaiki Agustus 2026: title SEBELUMNYA sudah menulis
+// manual "| BJA Logistic" di akhir, padahal root layout.tsx juga otomatis
+// nambahin itu lewat title template — jadinya dobel di tab browser.
+// `noindex` sengaja dipertahankan — halaman cek resi memang gak perlu
+// masuk index Google (konten personal per-resi, gak ada nilai SEO).
+export async function generateMetadata(): Promise<Metadata> {
+  const hero = await getPageHero("tracking");
+  const title = hero?.seoMetaTitle || DEFAULT_TITLE;
+  const description = hero?.seoMetaDescription || DEFAULT_DESCRIPTION;
+  const canonical = `${BASE_URL}/tracking`;
+  const ogImage = hero?.seoOgImage || hero?.image || "/og-image.png";
+
+  return {
+    title,
+    description,
+    alternates: { canonical },
+    robots: { index: false, follow: true },
+    openGraph: { title, description, url: canonical, images: [{ url: ogImage, width: 1200, height: 630 }] },
+    twitter: { card: "summary_large_image", title, description, images: [ogImage] },
+  };
+}
 
 function TrackingFallback() {
   return (
@@ -36,19 +59,19 @@ export default async function TrackingPage() {
           </>
         )}
         <div className="relative max-w-3xl mx-auto text-center px-4 w-full">
-          <div className="w-10 h-10 rounded-xl bg-[#F5C518] flex items-center justify-center mx-auto mb-3">
-            <Package size={20} className="text-[#1A1A1A]" />
+          <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-[#F5C518] flex items-center justify-center mx-auto mb-5">
+            <Package size={30} className="text-[#1A1A1A]" />
           </div>
-          <h1 className="text-xl sm:text-2xl font-black text-white mb-1.5">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white mb-3">
             {hero?.tagline || "Tracking Pengiriman"}
           </h1>
-          <p className="text-white/70 text-sm">
+          <p className="text-white/70 text-base sm:text-lg">
             {hero?.description || "Cek status pengiriman Anda dengan nomor resi"}
           </p>
           {hero?.stats && hero.stats.length > 0 && (
-            <div className="flex items-center justify-center gap-4 mt-3 flex-wrap">
+            <div className="flex items-center justify-center gap-4 mt-5 flex-wrap">
               {hero.stats.map((s) => (
-                <span key={s.label} className="inline-flex items-center gap-1.5 bg-white/15 text-white text-xs font-semibold px-3 py-1 rounded-full">
+                <span key={s.label} className="inline-flex items-center gap-1.5 bg-white/15 text-white text-sm font-semibold px-4 py-1.5 rounded-full">
                   {s.value ? `${s.value} ${s.label}` : s.label}
                 </span>
               ))}
