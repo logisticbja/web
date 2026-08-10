@@ -12,6 +12,18 @@ export interface PostMeta {
   tags: string[];
 }
 
+// Kotak bio penulis (CRM menu "Penulis") — cuma ada isinya kalau nama
+// penulis artikel ini PERSIS cocok dengan salah satu nama di daftar
+// Penulis di CRM. Kalau gak cocok/belum didaftarkan, undefined — halaman
+// artikel tetap tampil normal, cuma tanpa kotak bio.
+export interface AuthorProfile {
+  name: string;
+  role?: string;
+  avatar?: string;
+  bio?: string;
+  linkedin?: string;
+}
+
 export interface PostSeo {
   metaTitle?: string;
   metaDesc?: string;
@@ -47,6 +59,7 @@ export interface PostSchema {
 
 export interface Post extends PostMeta, PostSeo, PostSchema {
   content: string;
+  authorProfile?: AuthorProfile;
 }
 
 function apiHeaders() {
@@ -101,6 +114,11 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
       ogTitle:      row.ogTitle         || undefined,
       ogDesc:       row.ogDescription   || undefined,
       ogImage:      row.ogImage         || undefined,
+      // Kotak bio penulis — null dari API kalau nama penulis gak cocok
+      // dengan daftar Penulis di CRM (lihat resolveAuthorProfile di
+      // public-blog.php). Diubah jadi undefined biar konsisten dengan
+      // field opsional lain di sini (pola ?? / || undefined yang sama).
+      authorProfile: (row.authorProfile as unknown as AuthorProfile) ?? undefined,
       // ── Schema Markup ──
       schemaType:           (row.schemaType as SchemaType) || "Article",
       faqBlurb:             row.faqBlurb || undefined,
