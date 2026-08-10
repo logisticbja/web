@@ -163,16 +163,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!data) return {};
 
   const canonical = `https://bjalogistic.id/layanan/${slug}`;
+  const title = data.metaTitle || `${data.title} | BJA Logistic`;
+  const description = data.metaDescription || data.description;
+  // OG image: pakai override khusus (field baru "Gambar OG") kalau diisi,
+  // fallback ke gambar banner halaman, fallback lagi ke gambar default situs.
+  const ogImage = data.ogImage || data.imageBanner || "/og-image.png";
+
   return {
-    title: data.metaTitle || `${data.title} | BJA Logistic`,
-    description: data.metaDescription || data.description,
+    title,
+    description,
     alternates: { canonical },
     openGraph: {
       title: data.metaTitle || data.title,
-      description: data.metaDescription || data.description,
+      description,
       url: canonical,
-      images: [{ url: "/og-image.png", width: 1200, height: 630 }],
+      images: [{ url: ogImage, width: 1200, height: 630 }],
     },
+    twitter: { card: "summary_large_image", title, description, images: [ogImage] },
   };
 }
 
