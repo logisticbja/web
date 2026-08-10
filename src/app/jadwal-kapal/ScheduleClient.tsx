@@ -60,19 +60,19 @@ export function ScheduleClient({ schedules, hero }: { schedules: ShipSchedule[];
           </>
         )}
         <div className="relative max-w-5xl mx-auto text-center px-4 w-full">
-          <div className="w-10 h-10 rounded-xl bg-[#F5C518] flex items-center justify-center mx-auto mb-3">
-            <Ship size={20} className="text-[#1A1A1A]" />
+          <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-[#F5C518] flex items-center justify-center mx-auto mb-5">
+            <Ship size={30} className="text-[#1A1A1A]" />
           </div>
-          <h1 className="text-xl sm:text-2xl font-black text-white mb-1.5">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white mb-3">
             {hero?.tagline || "Jadwal Kapal"}
           </h1>
-          <p className="text-white/70 text-sm">
+          <p className="text-white/70 text-base sm:text-lg">
             {hero?.description || "Jadwal keberangkatan kapal ke Papua & Indonesia Timur"}
           </p>
           {hero?.stats && hero.stats.length > 0 && (
-            <div className="flex items-center justify-center gap-4 mt-3 flex-wrap">
+            <div className="flex items-center justify-center gap-4 mt-5 flex-wrap">
               {hero.stats.map((s) => (
-                <span key={s.label} className="inline-flex items-center gap-1.5 bg-white/15 text-white text-xs font-semibold px-3 py-1 rounded-full">
+                <span key={s.label} className="inline-flex items-center gap-1.5 bg-white/15 text-white text-sm font-semibold px-4 py-1.5 rounded-full">
                   {s.value ? `${s.value} ${s.label}` : s.label}
                 </span>
               ))}
