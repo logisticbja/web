@@ -132,59 +132,58 @@ export default async function BlogPostPage({ params }: Props) {
       />
 
       <div className="min-h-screen bg-[#F8FAFC]">
-        {/* Header / Hero — cover image sebagai background */}
-        <div className="relative overflow-hidden min-h-[420px] sm:min-h-[480px] lg:min-h-[560px] flex items-end">
-          {/* Background image layer */}
-          <div className="absolute inset-0">
-  <BlogCoverImage
-    src={post.cover}
-    alt={post.coverAlt ?? post.title}
-    category={post.category}
-    priority
-  />
-  {/* Gradient tipis cuma di bawah — foto tetap full terang, teks tetap kebaca */}
-  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
-</div>
+        {/* Header — bersih, tanpa gambar jadi background/hero. Gambar cover
+            turun ke bawah, muncul sebagai gambar biasa sebelum isi artikel
+            (pola sama seperti referensi troben.id/blog). */}
+        <div className="bg-white border-b border-gray-100">
+          <div className="max-w-3xl mx-auto px-4 pt-8 pb-7">
+            <nav aria-label="Breadcrumb" className="mb-4">
+              <ol className="flex items-center flex-wrap gap-1.5 text-xs text-gray-400">
+                <li><Link href="/" className="hover:text-[#CC1F2A] transition-colors">Beranda</Link></li>
+                <li>»</li>
+                <li><Link href="/blog" className="hover:text-[#CC1F2A] transition-colors">Blog</Link></li>
+                <li>»</li>
+                <li className="text-gray-500">{post.category}</li>
+              </ol>
+            </nav>
 
-          {/* Content layer */}
-          <div className="relative py-10 px-4 w-full">
-            <div className="max-w-3xl mx-auto">
-              <nav aria-label="Breadcrumb">
-                <Link
-                  href="/blog"
-                  className="inline-flex items-center gap-1.5 text-white/70 hover:text-white text-sm mb-7 transition-colors group"
-                >
-                  <ArrowLeft size={15} className="group-hover:-translate-x-0.5 transition-transform" />
-                  Kembali ke Blog
-                </Link>
-              </nav>
+            <span className="inline-block bg-[#CC1F2A]/10 text-[#CC1F2A] text-xs font-bold px-3 py-1 rounded-full mb-4">
+              {post.category}
+            </span>
 
-              <div className="flex items-center gap-2 mb-4">
-  <span className="inline-block bg-black/40 backdrop-blur-sm text-white text-xs font-bold px-3 py-1 rounded-full">
-    {post.category}
-  </span>
-</div>
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#111111] leading-snug mb-5">
+              {post.title}
+            </h1>
 
-              <h1 className="text-xl sm:text-2xl lg:text-3xl font-black text-white leading-snug mb-5">
-                {post.title}
-              </h1>
-
-              <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-white/60 text-sm">
-                <span className="flex items-center gap-1.5">
-                  <User size={13} />
-                  {post.author}
-                </span>
-                <span className="text-white/30">·</span>
-                <time dateTime={post.date}>{formatDate(post.date)}</time>
-                <span className="text-white/30">·</span>
-                <span className="flex items-center gap-1.5">
-                  <Clock size={13} />
-                  {readTime} menit baca
-                </span>
-              </div>
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-gray-500 text-sm">
+              <span className="flex items-center gap-1.5">
+                <User size={13} />
+                {post.author}
+              </span>
+              <span className="text-gray-300">·</span>
+              <time dateTime={post.date}>{formatDate(post.date)}</time>
+              <span className="text-gray-300">·</span>
+              <span className="flex items-center gap-1.5">
+                <Clock size={13} />
+                {readTime} menit baca
+              </span>
             </div>
           </div>
         </div>
+
+        {/* Gambar cover — sekarang gambar biasa, bukan background hero */}
+        {post.cover && (
+          <div className="max-w-3xl mx-auto px-4 pt-8">
+            <div className="relative aspect-video rounded-2xl overflow-hidden shadow-sm">
+              <BlogCoverImage
+                src={post.cover}
+                alt={post.coverAlt ?? post.title}
+                category={post.category}
+                priority
+              />
+            </div>
+          </div>
+        )}
 
         <div className="max-w-3xl mx-auto px-4 py-10">
           {/* Excerpt / intro callout */}
