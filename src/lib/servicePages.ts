@@ -17,6 +17,9 @@ export interface ServicePageData {
   // ada di ServicePageLayout & CRM (menu Halaman Layanan).
   imageBanner?: string;
   description: string;
+  // ── SEO on-page (Agustus 2026) ──
+  focusKeyword?: string;
+  ogImage?: string;
   priceFrom: string;
   priceNote: string;
   eta: string;
