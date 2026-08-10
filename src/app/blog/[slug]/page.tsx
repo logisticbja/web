@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { MessageCircle, Clock, User, ArrowLeft, Tag } from "lucide-react";
 import BlogCoverImage from "../BlogCoverImage";
 import { getPostBySlug, formatDate } from "@/lib/blog";
@@ -156,10 +157,19 @@ export default async function BlogPostPage({ params }: Props) {
             </h1>
 
             <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-gray-500 text-sm">
-              <span className="flex items-center gap-1.5">
-                <User size={13} />
-                {post.author}
-              </span>
+              {post.authorProfile?.avatar ? (
+                <span className="flex items-center gap-2">
+                  <span className="relative w-6 h-6 rounded-full overflow-hidden shrink-0 bg-gray-100">
+                    <Image src={post.authorProfile.avatar} alt={post.author} fill className="object-cover" sizes="24px" />
+                  </span>
+                  Oleh: {post.author}
+                </span>
+              ) : (
+                <span className="flex items-center gap-1.5">
+                  <User size={13} />
+                  {post.author}
+                </span>
+              )}
               <span className="text-gray-300">·</span>
               <time dateTime={post.date}>{formatDate(post.date)}</time>
               <span className="text-gray-300">·</span>
@@ -254,6 +264,46 @@ export default async function BlogPostPage({ params }: Props) {
                   {tag}
                 </span>
               ))}
+            </div>
+          )}
+
+          {/* Kotak bio penulis — cuma muncul kalau nama penulis artikel ini
+              cocok dengan salah satu nama di CRM menu "Penulis". Kalau
+              belum didaftarkan/gak cocok, blok ini otomatis gak dirender
+              (bukan error, bukan kotak kosong). */}
+          {post.authorProfile && (
+            <div className="mt-6 bg-white rounded-2xl p-6 sm:p-7 shadow-sm border border-gray-100">
+              <div className="flex items-start gap-4">
+                {post.authorProfile.avatar ? (
+                  <div className="relative w-14 h-14 rounded-full overflow-hidden shrink-0 bg-gray-100">
+                    <Image src={post.authorProfile.avatar} alt={post.authorProfile.name} fill className="object-cover" sizes="56px" />
+                  </div>
+                ) : (
+                  <div className="w-14 h-14 rounded-full bg-[#CC1F2A]/10 flex items-center justify-center shrink-0">
+                    <User size={22} className="text-[#CC1F2A]" />
+                  </div>
+                )}
+                <div className="min-w-0">
+                  <p className="text-xs text-gray-400 mb-0.5">Ditulis oleh</p>
+                  <p className="font-black text-[#111111]">{post.authorProfile.name}</p>
+                  {post.authorProfile.role && (
+                    <p className="text-sm text-gray-500 mb-2">{post.authorProfile.role}</p>
+                  )}
+                  {post.authorProfile.bio && (
+                    <p className="text-sm text-gray-600 leading-relaxed mt-1.5">{post.authorProfile.bio}</p>
+                  )}
+                  {post.authorProfile.linkedin && (
+                    <a
+                      href={post.authorProfile.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer nofollow"
+                      className="inline-flex items-center gap-1 text-xs font-semibold text-[#CC1F2A] hover:underline mt-2"
+                    >
+                      Lihat LinkedIn →
+                    </a>
+                  )}
+                </div>
+              </div>
             </div>
           )}
 
