@@ -27,20 +27,26 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const config = getRegionConfig(region);
   if (!config) return {};
 
-  const title = `Cargo ke ${config.label} — Harga Terjangkau & Terpercaya`;
-  const description = `Jasa ekspedisi cargo ke ${config.label}. ${config.description} Cek harga langsung, konfirmasi via WhatsApp.`;
+  // Override SEO dari CRM (menu Hero Cargo > bagian SEO) — kosongkan di CRM
+  // untuk tetap pakai teks default hasil racikan dari lib/data/regions.ts.
+  const heroImage = await getCargoHeroImage(config.slug);
+
+  const title = heroImage?.seoMetaTitle || `Cargo ke ${config.label} — Harga Terjangkau & Terpercaya`;
+  const description = heroImage?.seoMetaDescription || `Jasa ekspedisi cargo ke ${config.label}. ${config.description} Cek harga langsung, konfirmasi via WhatsApp.`;
   const canonical = `${BASE_URL}/cargo/${config.slug}`;
+  const ogImage = heroImage?.seoOgImage || heroImage?.image || "/og-image.png";
 
   return {
     title,
     description,
     alternates: { canonical },
     openGraph: {
-      title: `${title} | BJA Logistic`,
+      title: heroImage?.seoMetaTitle ? title : `${title} | BJA Logistic`,
       description,
       url: canonical,
-      images: [{ url: "/og-image.png", width: 1200, height: 630 }],
+      images: [{ url: ogImage, width: 1200, height: 630 }],
     },
+    twitter: { card: "summary_large_image", title, description, images: [ogImage] },
   };
 }
 
