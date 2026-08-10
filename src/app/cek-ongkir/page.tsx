@@ -6,11 +6,30 @@ import { fetchPricing } from "@/lib/sheets";
 import { CekOngkirForm } from "@/components/CekOngkirForm";
 import { getPageHero } from "@/lib/pageHero";
 
-export const metadata: Metadata = {
-  title: "Cek Ongkir — Kalkulator Biaya Pengiriman",
-  description: "Hitung estimasi ongkos kirim cargo ke Papua, Maluku, NTT, dan Sulawesi. Layanan Express dan Regular. Langsung konfirmasi via WhatsApp.",
-  alternates: { canonical: "https://bjalogistic.id/cek-ongkir" },
-};
+const BASE_URL = "https://bjalogistic.id";
+const DEFAULT_TITLE = "Cek Ongkir — Kalkulator Biaya Pengiriman";
+const DEFAULT_DESCRIPTION = "Hitung estimasi ongkos kirim cargo ke Papua, Maluku, NTT, dan Sulawesi. Layanan Express dan Regular. Langsung konfirmasi via WhatsApp.";
+
+// generateMetadata (bukan `export const metadata` statis) — supaya bisa ambil
+// override SEO dari CRM (menu Hero Halaman > Cek Ongkir > bagian SEO).
+// Bug yang diperbaiki Agustus 2026: sebelumnya gak ada openGraph/twitter di
+// sini, jadi kartu preview link (WhatsApp/FB) nampilin punya Homepage,
+// bukan punya halaman Cek Ongkir sendiri.
+export async function generateMetadata(): Promise<Metadata> {
+  const hero = await getPageHero("cek-ongkir");
+  const title = hero?.seoMetaTitle || DEFAULT_TITLE;
+  const description = hero?.seoMetaDescription || DEFAULT_DESCRIPTION;
+  const canonical = `${BASE_URL}/cek-ongkir`;
+  const ogImage = hero?.seoOgImage || hero?.image || "/og-image.png";
+
+  return {
+    title,
+    description,
+    alternates: { canonical },
+    openGraph: { title, description, url: canonical, images: [{ url: ogImage, width: 1200, height: 630 }] },
+    twitter: { card: "summary_large_image", title, description, images: [ogImage] },
+  };
+}
 
 export default async function CekOngkirPage() {
   const rows = await fetchPricing();
@@ -34,18 +53,18 @@ export default async function CekOngkirPage() {
           </>
         )}
         <div className="relative max-w-3xl mx-auto text-center px-4 w-full">
-          <div className="w-10 h-10 rounded-xl bg-[#F5C518] flex items-center justify-center mx-auto mb-3">
-            <Calculator size={20} className="text-[#1A1A1A]" />
+          <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-[#F5C518] flex items-center justify-center mx-auto mb-5">
+            <Calculator size={30} className="text-[#1A1A1A]" />
           </div>
-          <h1 className="text-xl sm:text-2xl font-black text-white mb-1.5">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white mb-3">
             {hero?.tagline || "Kalkulator Ongkir"}
           </h1>
-          <p className="text-white/70 text-sm">
+          <p className="text-white/70 text-base sm:text-lg">
             {hero?.description || "Hitung estimasi biaya pengiriman ke Papua & Indonesia Timur dalam detik"}
           </p>
-          <div className="flex items-center justify-center gap-4 mt-3 flex-wrap">
+          <div className="flex items-center justify-center gap-4 mt-5 flex-wrap">
             {badges.map((b) => (
-              <span key={b} className="inline-flex items-center gap-1.5 bg-white/15 text-white text-xs font-semibold px-3 py-1 rounded-full">
+              <span key={b} className="inline-flex items-center gap-1.5 bg-white/15 text-white text-sm font-semibold px-4 py-1.5 rounded-full">
                 {b}
               </span>
             ))}
