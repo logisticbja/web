@@ -221,12 +221,13 @@ export default async function CargoRegionPage({ params }: Props) {
                       </p>
                       <div className="px-4 pb-3 flex flex-wrap gap-1.5">
                         {group.cities.map((city) => (
-                          <span
+                          <Link
                             key={city.value}
-                            className="bg-[#F8FAFC] border border-gray-200 text-gray-700 text-xs font-medium px-2.5 py-1 rounded-full"
+                            href={`/kirim-ke/${city.value.replace(/_/g, "-")}`}
+                            className="bg-[#F8FAFC] border border-gray-200 text-gray-700 text-xs font-medium px-2.5 py-1 rounded-full hover:bg-[#CC1F2A] hover:text-white hover:border-[#CC1F2A] transition-colors"
                           >
                             {city.label}
-                          </span>
+                          </Link>
                         ))}
                       </div>
                     </div>
