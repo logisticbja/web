@@ -156,14 +156,32 @@ export default async function KirimKePage({ params }: Props) {
   // Kota tanpa data pricelist khusus (belum ada di cityLautPricing) pakai
   // estimasi generik dari calculatePrice — pola fallback yang sama dipakai
   // halaman lain (mis. /[slug]) untuk kota di luar daftar kurasi.
-  const cp = cityLautPricing[city?.value ?? ""] ?? {
+// Kota tanpa data di cityLautPricing (kode lama) coba pakai harga dari
+  // CMS/API dulu (hasil import CSV / isian manual) sebelum jatuh ke estimasi
+  // generik calculatePrice() yang cuma rata-rata per region.
+  function parsePriceStr(v?: string | null): number | null {
+    if (!v) return null;
+    const n = parseInt(v.replace(/[^0-9]/g, ""), 10);
+    return Number.isFinite(n) && n > 0 ? n : null;
+  }
+  const apiReguler = parsePriceStr(apiData?.priceRegular);
+  const apiExpress = parsePriceStr(apiData?.priceExpress);
+
+  const cp = cityLautPricing[city?.value ?? ""] ?? (apiReguler || apiExpress ? {
+    regulerPrice: apiReguler ?? apiExpress,
+    regulerEtaMin: lautPrice.etaMin,
+    regulerEtaMax: lautPrice.etaMax,
+    expressPrice: apiExpress ?? (apiReguler as number),
+    expressEtaMin: lautPrice.etaMin,
+    expressEtaMax: lautPrice.etaMax,
+  } : {
     regulerPrice: lautPrice.priceMin,
     regulerEtaMin: lautPrice.etaMin,
     regulerEtaMax: lautPrice.etaMax,
     expressPrice: lautPrice.priceMax,
     expressEtaMin: lautPrice.etaMin,
     expressEtaMax: lautPrice.etaMax,
-  };
+  });
 
   const hardcodedFaqs = [
     {
@@ -243,7 +261,7 @@ export default async function KirimKePage({ params }: Props) {
               <p className="text-white/70 text-sm mb-5">
                 Pengiriman cargo ke {cityLabel} mulai dari{" "}
                 <strong className="text-[#F5C518]">
-                  {apiData?.priceRegular || `${formatPrice(lautPrice.priceMin)}/kg`}
+                  {`Rp ${(cp.regulerPrice ?? cp.expressPrice).toLocaleString("id-ID")}/kg`}
                 </strong>{" "}
                 via cargo laut, minimal 100 kg. Door to door dari Jabodetabek & Surabaya.
               </p>
@@ -271,8 +289,8 @@ export default async function KirimKePage({ params }: Props) {
               </p>
               <div className="flex flex-col gap-6">
                 {[
-                  { label: "Reguler", price: apiData?.priceRegular || `Rp ${(cp.regulerPrice ?? cp.expressPrice).toLocaleString("id-ID")}/kg` },
-                  { label: "Express", price: apiData?.priceExpress || `Rp ${cp.expressPrice.toLocaleString("id-ID")}/kg` },
+                  { label: "Reguler", price: `Rp ${(cp.regulerPrice ?? cp.expressPrice).toLocaleString("id-ID")}/kg` },
+                  { label: "Express", price: `Rp ${cp.expressPrice.toLocaleString("id-ID")}/kg` },
                 ].map((s) => (
                   <div key={s.label} className="relative">
                     <div className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-full bg-[#CC1F2A] z-10" />
