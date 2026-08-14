@@ -38,8 +38,25 @@ const nextConfig: NextConfig = {
       { source: "/jakarta-Asmat/Agats", destination: "/cargo/papua", permanent: true },
 
       // ─── /ekspedisi-jakarta-* di root (berbeda dari /cek-ongkir-cargo/) ───
-      { source: "/ekspedisi-jakarta-Makassar", destination: "/cargo/sulawesi", permanent: true },
-      { source: "/ekspedisi-jakarta-Bone",     destination: "/cargo/sulawesi", permanent: true },
+      { source: "/ekspedisi-jakarta-Makassar", destination: "/kirim-ke/makassar", permanent: true },
+      { source: "/ekspedisi-jakarta-Bone",     destination: "/kirim-ke/bone", permanent: true },
+      // ─── Redirect halaman kota lama (/blog/) → halaman /kirim-ke/ yang baru ───
+      { source: "/blog/ekspedisi-jakarta-manokwari", destination: "/kirim-ke/manokwari", permanent: true },
+      { source: "/blog/ekspedisi-jakarta-ambon",     destination: "/kirim-ke/ambon", permanent: true },
+      { source: "/blog/ekspedisi-jakarta-jayapura",  destination: "/kirim-ke/jayapura", permanent: true },
+      { source: "/blog/ekspedisi-jakarta-merauke",   destination: "/kirim-ke/merauke", permanent: true },
+      { source: "/blog/ekspedisi-jakarta-sorong",    destination: "/kirim-ke/sorong", permanent: true },
+      { source: "/blog/ekspedisi-jakarta-kupang",    destination: "/kirim-ke/kupang", permanent: true },
+      { source: "/blog/ekspedisi-jakarta-ternate",   destination: "/kirim-ke/ternate", permanent: true },
+      { source: "/blog/ekspedisi-jakarta-makassar",  destination: "/kirim-ke/makassar", permanent: true },
+      { source: "/blog/ekspedisi-jakarta-manado",    destination: "/kirim-ke/manado", permanent: true },
+      { source: "/blog/ekspedisi-jakarta-palu",      destination: "/kirim-ke/palu", permanent: true },
+      { source: "/blog/ekspedisi-jakarta-kendari",   destination: "/kirim-ke/kendari", permanent: true },
+      { source: "/blog/ekspedisi-jakarta-baubau",    destination: "/kirim-ke/baubau", permanent: true },
+      { source: "/blog/ekspedisi-jakarta-bone",      destination: "/kirim-ke/bone", permanent: true },
+      { source: "/blog/ekspedisi-jakarta-maros",     destination: "/kirim-ke/maros", permanent: true },
+      { source: "/blog/jakarta-fakfak",              destination: "/kirim-ke/fakfak", permanent: true },
+      { source: "/blog/jakarta-saumlaki",            destination: "/kirim-ke/saumlaki", permanent: true },
 
       // ─── /bja/jasa-ekspedisi/* ───
       { source: "/bja/jasa-ekspedisi/jasa-cargo-darat",           destination: "/layanan/cargo-darat", permanent: true },
