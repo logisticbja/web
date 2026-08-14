@@ -63,7 +63,7 @@ export function ServicePageLayout({
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
           </>
         )}
-        <div className="relative max-w-5xl mx-auto px-4 py-10 sm:py-12 w-full">
+        <div className="relative max-w-5xl mx-auto px-4 py-10 sm:py-12 w-full min-w-0">
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-4">
             <div className="w-11 h-11 rounded-xl bg-[#F5C518] flex items-center justify-center shrink-0">
               <Icon size={22} className="text-[#1A1A1A]" />
