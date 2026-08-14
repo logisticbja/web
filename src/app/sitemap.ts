@@ -1,6 +1,7 @@
 import { MetadataRoute } from "next";
 import { destinationCities } from "@/lib/data/pricing";
 import { getAllPosts } from "@/lib/blog";
+import { getAllCityPages } from "@/lib/cityPages";
 import { regionConfigs } from "@/lib/data/regions";
 
 const BASE_URL = "https://bjalogistic.id";
@@ -104,12 +105,27 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     };
   });
 
-  const destinationRoutes: MetadataRoute.Sitemap = destinationCities.map((city) => ({
-    url: `${BASE_URL}/kirim-ke/${toSlug(city.value)}`,
-    lastModified,
-    changeFrequency: "monthly" as const,
-    priority: 0.8,
-  }));
+  // Gabung 2 sumber: daftar kota lama (hardcoded, cepat) + semua kota dari
+  // CMS (termasuk yang baru di-import). Dedup by slug supaya tidak dobel.
+  const apiCityPages = await getAllCityPages();
+  const apiSlugs = new Set(apiCityPages.map((c) => c.slug));
+  const legacyDestinationRoutes: MetadataRoute.Sitemap = destinationCities
+    .filter((city) => !apiSlugs.has(toSlug(city.value)))
+    .map((city) => ({
+      url: `${BASE_URL}/kirim-ke/${toSlug(city.value)}`,
+      lastModified,
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    }));
+  const destinationRoutes: MetadataRoute.Sitemap = [
+    ...legacyDestinationRoutes,
+    ...apiCityPages.map((c) => ({
+      url: `${BASE_URL}/kirim-ke/${c.slug}`,
+      lastModified,
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    })),
+  ];
 
   const cargoRoutes: MetadataRoute.Sitemap = regionConfigs.map((r) => ({
     url: `${BASE_URL}/cargo/${r.slug}`,
