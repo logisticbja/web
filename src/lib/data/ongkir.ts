@@ -92,7 +92,10 @@ export const ongkirGroups: OngkirGroup[] = [
     groupLabel: "Papua Barat",
     region: "papua",
     cities: [
-      { value: "fak-fak", label: "Fak-Fak" },
+      // FIX (Agustus 2026): value diselaraskan ke "fakfak" (tanpa strip),
+      // sesuai slug asli halaman /kirim-ke/fakfak. Sebelumnya "fak-fak"
+      // bikin badge di /cargo/papua nyasar ke 404.
+      { value: "fakfak", label: "Fakfak" },
       { value: "kaimana", label: "Kaimana" },
       { value: "manokwari", label: "Manokwari" },
       { value: "bintuni", label: "Bintuni" },
@@ -114,7 +117,9 @@ export const ongkirGroups: OngkirGroup[] = [
       { value: "sumba-barat", label: "Sumba Barat" },
       { value: "sumba-tengah", label: "Sumba Tengah" },
       { value: "sumba-timur", label: "Sumba Timur" },
-      { value: "labuhan-bajo", label: "Labuhan Bajo" },
+      // FIX (Agustus 2026): value diselaraskan ke "labuan-bajo" (bukan
+      // "labuhan-bajo"), sesuai slug asli halaman /kirim-ke/labuan-bajo.
+      { value: "labuan-bajo", label: "Labuan Bajo" },
       { value: "lembor", label: "Lembor" },
       { value: "ruteng", label: "Ruteng" },
       { value: "borong", label: "Borong" },
@@ -158,7 +163,9 @@ export const ongkirGroups: OngkirGroup[] = [
       { value: "rantepao", label: "Rantepao" },
       { value: "selayar", label: "Selayar" },
       { value: "sidrap", label: "Sidrap" },
-      { value: "sinjai", label: "Sinjai" },
+      // FIX (Agustus 2026): value diselaraskan ke "sinjay" (bukan "sinjai"),
+      // sesuai slug asli halaman /kirim-ke/sinjay.
+      { value: "sinjay", label: "Sinjay" },
       { value: "siwa", label: "Siwa" },
       { value: "soppeng", label: "Soppeng" },
       { value: "sorowako", label: "Sorowako" },
@@ -186,13 +193,17 @@ export const ongkirGroups: OngkirGroup[] = [
       { value: "ampana", label: "Ampana" },
       { value: "banggai-laut", label: "Banggai Laut" },
       { value: "banggai-kepulauan", label: "Banggai Kepulauan" },
-      { value: "batui-toili", label: "Batui Toili" },
+      // FIX (Agustus 2026): value diselaraskan ke "batul-tolli" (bukan
+      // "batui-toili"), sesuai slug asli halaman /kirim-ke/batul-tolli.
+      { value: "batul-tolli", label: "Batul Tolli" },
       { value: "buol", label: "Buol" },
       { value: "donggala", label: "Donggala" },
       { value: "luwuk-banggai", label: "Luwuk Banggai" },
       { value: "morowali", label: "Morowali" },
       { value: "palu", label: "Palu" },
-      { value: "parigi-moutong", label: "Parigi Moutong" },
+      // FIX (Agustus 2026): value diselaraskan ke "parigi-mountong" (bukan
+      // "parigi-moutong"), sesuai slug asli halaman /kirim-ke/parigi-mountong.
+      { value: "parigi-mountong", label: "Parigi Mountong" },
       { value: "poso", label: "Poso" },
       { value: "toli-toli", label: "Toli-toli" },
       { value: "tojo-una-una", label: "Tojo Una-una" },
@@ -220,7 +231,9 @@ export const ongkirGroups: OngkirGroup[] = [
     region: "sulawesi",
     cities: [
       { value: "bitung", label: "Bitung" },
-      { value: "kotamobagu", label: "Kotamobagu" },
+      // FIX (Agustus 2026): value diselaraskan ke "kota-mubago" (bukan
+      // "kotamobagu"), sesuai slug asli halaman /kirim-ke/kota-mubago.
+      { value: "kota-mubago", label: "Kota Mubago" },
       { value: "manado", label: "Manado" },
       { value: "tomohon", label: "Tomohon" },
       { value: "tondano", label: "Tondano" },
