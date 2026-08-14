@@ -59,7 +59,7 @@ export function ScheduleClient({ schedules, hero }: { schedules: ShipSchedule[];
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
           </>
         )}
-        <div className="relative max-w-5xl mx-auto text-center px-4 w-full">
+        <div className="relative max-w-5xl mx-auto text-center px-4 w-full min-w-0">
           <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-[#F5C518] flex items-center justify-center mx-auto mb-5">
             <Ship size={30} className="text-[#1A1A1A]" />
           </div>
