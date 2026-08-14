@@ -39,8 +39,6 @@ export const destinationCities: CityOption[] = [
   { value: "labuan_bajo", label: "Labuan Bajo", region: "NTT" },
   { value: "kendari", label: "Kendari", region: "Sulawesi" },
   { value: "baubau", label: "Baubau", region: "Sulawesi" },
-  { value: "kendari", label: "Kendari", region: "Sulawesi" },
-  { value: "baubau", label: "Baubau", region: "Sulawesi" },
   { value: "makassar", label: "Makassar", region: "Sulawesi" },
   { value: "manado", label: "Manado", region: "Sulawesi" },
   { value: "palu", label: "Palu", region: "Sulawesi" },
