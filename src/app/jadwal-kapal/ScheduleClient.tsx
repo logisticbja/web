@@ -50,7 +50,7 @@ export function ScheduleClient({ schedules, hero }: { schedules: ShipSchedule[];
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
       {/* Header — ukuran & gaya disamakan dengan hero /layanan/{slug} & /cargo/{region}. */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-[#CC1F2A] to-[#8B1219] min-h-[220px] aspect-[1470/437] flex items-center">
+      <div className="relative overflow-hidden bg-gradient-to-br from-[#CC1F2A] to-[#8B1219] min-h-[220px] aspect-[1470/437] flex items-center w-full">
         {hero?.image && (
           <>
             <div className="absolute inset-0">
