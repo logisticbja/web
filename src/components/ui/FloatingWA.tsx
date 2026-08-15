@@ -6,7 +6,7 @@ export function FloatingWA() {
   return (
     <WALink
       href={buildGeneralMessage()}
-      className="fixed bottom-6 right-6 z-50 flex items-center"
+              className="hidden md:flex fixed bottom-6 right-6 z-50 items-center"
       aria-label="Chat WhatsApp BJA Logistic"
     >
       {/* Chat bubble */}
