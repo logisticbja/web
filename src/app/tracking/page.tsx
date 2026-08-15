@@ -49,10 +49,10 @@ export default async function TrackingPage() {
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
       {/* Header — ukuran & gaya disamakan dengan hero /layanan/{slug} & /cargo/{region}. */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-[#CC1F2A] to-[#8B1219] min-h-[220px] aspect-[1470/437] flex items-center w-full">
+      <div className="relative bg-gradient-to-br from-[#CC1F2A] to-[#8B1219] min-h-[220px] flex items-center w-full">
         {hero?.image && (
           <>
-            <div className="absolute inset-0">
+            <div className="absolute inset-0 overflow-hidden">
               <Image src={hero.image} alt={hero.alt || "Tracking Pengiriman"} fill priority sizes="100vw" className="object-cover" />
             </div>
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
