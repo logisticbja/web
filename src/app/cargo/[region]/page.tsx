@@ -116,11 +116,11 @@ export default async function CargoRegionPage({ params }: Props) {
       <div className="min-h-screen bg-[#F8FAFC]">
 
         {/* Hero — full width, breadcrumb + judul besar + badge info + CTA. Gambar dari CRM kalau ada, fallback ikon kotak kalau kosong */}
-        <div className="relative overflow-hidden bg-gradient-to-br from-[#CC1F2A] to-[#8B1219] min-h-[220px] aspect-[1470/437] flex items-end w-full">
+        <div className="relative bg-gradient-to-br from-[#CC1F2A] to-[#8B1219] min-h-[220px] flex items-end w-full">
 
           {heroImage?.image ? (
             <>
-              <div className="absolute inset-0">
+                      <div className="absolute inset-0 overflow-hidden">
                 <Image
                   src={heroImage.image}
                   alt={heroImage.alt || `Cargo ke ${config.label}`}
