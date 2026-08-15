@@ -65,7 +65,7 @@ export function Navbar() {
           </Link>
 
           {/* Desktop nav */}
-          <nav className="hidden lg:flex items-center gap-1">
+          <nav className="hidden xl:flex items-center gap-1">
             {navLinks.map((link) =>
               link.children ? (
                 <div key={link.label} className="relative group">
@@ -135,7 +135,7 @@ export function Navbar() {
               Chat WhatsApp
             </WALink>
             <button
-              className="lg:hidden p-2 rounded-lg text-gray-700 hover:bg-gray-100"
+              className="xl:hidden p-2 rounded-lg text-gray-700 hover:bg-gray-100"
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label="Toggle menu"
             >
@@ -147,7 +147,7 @@ export function Navbar() {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="lg:hidden bg-white border-t border-gray-100 px-4 py-4 space-y-1">
+        <div className="xl:hidden bg-white border-t border-gray-100 px-4 py-4 space-y-1">
           {navLinks.map((link) => (
             <div key={link.label}>
               {link.children ? (
