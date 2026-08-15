@@ -237,13 +237,13 @@ export function CekOngkirForm({ rows, defaultValues, autoCalculate }: Props) {
         </div>
       </div>
 
-      <div className="grid grid-cols-[1fr_auto] gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-3">
         <button
           onClick={handleCalculate}
           disabled={!from || !to || !weight || weightTooLow}
-          className="bg-[#CC1F2A] hover:bg-[#1A1A1A] disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-black py-4 rounded-xl transition-colors text-lg flex items-center justify-center gap-2"
+          className="bg-[#CC1F2A] hover:bg-[#1A1A1A] disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-black py-3.5 rounded-xl transition-colors text-base flex items-center justify-center gap-2"
         >
-          <Calculator size={20} />
+          <Calculator size={18} />
           Hitung Ongkir
         </button>
         <WALink
@@ -254,9 +254,9 @@ export function CekOngkirForm({ rows, defaultValues, autoCalculate }: Props) {
             const msg = `Halo BJA Logistic, saya mau tanya ongkir cargo:\n- Dari: ${f}\n- Ke: ${t}\n- Berat: ${w}\n\nBisa bantu info harga dan jadwal pengirimannya?`;
             return `https://api.whatsapp.com/send/?phone=6281513335157&text=${encodeURIComponent(msg)}`;
           })()}
-          className="flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20bc59] text-white font-black py-4 px-5 rounded-xl transition-colors text-sm whitespace-nowrap"
+          className="flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20bc59] text-white font-black py-3.5 px-5 rounded-xl transition-colors text-sm whitespace-nowrap"
         >
-          <MessageCircle size={20} />
+          <MessageCircle size={18} />
           Minta Penawaran
         </WALink>
       </div>
