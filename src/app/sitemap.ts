@@ -3,6 +3,7 @@ import { destinationCities } from "@/lib/data/pricing";
 import { getAllPosts } from "@/lib/blog";
 import { getAllCityPages } from "@/lib/cityPages";
 import { regionConfigs } from "@/lib/data/regions";
+import { getAllServicePages } from "@/lib/servicePages";
 
 const BASE_URL = "https://bjalogistic.id";
 
@@ -33,34 +34,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.9,
     },
     {
-      url: `${BASE_URL}/layanan/cargo-laut`,
+      url: `${BASE_URL}/layanan/kirim-barang-kargo`,
       lastModified,
       changeFrequency: "monthly",
       priority: 0.9,
-    },
-    {
-      url: `${BASE_URL}/layanan/cargo-darat`,
-      lastModified,
-      changeFrequency: "monthly",
-      priority: 0.9,
-    },
-    {
-      url: `${BASE_URL}/layanan/cargo-udara`,
-      lastModified,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/layanan/kirim-motor`,
-      lastModified,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/layanan/kirim-mobil`,
-      lastModified,
-      changeFrequency: "monthly",
-      priority: 0.8,
     },
     {
       url: `${BASE_URL}/corporate`,
@@ -140,5 +117,26 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.9,
   }));
 
-  return [...staticRoutes, ...cargoRoutes, ...blogRoutes, ...destinationRoutes];
+    const legacyServiceSlugs = ["cargo-laut", "cargo-darat", "cargo-udara", "kirim-motor", "kirim-mobil"];
+    const apiServicePages = await getAllServicePages();
+    const apiServiceSlugs = new Set(apiServicePages.map((s) => s.slug));
+    const legacyServiceRoutes: MetadataRoute.Sitemap = legacyServiceSlugs
+      .filter((slug) => !apiServiceSlugs.has(slug))
+      .map((slug) => ({
+        url: `${BASE_URL}/layanan/${slug}`,
+        lastModified,
+        changeFrequency: "monthly" as const,
+        priority: 0.9,
+      }));
+    const serviceRoutes: MetadataRoute.Sitemap = [
+      ...legacyServiceRoutes,
+      ...apiServicePages.map((s) => ({
+        url: `${BASE_URL}/layanan/${s.slug}`,
+        lastModified,
+        changeFrequency: "monthly" as const,
+        priority: 0.9,
+      })),
+    ];
+
+    return [...staticRoutes, ...cargoRoutes, ...blogRoutes, ...destinationRoutes, ...serviceRoutes];
 }
