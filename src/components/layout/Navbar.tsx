@@ -10,13 +10,13 @@ import { WALink } from "@/components/ui/WALink";
 const navLinks = [
   {
     label: "Layanan",
-    href: "/layanan/cargo-laut",
+    href: "/layanan/kirim-barang-kargo",
     children: [
-      { label: "Cargo Laut", href: "/layanan/cargo-laut" },
-      { label: "Cargo Darat", href: "/layanan/cargo-darat" },
-      { label: "Cargo Udara", href: "/layanan/cargo-udara" },
+      { label: "Kirim Barang Kargo", href: "/layanan/kirim-barang-kargo" },
       { label: "Kirim Motor", href: "/layanan/kirim-motor" },
       { label: "Kirim Mobil", href: "/layanan/kirim-mobil" },
+      { label: "Alat Berat", href: "/layanan/kirim-alat-berat" },
+      { label: "Pindahan Rumah", href: "/layanan/pindahan-rumah" },
     ],
   },
   {
