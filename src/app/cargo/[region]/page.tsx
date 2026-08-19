@@ -162,7 +162,7 @@ export default async function CargoRegionPage({ params }: Props) {
               {heroImage?.tagline || config.tagline}
             </h1>
 
-            <p className="text-white/70 text-sm sm:text-base max-w-lg mb-6 leading-relaxed">
+          <p className="inline-block bg-[#7A0F17] border border-white/10 text-white text-sm sm:text-base font-semibold max-w-lg mb-6 px-4 py-2.5 rounded-xl leading-relaxed">
               {heroImage?.description || config.description}
             </p>
 
