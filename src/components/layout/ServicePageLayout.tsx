@@ -77,8 +77,7 @@ export function ServicePageLayout({
               dangerouslySetInnerHTML supaya tag-nya dirender, bukan tampil mentah.
               Konten ini cuma diisi lewat CRM oleh tim BJA sendiri, bukan input publik. */}
           <div
-            className="text-white/70 text-sm sm:text-base max-w-2xl mb-6 leading-relaxed [&_p]:mb-0"
-            dangerouslySetInnerHTML={{ __html: description }}
+            className="inline-block bg-[#7A0F17] border border-white/10 text-white text-sm sm:text-base font-semibold max-w-2xl mb-6 px-4 py-2.5 rounded-xl leading-relaxed [&_p]:mb-0"            dangerouslySetInnerHTML={{ __html: description }}
           />
 
           <div className="flex flex-wrap gap-4">
