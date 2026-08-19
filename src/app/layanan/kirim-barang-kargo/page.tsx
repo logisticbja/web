@@ -69,7 +69,7 @@ export default function KirimBarangKargoPage() {
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white leading-tight mb-4 max-w-xl">
               Kirim Barang Kargo ke Papua & Indonesia Timur
             </h1>
-            <p className="text-white/70 text-sm sm:text-base max-w-lg leading-relaxed">
+          <p className="inline-block bg-[#7A0F17] border border-white/10 text-white text-sm sm:text-base font-semibold max-w-lg px-4 py-2.5 rounded-xl leading-relaxed">
               Pilih metode pengiriman sesuai kebutuhan dan budget kamu — laut, darat, atau udara.
               Minimum pengiriman 100 kg untuk cargo laut & darat.
             </p>
