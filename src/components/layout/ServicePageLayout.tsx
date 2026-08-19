@@ -47,7 +47,7 @@ export function ServicePageLayout({
       {/* Hero — ukuran & gaya disamakan PERSIS dengan hero /cargo/{region} (lihat
           app/cargo/[region]/page.tsx): min-height sama, padding sama, gradient
           overlay sama, biar konsisten di seluruh situs. */}
-      <div className="relative bg-gradient-to-br from-[#CC1F2A] to-[#8B1219] min-h-[428px] flex items-end w-full">
+      <div className="relative bg-gradient-to-br from-[#CC1F2A] to-[#8B1219] min-h-[220px] flex items-end w-full">
         {imageBanner && (
           <>
                                 <div className="absolute inset-0 overflow-hidden">
