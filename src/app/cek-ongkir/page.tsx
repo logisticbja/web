@@ -56,10 +56,10 @@ export default async function CekOngkirPage() {
           <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-[#F5C518] flex items-center justify-center mx-auto mb-5">
             <Calculator size={30} className="text-[#1A1A1A]" />
           </div>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white mb-3">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white mb-3">
             {hero?.tagline || "Kalkulator Ongkir"}
           </h1>
-          <p className="text-white/70 text-base sm:text-lg">
+          <p className="inline-block bg-[#7A0F17] border border-white/10 text-white text-sm sm:text-base font-semibold px-4 py-2.5 rounded-xl leading-relaxed">
             {hero?.description || "Hitung estimasi biaya pengiriman ke Papua & Indonesia Timur dalam detik"}
           </p>
           <div className="flex items-center justify-center gap-4 mt-5 flex-wrap">
