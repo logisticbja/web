@@ -66,7 +66,7 @@ export function ScheduleClient({ schedules, hero }: { schedules: ShipSchedule[];
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white mb-3">
             {hero?.tagline || "Jadwal Kapal"}
           </h1>
-          <p className="inline-block bg-[#7A0F17] border border-white/10 text-white text-sm sm:text-base font-semibold px-4 py-2.5 rounded-xl leading-relaxed">
+          <p className="text-white/70 text-base sm:text-lg">
             {hero?.description || "Jadwal keberangkatan kapal ke Papua & Indonesia Timur"}
           </p>
           {hero?.stats && hero.stats.length > 0 && (
