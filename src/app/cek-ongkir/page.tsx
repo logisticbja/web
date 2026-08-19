@@ -43,7 +43,7 @@ export default async function CekOngkirPage() {
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
       {/* Header — ukuran & gaya disamakan dengan hero /layanan/{slug} & /cargo/{region}. */}
-      <div className="relative bg-gradient-to-br from-[#CC1F2A] to-[#8B1219] min-h-[220px] flex items-center w-full">
+      <div className="relative bg-gradient-to-br from-[#CC1F2A] to-[#8B1219] min-h-[428px] flex items-center w-full">
         {hero?.image && (
           <>
             <div className="absolute inset-0 overflow-hidden">
