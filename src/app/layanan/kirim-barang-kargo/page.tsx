@@ -58,7 +58,7 @@ export default function KirimBarangKargoPage() {
       />
 
       <div className="min-h-screen bg-[#F8FAFC]">
-        <div className="relative bg-gradient-to-br from-[#CC1F2A] to-[#8B1219] w-full">
+      <div className="relative bg-gradient-to-br from-[#CC1F2A] to-[#8B1219] min-h-[428px] flex items-center w-full">
           <div className="relative max-w-6xl mx-auto px-4 py-10 sm:py-12 w-full min-w-0">
             <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-white/70 text-xs sm:text-sm mb-6">
               <Link href="/" className="hover:text-white transition-colors">Beranda</Link>
