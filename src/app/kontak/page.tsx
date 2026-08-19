@@ -53,7 +53,7 @@ export default function KontakPage() {
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
       {/* Header */}
-            <div className="relative bg-gradient-to-br from-[#CC1F2A] to-[#8B1219] min-h-[220px] flex items-center w-full">
+      <div className="relative bg-gradient-to-br from-[#CC1F2A] to-[#8B1219] min-h-[428px] flex items-center w-full">
         <div className="relative max-w-5xl mx-auto text-center px-4 w-full min-w-0">
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white mb-3">Hubungi Kami</h1>
           <p className="text-white/70 text-base sm:text-lg">
