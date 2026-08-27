@@ -147,7 +147,7 @@ export default function KontakPage() {
             <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
               <p className="font-black text-[#111111] mb-4">Ikuti Kami</p>
               <div className="flex gap-3">
-                <a href="https://instagram.com/bja_logistic" target="_blank" rel="noopener noreferrer"
+                <a href="https://www.instagram.com/bjalogisticofficial/" target="_blank" rel="noopener noreferrer"
                   className="flex items-center gap-2 border border-gray-200 hover:border-pink-400 rounded-xl px-4 py-2.5 text-sm font-semibold text-gray-700 hover:text-pink-600 transition-colors">
                   <IconInstagram size={16} />
                   @bja_logistic
