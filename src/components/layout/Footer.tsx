@@ -42,7 +42,7 @@ export function Footer() {
               Solusi logistik terpercaya ke Papua, Maluku, NTT, dan Sulawesi. Cepat, aman, dan harga kompetitif sejak lebih dari 10 tahun.
             </p>
             <div className="flex gap-3">
-              <a href="https://instagram.com/bja_logistic" target="_blank" rel="noopener noreferrer"
+              <a href="https://www.instagram.com/bjalogisticofficial/" target="_blank" rel="noopener noreferrer"
                 className="w-9 h-9 rounded-lg bg-white/10 hover:bg-[#F5C518] hover:text-[#1A1A1A] flex items-center justify-center transition-colors">
                 <IconInstagram size={16} />
               </a>
