@@ -31,7 +31,7 @@ export async function getPageHero(page: string): Promise<PageHeroContent | null>
       `${CRM_BASE_URL}/public-page-hero.php?page=${encodeURIComponent(page)}`,
       {
         headers: { "X-API-Key": CRM_API_KEY },
-        next: { revalidate: 300 }, signal: AbortSignal.timeout(3000),
+        next: { revalidate: 3600, tags: ["cms-content"] }, signal: AbortSignal.timeout(3000),
       }
     );
     if (!res.ok) return null;
