@@ -41,7 +41,7 @@ export function LocalBusinessJsonLd() {
       },
     ],
     sameAs: [
-      "https://instagram.com/bja_logistic",
+      "https://www.instagram.com/bjalogisticofficial/",
       "https://facebook.com/BJALogistick",
       "https://tiktok.com/@bjalogistic",
     ],
