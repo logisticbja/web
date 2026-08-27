@@ -39,7 +39,7 @@ export async function getServicePage(slug: string): Promise<ServicePageData | nu
     url.searchParams.set("slug", slug);
     const res = await fetch(url.toString(), {
       headers: { "X-API-Key": process.env.TRACKING_API_KEY ?? "" },
-      next: { revalidate: 300 },
+      next: { revalidate: 3600, tags: ["cms-content"] },
     });
     const json = await res.json();
     if (json.status !== "success") return null;
@@ -56,7 +56,7 @@ export async function getAllServicePages(): Promise<ServicePageData[]> {
     const url = new URL(process.env.SERVICE_PAGES_API_URL!);
     const res = await fetch(url.toString(), {
       headers: { "X-API-Key": process.env.TRACKING_API_KEY ?? "" },
-      next: { revalidate: 300 },
+      next: { revalidate: 3600, tags: ["cms-content"] },
     });
     const json = await res.json();
     if (json.status !== "success") return [];
