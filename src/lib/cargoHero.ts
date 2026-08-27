@@ -36,7 +36,7 @@ export async function getCargoHeroImage(region: string): Promise<CargoHeroImage 
       `${CRM_BASE_URL}/public-cargo-hero.php?region=${encodeURIComponent(region)}`,
       {
         headers: { "X-API-Key": CRM_API_KEY },
-        next: { revalidate: 300 }, // cache 5 menit, sama pola dgn halaman blog/service pages
+        next: { revalidate: 300 }, signal: AbortSignal.timeout(3000), // cache 5 menit, sama pola dgn halaman blog/service pages
       }
     );
     if (!res.ok) return null;
