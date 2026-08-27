@@ -32,7 +32,7 @@ export async function getCityPage(slug: string): Promise<CityPageData | null> {
     url.searchParams.set("slug", slug);
     const res = await fetch(url.toString(), {
       headers: { "X-API-Key": process.env.TRACKING_API_KEY ?? "" },
-      next: { revalidate: 300 },
+      next: { revalidate: 3600, tags: ["cms-content"] },
     });
     const json = await res.json();
     if (json.status !== "success") return null;
@@ -50,7 +50,7 @@ export async function getAllCityPages(): Promise<CityPageData[]> {
     const url = new URL(process.env.CITY_PAGES_API_URL!);
     const res = await fetch(url.toString(), {
       headers: { "X-API-Key": process.env.TRACKING_API_KEY ?? "" },
-      next: { revalidate: 300 },
+      next: { revalidate: 3600, tags: ["cms-content"] },
     });
     const json = await res.json();
     if (json.status !== "success") return [];
