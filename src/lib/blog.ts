@@ -84,7 +84,7 @@ export async function getAllPosts(): Promise<PostMeta[]> {
   try {
     const res = await fetch(
       `${process.env.BLOG_API_URL}?limit=200`,
-      { headers: apiHeaders(), next: { revalidate: 300 } }
+      { headers: apiHeaders(), next: { revalidate: 3600, tags: ["cms-content"] } }
     );
     const json = await res.json();
     if (json.status !== "success") return [];
@@ -98,7 +98,7 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
   try {
     const res = await fetch(
       `${process.env.BLOG_API_URL}?slug=${encodeURIComponent(slug)}`,
-      { headers: apiHeaders(), next: { revalidate: 300 } }
+      { headers: apiHeaders(), next: { revalidate: 3600, tags: ["cms-content"] } }
     );
     const json = await res.json();
     if (json.status !== "success" || !json.data) return null;
