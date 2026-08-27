@@ -43,7 +43,7 @@ export async function middleware(request: NextRequest) {
   try {
     const res = await fetch(
       `${process.env.BLOG_API_URL}?slug=${encodeURIComponent(slug)}`,
-      { headers: { "X-API-Key": process.env.TRACKING_API_KEY ?? "" } }
+      { headers: { "X-API-Key": process.env.TRACKING_API_KEY ?? "" }, signal: AbortSignal.timeout(3000) }
     );
     const json = await res.json();
     if (json.status === "success" && json.data) {
