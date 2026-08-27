@@ -42,7 +42,7 @@ export function Footer() {
               Solusi logistik terpercaya ke Papua, Maluku, NTT, dan Sulawesi. Cepat, aman, dan harga kompetitif sejak lebih dari 10 tahun.
             </p>
             <div className="flex gap-3">
-              <a href="https://www.instagram.com/bjalogisticofficial/" target="_blank" rel="noopener noreferrer"
+              <a href="https://instagram.com/bja_logistic" target="_blank" rel="noopener noreferrer"
                 className="w-9 h-9 rounded-lg bg-white/10 hover:bg-[#F5C518] hover:text-[#1A1A1A] flex items-center justify-center transition-colors">
                 <IconInstagram size={16} />
               </a>
@@ -70,7 +70,7 @@ export function Footer() {
                 ["Project Logistics", "/kontak"],
               ].map(([label, href]) => (
                 <li key={href}>
-                  <Link href={href} className="text-gray-400 hover:text-white text-sm transition-colors">
+                  <Link href={href} prefetch={false} className="text-gray-400 hover:text-white text-sm transition-colors">
                     {label}
                   </Link>
                 </li>
@@ -91,7 +91,7 @@ export function Footer() {
                 ["Kontak", "/kontak"],
               ].map(([label, href]) => (
                 <li key={href}>
-                  <Link href={href} className="text-gray-400 hover:text-white text-sm transition-colors">
+                  <Link href={href} prefetch={false} className="text-gray-400 hover:text-white text-sm transition-colors">
                     {label}
                   </Link>
                 </li>
@@ -138,8 +138,8 @@ export function Footer() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-gray-500">
           <p>© {new Date().getFullYear()} BJA Logistic. All rights reserved.</p>
           <div className="flex gap-4">
-            <Link href="/privacy" className="hover:text-gray-300 transition-colors">Privacy Policy</Link>
-            <Link href="/terms" className="hover:text-gray-300 transition-colors">Terms & Conditions</Link>
+            <Link href="/privacy" prefetch={false} className="hover:text-gray-300 transition-colors">Privacy Policy</Link>
+            <Link href="/terms" prefetch={false} className="hover:text-gray-300 transition-colors">Terms & Conditions</Link>
           </div>
         </div>
       </div>
