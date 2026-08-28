@@ -289,12 +289,18 @@ export function TrackingClient() {
                    * Information kapal hanya ditampilkan
                    * pada status "Dalam Perjalanan".
                    */
-                  const isPerjalanan =
-                    event.status === "Dalam Perjalanan";
+const normalizedStatus = event.status
+  .toLowerCase()
+  .trim();
 
-                  const showShipInfo =
-                    isPerjalanan &&
-                    Boolean(state.data.namaKapal);
+const isPerjalanan =
+  normalizedStatus.includes("perjalanan") ||
+  normalizedStatus.includes("hub tujuan") ||
+  normalizedStatus.includes("dalam perjalanan");
+
+const showShipInfo =
+  isPerjalanan &&
+  Boolean(state.data.namaKapal);
 
                   return (
                     <div
