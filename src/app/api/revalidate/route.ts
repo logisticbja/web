@@ -11,10 +11,17 @@ export async function POST(request: NextRequest) {
     request.headers.get("x-revalidate-secret");
 
   if (!secret || secret !== process.env.REVALIDATE_SECRET) {
-    return NextResponse.json({ ok: false, error: "Invalid secret" }, { status: 401 });
+    return NextResponse.json(
+      { ok: false, error: "Invalid secret" },
+      { status: 401 }
+    );
   }
 
-  revalidateTag("cms-content");
+  revalidateTag("cms-content", "max");
 
-  return NextResponse.json({ ok: true, revalidated: "cms-content", now: Date.now() });
+  return NextResponse.json({
+    ok: true,
+    revalidated: "cms-content",
+    now: Date.now(),
+  });
 }
