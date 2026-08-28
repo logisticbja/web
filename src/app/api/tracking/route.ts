@@ -12,6 +12,10 @@ interface ExternalData {
   origin: string;
   destination: string;
   service: string | null;
+  shipName: string | null;
+  departureDate: string | null;
+  departureDateDisplay: string | null;
+  travelEstimateDays: number | null;
   etaDate: string | null;
   etaDateDisplay: string | null;
   currentStep: number;
@@ -62,16 +66,24 @@ export async function GET(request: NextRequest) {
 
   const d: ExternalData = json.data;
 
+  // Info kapal cuma relevan (dan ditampilkan) selagi barang masih dalam tahap
+  // hub/pelayaran -- step 3 "Barang Diproses di Hub Transit" s/d step 6
+  // "Perjalanan ke Hub Tujuan". Di luar rentang itu info kapal tidak relevan.
+  const showShipInfo = d.currentStep >= 3 && d.currentStep <= 6;
+
   return NextResponse.json({
-    noResi:       d.noResi,
-    asal:         d.origin,
-    tujuan:       d.destination,
-    layanan:      d.service ?? "",
+    noResi: d.noResi,
+    asal: d.origin,
+    tujuan: d.destination,
+    layanan: d.service ?? "",
     estimasiTiba: d.etaDate ? formatTime(d.etaDate) : undefined,
-    events:       d.timeline.map((t) => ({
-      status:   t.status,
-      waktu:    formatTime(t.time),
-      catatan:  t.note || undefined,
+    namaKapal: showShipInfo ? (d.shipName ?? undefined) : undefined,
+    tanggalBerangkat: showShipInfo ? (d.departureDateDisplay ?? undefined) : undefined,
+    estimasiPerjalanan: showShipInfo ? (d.travelEstimateDays ?? undefined) : undefined,
+    events: d.timeline.map((t) => ({
+      status: t.status,
+      waktu: formatTime(t.time),
+      catatan: t.note || undefined,
     })),
   });
 }
