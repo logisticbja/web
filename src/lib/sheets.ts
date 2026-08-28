@@ -12,6 +12,9 @@ export interface TrackingData {
   tujuan: string;
   layanan: string;
   estimasiTiba: string;
+  namaKapal?: string;
+  tanggalBerangkat?: string;
+  estimasiPerjalanan?: number;
   events: TrackingEvent[];
 }
 
