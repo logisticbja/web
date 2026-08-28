@@ -358,54 +358,57 @@ const showShipInfo =
                         {/* ─────────────────────────────────────────────
                             SHIP INFORMATION BRANCH
                         ───────────────────────────────────────────── */}
-                        {showShipInfo && (
-                          <div className="relative mt-4 ml-1 pl-6">
-                            {/* Dashed branch */}
-                            <div className="absolute left-0 top-0 h-7 w-5 border-l border-t border-dashed border-gray-300 rounded-tl-lg" />
+{showShipInfo && (
+  <div className="relative mt-4 -ml-7">
+    {/* Branch dari vertical rail */}
+    <div
+      className="
+        absolute
+        left-[8px]
+        top-[14px]
+        w-[24px]
+        border-t
+        border-dashed
+        border-gray-300
+      "
+    />
 
-                            <div className="flex items-start gap-2.5">
-                              <div className="w-7 h-7 rounded-lg bg-red-50 flex items-center justify-center shrink-0">
-                                <Ship
-                                  size={14}
-                                  className="text-[#CC1F2A]"
-                                />
-                              </div>
+    {/* Content */}
+    <div className="ml-[40px] flex items-start gap-2.5">
+      <div className="w-7 h-7 rounded-lg bg-red-50 flex items-center justify-center shrink-0">
+        <Ship
+          size={14}
+          className="text-[#CC1F2A]"
+        />
+      </div>
 
-                              <div className="pt-0.5">
-                                <p className="text-xs font-bold text-gray-700">
-                                  Informasi Kapal
-                                </p>
+      <div className="pt-0.5">
+        <p className="text-xs font-bold text-gray-700">
+          Informasi Kapal
+        </p>
 
-                                {state.data.namaKapal && (
-                                  <p className="text-sm font-semibold text-[#111111] mt-0.5">
-                                    {state.data.namaKapal}
-                                  </p>
-                                )}
+        {state.data.namaKapal && (
+          <p className="text-sm font-semibold text-[#111111] mt-0.5">
+            {state.data.namaKapal}
+          </p>
+        )}
 
-                                {state.data.tanggalBerangkat && (
-                                  <p className="text-xs text-gray-500 mt-0.5">
-                                    Keberangkatan:{" "}
-                                    {state.data.tanggalBerangkat}
-                                  </p>
-                                )}
+        {state.data.tanggalBerangkat && (
+          <p className="text-xs text-gray-500 mt-0.5">
+            Keberangkatan: {state.data.tanggalBerangkat}
+          </p>
+        )}
 
-                                {state.data.estimasiPerjalanan && (
-                                  <p className="text-xs text-gray-400 mt-0.5">
-                                    Estimasi perjalanan:{" "}
-                                    {state.data.estimasiPerjalanan} hari
-                                  </p>
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
+        {state.data.estimasiPerjalanan && (
+          <p className="text-xs text-gray-400 mt-0.5">
+            Estimasi perjalanan:{" "}
+            {state.data.estimasiPerjalanan} hari
+          </p>
+        )}
+      </div>
+    </div>
+  </div>
+)}
 
           {/* ───────────────────────────────────────────────────────────────
               TRACKING NOTE
