@@ -12,6 +12,7 @@ import {
   MapPin,
   Truck,
   Calendar,
+  Ship,
 } from "lucide-react";
 import { buildTrackingMessage } from "@/lib/whatsapp";
 import { WALink } from "@/components/ui/WALink";
@@ -140,7 +141,22 @@ export function TrackingClient() {
             ))}
           </div>
 
-          {/* Timeline */}
+{state.data.namaKapal && (
+          <div className="flex items-center gap-2 bg-amber-50 border border-amber-100 rounded-xl px-4 py-3 mb-7 text-sm text-amber-800">
+            <Ship size={16} className="shrink-0" />
+            <div>
+              <span className="font-bold">{state.data.namaKapal}</span>
+              {state.data.tanggalBerangkat && (
+                <span> — Berangkat {state.data.tanggalBerangkat}</span>
+              )}
+              {state.data.estimasiPerjalanan && (
+                <span> (estimasi {state.data.estimasiPerjalanan} hari perjalanan)</span>
+              )}
+            </div>
+          </div>
+        )}
+
+                  {/* Timeline */}
           <div className="relative pl-6">
             {/* Vertical rail */}
             <div className="absolute left-[9px] top-2 bottom-2 w-px bg-gray-200" />
