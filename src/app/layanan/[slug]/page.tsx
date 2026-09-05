@@ -6,7 +6,7 @@ import { BreadcrumbJsonLd } from "@/components/JsonLd";
 import { getServicePage, getAllServicePages, type ServicePageData } from "@/lib/servicePages";
 import { getServiceIcon } from "@/lib/serviceIcons";
 
-export const revalidate = 300;
+export const revalidate = 86400;
 
 // Fallback hardcoded — dipakai kalau CRM belum sempat diisi / API lagi
 // bermasalah, biar 5 halaman awal ini tetap tampil walau database kosong.
