@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { Metadata } from "next";
 import { ChevronRight, ArrowRight, Ship, Truck, Plane } from "lucide-react";
 import { BreadcrumbJsonLd } from "@/components/JsonLd";
@@ -58,7 +59,18 @@ export default function KirimBarangKargoPage() {
       />
 
       <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="relative bg-gradient-to-br from-[#CC1F2A] to-[#8B1219] min-h-[428px] flex items-center w-full">
+        <div className="relative bg-gradient-to-br from-[#CC1F2A] to-[#8B1219] min-h-[428px] flex items-end w-full overflow-hidden">
+          <div className="absolute inset-0">
+            <Image
+              src="https://assets.bjalogistic.id/blog/2026/09/4c30d03f37182e90dc2b.jpg"
+              alt="Kirim Barang Kargo ke Papua & Indonesia Timur"
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover"
+            />
+          </div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
           <div className="relative max-w-6xl mx-auto px-4 py-10 sm:py-12 w-full min-w-0">
             <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-white/70 text-xs sm:text-sm mb-6">
               <Link href="/" className="hover:text-white transition-colors">Beranda</Link>
@@ -69,7 +81,7 @@ export default function KirimBarangKargoPage() {
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white leading-tight mb-4 max-w-xl">
               Kirim Barang Kargo ke Papua & Indonesia Timur
             </h1>
-          <p className="text-white/70 text-sm sm:text-base max-w-lg leading-relaxed">
+            <p className="text-white/70 text-sm sm:text-base max-w-lg leading-relaxed">
               Pilih metode pengiriman sesuai kebutuhan dan budget kamu — laut, darat, atau udara.
               Minimum pengiriman 100 kg untuk cargo laut & darat.
             </p>
