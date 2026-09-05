@@ -7,7 +7,7 @@ const BASE_URL = "https://bjalogistic.id";
 const DEFAULT_TITLE = "Jadwal Kapal PELNI ke Papua & Indonesia Timur";
 const DEFAULT_DESCRIPTION = "Jadwal keberangkatan kapal PELNI dan Roro dari Surabaya ke Papua, Maluku, NTT, dan Sulawesi. Cek estimasi waktu tiba dan frekuensi keberangkatan.";
 
-export const revalidate = 300;
+export const revalidate = 86400;
 
 // generateMetadata (bukan `export const metadata` statis) — supaya bisa ambil
 // override SEO dari CRM (menu Hero Halaman > Jadwal Kapal > bagian SEO).
