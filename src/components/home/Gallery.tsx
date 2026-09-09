@@ -12,6 +12,8 @@ const photos = [
   { src: "/gallery/fvsdfvsvdvfsd.webp",                           alt: "Operasional logistik BJA",             caption: "Logistik",             desktopCls: "" },
   { src: "/gallery/regfd.webp",                                   alt: "Armada truk BJA Logistic",             caption: "Cargo Darat",          desktopCls: "" },
   { src: "/gallery/sdfvsd.webp",                                  alt: "Kegiatan pengiriman BJA Logistic",     caption: "Pengiriman",           desktopCls: "col-span-2" },
+  { src: "https://assets.bjalogistic.id/blog/2026/09/cedf66fd51280a509025.jpg", alt: "Packing barang",         caption: "Ekspedisi",            desktopCls: "" },
+  { src: "https://assets.bjalogistic.id/blog/2026/09/9deeaecf5029e971d36a.jpg", alt: "Container",              caption: "Proses Pemuatan di Container", desktopCls: "" },
 ];
 
 function GalleryItem({ photo, className }: { photo: (typeof photos)[number]; className?: string }) {
