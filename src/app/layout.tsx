@@ -17,10 +17,10 @@ export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: {
     template: "%s | BJA Logistic",
-    default: "BJA Logistic — Ekspedisi Cargo Papua & Indonesia Timur",
+    default: "BJA Logistic — Ekspedisi Spesialis Papua & Indonesia Timur",
   },
   description:
-    "Jasa ekspedisi cargo terpercaya ke Papua, Maluku, NTT, dan Sulawesi. Cargo laut mulai Rp 6.000/kg, door to door Jabodetabek. Spesialis pengiriman Papua 10+ tahun. ☎ 0815-1333-5157.",
+    "Jasa ekspedisi cargo terpercaya ke Papua, Maluku, NTT, dan Sulawesi. Mulai Rp 7.000/kg, door to door Jabodetabek. Spesialis pengiriman Papua 10+ tahun. ☎ 0815-1333-5157.",
   keywords: [
     "ekspedisi papua", "cargo papua", "kirim barang ke papua", "ongkir papua",
     "cargo laut papua", "ekspedisi indonesia timur", "cargo maluku", "cargo ntt",
@@ -47,9 +47,9 @@ export const metadata: Metadata = {
     canonical: BASE_URL,
   },
   openGraph: {
-    title: "BJA Logistic — Ekspedisi Cargo Papua & Indonesia Timur",
+    title: "BJA Logistic — Ekspedisi Spesialis Papua & Indonesia Timur",
     description:
-      "Jasa ekspedisi terpercaya ke Papua, Maluku, NTT, Sulawesi. Cargo laut mulai Rp 6.000/kg. Door to door Jabodetabek. 10+ tahun pengalaman.",
+      "Jasa ekspedisi terpercaya ke Papua, Maluku, NTT, Sulawesi. Mulai Rp 7.000/kg. Door to door Jabodetabek. 10+ tahun pengalaman.",
     url: BASE_URL,
     siteName: "BJA Logistic",
     type: "website",
@@ -59,14 +59,14 @@ export const metadata: Metadata = {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "BJA Logistic — Ekspedisi Cargo Papua & Indonesia Timur",
+        alt: "BJA Logistic — Ekspedisi Spesialis Papua & Indonesia Timur",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "BJA Logistic — Ekspedisi Cargo Papua & Indonesia Timur",
-    description: "Jasa ekspedisi terpercaya ke Papua & Indonesia Timur. Mulai Rp 6.000/kg.",
+    title: "BJA Logistic — Ekspedisi Spesialis Papua & Indonesia Timur",
+    description: "Jasa ekspedisi terpercaya ke Papua & Indonesia Timur. Mulai Rp 7.000/kg.",
     images: ["/og-image.png"],
   },
 };
