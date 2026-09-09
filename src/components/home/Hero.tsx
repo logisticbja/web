@@ -67,9 +67,9 @@ export async function Hero() {
             </h1>
           ) : (
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white leading-[1.15] mb-5">
-              Ekspedisi ke Seluruh Indonesia,
+              Ekspedisi Papua & Indonesia Timur,
               <br />
-              <span className="text-[#F5C518]">Spesialis Indonesia Timur</span>
+              <span className="text-[#F5C518]">Spesialis Cargo Terpercaya</span>
             </h1>
           )}
 
@@ -78,7 +78,7 @@ export async function Hero() {
             <p className="text-white/75 text-lg sm:text-xl mb-6 leading-relaxed">{hero.description}</p>
           ) : (
             <p className="text-white/75 text-lg sm:text-xl mb-6 leading-relaxed">
-              Mulai <strong className="text-white">Rp 6.000/kg</strong> &nbsp;·&nbsp; Door to Door Service &nbsp;·&nbsp; Kapal Roro, PELNI & Pesawat
+              Mulai <strong className="text-white">Rp 7.000/kg</strong> &nbsp;·&nbsp; Door to Door Service &nbsp;·&nbsp; Kapal Roro, PELNI & Pesawat
             </p>
           )}
 
