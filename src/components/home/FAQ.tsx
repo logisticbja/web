@@ -9,7 +9,7 @@ const faqs = [
   },
   {
     q: "Berapa ongkir kirim ke Papua?",
-    a: "Ongkir ke Papua mulai dari Rp 6.000/kg untuk cargo laut (min. 100 kg) dan Rp 7.000/kg untuk cargo darat. Harga final tergantung berat, volume, dan rute tujuan. Hubungi kami via WhatsApp untuk harga pasti.",
+    a: "Ongkir ke Papua mulai dari Rp 7.000/kg untuk cargo laut (min. 100 kg) dan Rp 7.000/kg untuk cargo darat. Harga final tergantung berat, volume, dan rute tujuan. Hubungi kami via WhatsApp untuk harga pasti.",
   },
   {
     q: "Berapa lama pengiriman ke Papua?",
