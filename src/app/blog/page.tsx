@@ -4,7 +4,7 @@ import { PostMeta } from "@/lib/blog";
 import BlogCoverImage from "./BlogCoverImage";
 import { Metadata } from "next";
 
-export const revalidate = 1800;
+export const revalidate = 86400;
 
 export const metadata: Metadata = {
   title: "Blog — Tips & Panduan Pengiriman Cargo",
