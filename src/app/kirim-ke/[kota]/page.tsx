@@ -13,7 +13,7 @@ import type { OngkirRegion } from "@/lib/data/ongkir";
 
 const ONGKIR_REGIONS = new Set(["papua", "maluku", "ntt", "sulawesi"]);
 
-export const revalidate = 300;
+export const revalidate = 86400;
 
 function toSlug(value: string) {
   return value.replace(/_/g, "-");
