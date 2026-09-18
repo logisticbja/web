@@ -18,9 +18,10 @@ interface Props {
   category: string;
   className?: string;
   priority?: boolean;
+  fit?: "cover" | "contain";
 }
 
-export default function BlogCoverImage({ src, alt, category, className = "", priority }: Props) {
+export default function BlogCoverImage({ src, alt, category, className = "", priority, fit = "cover" }: Props) {
   const [failed, setFailed] = useState(false);
   const gradient = categoryGradients[category] ?? "from-gray-50 to-gray-100";
 
@@ -37,7 +38,7 @@ export default function BlogCoverImage({ src, alt, category, className = "", pri
       src={src}
       alt={alt}
       fill
-      className={`object-contain ${className}`}
+      className={`${fit === "contain" ? "object-contain" : "object-cover"} ${className}`}
       priority={priority}
       onError={() => setFailed(true)}
     />
