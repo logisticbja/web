@@ -37,7 +37,7 @@ export default function BlogCoverImage({ src, alt, category, className = "", pri
       src={src}
       alt={alt}
       fill
-      className={`object-cover ${className}`}
+      className={`object-contain ${className}`}
       priority={priority}
       onError={() => setFailed(true)}
     />
