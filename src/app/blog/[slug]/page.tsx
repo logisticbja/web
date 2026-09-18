@@ -184,7 +184,7 @@ export default async function BlogPostPage({ params }: Props) {
         {/* Gambar cover — sekarang gambar biasa, bukan background hero */}
         {post.cover && (
   <div className="mx-auto px-4 pt-8">
-    <div className="relative w-full max-w-[738px] aspect-[738/416] mx-auto rounded-2xl overflow-hidden shadow-sm">
+    <div className="relative w-full max-w-[738px] h-auto aspect-[738/416] mx-auto rounded-2xl overflow-hidden shadow-sm">
       <BlogCoverImage
         src={post.cover}
         alt={post.coverAlt ?? post.title}
