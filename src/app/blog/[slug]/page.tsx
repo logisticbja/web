@@ -183,18 +183,17 @@ export default async function BlogPostPage({ params }: Props) {
 
         {/* Gambar cover — sekarang gambar biasa, bukan background hero */}
         {post.cover && (
-          <div className="max-w-3xl mx-auto px-4 pt-8">
-            <div className="relative aspect-video rounded-2xl overflow-hidden shadow-sm">
-              <BlogCoverImage
-                src={post.cover}
-                alt={post.coverAlt ?? post.title}
-                category={post.category}
-                priority
-              />
-            </div>
-          </div>
-        )}
-
+  <div className="mx-auto px-4 pt-8">
+    <div className="relative w-full max-w-[738px] aspect-[738/416] mx-auto rounded-2xl overflow-hidden shadow-sm">
+      <BlogCoverImage
+        src={post.cover}
+        alt={post.coverAlt ?? post.title}
+        category={post.category}
+        priority
+      />
+    </div>
+  </div>
+)}
         <div className="max-w-3xl mx-auto px-4 py-10">
           {/* Excerpt / intro callout */}
           {post.excerpt && (
