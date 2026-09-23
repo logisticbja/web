@@ -355,30 +355,12 @@ export function TrackingClient() {
                   i === state.data.events.length - 1;
 
                 /*
-                 * Status perjalanan.
-                 *
-                 * Kita tidak hanya mengecek "Dalam Perjalanan"
-                 * karena data tracking dapat menggunakan:
-                 *
-                 * - Perjalanan
-                 * - Perjalanan ke Hub Tujuan
-                 * - Dalam Perjalanan
-                 * - Perjalanan menuju hub tujuan
+                 * Info kapal cuma muncul di event yang membawa data `kapal`
+                 * (dari API: hanya event step 4 "Menunggu Jadwal
+                 * Keberangkatan Kapal"). Tidak lagi menebak dari teks status.
                  */
-
-                const normalizedStatus =
-                  event.status
-                    .toLowerCase()
-                    .trim();
-
-                const isPerjalanan =
-                  normalizedStatus.includes("perjalanan") ||
-                  normalizedStatus.includes("hub tujuan") ||
-                  normalizedStatus === "dalam perjalanan";
-
-                const showShipInfo =
-                  isPerjalanan &&
-                  Boolean(state.data.namaKapal);
+                const ship = event.kapal;
+                const showShipInfo = Boolean(ship);
 
                 return (
                   <div
@@ -522,7 +504,7 @@ export function TrackingClient() {
 
                             Struktur:
 
-                            ● Perjalanan menuju hub tujuan
+                            ● Menunggu Jadwal Keberangkatan Kapal
                             │
                             ├┄ 🚢 Informasi Kapal
                             │     KM. Dobonsolo
@@ -587,36 +569,36 @@ export function TrackingClient() {
                                   Informasi Kapal
                                 </p>
 
-                                {state.data.namaKapal && (
+                                {ship?.nama && (
                                   <p className="
                                     text-sm
                                     font-semibold
                                     text-[#111111]
                                     mt-0.5
                                   ">
-                                    {state.data.namaKapal}
+                                    {ship.nama}
                                   </p>
                                 )}
 
-                                {state.data.tanggalBerangkat && (
+                                {ship?.tanggalBerangkat && (
                                   <p className="
                                     text-xs
                                     text-gray-500
                                     mt-0.5
                                   ">
                                     Keberangkatan:{" "}
-                                    {state.data.tanggalBerangkat}
+                                    {ship.tanggalBerangkat}
                                   </p>
                                 )}
 
-                                {state.data.estimasiPerjalanan && (
+                                {ship?.estimasiPerjalanan && (
                                   <p className="
                                     text-xs
                                     text-gray-400
                                     mt-0.5
                                   ">
                                     Estimasi perjalanan:{" "}
-                                    {state.data.estimasiPerjalanan} hari
+                                    {ship.estimasiPerjalanan} hari
                                   </p>
                                 )}
 
