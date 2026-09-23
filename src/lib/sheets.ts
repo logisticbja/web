@@ -1,9 +1,17 @@
 import { createServerClient } from "@/lib/supabase/server";
 
+export interface TrackingShipInfo {
+  nama: string;
+  tanggalBerangkat?: string;
+  estimasiPerjalanan?: number;
+}
+
 export interface TrackingEvent {
   status: string;
   waktu: string;
   catatan: string;
+  // Diisi HANYA di event step 4 "Menunggu Jadwal Keberangkatan Kapal"
+  kapal?: TrackingShipInfo;
 }
 
 export interface TrackingData {
@@ -12,9 +20,6 @@ export interface TrackingData {
   tujuan: string;
   layanan: string;
   estimasiTiba: string;
-  namaKapal?: string;
-  tanggalBerangkat?: string;
-  estimasiPerjalanan?: number;
   events: TrackingEvent[];
 }
 
