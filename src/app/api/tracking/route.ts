@@ -66,10 +66,22 @@ export async function GET(request: NextRequest) {
 
   const d: ExternalData = json.data;
 
-  // Info kapal cuma relevan (dan ditampilkan) selagi barang masih dalam tahap
-  // hub/pelayaran -- step 3 "Barang Diproses di Hub Transit" s/d step 6
-  // "Perjalanan ke Hub Tujuan". Di luar rentang itu info kapal tidak relevan.
-  const showShipInfo = d.currentStep >= 3 && d.currentStep <= 6;
+  // Info kapal HANYA menempel di event step 4 "Menunggu Jadwal Keberangkatan
+  // Kapal", tidak peduli kapal sudah diinput sejak tahap mana pun. Kalau ada
+  // beberapa event step 4, pakai yang paling terakhir.
+  const WAITING_SHIP_STEP = 4;
+  let shipEventIndex = -1;
+  d.timeline.forEach((t, i) => {
+    if (t.step === WAITING_SHIP_STEP) shipEventIndex = i;
+  });
+
+  const kapal = d.shipName
+    ? {
+        nama: d.shipName,
+        tanggalBerangkat: d.departureDateDisplay ?? undefined,
+        estimasiPerjalanan: d.travelEstimateDays ?? undefined,
+      }
+    : undefined;
 
   return NextResponse.json({
     noResi: d.noResi,
@@ -77,13 +89,11 @@ export async function GET(request: NextRequest) {
     tujuan: d.destination,
     layanan: d.service ?? "",
     estimasiTiba: d.etaDate ? formatTime(d.etaDate) : undefined,
-    namaKapal: showShipInfo ? (d.shipName ?? undefined) : undefined,
-    tanggalBerangkat: showShipInfo ? (d.departureDateDisplay ?? undefined) : undefined,
-    estimasiPerjalanan: showShipInfo ? (d.travelEstimateDays ?? undefined) : undefined,
-    events: d.timeline.map((t) => ({
+    events: d.timeline.map((t, i) => ({
       status: t.status,
       waktu: formatTime(t.time),
       catatan: t.note || undefined,
+      kapal: i === shipEventIndex ? kapal : undefined,
     })),
   });
 }
