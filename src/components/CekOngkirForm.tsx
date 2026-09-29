@@ -19,6 +19,7 @@ import {
   resolveDestinationValue,
 } from "@/lib/data/pricing";
 import { findOngkirCity, ongkirGroups } from "@/lib/data/ongkir";
+import type { PricingRow } from "@/lib/sheets";
 import { buildGeneralMessage } from "@/lib/whatsapp";
 import { WALink } from "@/components/ui/WALink";
 
@@ -33,6 +34,9 @@ interface DefaultValues {
 }
 
 interface Props {
+  // Backward compatibility: beberapa halaman lama masih mengirim rows dari Google Sheets.
+  // Kalkulator baru tidak lagi memakai rows untuk pricing; sumber harga tetap pricing.ts.
+  rows?: PricingRow[];
   defaultValues?: DefaultValues;
   autoCalculate?: boolean;
 }
