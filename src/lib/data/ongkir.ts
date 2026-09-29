@@ -17,7 +17,7 @@ export const ongkirGroups: OngkirGroup[] = [
     region: "maluku",
     cities: [
       { value: "ambon", label: "Ambon" },
-      { value: "dabo", label: "Dabo" },
+      { value: "dobo", label: "Dobo" },
       { value: "masohi", label: "Masohi" },
       { value: "namlea", label: "Namlea" },
       { value: "saumlaki", label: "Saumlaki" },
@@ -92,9 +92,6 @@ export const ongkirGroups: OngkirGroup[] = [
     groupLabel: "Papua Barat",
     region: "papua",
     cities: [
-      // FIX (Agustus 2026): value diselaraskan ke "fakfak" (tanpa strip),
-      // sesuai slug asli halaman /kirim-ke/fakfak. Sebelumnya "fak-fak"
-      // bikin badge di /cargo/papua nyasar ke 404.
       { value: "fakfak", label: "Fakfak" },
       { value: "kaimana", label: "Kaimana" },
       { value: "manokwari", label: "Manokwari" },
@@ -117,8 +114,6 @@ export const ongkirGroups: OngkirGroup[] = [
       { value: "sumba-barat", label: "Sumba Barat" },
       { value: "sumba-tengah", label: "Sumba Tengah" },
       { value: "sumba-timur", label: "Sumba Timur" },
-      // FIX (Agustus 2026): value diselaraskan ke "labuan-bajo" (bukan
-      // "labuhan-bajo"), sesuai slug asli halaman /kirim-ke/labuan-bajo.
       { value: "labuan-bajo", label: "Labuan Bajo" },
       { value: "lembor", label: "Lembor" },
       { value: "ruteng", label: "Ruteng" },
@@ -163,8 +158,6 @@ export const ongkirGroups: OngkirGroup[] = [
       { value: "rantepao", label: "Rantepao" },
       { value: "selayar", label: "Selayar" },
       { value: "sidrap", label: "Sidrap" },
-      // FIX (Agustus 2026): value diselaraskan ke "sinjay" (bukan "sinjai"),
-      // sesuai slug asli halaman /kirim-ke/sinjay.
       { value: "sinjay", label: "Sinjay" },
       { value: "siwa", label: "Siwa" },
       { value: "soppeng", label: "Soppeng" },
@@ -181,7 +174,7 @@ export const ongkirGroups: OngkirGroup[] = [
       { value: "majene", label: "Majene" },
       { value: "mamuju", label: "Mamuju" },
       { value: "mamasa", label: "Mamasa" },
-      { value: "polman", label: "Polman" },
+      // Polman belum dimasukkan karena tidak ada harga di HPP yang diberikan.
       { value: "pasang-kayu", label: "Pasang Kayu" },
       { value: "topoyo", label: "Topoyo" },
     ],
@@ -193,16 +186,12 @@ export const ongkirGroups: OngkirGroup[] = [
       { value: "ampana", label: "Ampana" },
       { value: "banggai-laut", label: "Banggai Laut" },
       { value: "banggai-kepulauan", label: "Banggai Kepulauan" },
-      // FIX (Agustus 2026): value diselaraskan ke "batul-tolli" (bukan
-      // "batui-toili"), sesuai slug asli halaman /kirim-ke/batul-tolli.
       { value: "batul-tolli", label: "Batul Tolli" },
       { value: "buol", label: "Buol" },
       { value: "donggala", label: "Donggala" },
       { value: "luwuk-banggai", label: "Luwuk Banggai" },
       { value: "morowali", label: "Morowali" },
       { value: "palu", label: "Palu" },
-      // FIX (Agustus 2026): value diselaraskan ke "parigi-mountong" (bukan
-      // "parigi-moutong"), sesuai slug asli halaman /kirim-ke/parigi-mountong.
       { value: "parigi-mountong", label: "Parigi Mountong" },
       { value: "poso", label: "Poso" },
       { value: "toli-toli", label: "Toli-toli" },
@@ -231,8 +220,6 @@ export const ongkirGroups: OngkirGroup[] = [
     region: "sulawesi",
     cities: [
       { value: "bitung", label: "Bitung" },
-      // FIX (Agustus 2026): value diselaraskan ke "kota-mubago" (bukan
-      // "kotamobagu"), sesuai slug asli halaman /kirim-ke/kota-mubago.
       { value: "kota-mubago", label: "Kota Mubago" },
       { value: "manado", label: "Manado" },
       { value: "tomohon", label: "Tomohon" },
@@ -243,10 +230,13 @@ export const ongkirGroups: OngkirGroup[] = [
   },
 ];
 
-export function findOngkirCity(value: string): { city: OngkirCity; region: OngkirRegion } | undefined {
+export function findOngkirCity(
+  value: string
+): { city: OngkirCity; region: OngkirRegion } | undefined {
   for (const group of ongkirGroups) {
     const city = group.cities.find((c) => c.value === value);
     if (city) return { city, region: group.region };
   }
+
   return undefined;
 }
