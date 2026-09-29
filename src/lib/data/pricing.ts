@@ -103,9 +103,9 @@ const regionMap: Record<string, string> = {
   makassar: "sulawesi", manado: "sulawesi", palu: "sulawesi",
 };
 interface CityLautPricing {
-  expressPrice: number;
-  expressEtaMin: number;
-  expressEtaMax: number;
+  expressPrice: number | null;
+  expressEtaMin: number | null;
+  expressEtaMax: number | null;
   regulerPrice: number | null;
   regulerEtaMin: number | null;
   regulerEtaMax: number | null;
@@ -126,11 +126,11 @@ export const cityLautPricing: Record<string, CityLautPricing> = {
   timika:      { expressPrice: 29000, expressEtaMin: 8,  expressEtaMax: 10, regulerPrice: 9000,  regulerEtaMin: 20, regulerEtaMax: 25 },
   wamena:      { expressPrice: 30000, expressEtaMin: 9,  expressEtaMax: 10, regulerPrice: 25000, regulerEtaMin: 20, regulerEtaMax: 25 },
   nabire:      { expressPrice: 16000, expressEtaMin: 8,  expressEtaMax: 9,  regulerPrice: 10000, regulerEtaMin: 15, regulerEtaMax: 20 },
-  biak:        { expressPrice: 16000, expressEtaMin: 8,  expressEtaMax: 9,  regulerPrice: 9000,  regulerEtaMin: 15, regulerEtaMax: 20 },
+  biak:        { expressPrice: 16000, expressEtaMin: 7,  expressEtaMax: 8, regulerPrice: 9000, regulerEtaMin: 15, regulerEtaMax: 20 },
   fakfak:      { expressPrice: 29000, expressEtaMin: 8,  expressEtaMax: 9,  regulerPrice: 12000, regulerEtaMin: 15, regulerEtaMax: 20 },
   raja_ampat:  { expressPrice: 36000, expressEtaMin: 7,  expressEtaMax: 10, regulerPrice: 25000, regulerEtaMin: 20, regulerEtaMax: 25 },
 
-  kupang:      { expressPrice: 9000,  expressEtaMin: 5,  expressEtaMax: 6,  regulerPrice: 7000,  regulerEtaMin: 10, regulerEtaMax: 14 },
+  kupang:      { expressPrice: null,  expressEtaMin: null,  expressEtaMax: null,  regulerPrice: 9000,  regulerEtaMin: 8, regulerEtaMax: 11 },
   ende:        { expressPrice: 11000, expressEtaMin: 8,  expressEtaMax: 12, regulerPrice: null,  regulerEtaMin: null, regulerEtaMax: null },
   maumere:     { expressPrice: 9500,  expressEtaMin: 8,  expressEtaMax: 12, regulerPrice: null,  regulerEtaMin: null, regulerEtaMax: null },
   labuan_bajo: { expressPrice: 8000,  expressEtaMin: 3,  expressEtaMax: 4,  regulerPrice: null,  regulerEtaMin: null, regulerEtaMax: null },
@@ -141,18 +141,43 @@ export const cityLautPricing: Record<string, CityLautPricing> = {
   manado:      { expressPrice: 8000,  expressEtaMin: 7,  expressEtaMax: 10, regulerPrice: null,  regulerEtaMin: null, regulerEtaMax: null },
   palu:        { expressPrice: 9000,  expressEtaMin: 6,  expressEtaMax: 7,  regulerPrice: null,  regulerEtaMin: null, regulerEtaMax: null },
 };
-export function calculatePrice(destination: string, service: ServiceType, weight: number): PricingResult {
+export function calculatePrice(
+  destination: string,
+  service: ServiceType,
+  weight: number
+): PricingResult {
   if (service === "laut" && cityLautPricing[destination]) {
     const c = cityLautPricing[destination];
-    const hasReguler = c.regulerPrice !== null;
-    return {
-      serviceName: serviceNames[service],
-      priceMin: (hasReguler ? c.regulerPrice! : c.expressPrice) * weight,
-      priceMax: c.expressPrice * weight,
-      etaMin: c.expressEtaMin,
-      etaMax: hasReguler ? c.regulerEtaMax! : c.expressEtaMax,
-      unit: "kg",
-    };
+
+    const availablePrices = [
+      c.regulerPrice,
+      c.expressPrice,
+    ].filter((price): price is number => price !== null);
+
+    const availableEtaMin = [
+      c.regulerEtaMin,
+      c.expressEtaMin,
+    ].filter((eta): eta is number => eta !== null);
+
+    const availableEtaMax = [
+      c.regulerEtaMax,
+      c.expressEtaMax,
+    ].filter((eta): eta is number => eta !== null);
+
+    if (
+      availablePrices.length > 0 &&
+      availableEtaMin.length > 0 &&
+      availableEtaMax.length > 0
+    ) {
+      return {
+        serviceName: serviceNames[service],
+        priceMin: Math.min(...availablePrices) * weight,
+        priceMax: Math.max(...availablePrices) * weight,
+        etaMin: Math.min(...availableEtaMin),
+        etaMax: Math.max(...availableEtaMax),
+        unit: "kg",
+      };
+    }
   }
 
   const region = regionMap[destination] || "papua";
@@ -167,22 +192,4 @@ export function calculatePrice(destination: string, service: ServiceType, weight
     etaMax: eta.max,
     unit: "kg",
   };
-}
-
-export function calculatePriceByRegion(region: string, service: ServiceType, weight: number): PricingResult {
-  const prices = (basePrices[region] ?? basePrices["papua"])[service];
-  const eta = etaDays[service];
-
-  return {
-    serviceName: serviceNames[service],
-    priceMin: prices.min * weight,
-    priceMax: prices.max * weight,
-    etaMin: eta.min,
-    etaMax: eta.max,
-    unit: "kg",
-  };
-}
-
-export function formatPrice(price: number): string {
-  return new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", minimumFractionDigits: 0 }).format(price);
 }
