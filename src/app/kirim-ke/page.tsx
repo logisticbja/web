@@ -7,19 +7,23 @@ import {
   Ship,
   Scale,
 } from "lucide-react";
-import { destinationCities } from "@/lib/data/pricing";
+import {
+  destinationCities,
+  destinationValueToSlug,
+} from "@/lib/data/pricing";
+import { BreadcrumbJsonLd } from "@/components/JsonLd";
 
 export const metadata: Metadata = {
   title: "Ekspedisi Cargo ke Indonesia Timur | BJA Logistic",
   description:
-    "Kirim cargo dari Jakarta dan Surabaya ke Papua, Maluku, NTT, dan Sulawesi bersama BJA Logistic. Minimum pengiriman 100 kg. Pilih kota tujuan pengiriman Anda.",
+    "Kirim cargo dari Jabodetabek dan Surabaya ke Papua, Maluku, NTT, dan Sulawesi bersama BJA Logistic. Minimum pengiriman 100 kg. Pilih kota tujuan untuk melihat tarif, layanan, dan estimasi pengiriman.",
   alternates: {
     canonical: "https://bjalogistic.id/kirim-ke",
   },
   openGraph: {
     title: "Ekspedisi Cargo ke Indonesia Timur | BJA Logistic",
     description:
-      "Layanan pengiriman cargo ke Papua, Maluku, NTT, dan Sulawesi. Pilih kota tujuan pengiriman bersama BJA Logistic.",
+      "Pilih kota tujuan pengiriman cargo ke Papua, Maluku, NTT, dan Sulawesi bersama BJA Logistic.",
     url: "https://bjalogistic.id/kirim-ke",
     images: [
       {
@@ -33,14 +37,10 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Ekspedisi Cargo ke Indonesia Timur | BJA Logistic",
     description:
-      "Pilih tujuan pengiriman cargo ke Papua, Maluku, NTT, dan Sulawesi bersama BJA Logistic.",
+      "Pilih kota tujuan pengiriman cargo ke Papua, Maluku, NTT, dan Sulawesi bersama BJA Logistic.",
     images: ["/og-image.png"],
   },
 };
-
-function toSlug(value: string) {
-  return value.replace(/_/g, "-");
-}
 
 const REGION_ORDER = ["Papua", "Maluku", "NTT", "Sulawesi"];
 
@@ -52,17 +52,35 @@ export default function KirimKePage() {
         (city) =>
           city.region?.toLowerCase() === region.toLowerCase()
       )
-      .sort((a, b) => a.label.localeCompare(b.label)),
+      .sort((a, b) => a.label.localeCompare(b.label, "id")),
   })).filter((group) => group.cities.length > 0);
+
+  const totalDestinations = groupedCities.reduce(
+    (total, group) => total + group.cities.length,
+    0
+  );
 
   return (
     <>
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Beranda", url: "https://bjalogistic.id" },
+          {
+            name: "Kirim ke",
+            url: "https://bjalogistic.id/kirim-ke",
+          },
+        ]}
+      />
+
       {/* HERO */}
       <section className="bg-[#CC1F2A] px-4 py-14 sm:py-20">
         <div className="max-w-5xl mx-auto">
           <div className="max-w-3xl">
             <div className="flex items-center gap-2 text-sm text-white/70 mb-5">
-              <Link href="/" className="hover:text-white transition-colors">
+              <Link
+                href="/"
+                className="hover:text-white transition-colors"
+              >
                 Beranda
               </Link>
 
@@ -89,7 +107,8 @@ export default function KirimKePage() {
             <p className="text-white/75 text-base sm:text-lg leading-relaxed max-w-2xl mb-8">
               Kirim barang dari Jabodetabek dan Surabaya ke berbagai kota
               di Indonesia Timur bersama BJA Logistic. Pilih kota tujuan
-              untuk melihat layanan dan informasi pengiriman.
+              untuk melihat tarif, layanan yang tersedia, dan estimasi
+              pengiriman.
             </p>
 
             <div className="flex flex-wrap gap-3">
@@ -127,7 +146,7 @@ export default function KirimKePage() {
                   Minimum 100 kg
                 </p>
                 <p className="text-sm text-gray-500">
-                  Cocok untuk pengiriman cargo
+                  Untuk setiap pengiriman cargo
                 </p>
               </div>
             </div>
@@ -139,10 +158,10 @@ export default function KirimKePage() {
 
               <div>
                 <p className="font-black text-[#111111]">
-                  Cargo Laut
+                  Reguler & Express
                 </p>
                 <p className="text-sm text-gray-500">
-                  Pengiriman ke Indonesia Timur
+                  Ketersediaan mengikuti kota tujuan
                 </p>
               </div>
             </div>
@@ -154,10 +173,10 @@ export default function KirimKePage() {
 
               <div>
                 <p className="font-black text-[#111111]">
-                  Banyak Kota Tujuan
+                  {totalDestinations} Tujuan
                 </p>
                 <p className="text-sm text-gray-500">
-                  Pilih tujuan sesuai kebutuhan
+                  Dalam master rute BJA Logistic
                 </p>
               </div>
             </div>
@@ -180,35 +199,50 @@ export default function KirimKePage() {
           </h2>
 
           <p className="text-gray-500 max-w-2xl leading-relaxed">
-            Pilih wilayah dan kota tujuan untuk melihat informasi layanan,
-            estimasi pengiriman, serta ongkir cargo yang tersedia.
+            Pilih wilayah dan kota tujuan untuk melihat tarif per kg,
+            layanan Reguler atau Express yang tersedia, serta estimasi
+            pengiriman berdasarkan rute tersebut.
           </p>
         </div>
 
-        <div className="space-y-10">
+        <div className="space-y-12">
           {groupedCities.map((group) => (
-            <section key={group.region}>
-              <div className="flex items-center gap-3 mb-5">
-                <div className="w-9 h-9 rounded-lg bg-[#CC1F2A] flex items-center justify-center">
-                  <MapPin size={17} className="text-white" />
+            <section
+              key={group.region}
+              aria-labelledby={`region-${group.region.toLowerCase()}`}
+            >
+              <div className="flex items-end justify-between gap-4 mb-5">
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-lg bg-[#CC1F2A] flex items-center justify-center">
+                    <MapPin size={17} className="text-white" />
+                  </div>
+
+                  <div>
+                    <p className="text-xs text-gray-400 font-bold uppercase tracking-wide">
+                      Wilayah
+                    </p>
+
+                    <h2
+                      id={`region-${group.region.toLowerCase()}`}
+                      className="text-xl font-black text-[#111111]"
+                    >
+                      {group.region}
+                    </h2>
+                  </div>
                 </div>
 
-                <div>
-                  <p className="text-xs text-gray-400 font-bold uppercase tracking-wide">
-                    Wilayah
-                  </p>
-
-                  <h2 className="text-xl font-black text-[#111111]">
-                    {group.region}
-                  </h2>
-                </div>
+                <span className="text-xs font-bold text-gray-500 bg-gray-100 px-3 py-1.5 rounded-full shrink-0">
+                  {group.cities.length} tujuan
+                </span>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 {group.cities.map((city) => (
                   <Link
                     key={city.value}
-                    href={`/kirim-ke/${toSlug(city.value)}`}
+                    href={`/kirim-ke/${destinationValueToSlug(
+                      city.value
+                    )}`}
                     className="group flex items-center justify-between gap-3 bg-white border border-gray-200 hover:border-[#CC1F2A] rounded-xl px-4 py-4 transition-all hover:shadow-sm"
                   >
                     <div className="flex items-center gap-3 min-w-0">
@@ -217,7 +251,7 @@ export default function KirimKePage() {
                         className="text-[#CC1F2A] shrink-0"
                       />
 
-                      <div>
+                      <div className="min-w-0">
                         <p className="font-bold text-[#111111] group-hover:text-[#CC1F2A] transition-colors">
                           Ekspedisi ke {city.label}
                         </p>
@@ -238,18 +272,28 @@ export default function KirimKePage() {
             </section>
           ))}
         </div>
+
+        <div className="mt-10 rounded-2xl border border-amber-200 bg-amber-50 px-5 py-4">
+          <p className="text-sm text-amber-900 leading-relaxed">
+            <strong>Catatan:</strong> Ketersediaan layanan dan estimasi
+            berbeda untuk setiap kota tujuan. Estimasi dihitung sejak kapal
+            berangkat dari pelabuhan asal. Pastikan konfirmasi jadwal kapal
+            terdekat ke CS BJA Logistic sebelum melakukan pengiriman.
+          </p>
+        </div>
       </main>
 
       {/* CTA */}
       <section className="px-4 pb-16">
         <div className="max-w-5xl mx-auto bg-[#F8FAFC] border border-gray-100 rounded-3xl px-6 py-10 sm:p-10 text-center">
           <h2 className="text-2xl sm:text-3xl font-black text-[#111111] mb-3">
-            Belum Menemukan Kota Tujuan?
+            Ingin Cek Tarif Kota Tujuan?
           </h2>
 
           <p className="text-gray-500 max-w-xl mx-auto mb-6">
-            Gunakan halaman cek ongkir untuk melihat layanan pengiriman
-            BJA Logistic sesuai kota tujuan Anda.
+            Gunakan kalkulator ongkir untuk memilih kota, layanan, dan berat
+            pengiriman. Tarif dan estimasi akan mengikuti master rute BJA
+            Logistic.
           </p>
 
           <Link
