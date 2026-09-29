@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { MessageCircle, Clock, Ship, Zap, CheckCircle, ArrowRight, MapPin, Package, Star, Quote, Scale, Ban, AlertCircle } from "lucide-react";
@@ -165,6 +165,11 @@ export default async function KirimKePage({ params }: Props) {
   const { kota } = await params;
   const rawDestinationValue = fromSlug(kota);
   const resolvedDestinationValue = resolveDestinationValue(rawDestinationValue);
+
+  if (rawDestinationValue !== resolvedDestinationValue) {
+    permanentRedirect(`/kirim-ke/${toSlug(resolvedDestinationValue)}`);
+  }
+
   const city = destinationCities.find(
     (c) => c.value === resolvedDestinationValue
   );
