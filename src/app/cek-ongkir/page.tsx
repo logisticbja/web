@@ -2,7 +2,6 @@ import { Metadata } from "next";
 import Image from "next/image";
 import { Calculator, Ship, Truck, Zap, ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { fetchPricing } from "@/lib/sheets";
 import { CekOngkirForm } from "@/components/CekOngkirForm";
 import { getPageHero } from "@/lib/pageHero";
 
@@ -32,7 +31,6 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function CekOngkirPage() {
-  const rows = await fetchPricing();
   // Konten hero (gambar/judul/deskripsi/badge) opsional dari CRM — menu "Hero
   // Halaman" > Cek Ongkir. Kosongkan di CRM untuk tetap pakai teks default.
   const hero = await getPageHero("cek-ongkir");
@@ -73,17 +71,17 @@ export default async function CekOngkirPage() {
       </div>
 
       <div className="max-w-3xl mx-auto px-4 py-12">
-        <CekOngkirForm rows={rows} />
+        <CekOngkirForm />
 
         {/* Rute Populer */}
         <div className="mt-8 mb-2">
           <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Rute Populer</p>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {[
-              { label: "Papua", slug: "papua", transit: "4–9 hari", cities: "Sorong, Jayapura, Manokwari" },
-              { label: "Maluku", slug: "maluku", transit: "3–6 hari", cities: "Ambon, Ternate, Tual" },
-              { label: "NTT", slug: "ntt", transit: "3–5 hari", cities: "Kupang, Flores, Ende" },
-              { label: "Sulawesi", slug: "sulawesi", transit: "2–5 hari", cities: "Makassar, Kendari, Palu" },
+              { label: "Papua", slug: "papua", transit: "Cek per kota", cities: "Sorong, Jayapura, Manokwari" },
+              { label: "Maluku", slug: "maluku", transit: "Cek per kota", cities: "Ambon, Ternate, Tual" },
+              { label: "NTT", slug: "ntt", transit: "Cek per kota", cities: "Kupang, Flores, Ende" },
+              { label: "Sulawesi", slug: "sulawesi", transit: "Cek per kota", cities: "Makassar, Kendari, Palu" },
             ].map((r) => (
               <Link
                 key={r.slug}
@@ -106,9 +104,9 @@ export default async function CekOngkirPage() {
         {/* Info cards */}
         <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
           {[
-            { icon: Ship, title: "Cargo Laut — Regular", desc: "Paling hemat untuk muatan besar. Minimum 100 kg per pengiriman." },
+            { icon: Ship, title: "Cargo Laut — Regular", desc: "Lebih ekonomis untuk barang besar, berat, dan pengiriman rutin. Minimum 100 kg." },
             { icon: Truck, title: "Cargo Darat", desc: "Tersedia untuk rute tertentu via angkutan darat. Minimum 100 kg." },
-            { icon: Zap, title: "Express", desc: "Layanan prioritas, lebih cepat sampai. Minimum 10 kg per pengiriman." },
+            { icon: Zap, title: "Express", desc: "Lebih cepat sampai untuk kebutuhan pengiriman yang lebih urgent. Minimum 100 kg." },
           ].map((item) => (
             <div key={item.title} className="bg-white rounded-xl p-5 border border-gray-100 flex gap-3">
               <item.icon size={20} className="text-[#CC1F2A] shrink-0 mt-0.5" />
