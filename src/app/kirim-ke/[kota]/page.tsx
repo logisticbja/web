@@ -85,7 +85,12 @@ const serviceInfo = [
     icon: Ship,
     color: "bg-blue-50 border-blue-200",
     iconColor: "text-blue-600",
-    highlights: ["Kapal Roro & PELNI", "Harga paling ekonomis", "Cocok barang berat & besar", "Tracking real-time"],
+    highlights: [
+      "Menggunakan kapal cargo seperti SPIL atau TANTO",
+      "Lebih ekonomis untuk pengiriman non-urgent",
+      "Cocok untuk barang besar, berat, dan pengiriman rutin",
+      "Tracking pengiriman tersedia",
+    ],
   },
   {
     type: "express" as const,
@@ -93,7 +98,12 @@ const serviceInfo = [
     icon: Zap,
     color: "bg-purple-50 border-purple-200",
     iconColor: "text-purple-600",
-    highlights: ["Lebih cepat sampai", "Prioritas muat kapal", "Cocok barang urgent", "Tracking real-time"],
+    highlights: [
+      "Menggunakan kapal PELNI",
+      "Lebih cepat sampai dibanding layanan Reguler",
+      "Cocok untuk barang besar, berat, dan kebutuhan urgent",
+      "Tracking pengiriman tersedia",
+    ],
   },
 ];
 
@@ -426,16 +436,37 @@ export default async function KirimKePage({ params }: Props) {
                     <svc.icon size={22} className={svc.iconColor} />
                     <h3 className="font-black text-[#111111]">{svc.label}</h3>
                   </div>
-                  <div className="mb-4">
-                    <p className="text-2xl font-black text-[#111111]">
+                  <div className="mb-5">
+                    <p className="text-3xl font-black text-[#111111] leading-none">
                       {formatPrice(price)}
-                      <span className="text-base font-normal text-gray-500">/kg</span>
+                      <span className="text-base font-bold text-gray-500">/kg</span>
                     </p>
-                    <p className="text-gray-500 text-xs mt-1">Minimal pengiriman 100 kg</p>
-                  </div>
-                  <div className="flex items-center gap-1.5 mb-4 text-sm text-gray-600">
-                    <Clock size={13} />
-                    <span>Estimasi {etaMin}–{etaMax} hari</span>
+
+                    <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div className="rounded-xl bg-white/80 border border-gray-200 px-4 py-3">
+                        <div className="flex items-center gap-2 mb-1">
+                          <Scale size={15} className="text-[#CC1F2A] shrink-0" />
+                          <span className="text-xs font-bold uppercase tracking-wide text-gray-500">
+                            Minimum
+                          </span>
+                        </div>
+                        <p className="text-base font-black text-[#111111]">
+                          100 kg
+                        </p>
+                      </div>
+
+                      <div className="rounded-xl bg-white/80 border border-gray-200 px-4 py-3">
+                        <div className="flex items-center gap-2 mb-1">
+                          <Clock size={15} className="text-[#CC1F2A] shrink-0" />
+                          <span className="text-xs font-bold uppercase tracking-wide text-gray-500">
+                            Estimasi
+                          </span>
+                        </div>
+                        <p className="text-base font-black text-[#111111]">
+                          {etaMin}–{etaMax} hari*
+                        </p>
+                      </div>
+                    </div>
                   </div>
                   <ul className="space-y-1.5 mb-5">
                     {svc.highlights.map((h) => (
@@ -456,7 +487,26 @@ export default async function KirimKePage({ params }: Props) {
               );
             })}
           </div>
-          <p className="text-gray-400 text-xs mt-4">*Estimasi waktu dihitung sejak kapal berangkat dari pelabuhan asal, bukan sejak barang dipesan/di-pickup.</p>
+          <div className="mt-6 rounded-2xl border border-amber-200 bg-amber-50 px-5 py-4">
+            <div className="flex items-start gap-3">
+              <AlertCircle
+                size={18}
+                className="text-amber-700 shrink-0 mt-0.5"
+              />
+              <div>
+                <p className="font-black text-amber-950 text-sm mb-1">
+                  Catatan estimasi pengiriman
+                </p>
+                <p className="text-sm text-amber-900 leading-relaxed">
+                  Estimasi waktu dihitung sejak kapal berangkat dari pelabuhan asal,
+                  bukan sejak barang dipesan atau di-pickup. Jadwal kapal dapat berubah
+                  karena kondisi operasional, cuaca, pelabuhan, atau perjalanan.
+                  Pastikan konfirmasi jadwal kapal terdekat ke CS BJA Logistic sebelum
+                  melakukan pengiriman.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Services (from API) */}
