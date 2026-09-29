@@ -1,9 +1,24 @@
 "use client";
-import { useState, useRef, useEffect } from "react";
-import { Calculator, MessageCircle, ChevronDown, Package, Zap, Clock, AlertCircle, Search, MapPin } from "lucide-react";
-import { originCities, formatPrice } from "@/lib/data/pricing";
-import { ongkirGroups, findOngkirCity } from "@/lib/data/ongkir";
-import { type PricingRow, findPrice } from "@/lib/sheets";
+
+import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  AlertCircle,
+  Calculator,
+  ChevronDown,
+  Clock,
+  MapPin,
+  MessageCircle,
+  Package,
+  Search,
+  Zap,
+} from "lucide-react";
+import {
+  cityLautPricing,
+  formatPrice,
+  originCities,
+  resolveDestinationValue,
+} from "@/lib/data/pricing";
+import { findOngkirCity, ongkirGroups } from "@/lib/data/ongkir";
 import { buildGeneralMessage } from "@/lib/whatsapp";
 import { WALink } from "@/components/ui/WALink";
 
@@ -18,67 +33,191 @@ interface DefaultValues {
 }
 
 interface Props {
-  rows: PricingRow[];
   defaultValues?: DefaultValues;
   autoCalculate?: boolean;
 }
 
-const allCities = ongkirGroups.flatMap((g) =>
-  g.cities.map((c) => ({ ...c, group: g.groupLabel }))
-);
-
-function computeInitialResult(
-  dv: DefaultValues | undefined,
-  rows: PricingRow[]
-): { row: PricingRow; total: number } | "not_found" | null {
-  if (!dv?.from || !dv?.to || !dv?.weight) return null;
-  const weightNum = Number(dv.weight);
-  if (!weightNum || weightNum < 100) return null;
-  const fromLabel = originCities.find((c) => c.value === dv.from)?.label ?? dv.from ?? "";
-  const toInfo = findOngkirCity(dv.to!);
-  const toLabel = toInfo?.city.label ?? dv.to ?? "";
-  const row = findPrice(rows, fromLabel, toLabel, dv.service ?? "Regular");
-  if (!row) return "not_found";
-  return { row, total: row.pricePerKg * weightNum };
+interface CalculatorResult {
+  service: ServiceType;
+  pricePerKg: number;
+  total: number;
+  estimation: string;
+  minWeightKg: number;
 }
 
-export function CekOngkirForm({ rows, defaultValues, autoCalculate }: Props) {
+const MIN_WEIGHT = 100;
+
+const allCities = ongkirGroups.flatMap((group) =>
+  group.cities.map((city) => ({
+    ...city,
+    group: group.groupLabel,
+  }))
+);
+
+function toPricingKey(value: string) {
+  return resolveDestinationValue(value.replace(/-/g, "_"));
+}
+
+function getServiceData(destinationValue: string, service: ServiceType) {
+  const pricingKey = toPricingKey(destinationValue);
+  const pricing = cityLautPricing[pricingKey];
+
+  if (!pricing) return null;
+
+  if (service === "Express") {
+    if (
+      pricing.expressPrice === null ||
+      pricing.expressEtaMin === null ||
+      pricing.expressEtaMax === null
+    ) {
+      return null;
+    }
+
+    return {
+      pricePerKg: pricing.expressPrice,
+      etaMin: pricing.expressEtaMin,
+      etaMax: pricing.expressEtaMax,
+    };
+  }
+
+  if (
+    pricing.regulerPrice === null ||
+    pricing.regulerEtaMin === null ||
+    pricing.regulerEtaMax === null
+  ) {
+    return null;
+  }
+
+  return {
+    pricePerKg: pricing.regulerPrice,
+    etaMin: pricing.regulerEtaMin,
+    etaMax: pricing.regulerEtaMax,
+  };
+}
+
+function formatEta(min: number, max: number) {
+  return min === max ? `${min} hari` : `${min}–${max} hari`;
+}
+
+function computeResult(
+  from: string,
+  to: string,
+  weight: string,
+  service: ServiceType
+): CalculatorResult | "not_found" | null {
+  if (!from || !to || !weight) return null;
+
+  const weightNum = Number(weight);
+  if (!weightNum || weightNum < MIN_WEIGHT) return null;
+
+  const serviceData = getServiceData(to, service);
+  if (!serviceData) return "not_found";
+
+  return {
+    service,
+    pricePerKg: serviceData.pricePerKg,
+    total: serviceData.pricePerKg * weightNum,
+    estimation: formatEta(serviceData.etaMin, serviceData.etaMax),
+    minWeightKg: MIN_WEIGHT,
+  };
+}
+
+export function CekOngkirForm({ defaultValues, autoCalculate }: Props) {
   const [from, setFrom] = useState(defaultValues?.from ?? "");
   const [to, setTo] = useState(defaultValues?.to ?? "");
   const [toSearch, setToSearch] = useState(defaultValues?.toLabel ?? "");
   const [showDropdown, setShowDropdown] = useState(false);
   const [weight, setWeight] = useState(defaultValues?.weight ?? "");
-  const [service, setService] = useState<ServiceType>(defaultValues?.service ?? "Regular");
-  const [result, setResult] = useState<{ row: PricingRow; total: number } | "not_found" | null>(
-    () => (autoCalculate ? computeInitialResult(defaultValues, rows) : null)
+  const [service, setService] = useState<ServiceType>(
+    defaultValues?.service ?? "Regular"
   );
+  const [result, setResult] = useState<
+    CalculatorResult | "not_found" | null
+  >(() =>
+    autoCalculate
+      ? computeResult(
+          defaultValues?.from ?? "",
+          defaultValues?.to ?? "",
+          defaultValues?.weight ?? "",
+          defaultValues?.service ?? "Regular"
+        )
+      : null
+  );
+
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const selectedCity = to ? allCities.find((c) => c.value === to) : null;
+  const selectedCity = to
+    ? allCities.find((city) => city.value === to)
+    : null;
+
+  const selectedPricing = useMemo(() => {
+    if (!to) return null;
+    return cityLautPricing[toPricingKey(to)] ?? null;
+  }, [to]);
+
+  const regularAvailable =
+    selectedPricing !== null &&
+    selectedPricing.regulerPrice !== null &&
+    selectedPricing.regulerEtaMin !== null &&
+    selectedPricing.regulerEtaMax !== null;
+
+  const expressAvailable =
+    selectedPricing !== null &&
+    selectedPricing.expressPrice !== null &&
+    selectedPricing.expressEtaMin !== null &&
+    selectedPricing.expressEtaMax !== null;
 
   const filteredCities = toSearch.trim()
-    ? allCities.filter((c) =>
-        c.label.toLowerCase().includes(toSearch.toLowerCase()) ||
-        c.group.toLowerCase().includes(toSearch.toLowerCase())
+    ? allCities.filter(
+        (city) =>
+          city.label.toLowerCase().includes(toSearch.toLowerCase()) ||
+          city.group.toLowerCase().includes(toSearch.toLowerCase())
       )
     : allCities;
 
   const groupedFiltered = ongkirGroups
-    .map((g) => ({
-      ...g,
-      cities: filteredCities.filter((c) => c.group === g.groupLabel),
+    .map((group) => ({
+      ...group,
+      cities: filteredCities.filter(
+        (city) => city.group === group.groupLabel
+      ),
     }))
-    .filter((g) => g.cities.length > 0);
+    .filter((group) => group.cities.length > 0);
 
   useEffect(() => {
-    function handleClickOutside(e: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setShowDropdown(false);
       }
     }
+
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    return () =>
+      document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  useEffect(() => {
+    if (!to || !selectedPricing) return;
+
+    if (service === "Regular" && !regularAvailable && expressAvailable) {
+      setService("Express");
+      setResult(null);
+    }
+
+    if (service === "Express" && !expressAvailable && regularAvailable) {
+      setService("Regular");
+      setResult(null);
+    }
+  }, [
+    to,
+    service,
+    selectedPricing,
+    regularAvailable,
+    expressAvailable,
+  ]);
 
   const handleSelectCity = (value: string, label: string) => {
     setTo(value);
@@ -87,63 +226,91 @@ export function CekOngkirForm({ rows, defaultValues, autoCalculate }: Props) {
     setResult(null);
   };
 
-  const MIN_WEIGHT = 100;
   const weightNum = Number(weight);
-  const weightTooLow = weight !== "" && weightNum > 0 && weightNum < MIN_WEIGHT;
+  const weightTooLow =
+    weight !== "" && weightNum > 0 && weightNum < MIN_WEIGHT;
 
   const handleCalculate = () => {
     if (!from || !to || !weight || weightTooLow) return;
-    const fromLabel = originCities.find((c) => c.value === from)?.label ?? from;
-    const toInfo = findOngkirCity(to);
-    const toLabel = toInfo?.city.label ?? to;
-    const row = findPrice(rows, fromLabel, toLabel, service);
-    if (!row) {
-      setResult("not_found");
-    } else {
-      setResult({ row, total: row.pricePerKg * Number(weight) });
-    }
+
+    const nextResult = computeResult(from, to, weight, service);
+    setResult(nextResult);
   };
 
-  const fromLabel = originCities.find((c) => c.value === from)?.label ?? "";
-  const toLabel = to ? (findOngkirCity(to)?.city.label ?? "") : "";
+  const fromLabel =
+    originCities.find((city) => city.value === from)?.label ?? "";
 
-  const serviceOptions: { value: ServiceType; label: string; desc: string; icon: React.FC<{ size?: number; className?: string }> }[] = [
-    { value: "Regular", label: "Regular", desc: "Hemat, jadwal rutin", icon: Clock },
-    { value: "Express", label: "Express", desc: "Lebih cepat & prioritas", icon: Zap },
+  const toLabel = to
+    ? findOngkirCity(to)?.city.label ?? selectedCity?.label ?? ""
+    : "";
+
+  const serviceOptions: {
+    value: ServiceType;
+    label: string;
+    desc: string;
+    icon: React.FC<{ size?: number; className?: string }>;
+    available: boolean;
+  }[] = [
+    {
+      value: "Regular",
+      label: "Regular",
+      desc: "Lebih ekonomis",
+      icon: Clock,
+      available: !to || regularAvailable,
+    },
+    {
+      value: "Express",
+      label: "Express",
+      desc: "Lebih cepat sampai",
+      icon: Zap,
+      available: !to || expressAvailable,
+    },
   ];
 
   return (
     <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
-
-        {/* Origin */}
         <div>
-          <label className="block text-sm font-bold text-gray-700 mb-2">Kota Asal</label>
+          <label className="block text-sm font-bold text-gray-700 mb-2">
+            Kota Asal
+          </label>
           <div className="relative">
             <select
               value={from}
-              onChange={(e) => { setFrom(e.target.value); setResult(null); }}
+              onChange={(event) => {
+                setFrom(event.target.value);
+                setResult(null);
+              }}
               className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#CC1F2A] focus:outline-none appearance-none bg-white font-medium text-gray-700"
             >
               <option value="">Pilih kota asal...</option>
-              {originCities.map((c) => (
-                <option key={c.value} value={c.value}>{c.label}</option>
+              {originCities.map((city) => (
+                <option key={city.value} value={city.value}>
+                  {city.label}
+                </option>
               ))}
             </select>
-            <ChevronDown size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+            <ChevronDown
+              size={16}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
+            />
           </div>
         </div>
 
-        {/* Destination — Searchable */}
         <div ref={dropdownRef}>
-          <label className="block text-sm font-bold text-gray-700 mb-2">Kota Tujuan</label>
+          <label className="block text-sm font-bold text-gray-700 mb-2">
+            Kota Tujuan
+          </label>
           <div className="relative">
-            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none z-10" />
+            <Search
+              size={16}
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none z-10"
+            />
             <input
               type="text"
               value={toSearch}
-              onChange={(e) => {
-                setToSearch(e.target.value);
+              onChange={(event) => {
+                setToSearch(event.target.value);
                 setTo("");
                 setResult(null);
                 setShowDropdown(true);
@@ -152,6 +319,7 @@ export function CekOngkirForm({ rows, defaultValues, autoCalculate }: Props) {
               placeholder="Cari kota tujuan..."
               className="w-full pl-9 pr-4 py-3 rounded-xl border border-gray-200 focus:border-[#CC1F2A] focus:outline-none font-medium text-gray-700 bg-white"
             />
+
             {selectedCity && (
               <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-[#CC1F2A] bg-red-50 px-2 py-0.5 rounded-full">
                 {selectedCity.group}
@@ -161,22 +329,33 @@ export function CekOngkirForm({ rows, defaultValues, autoCalculate }: Props) {
             {showDropdown && (
               <div className="absolute z-50 top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-xl shadow-xl max-h-60 overflow-y-auto">
                 {groupedFiltered.length === 0 ? (
-                  <p className="text-sm text-gray-400 text-center py-4">Kota tidak ditemukan</p>
+                  <p className="text-sm text-gray-400 text-center py-4">
+                    Kota tidak ditemukan
+                  </p>
                 ) : (
                   groupedFiltered.map((group) => (
                     <div key={group.groupLabel}>
                       <p className="text-xs font-black text-gray-400 uppercase tracking-wider px-4 pt-3 pb-1 sticky top-0 bg-white">
                         {group.groupLabel}
                       </p>
+
                       {group.cities.map((city) => (
                         <button
+                          type="button"
                           key={city.value}
-                          onMouseDown={() => handleSelectCity(city.value, city.label)}
+                          onMouseDown={() =>
+                            handleSelectCity(city.value, city.label)
+                          }
                           className={`w-full text-left px-4 py-2.5 text-sm font-medium flex items-center gap-2 hover:bg-red-50 hover:text-[#CC1F2A] transition-colors ${
-                            to === city.value ? "bg-red-50 text-[#CC1F2A]" : "text-gray-700"
+                            to === city.value
+                              ? "bg-red-50 text-[#CC1F2A]"
+                              : "text-gray-700"
                           }`}
                         >
-                          <MapPin size={13} className="shrink-0 text-gray-300" />
+                          <MapPin
+                            size={13}
+                            className="shrink-0 text-gray-300"
+                          />
                           {city.label}
                         </button>
                       ))}
@@ -188,15 +367,22 @@ export function CekOngkirForm({ rows, defaultValues, autoCalculate }: Props) {
           </div>
         </div>
 
-        {/* Weight */}
         <div>
-          <label className="block text-sm font-bold text-gray-700 mb-2">Berat (kg)</label>
+          <label className="block text-sm font-bold text-gray-700 mb-2">
+            Berat (kg)
+          </label>
           <div className="relative">
-            <Package size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+            <Package
+              size={16}
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+            />
             <input
               type="number"
               value={weight}
-              onChange={(e) => { setWeight(e.target.value); setResult(null); }}
+              onChange={(event) => {
+                setWeight(event.target.value);
+                setResult(null);
+              }}
               placeholder="Min. 100 kg"
               min="100"
               className={`w-full pl-9 pr-4 py-3 rounded-xl border focus:outline-none font-medium text-gray-700 transition-colors ${
@@ -206,31 +392,56 @@ export function CekOngkirForm({ rows, defaultValues, autoCalculate }: Props) {
               }`}
             />
           </div>
+
+          <p className="mt-1.5 text-xs font-semibold text-gray-500">
+            Minimum pengiriman 100 kg.
+          </p>
+
           {weightTooLow && (
             <p className="mt-1.5 flex items-center gap-1.5 text-xs font-semibold text-red-600">
               <AlertCircle size={13} />
-              Minimum pengiriman 100 kg.
+              Berat pengiriman belum mencapai minimum 100 kg.
             </p>
           )}
         </div>
 
-        {/* Service */}
         <div>
-          <label className="block text-sm font-bold text-gray-700 mb-2">Tipe Layanan</label>
+          <label className="block text-sm font-bold text-gray-700 mb-2">
+            Tipe Layanan
+          </label>
           <div className="grid grid-cols-2 gap-3">
-            {serviceOptions.map((opt) => (
+            {serviceOptions.map((option) => (
               <button
-                key={opt.value}
-                onClick={() => { setService(opt.value); setResult(null); }}
+                type="button"
+                key={option.value}
+                disabled={!option.available}
+                onClick={() => {
+                  setService(option.value);
+                  setResult(null);
+                }}
                 className={`flex flex-col items-center gap-1 py-3 px-2 rounded-xl border-2 text-xs font-bold transition-all ${
-                  service === opt.value
+                  !option.available
+                    ? "border-gray-200 bg-gray-100 text-gray-400 cursor-not-allowed"
+                    : service === option.value
                     ? "border-[#CC1F2A] bg-[#CC1F2A] text-white"
                     : "border-gray-200 text-gray-600 hover:border-gray-300"
                 }`}
               >
-                <opt.icon size={18} />
-                <span>{opt.label}</span>
-                <span className={`font-normal text-[10px] ${service === opt.value ? "text-white/80" : "text-gray-400"}`}>{opt.desc}</span>
+                <option.icon size={18} />
+                <span>{option.label}</span>
+                <span
+                  className={`font-normal text-[10px] ${
+                    !option.available
+                      ? "text-gray-400"
+                      : service === option.value
+                      ? "text-white/80"
+                      : "text-gray-400"
+                  }`}
+                >
+                  {option.available
+                    ? option.desc
+                    : "Tidak tersedia untuk tujuan ini"}
+                </span>
               </button>
             ))}
           </div>
@@ -239,6 +450,7 @@ export function CekOngkirForm({ rows, defaultValues, autoCalculate }: Props) {
 
       <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-3">
         <button
+          type="button"
           onClick={handleCalculate}
           disabled={!from || !to || !weight || weightTooLow}
           className="bg-[#CC1F2A] hover:bg-[#1A1A1A] disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-black py-3.5 rounded-xl transition-colors text-base flex items-center justify-center gap-2"
@@ -246,13 +458,17 @@ export function CekOngkirForm({ rows, defaultValues, autoCalculate }: Props) {
           <Calculator size={18} />
           Hitung Ongkir
         </button>
+
         <WALink
           href={(() => {
-            const f = fromLabel || "Jabodetabek";
-            const t = toLabel || "-";
-            const w = weight ? `${weight} kg` : "-";
-            const msg = `Halo BJA Logistic, saya mau tanya ongkir cargo:\n- Dari: ${f}\n- Ke: ${t}\n- Berat: ${w}\n\nBisa bantu info harga dan jadwal pengirimannya?`;
-            return `https://api.whatsapp.com/send/?phone=6281513335157&text=${encodeURIComponent(msg)}`;
+            const origin = fromLabel || "Jabodetabek";
+            const destination = toLabel || "-";
+            const shipmentWeight = weight ? `${weight} kg` : "-";
+            const message = `Halo BJA Logistic, saya mau tanya ongkir cargo:\n- Dari: ${origin}\n- Ke: ${destination}\n- Berat: ${shipmentWeight}\n\nBisa bantu info harga dan jadwal pengirimannya?`;
+
+            return `https://api.whatsapp.com/send/?phone=6281513335157&text=${encodeURIComponent(
+              message
+            )}`;
           })()}
           className="flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20bc59] text-white font-black py-3.5 px-5 rounded-xl transition-colors text-sm whitespace-nowrap"
         >
@@ -261,64 +477,109 @@ export function CekOngkirForm({ rows, defaultValues, autoCalculate }: Props) {
         </WALink>
       </div>
 
-      {/* Result */}
       {result === "not_found" && (
         <div className="mt-6 bg-amber-50 border border-amber-200 rounded-2xl p-6 text-center">
-          <AlertCircle size={32} className="text-amber-500 mx-auto mb-3" />
-          <h3 className="font-black text-[#111111] mb-1">Harga Belum Tersedia di Kalkulator</h3>
-          <p className="text-gray-500 text-sm mb-4">
-            Rute <strong>{fromLabel} → {toLabel}</strong> ({service}) belum ada di sistem.
-            Hubungi tim kami untuk harga langsung.
+          <AlertCircle
+            size={32}
+            className="text-amber-500 mx-auto mb-3"
+          />
+          <h3 className="font-black text-[#111111] mb-1">
+            Layanan Belum Tersedia
+          </h3>
+          <p className="text-gray-600 text-sm mb-4">
+            Layanan {service} untuk rute{" "}
+            <strong>
+              {fromLabel} → {toLabel}
+            </strong>{" "}
+            belum tersedia pada master tarif saat ini. Silakan pilih layanan
+            lain yang tersedia atau hubungi CS BJA Logistic.
           </p>
           <WALink
             href={buildGeneralMessage()}
             className="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#20bc59] text-white font-black px-6 py-3 rounded-xl transition-colors text-sm"
           >
             <MessageCircle size={16} />
-            Tanya Harga via WhatsApp
+            Tanya CS via WhatsApp
           </WALink>
         </div>
       )}
 
       {result && result !== "not_found" && (
         <div className="mt-6 space-y-4">
-          {/* Harga per kg — diperbesar */}
-          <div className="bg-gray-50 rounded-xl px-5 py-4 flex items-center justify-between">
+          <div className="bg-gray-50 rounded-xl px-5 py-4 flex items-center justify-between gap-4">
             <div>
-              <p className="text-xs text-gray-400 font-semibold uppercase tracking-wide mb-0.5">Harga per Kg</p>
-              <p className="text-3xl font-black text-[#CC1F2A]">{formatPrice(result.row.pricePerKg)}<span className="text-lg font-bold text-gray-400">/kg</span></p>
+              <p className="text-xs text-gray-400 font-semibold uppercase tracking-wide mb-0.5">
+                Harga per Kg
+              </p>
+              <p className="text-3xl font-black text-[#CC1F2A]">
+                {formatPrice(result.pricePerKg)}
+                <span className="text-lg font-bold text-gray-400">
+                  /kg
+                </span>
+              </p>
             </div>
+
             <div className="text-right">
-              <p className="text-xs text-gray-400 font-semibold uppercase tracking-wide mb-0.5">Layanan</p>
+              <p className="text-xs text-gray-400 font-semibold uppercase tracking-wide mb-0.5">
+                Layanan
+              </p>
               <span className="inline-flex items-center gap-1 bg-white border border-gray-200 rounded-full px-3 py-1 text-sm font-black text-[#CC1F2A]">
-                {result.row.service}
+                {result.service}
               </span>
             </div>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
             <div className="col-span-2 sm:col-span-1 bg-[#CC1F2A] rounded-xl p-4 text-white">
-              <p className="text-white/70 text-xs mb-1">Total Estimasi</p>
-              <p className="text-2xl font-black">{formatPrice(result.total)}</p>
-              <p className="text-white/60 text-xs mt-1">{formatPrice(result.row.pricePerKg)}/kg × {weight} kg</p>
+              <p className="text-white/70 text-xs mb-1">
+                Total Estimasi
+              </p>
+              <p className="text-2xl font-black">
+                {formatPrice(result.total)}
+              </p>
+              <p className="text-white/60 text-xs mt-1">
+                {formatPrice(result.pricePerKg)}/kg × {weight} kg
+              </p>
             </div>
+
             <div className="bg-yellow-50 rounded-xl p-4">
-              <p className="text-gray-500 text-xs mb-1">Estimasi Tiba</p>
-              <p className="text-xl font-black text-[#CC1F2A]">{result.row.estimation}</p>
+              <p className="text-gray-500 text-xs mb-1">
+                Estimasi Pengiriman
+              </p>
+              <p className="text-xl font-black text-[#CC1F2A]">
+                {result.estimation}
+              </p>
             </div>
+
             <div className="bg-gray-50 rounded-xl p-4">
-              <p className="text-gray-500 text-xs mb-1">Min. Berat</p>
-              <p className="text-xl font-black text-[#111111]">{result.row.minWeightKg} kg</p>
+              <p className="text-gray-500 text-xs mb-1">
+                Minimum Pengiriman
+              </p>
+              <p className="text-xl font-black text-[#111111]">
+                {result.minWeightKg} kg
+              </p>
             </div>
           </div>
 
           <div className="bg-gray-50 rounded-xl p-4 text-sm text-gray-500">
-            Rute: <strong className="text-[#111111]">{fromLabel}</strong> →{" "}
+            Rute:{" "}
+            <strong className="text-[#111111]">{fromLabel}</strong> →{" "}
             <strong className="text-[#111111]">{toLabel}</strong>
           </div>
 
-          <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4 text-sm text-yellow-800">
-            <strong>Catatan:</strong> Harga di atas adalah estimasi berdasarkan berat. Harga final tergantung berat aktual, dimensi (volume), dan ketersediaan jadwal. Konfirmasi via WhatsApp untuk harga pasti.
+          <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 text-sm text-amber-900 leading-relaxed">
+            <strong>Catatan estimasi:</strong> Estimasi waktu dihitung sejak
+            kapal berangkat dari pelabuhan asal, bukan sejak barang dipesan
+            atau di-pickup. Jadwal kapal dapat berubah karena kondisi
+            operasional, cuaca, pelabuhan, atau perjalanan. Pastikan
+            konfirmasi jadwal kapal terdekat ke CS BJA Logistic sebelum
+            melakukan pengiriman.
+          </div>
+
+          <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 text-sm text-gray-600 leading-relaxed">
+            Harga di atas merupakan estimasi berdasarkan berat aktual.
+            Perhitungan final dapat menyesuaikan berat volume/dimensi dan
+            ketentuan barang saat proses penerimaan.
           </div>
         </div>
       )}
