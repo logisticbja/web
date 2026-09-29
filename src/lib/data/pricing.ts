@@ -146,6 +146,31 @@ export const destinationCities: CityOption[] = [
   { value: "bolaang_mongondow", label: "Bolaang Mongondow", region: "Sulawesi" },
 ];
 
+
+// Alias untuk menjaga kompatibilitas URL/data lama.
+// Key memakai format value internal (underscore), bukan slug URL.
+export const destinationAliases: Record<string, string> = {
+  timika: "mimika",
+  biak: "biak_numfor",
+  baubau: "bau_bau",
+  dabo: "dobo",
+  fak_fak: "fakfak",
+  labuhan_bajo: "labuan_bajo",
+  sinjai: "sinjay",
+  batui_toili: "batul_tolli",
+  parigi_moutong: "parigi_mountong",
+  kotamobagu: "kota_mubago",
+  keroom: "keerom",
+};
+
+export function resolveDestinationValue(value: string): string {
+  return destinationAliases[value] ?? value;
+}
+
+export function destinationValueToSlug(value: string): string {
+  return resolveDestinationValue(value).replace(/_/g, "-");
+}
+
 export interface PricingResult {
   serviceName: string;
   priceMin: number;
@@ -198,9 +223,19 @@ const serviceNames: Record<ServiceType, string> = {
   udara: "Cargo Udara",
 };
 
-const regionMap: Record<string, string> = Object.fromEntries(
+const canonicalRegionMap: Record<string, string> = Object.fromEntries(
   destinationCities.map((city) => [city.value, city.region.toLowerCase()])
 );
+
+const regionMap: Record<string, string> = {
+  ...canonicalRegionMap,
+  ...Object.fromEntries(
+    Object.entries(destinationAliases).map(([alias, canonical]) => [
+      alias,
+      canonicalRegionMap[canonical] ?? "papua",
+    ])
+  ),
+};
 
 export interface CityLautPricing {
   expressPrice: number | null;
@@ -351,8 +386,10 @@ export function calculatePrice(
   service: ServiceType,
   weight: number
 ): PricingResult {
-  if (service === "laut" && cityLautPricing[destination]) {
-    const cityPricing = cityLautPricing[destination];
+  const resolvedDestination = resolveDestinationValue(destination);
+
+  if (service === "laut" && cityLautPricing[resolvedDestination]) {
+    const cityPricing = cityLautPricing[resolvedDestination];
 
     const availablePrices = [
       cityPricing.regulerPrice,
@@ -385,7 +422,7 @@ export function calculatePrice(
     }
   }
 
-  const region = regionMap[destination] || "papua";
+  const region = regionMap[resolvedDestination] || "papua";
   const prices = basePrices[region][service];
   const eta = etaDays[service];
 
