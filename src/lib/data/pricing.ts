@@ -29,14 +29,17 @@ export const destinationCities: CityOption[] = [
   { value: "biak", label: "Biak", region: "Papua" },
   { value: "fakfak", label: "Fakfak", region: "Papua" },
   { value: "raja_ampat", label: "Raja Ampat", region: "Papua" },
+
   { value: "ambon", label: "Ambon", region: "Maluku" },
   { value: "ternate", label: "Ternate", region: "Maluku" },
   { value: "tidore", label: "Tidore", region: "Maluku" },
   { value: "tual", label: "Tual", region: "Maluku" },
+
   { value: "kupang", label: "Kupang", region: "NTT" },
   { value: "ende", label: "Ende", region: "NTT" },
   { value: "maumere", label: "Maumere", region: "NTT" },
   { value: "labuan_bajo", label: "Labuan Bajo", region: "NTT" },
+
   { value: "kendari", label: "Kendari", region: "Sulawesi" },
   { value: "baubau", label: "Baubau", region: "Sulawesi" },
   { value: "makassar", label: "Makassar", region: "Sulawesi" },
@@ -53,7 +56,10 @@ export interface PricingResult {
   unit: string;
 }
 
-const basePrices: Record<string, Record<ServiceType, { min: number; max: number }>> = {
+const basePrices: Record<
+  string,
+  Record<ServiceType, { min: number; max: number }>
+> = {
   papua: {
     laut: { min: 6000, max: 8000 },
     darat: { min: 7000, max: 9000 },
@@ -94,74 +100,290 @@ const serviceNames: Record<ServiceType, string> = {
 };
 
 const regionMap: Record<string, string> = {
-  jayapura: "papua", sorong: "papua", manokwari: "papua", merauke: "papua",
-  timika: "papua", wamena: "papua", nabire: "papua", biak: "papua",
-  fakfak: "papua", raja_ampat: "papua",
-  ambon: "maluku", ternate: "maluku", tidore: "maluku", tual: "maluku",
-  kupang: "ntt", ende: "ntt", maumere: "ntt", labuan_bajo: "ntt",
-  kendari: "sulawesi", baubau: "sulawesi",
-  makassar: "sulawesi", manado: "sulawesi", palu: "sulawesi",
+  jayapura: "papua",
+  sorong: "papua",
+  manokwari: "papua",
+  merauke: "papua",
+  timika: "papua",
+  wamena: "papua",
+  nabire: "papua",
+  biak: "papua",
+  fakfak: "papua",
+  raja_ampat: "papua",
+
+  ambon: "maluku",
+  ternate: "maluku",
+  tidore: "maluku",
+  tual: "maluku",
+
+  kupang: "ntt",
+  ende: "ntt",
+  maumere: "ntt",
+  labuan_bajo: "ntt",
+
+  kendari: "sulawesi",
+  baubau: "sulawesi",
+  makassar: "sulawesi",
+  manado: "sulawesi",
+  palu: "sulawesi",
 };
-interface CityLautPricing {
+
+export interface CityLautPricing {
   expressPrice: number | null;
   expressEtaMin: number | null;
   expressEtaMax: number | null;
+
   regulerPrice: number | null;
   regulerEtaMin: number | null;
   regulerEtaMax: number | null;
 }
 
-// Data resmi dari BJA Pricelist 2026 (cargo laut, tier Express & Reguler).
-// Kota yang regulerPrice-nya null berarti di pricelist cuma tersedia Express.
+// Data resmi BJA Pricelist 2026.
+//
+// Nilai null berarti layanan tersebut tidak tersedia
+// untuk kota tujuan tersebut.
+//
+// Contoh:
+// - Kupang hanya Reguler
+// - Ende hanya Express
 export const cityLautPricing: Record<string, CityLautPricing> = {
-  ambon:       { expressPrice: 14000, expressEtaMin: 4,  expressEtaMax: 5,  regulerPrice: 7000,  regulerEtaMin: 10, regulerEtaMax: 15 },
-  ternate:     { expressPrice: 14000, expressEtaMin: 8,  expressEtaMax: 10, regulerPrice: 8000,  regulerEtaMin: 20, regulerEtaMax: 25 },
-  tidore:      { expressPrice: 28000, expressEtaMin: 8,  expressEtaMax: 10, regulerPrice: 19500, regulerEtaMin: 20, regulerEtaMax: 25 },
-  tual:        { expressPrice: 21000, expressEtaMin: 8,  expressEtaMax: 10, regulerPrice: 11000, regulerEtaMin: 20, regulerEtaMax: 25 },
+  // MALUKU
+  ambon: {
+    expressPrice: 14000,
+    expressEtaMin: 4,
+    expressEtaMax: 5,
+    regulerPrice: 7000,
+    regulerEtaMin: 10,
+    regulerEtaMax: 15,
+  },
 
-  jayapura:    { expressPrice: 14000, expressEtaMin: 7,  expressEtaMax: 9,  regulerPrice: 7000,  regulerEtaMin: 15, regulerEtaMax: 20 },
-  sorong:      { expressPrice: 14000, expressEtaMin: 6,  expressEtaMax: 8,  regulerPrice: 7000,  regulerEtaMin: 15, regulerEtaMax: 20 },
-  manokwari:   { expressPrice: 14000, expressEtaMin: 7,  expressEtaMax: 9,  regulerPrice: 8000,  regulerEtaMin: 15, regulerEtaMax: 20 },
-  merauke:     { expressPrice: 25000, expressEtaMin: 15, expressEtaMax: 17, regulerPrice: 9000,  regulerEtaMin: 20, regulerEtaMax: 25 },
-  timika:      { expressPrice: 29000, expressEtaMin: 8,  expressEtaMax: 10, regulerPrice: 9000,  regulerEtaMin: 20, regulerEtaMax: 25 },
-  wamena:      { expressPrice: 30000, expressEtaMin: 9,  expressEtaMax: 10, regulerPrice: 25000, regulerEtaMin: 20, regulerEtaMax: 25 },
-  nabire:      { expressPrice: 16000, expressEtaMin: 8,  expressEtaMax: 9,  regulerPrice: 10000, regulerEtaMin: 15, regulerEtaMax: 20 },
-  biak:        { expressPrice: 16000, expressEtaMin: 7,  expressEtaMax: 8, regulerPrice: 9000, regulerEtaMin: 15, regulerEtaMax: 20 },
-  fakfak:      { expressPrice: 29000, expressEtaMin: 8,  expressEtaMax: 9,  regulerPrice: 12000, regulerEtaMin: 15, regulerEtaMax: 20 },
-  raja_ampat:  { expressPrice: 36000, expressEtaMin: 7,  expressEtaMax: 10, regulerPrice: 25000, regulerEtaMin: 20, regulerEtaMax: 25 },
+  ternate: {
+    expressPrice: 14000,
+    expressEtaMin: 8,
+    expressEtaMax: 10,
+    regulerPrice: 8000,
+    regulerEtaMin: 20,
+    regulerEtaMax: 25,
+  },
 
-  kupang:      { expressPrice: null,  expressEtaMin: null,  expressEtaMax: null,  regulerPrice: 9000,  regulerEtaMin: 8, regulerEtaMax: 11 },
-  ende:        { expressPrice: 11000, expressEtaMin: 8,  expressEtaMax: 12, regulerPrice: null,  regulerEtaMin: null, regulerEtaMax: null },
-  maumere:     { expressPrice: 9500,  expressEtaMin: 8,  expressEtaMax: 12, regulerPrice: null,  regulerEtaMin: null, regulerEtaMax: null },
-  labuan_bajo: { expressPrice: 8000,  expressEtaMin: 3,  expressEtaMax: 4,  regulerPrice: null,  regulerEtaMin: null, regulerEtaMax: null },
+  tidore: {
+    expressPrice: 28000,
+    expressEtaMin: 8,
+    expressEtaMax: 10,
+    regulerPrice: 19500,
+    regulerEtaMin: 20,
+    regulerEtaMax: 25,
+  },
 
-  kendari:     { expressPrice: 8000,  expressEtaMin: 7,  expressEtaMax: 10, regulerPrice: null,  regulerEtaMin: null, regulerEtaMax: null },
-  baubau:      { expressPrice: 10500, expressEtaMin: 7,  expressEtaMax: 10, regulerPrice: null,  regulerEtaMin: null, regulerEtaMax: null },
-  makassar:    { expressPrice: 7000,  expressEtaMin: 3,  expressEtaMax: 4,  regulerPrice: null,  regulerEtaMin: null, regulerEtaMax: null },
-  manado:      { expressPrice: 8000,  expressEtaMin: 7,  expressEtaMax: 10, regulerPrice: null,  regulerEtaMin: null, regulerEtaMax: null },
-  palu:        { expressPrice: 9000,  expressEtaMin: 6,  expressEtaMax: 7,  regulerPrice: null,  regulerEtaMin: null, regulerEtaMax: null },
+  tual: {
+    expressPrice: 21000,
+    expressEtaMin: 8,
+    expressEtaMax: 10,
+    regulerPrice: 11000,
+    regulerEtaMin: 20,
+    regulerEtaMax: 25,
+  },
+
+  // PAPUA
+  jayapura: {
+    expressPrice: 14000,
+    expressEtaMin: 7,
+    expressEtaMax: 9,
+    regulerPrice: 7000,
+    regulerEtaMin: 15,
+    regulerEtaMax: 20,
+  },
+
+  sorong: {
+    expressPrice: 14000,
+    expressEtaMin: 6,
+    expressEtaMax: 8,
+    regulerPrice: 7000,
+    regulerEtaMin: 15,
+    regulerEtaMax: 20,
+  },
+
+  manokwari: {
+    expressPrice: 14000,
+    expressEtaMin: 7,
+    expressEtaMax: 9,
+    regulerPrice: 8000,
+    regulerEtaMin: 15,
+    regulerEtaMax: 20,
+  },
+
+  merauke: {
+    expressPrice: 25000,
+    expressEtaMin: 15,
+    expressEtaMax: 17,
+    regulerPrice: 9000,
+    regulerEtaMin: 20,
+    regulerEtaMax: 25,
+  },
+
+  timika: {
+    expressPrice: 29000,
+    expressEtaMin: 8,
+    expressEtaMax: 10,
+    regulerPrice: 9000,
+    regulerEtaMin: 20,
+    regulerEtaMax: 25,
+  },
+
+  wamena: {
+    expressPrice: 30000,
+    expressEtaMin: 9,
+    expressEtaMax: 10,
+    regulerPrice: 25000,
+    regulerEtaMin: 20,
+    regulerEtaMax: 25,
+  },
+
+  nabire: {
+    expressPrice: 16000,
+    expressEtaMin: 8,
+    expressEtaMax: 9,
+    regulerPrice: 10000,
+    regulerEtaMin: 15,
+    regulerEtaMax: 20,
+  },
+
+  // Biak sudah dikoreksi:
+  // Express 7–8 hari, Reguler 15–20 hari
+  biak: {
+    expressPrice: 16000,
+    expressEtaMin: 7,
+    expressEtaMax: 8,
+    regulerPrice: 9000,
+    regulerEtaMin: 15,
+    regulerEtaMax: 20,
+  },
+
+  fakfak: {
+    expressPrice: 29000,
+    expressEtaMin: 8,
+    expressEtaMax: 9,
+    regulerPrice: 12000,
+    regulerEtaMin: 15,
+    regulerEtaMax: 20,
+  },
+
+  raja_ampat: {
+    expressPrice: 36000,
+    expressEtaMin: 7,
+    expressEtaMax: 10,
+    regulerPrice: 25000,
+    regulerEtaMin: 20,
+    regulerEtaMax: 25,
+  },
+
+  // NTT
+
+  // Kupang hanya tersedia Reguler
+  kupang: {
+    expressPrice: null,
+    expressEtaMin: null,
+    expressEtaMax: null,
+    regulerPrice: 9000,
+    regulerEtaMin: 8,
+    regulerEtaMax: 11,
+  },
+
+  ende: {
+    expressPrice: 11000,
+    expressEtaMin: 8,
+    expressEtaMax: 12,
+    regulerPrice: null,
+    regulerEtaMin: null,
+    regulerEtaMax: null,
+  },
+
+  maumere: {
+    expressPrice: 9500,
+    expressEtaMin: 8,
+    expressEtaMax: 12,
+    regulerPrice: null,
+    regulerEtaMin: null,
+    regulerEtaMax: null,
+  },
+
+  labuan_bajo: {
+    expressPrice: 8000,
+    expressEtaMin: 3,
+    expressEtaMax: 4,
+    regulerPrice: null,
+    regulerEtaMin: null,
+    regulerEtaMax: null,
+  },
+
+  // SULAWESI
+  kendari: {
+    expressPrice: 8000,
+    expressEtaMin: 7,
+    expressEtaMax: 10,
+    regulerPrice: null,
+    regulerEtaMin: null,
+    regulerEtaMax: null,
+  },
+
+  baubau: {
+    expressPrice: 10500,
+    expressEtaMin: 7,
+    expressEtaMax: 10,
+    regulerPrice: null,
+    regulerEtaMin: null,
+    regulerEtaMax: null,
+  },
+
+  makassar: {
+    expressPrice: 7000,
+    expressEtaMin: 3,
+    expressEtaMax: 4,
+    regulerPrice: null,
+    regulerEtaMin: null,
+    regulerEtaMax: null,
+  },
+
+  manado: {
+    expressPrice: 8000,
+    expressEtaMin: 7,
+    expressEtaMax: 10,
+    regulerPrice: null,
+    regulerEtaMin: null,
+    regulerEtaMax: null,
+  },
+
+  palu: {
+    expressPrice: 9000,
+    expressEtaMin: 6,
+    expressEtaMax: 7,
+    regulerPrice: null,
+    regulerEtaMin: null,
+    regulerEtaMax: null,
+  },
 };
+
 export function calculatePrice(
   destination: string,
   service: ServiceType,
   weight: number
 ): PricingResult {
   if (service === "laut" && cityLautPricing[destination]) {
-    const c = cityLautPricing[destination];
+    const cityPricing = cityLautPricing[destination];
 
     const availablePrices = [
-      c.regulerPrice,
-      c.expressPrice,
+      cityPricing.regulerPrice,
+      cityPricing.expressPrice,
     ].filter((price): price is number => price !== null);
 
     const availableEtaMin = [
-      c.regulerEtaMin,
-      c.expressEtaMin,
+      cityPricing.regulerEtaMin,
+      cityPricing.expressEtaMin,
     ].filter((eta): eta is number => eta !== null);
 
     const availableEtaMax = [
-      c.regulerEtaMax,
-      c.expressEtaMax,
+      cityPricing.regulerEtaMax,
+      cityPricing.expressEtaMax,
     ].filter((eta): eta is number => eta !== null);
 
     if (
@@ -192,4 +414,34 @@ export function calculatePrice(
     etaMax: eta.max,
     unit: "kg",
   };
+}
+
+export function calculatePriceByRegion(
+  region: string,
+  service: ServiceType,
+  weight: number
+): PricingResult {
+  const normalizedRegion = region.toLowerCase();
+
+  const prices =
+    (basePrices[normalizedRegion] ?? basePrices["papua"])[service];
+
+  const eta = etaDays[service];
+
+  return {
+    serviceName: serviceNames[service],
+    priceMin: prices.min * weight,
+    priceMax: prices.max * weight,
+    etaMin: eta.min,
+    etaMax: eta.max,
+    unit: "kg",
+  };
+}
+
+export function formatPrice(price: number): string {
+  return new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    minimumFractionDigits: 0,
+  }).format(price);
 }
