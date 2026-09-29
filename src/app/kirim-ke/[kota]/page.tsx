@@ -86,7 +86,7 @@ const serviceInfo = [
     color: "bg-blue-50 border-blue-200",
     iconColor: "text-blue-600",
     highlights: [
-      "Menggunakan kapal cargo seperti SPIL atau TANTO",
+      "Menggunakan kapal cargo",
       "Lebih ekonomis untuk pengiriman non-urgent",
       "Cocok untuk barang besar, berat, dan pengiriman rutin",
       "Tracking pengiriman tersedia",
