@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { MessageCircle, Clock, Ship, Zap, CheckCircle, ArrowRight, MapPin, Package, Star, Quote, Scale, Ban, AlertCircle } from "lucide-react";
-import { destinationCities, calculatePrice, cityLautPricing, formatPrice } from "@/lib/data/pricing";
+import { destinationCities, destinationAliases, resolveDestinationValue, calculatePrice, cityLautPricing, formatPrice } from "@/lib/data/pricing";
 import { buildDestinationMessage, buildOngkirMessage } from "@/lib/whatsapp";
 import { WALink } from "@/components/ui/WALink";
 import { BreadcrumbJsonLd } from "@/components/JsonLd";
@@ -23,21 +23,33 @@ function fromSlug(slug: string) {
 }
 
 export function generateStaticParams() {
-  return destinationCities.map((city) => ({ kota: toSlug(city.value) }));
+  const canonicalParams = destinationCities.map((city) => ({
+    kota: toSlug(city.value),
+  }));
+
+  const legacyParams = Object.keys(destinationAliases).map((alias) => ({
+    kota: toSlug(alias),
+  }));
+
+  return [...canonicalParams, ...legacyParams];
 }
 
 type Props = { params: Promise<{ kota: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { kota } = await params;
-  const city = destinationCities.find((c) => c.value === fromSlug(kota));
+  const rawDestinationValue = fromSlug(kota);
+  const resolvedDestinationValue = resolveDestinationValue(rawDestinationValue);
+  const city = destinationCities.find(
+    (c) => c.value === resolvedDestinationValue
+  );
   const apiData = await getCityPage(kota);
   if (!city && !apiData) return {};
 
   const cityLabel = apiData?.city ?? city!.label;
   const region = city?.region ?? "";
 
-  const laut = calculatePrice(city?.value ?? kota, "laut", 1);
+  const laut = calculatePrice(resolvedDestinationValue, "laut", 1);
   const priceStr =
     laut.priceMin === laut.priceMax
       ? `Rp ${laut.priceMin.toLocaleString("id-ID")}/kg`
@@ -48,7 +60,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       ? `${laut.etaMin} hari`
       : `${laut.etaMin}–${laut.etaMax} hari`;
 
-  const canonical = `https://bjalogistic.id/kirim-ke/${kota}`;
+  const canonicalSlug = toSlug(resolvedDestinationValue);
+  const canonical = `https://bjalogistic.id/kirim-ke/${canonicalSlug}`;
   const title = `Cargo ke ${cityLabel} — ${priceStr} | BJA Logistic`;
   const description = `Jasa ekspedisi cargo ke ${cityLabel}${region ? `, ${region}` : ""}. Cargo laut ${priceStr}, estimasi ${etaStr}. Door to door Jabodetabek & Surabaya. Hubungi BJA Logistic.`;
 
@@ -150,7 +163,11 @@ const testimonials = [
 
 export default async function KirimKePage({ params }: Props) {
   const { kota } = await params;
-  const city = destinationCities.find((c) => c.value === fromSlug(kota));
+  const rawDestinationValue = fromSlug(kota);
+  const resolvedDestinationValue = resolveDestinationValue(rawDestinationValue);
+  const city = destinationCities.find(
+    (c) => c.value === resolvedDestinationValue
+  );
   const apiData = await getCityPage(kota);
   if (!city && !apiData) notFound();
 
@@ -169,7 +186,7 @@ export default async function KirimKePage({ params }: Props) {
     : null;
   const cityGroups = ongkirRegion ? getCitiesByRegion(ongkirRegion) : [];
 
-  const lautPrice = calculatePrice(city?.value ?? kota, "laut", 1);
+  const lautPrice = calculatePrice(resolvedDestinationValue, "laut", 1);
 
   function parsePriceStr(v?: string | null): number | null {
     if (!v) return null;
@@ -181,7 +198,7 @@ export default async function KirimKePage({ params }: Props) {
   const apiExpress = parsePriceStr(apiData?.priceExpress);
 
   const cp =
-    cityLautPricing[city?.value ?? ""] ??
+    cityLautPricing[resolvedDestinationValue] ??
     (apiReguler !== null || apiExpress !== null
       ? {
           regulerPrice: apiReguler,
@@ -254,7 +271,10 @@ export default async function KirimKePage({ params }: Props) {
       <BreadcrumbJsonLd items={[
         { name: "Beranda", url: "https://bjalogistic.id" },
         { name: "Kirim ke", url: "https://bjalogistic.id/kirim-ke" },
-        { name: cityLabel, url: `https://bjalogistic.id/kirim-ke/${kota}` },
+        {
+          name: cityLabel,
+          url: `https://bjalogistic.id/kirim-ke/${toSlug(resolvedDestinationValue)}`,
+        },
       ]} />
 
       {/* Hero */}
