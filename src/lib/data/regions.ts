@@ -36,14 +36,14 @@ export const regionConfigs: RegionConfig[] = [
     ongkirRegion: "papua",
     scheduleRegion: "Papua",
     label: "Papua",
-    tagline: "Cargo ke Papua — Terpercaya, Tepat Waktu",
-    description: "Spesialis pengiriman cargo ke seluruh wilayah Papua. Melayani kota besar hingga pedalaman.",
+    tagline: "Cargo ke Papua — Reguler & Express Sesuai Kota Tujuan",
+    description: "Pengiriman cargo dari Jabodetabek dan Surabaya ke berbagai kota di Papua. Tarif, layanan, dan estimasi mengikuti kota tujuan.",
     defaultCityValue: "sorong",
     defaultCityLabel: "Sorong",
     stats: [
-      { label: "Estimasi Transit", value: "4–9 hari" },
-      { label: "Kota Tujuan", value: "30+ Kota" },
-      { label: "Frekuensi Kapal", value: "2x Sebulan" },
+      { label: "Minimum", value: "100 kg" },
+      { label: "Tujuan", value: "57 Kota" },
+      { label: "Layanan", value: "Sesuai Rute" },
     ],
     testimonials: [
       {
@@ -71,7 +71,7 @@ export const regionConfigs: RegionConfig[] = [
     faqs: [
       {
         q: "Berapa lama pengiriman cargo dari Jakarta ke Papua?",
-        a: "Estimasi transit 4–9 hari tergantung kota tujuan. Sorong dan Manokwari biasanya 4–6 hari, sedangkan kota seperti Merauke dan Wamena bisa 7–9 hari.",
+        a: "Estimasi pengiriman ke Papua berbeda untuk setiap kota dan layanan. Contohnya, Sorong Express sekitar 6–8 hari dan Reguler 15–20 hari. Estimasi dihitung sejak kapal berangkat dari pelabuhan asal. Gunakan kalkulator ongkir atau halaman kota tujuan untuk melihat estimasi rute yang dipilih.",
       },
       {
         q: "Apakah BJA melayani pengiriman ke daerah pedalaman Papua?",
@@ -79,28 +79,28 @@ export const regionConfigs: RegionConfig[] = [
       },
       {
         q: "Berapa minimum berat pengiriman Regular ke Papua?",
-        a: "Minimum 100 kg untuk layanan Regular. Untuk kiriman di bawah 100 kg, tersedia layanan Express dengan minimum 10 kg.",
+        a: "Minimum pengiriman BJA Logistic adalah 100 kg. Ketentuan ini berlaku untuk layanan Reguler maupun Express yang tersedia pada kota tujuan.",
       },
       {
         q: "Apakah bisa kirim barang elektronik atau alat berat ke Papua?",
         a: "Ya, kami berpengalaman menangani barang elektronik, mesin, alat berat, dan material proyek ke Papua dengan penanganan dan packing khusus.",
       },
     ],
-    waText: "Halo BJA Logistic, saya ingin tanya ongkir dan jadwal pengiriman cargo ke Papua. Bisa bantu saya?",
+    waText: "Halo BJA Logistic, saya ingin cek ongkir, layanan yang tersedia, dan jadwal kapal terdekat untuk pengiriman cargo ke Papua. Bisa bantu saya?",
   },
   {
     slug: "maluku",
     ongkirRegion: "maluku",
     scheduleRegion: "Maluku",
     label: "Maluku",
-    tagline: "Cargo ke Maluku — Aman Sampai Kepulauan",
-    description: "Pengiriman cargo ke Ambon, Ternate, dan seluruh kepulauan Maluku dengan jadwal rutin.",
+    tagline: "Cargo ke Maluku — Pilih Kota, Layanan & Estimasi",
+    description: "Pengiriman cargo dari Jabodetabek dan Surabaya ke Ambon, Ternate, Tual, dan berbagai tujuan lain di Maluku. Tarif dan estimasi mengikuti kota serta layanan yang tersedia.",
     defaultCityValue: "ambon",
     defaultCityLabel: "Ambon",
     stats: [
-      { label: "Estimasi Transit", value: "3–6 hari" },
-      { label: "Kota Tujuan", value: "15+ Kota" },
-      { label: "Frekuensi Kapal", value: "2x Sebulan" },
+      { label: "Minimum", value: "100 kg" },
+      { label: "Tujuan", value: "15 Kota" },
+      { label: "Layanan", value: "Sesuai Rute" },
     ],
     testimonials: [
       {
@@ -128,7 +128,7 @@ export const regionConfigs: RegionConfig[] = [
     faqs: [
       {
         q: "Berapa lama pengiriman cargo dari Jakarta ke Ambon?",
-        a: "Estimasi transit 3–5 hari untuk Ambon. Untuk kota-kota lain di Maluku seperti Ternate dan Tual, berkisar 4–6 hari.",
+        a: "Estimasi pengiriman ke Maluku berbeda untuk setiap kota dan layanan. Ambon Express sekitar 4–5 hari dan Reguler 10–15 hari. Ternate, Tual, dan kota lainnya memiliki estimasi masing-masing. Estimasi dihitung sejak kapal berangkat dari pelabuhan asal.",
       },
       {
         q: "Apakah BJA melayani pengiriman ke pulau-pulau kecil di Maluku?",
@@ -143,21 +143,21 @@ export const regionConfigs: RegionConfig[] = [
         a: "Ya, tersedia opsi asuransi pengiriman untuk perlindungan tambahan. Hubungi tim kami untuk info lebih lanjut mengenai biaya dan proses klaimnya.",
       },
     ],
-    waText: "Halo BJA Logistic, saya ingin tanya ongkir dan jadwal pengiriman cargo ke Maluku. Bisa bantu saya?",
+    waText: "Halo BJA Logistic, saya ingin cek ongkir, layanan yang tersedia, dan jadwal kapal terdekat untuk pengiriman cargo ke Maluku. Bisa bantu saya?",
   },
   {
     slug: "ntt",
     ongkirRegion: "ntt",
     scheduleRegion: "NTT",
     label: "NTT",
-    tagline: "Cargo ke NTT — Kupang, Flores & Seluruh NTT",
-    description: "Layanan pengiriman cargo ke Nusa Tenggara Timur dengan jadwal kapal mingguan.",
+    tagline: "Cargo ke NTT — Kupang, Flores & Berbagai Kota Tujuan",
+    description: "Pengiriman cargo dari Jabodetabek dan Surabaya ke Kupang, Flores, Sumba, Timor, dan berbagai tujuan lain di NTT. Ketersediaan Reguler atau Express mengikuti kota tujuan.",
     defaultCityValue: "kupang",
     defaultCityLabel: "Kupang",
     stats: [
-      { label: "Estimasi Transit", value: "3–5 hari" },
-      { label: "Kota Tujuan", value: "10+ Kota" },
-      { label: "Frekuensi Kapal", value: "1x Seminggu" },
+      { label: "Minimum", value: "100 kg" },
+      { label: "Tujuan", value: "22 Kota" },
+      { label: "Layanan", value: "Sesuai Rute" },
     ],
     testimonials: [
       {
@@ -185,7 +185,7 @@ export const regionConfigs: RegionConfig[] = [
     faqs: [
       {
         q: "Berapa lama pengiriman cargo dari Jakarta ke Kupang?",
-        a: "Estimasi transit 3–4 hari untuk Kupang via kapal. Untuk kota di Flores, Timor, atau pulau lainnya bisa 4–6 hari.",
+        a: "Estimasi pengiriman ke NTT berbeda untuk setiap kota dan layanan. Untuk Kupang, layanan Reguler memiliki estimasi 8–11 hari. Kota lain seperti Ende, Maumere, Labuan Bajo, atau Sumba memiliki estimasi masing-masing. Estimasi dihitung sejak kapal berangkat dari pelabuhan asal.",
       },
       {
         q: "Apakah BJA melayani pengiriman ke Labuan Bajo dan Flores?",
@@ -197,24 +197,24 @@ export const regionConfigs: RegionConfig[] = [
       },
       {
         q: "Berapa minimum pengiriman ke NTT?",
-        a: "Minimum 100 kg untuk layanan Regular. Tersedia juga layanan Express dengan minimum 10 kg untuk kebutuhan mendesak.",
+        a: "Minimum pengiriman BJA Logistic adalah 100 kg. Ketersediaan layanan Reguler dan Express berbeda untuk setiap kota tujuan.",
       },
     ],
-    waText: "Halo BJA Logistic, saya ingin tanya ongkir dan jadwal pengiriman cargo ke NTT. Bisa bantu saya?",
+    waText: "Halo BJA Logistic, saya ingin cek ongkir, layanan yang tersedia, dan jadwal kapal terdekat untuk pengiriman cargo ke NTT. Bisa bantu saya?",
   },
   {
     slug: "sulawesi",
     ongkirRegion: "sulawesi",
     scheduleRegion: "Sulawesi",
     label: "Sulawesi",
-    tagline: "Cargo ke Sulawesi — Makassar & Seluruh Sulawesi",
-    description: "Pengiriman cargo ke Makassar, Kendari, Manado, dan seluruh Sulawesi dengan transit tercepat.",
+    tagline: "Cargo ke Sulawesi — Makassar & Banyak Kota Tujuan",
+    description: "Pengiriman cargo dari Jabodetabek dan Surabaya ke Makassar, Kendari, Manado, Palu, dan berbagai kota lain di Sulawesi. Tarif dan estimasi mengikuti rute tujuan.",
     defaultCityValue: "makassar",
     defaultCityLabel: "Makassar",
     stats: [
-      { label: "Estimasi Transit", value: "2–5 hari" },
-      { label: "Kota Tujuan", value: "30+ Kota" },
-      { label: "Frekuensi Kapal", value: "2x Sebulan" },
+      { label: "Minimum", value: "100 kg" },
+      { label: "Tujuan", value: "57 Kota" },
+      { label: "Layanan", value: "Sesuai Rute" },
     ],
     testimonials: [
       {
@@ -242,11 +242,11 @@ export const regionConfigs: RegionConfig[] = [
     faqs: [
       {
         q: "Berapa lama pengiriman cargo dari Jakarta ke Makassar?",
-        a: "Estimasi transit 2–3 hari untuk Makassar via kapal. Untuk kota lain di Sulawesi seperti Kendari, Palu, Manado berkisar 3–5 hari.",
+        a: "Estimasi pengiriman ke Sulawesi berbeda untuk setiap kota. Makassar Express sekitar 3–4 hari, sedangkan Kendari, Palu, Manado, dan kota lainnya memiliki estimasi masing-masing. Estimasi dihitung sejak kapal berangkat dari pelabuhan asal.",
       },
       {
         q: "Apakah ada layanan Express ke Sulawesi?",
-        a: "Ya, tersedia layanan Express untuk pengiriman prioritas dengan waktu transit lebih cepat. Minimum 10 kg untuk layanan Express.",
+        a: "Ya, layanan Express tersedia untuk berbagai kota di Sulawesi dan umumnya memiliki waktu transit lebih cepat. Minimum pengiriman BJA Logistic adalah 100 kg.",
       },
       {
         q: "Apakah BJA bisa handle pengiriman proyek skala besar ke Sulawesi?",
@@ -257,7 +257,7 @@ export const regionConfigs: RegionConfig[] = [
         a: "Kami melayani hampir seluruh kota di Sulawesi termasuk Makassar, Kendari, Manado, Palu, Gorontalo, Mamuju, Bitung, dan puluhan kota lainnya.",
       },
     ],
-    waText: "Halo BJA Logistic, saya ingin tanya ongkir dan jadwal pengiriman cargo ke Sulawesi. Bisa bantu saya?",
+    waText: "Halo BJA Logistic, saya ingin cek ongkir, layanan yang tersedia, dan jadwal kapal terdekat untuk pengiriman cargo ke Sulawesi. Bisa bantu saya?",
   },
 ];
 
