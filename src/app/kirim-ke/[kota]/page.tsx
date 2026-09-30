@@ -22,6 +22,145 @@ function fromSlug(slug: string) {
   return slug.replace(/-/g, "_");
 }
 
+type EffectiveCityPricing = {
+  regulerPrice: number | null;
+  regulerEtaMin: number | null;
+  regulerEtaMax: number | null;
+  expressPrice: number | null;
+  expressEtaMin: number | null;
+  expressEtaMax: number | null;
+  minWeightKg: number;
+};
+
+function parsePriceStr(v?: string | null): number | null {
+  if (!v) return null;
+  const n = parseInt(v.replace(/[^0-9]/g, ""), 10);
+  return Number.isFinite(n) && n > 0 ? n : null;
+}
+
+function getEffectiveCityPricing(
+  destinationValue: string,
+  apiData: Awaited<ReturnType<typeof getCityPage>>
+): EffectiveCityPricing {
+  const master = cityLautPricing[destinationValue];
+
+  if (apiData) {
+    const regulerPrice = parsePriceStr(apiData.priceRegular);
+    const expressPrice = parsePriceStr(apiData.priceExpress);
+
+    const regulerComplete =
+      regulerPrice !== null &&
+      apiData.regularEtaMin !== null &&
+      apiData.regularEtaMax !== null;
+
+    const expressComplete =
+      expressPrice !== null &&
+      apiData.expressEtaMin !== null &&
+      apiData.expressEtaMax !== null;
+
+    const cmsHasUsablePricing = regulerComplete || expressComplete;
+
+    if (cmsHasUsablePricing) {
+      return {
+        regulerPrice: regulerComplete ? regulerPrice : null,
+        regulerEtaMin: regulerComplete ? apiData.regularEtaMin : null,
+        regulerEtaMax: regulerComplete ? apiData.regularEtaMax : null,
+        expressPrice: expressComplete ? expressPrice : null,
+        expressEtaMin: expressComplete ? apiData.expressEtaMin : null,
+        expressEtaMax: expressComplete ? apiData.expressEtaMax : null,
+        minWeightKg: apiData.minWeightKg || 100,
+      };
+    }
+  }
+
+  if (master) {
+    return {
+      ...master,
+      minWeightKg: 100,
+    };
+  }
+
+  const fallback = calculatePrice(destinationValue, "laut", 1);
+  return {
+    regulerPrice: fallback.priceMin,
+    regulerEtaMin: fallback.etaMin,
+    regulerEtaMax: fallback.etaMax,
+    expressPrice: fallback.priceMax,
+    expressEtaMin: fallback.etaMin,
+    expressEtaMax: fallback.etaMax,
+    minWeightKg: 100,
+  };
+}
+
+function formatEta(min: number | null, max: number | null) {
+  if (min === null || max === null) return null;
+  return min === max ? `${min} hari` : `${min}–${max} hari`;
+}
+
+function buildAutomaticCitySeo(
+  city: string,
+  region: string,
+  pricing: EffectiveCityPricing
+) {
+  const available = [
+    pricing.regulerPrice !== null
+      ? {
+          label: "Reguler",
+          price: pricing.regulerPrice,
+          eta: formatEta(pricing.regulerEtaMin, pricing.regulerEtaMax),
+        }
+      : null,
+    pricing.expressPrice !== null
+      ? {
+          label: "Express",
+          price: pricing.expressPrice,
+          eta: formatEta(pricing.expressEtaMin, pricing.expressEtaMax),
+        }
+      : null,
+  ].filter(Boolean) as { label: string; price: number; eta: string | null }[];
+
+  const startPrice = available.length
+    ? Math.min(...available.map((item) => item.price))
+    : null;
+
+  let title = startPrice
+    ? `Cargo ke ${city} — Rp${startPrice.toLocaleString("id-ID")}/kg | BJA Logistic`
+    : `Cargo ke ${city} | BJA Logistic`;
+
+  if (title.length > 60) {
+    title = `Cargo ke ${city} | BJA Logistic`;
+  }
+
+  const serviceText = available
+    .map(
+      (item) =>
+        `${item.label} Rp${item.price.toLocaleString("id-ID")}/kg${
+          item.eta ? `, ${item.eta}` : ""
+        }`
+    )
+    .join(". ");
+
+  let description = `Jasa ekspedisi cargo ke ${city}${
+    region ? `, ${region}` : ""
+  }. ${serviceText ? `${serviceText}. ` : ""}Minimum ${
+    pricing.minWeightKg
+  } kg. Cek jadwal kapal BJA Logistic.`;
+
+  if (description.length > 155) {
+    description = `Cargo ke ${city}${region ? `, ${region}` : ""}. ${
+      startPrice
+        ? `Mulai Rp${startPrice.toLocaleString("id-ID")}/kg. `
+        : ""
+    }Minimum ${pricing.minWeightKg} kg. Cek layanan, estimasi, dan jadwal kapal BJA Logistic.`;
+  }
+
+  if (description.length > 155) {
+    description = `${description.slice(0, 152).trimEnd()}...`;
+  }
+
+  return { title, description };
+}
+
 export function generateStaticParams() {
   const canonicalParams = destinationCities.map((city) => ({
     kota: toSlug(city.value),
@@ -40,53 +179,64 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { kota } = await params;
   const rawDestinationValue = fromSlug(kota);
   const resolvedDestinationValue = resolveDestinationValue(rawDestinationValue);
+  const canonicalSlug = toSlug(resolvedDestinationValue);
+
   const city = destinationCities.find(
     (c) => c.value === resolvedDestinationValue
   );
-  const apiData = await getCityPage(kota);
+
+  const apiData = await getCityPage(canonicalSlug);
   if (!city && !apiData) return {};
 
   const cityLabel = apiData?.city ?? city!.label;
-  const region = city?.region ?? "";
+  const region = apiData?.region ?? city?.region ?? "";
+  const pricing = getEffectiveCityPricing(resolvedDestinationValue, apiData);
+  const automaticSeo = buildAutomaticCitySeo(cityLabel, region, pricing);
 
-  const laut = calculatePrice(resolvedDestinationValue, "laut", 1);
-  const priceStr =
-    laut.priceMin === laut.priceMax
-      ? `Rp ${laut.priceMin.toLocaleString("id-ID")}/kg`
-      : `Rp ${laut.priceMin.toLocaleString("id-ID")}–${laut.priceMax.toLocaleString("id-ID")}/kg`;
+  const useCustomSeo = !!apiData?.seoCustom;
+  const title =
+    useCustomSeo && apiData?.metaTitle?.trim()
+      ? apiData.metaTitle.trim()
+      : automaticSeo.title;
 
-  const etaStr =
-    laut.etaMin === laut.etaMax
-      ? `${laut.etaMin} hari`
-      : `${laut.etaMin}–${laut.etaMax} hari`;
+  const description =
+    useCustomSeo && apiData?.metaDescription?.trim()
+      ? apiData.metaDescription.trim()
+      : automaticSeo.description;
 
-  const canonicalSlug = toSlug(resolvedDestinationValue);
   const canonical = `https://bjalogistic.id/kirim-ke/${canonicalSlug}`;
-  const title = `Cargo ke ${cityLabel} — ${priceStr} | BJA Logistic`;
-  const description = `Jasa ekspedisi cargo ke ${cityLabel}${region ? `, ${region}` : ""}. Cargo laut ${priceStr}, estimasi ${etaStr}. Door to door Jabodetabek & Surabaya. Hubungi BJA Logistic.`;
 
   return {
     title,
     description,
     keywords: [
+      apiData?.focusKeyword?.trim(),
       `cargo ke ${cityLabel.toLowerCase()}`,
       `ekspedisi ${cityLabel.toLowerCase()}`,
       `kirim barang ke ${cityLabel.toLowerCase()}`,
       `ongkir ke ${cityLabel.toLowerCase()}`,
-      ...(region ? [`ekspedisi ${region.toLowerCase()} ${cityLabel.toLowerCase()}`] : []),
-    ],
+      ...(region
+        ? [`ekspedisi ${region.toLowerCase()} ${cityLabel.toLowerCase()}`]
+        : []),
+    ].filter(Boolean) as string[],
     alternates: { canonical },
     openGraph: {
       title,
       description,
       url: canonical,
-      images: [{ url: "/og-image.png", width: 1200, height: 630 }],
+      images: [
+        {
+          url: apiData?.ogImage || apiData?.imageBanner || "/og-image.png",
+          width: 1200,
+          height: 630,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: ["/og-image.png"],
+      images: [apiData?.ogImage || apiData?.imageBanner || "/og-image.png"],
     },
   };
 }
@@ -173,14 +323,14 @@ export default async function KirimKePage({ params }: Props) {
   const city = destinationCities.find(
     (c) => c.value === resolvedDestinationValue
   );
-  const apiData = await getCityPage(kota);
+  const apiData = await getCityPage(toSlug(resolvedDestinationValue));
   if (!city && !apiData) notFound();
 
   // Kota bisa berasal dari data hardcoded (destinationCities), dari API/database
   // saja, atau keduanya. cityLabel/region jadi sumber tunggal yang aman dipakai
   // di seluruh halaman, walau `city` undefined untuk kota yang cuma ada di DB.
   const cityLabel = apiData?.city ?? city!.label;
-  const region = city?.region ?? "";
+  const region = apiData?.region ?? city?.region ?? "";
 
   const relatedCities = region
     ? destinationCities.filter((c) => c.region === region && c.value !== city?.value).slice(0, 5)
@@ -192,35 +342,7 @@ export default async function KirimKePage({ params }: Props) {
   const cityGroups = ongkirRegion ? getCitiesByRegion(ongkirRegion) : [];
 
   const lautPrice = calculatePrice(resolvedDestinationValue, "laut", 1);
-
-  function parsePriceStr(v?: string | null): number | null {
-    if (!v) return null;
-    const n = parseInt(v.replace(/[^0-9]/g, ""), 10);
-    return Number.isFinite(n) && n > 0 ? n : null;
-  }
-
-  const apiReguler = parsePriceStr(apiData?.priceRegular);
-  const apiExpress = parsePriceStr(apiData?.priceExpress);
-
-  const cp =
-    cityLautPricing[resolvedDestinationValue] ??
-    (apiReguler !== null || apiExpress !== null
-      ? {
-          regulerPrice: apiReguler,
-          regulerEtaMin: apiReguler !== null ? lautPrice.etaMin : null,
-          regulerEtaMax: apiReguler !== null ? lautPrice.etaMax : null,
-          expressPrice: apiExpress,
-          expressEtaMin: apiExpress !== null ? lautPrice.etaMin : null,
-          expressEtaMax: apiExpress !== null ? lautPrice.etaMax : null,
-        }
-      : {
-          regulerPrice: lautPrice.priceMin,
-          regulerEtaMin: lautPrice.etaMin,
-          regulerEtaMax: lautPrice.etaMax,
-          expressPrice: lautPrice.priceMax,
-          expressEtaMin: lautPrice.etaMin,
-          expressEtaMax: lautPrice.etaMax,
-        });
+  const cp = getEffectiveCityPricing(resolvedDestinationValue, apiData);
 
   const primaryPrice =
     cp.regulerPrice ?? cp.expressPrice ?? lautPrice.priceMin;
@@ -246,7 +368,7 @@ export default async function KirimKePage({ params }: Props) {
   const hardcodedFaqs = [
     {
       q: `Berapa ongkir ke ${cityLabel}?`,
-      a: `Ongkir ke ${cityLabel}: ${priceFaqParts.join(", ")} (min. 100 kg). Harga final tergantung berat aktual dan dimensi barang.`,
+      a: `Ongkir ke ${cityLabel}: ${priceFaqParts.join(", ")} (min. ${cp.minWeightKg} kg). Harga final tergantung berat aktual dan dimensi barang.`,
     },
     {
       q: `Berapa lama pengiriman ke ${cityLabel}?`,
@@ -326,7 +448,7 @@ export default async function KirimKePage({ params }: Props) {
                 <strong className="text-[#F5C518]">
                   {`Rp ${primaryPrice.toLocaleString("id-ID")}/kg`}
                 </strong>{" "}
-                via cargo laut, minimal 100 kg. Door to door dari Jabodetabek & Surabaya.
+                via cargo laut, minimal {cp.minWeightKg} kg. Door to door dari Jabodetabek & Surabaya.
               </p>
               <div className="flex flex-wrap gap-3">
                 <WALink
@@ -390,7 +512,7 @@ export default async function KirimKePage({ params }: Props) {
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-8 pt-6 border-t border-white/10 text-white/80 text-xs sm:text-sm">
             <span className="flex items-center gap-1.5">
               <Scale size={14} className="text-[#F5C518] shrink-0" />
-              Minimal pengiriman 100 kg
+              Minimal pengiriman {cp.minWeightKg} kg
             </span>
             <span className="flex items-center gap-1.5">
               <Ban size={14} className="text-[#F5C518] shrink-0" />
@@ -450,7 +572,7 @@ export default async function KirimKePage({ params }: Props) {
               const waMsg = buildOngkirMessage(
                 "Jabodetabek",
                 cityLabel,
-                100,
+                cp.minWeightKg,
                 svc.label,
                 formatPrice(price * 100)
               );
@@ -476,7 +598,7 @@ export default async function KirimKePage({ params }: Props) {
                           </span>
                         </div>
                         <p className="text-base font-black text-[#111111]">
-                          100 kg
+                          {cp.minWeightKg} kg
                         </p>
                       </div>
 
