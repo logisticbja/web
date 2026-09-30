@@ -5,10 +5,10 @@ import { MessageCircle, MapPin, Star, ChevronDown, ChevronUp, ChevronRight, Pack
 import { WALink } from "@/components/ui/WALink";
 import { Metadata } from "next";
 import { CekOngkirForm } from "@/components/CekOngkirForm";
-import { fetchPricing } from "@/lib/sheets";
 import { getSchedules, formatScheduleDate, formatServiceType } from "@/lib/schedule";
 import { buildScheduleMessage } from "@/lib/whatsapp";
 import { getRegionConfig, getCitiesByRegion, regionConfigs } from "@/lib/data/regions";
+import { destinationValueToSlug } from "@/lib/data/pricing";
 import { getCargoHeroImage } from "@/lib/cargoHero";
 import { BreadcrumbJsonLd } from "@/components/JsonLd";
 
@@ -93,7 +93,6 @@ export default async function CargoRegionPage({ params }: Props) {
   const config = getRegionConfig(region);
   if (!config) notFound();
 
-  const rows = await fetchPricing();
   const heroImage = await getCargoHeroImage(config.slug);
 
   // Sumber jadwal kapal sekarang live dari CRM (public-ship-schedule.php), bukan lagi
@@ -196,7 +195,6 @@ export default async function CargoRegionPage({ params }: Props) {
             <div>
               <SectionTitle>Cek Harga Cargo ke {config.label}</SectionTitle>
               <CekOngkirForm
-                rows={rows}
                 autoCalculate
                 defaultValues={{
                   from: "jabodetabek",
@@ -223,7 +221,7 @@ export default async function CargoRegionPage({ params }: Props) {
                         {group.cities.map((city) => (
                           <Link
                             key={city.value}
-                            href={`/kirim-ke/${city.value.replace(/_/g, "-")}`}
+                            href={`/kirim-ke/${destinationValueToSlug(city.value.replace(/-/g, "_"))}`}
                             className="bg-[#F8FAFC] border border-gray-200 text-gray-700 text-xs font-medium px-2.5 py-1 rounded-full hover:bg-[#CC1F2A] hover:text-white hover:border-[#CC1F2A] transition-colors"
                           >
                             {city.label}
@@ -303,10 +301,19 @@ export default async function CargoRegionPage({ params }: Props) {
               </div>
 
               <p className="text-xs text-gray-400 mt-2 pl-1">
-                * Jadwal bersifat estimasi dan dapat berubah. Konfirmasi via WhatsApp.
+                * Jadwal kapal dapat berubah karena kondisi operasional, cuaca, pelabuhan, atau perjalanan. Konfirmasi jadwal terdekat ke CS BJA Logistic sebelum pengiriman.
               </p>
             </section>
           )}
+
+          <div className="mb-10 rounded-2xl border border-amber-200 bg-amber-50 px-5 py-4">
+            <p className="text-sm text-amber-900 leading-relaxed">
+              <strong>Catatan pengiriman:</strong> Tarif, layanan Reguler atau Express,
+              dan estimasi berbeda untuk setiap kota tujuan. Estimasi waktu dihitung
+              sejak kapal berangkat dari pelabuhan asal. Pastikan konfirmasi jadwal
+              kapal terdekat ke CS BJA Logistic sebelum melakukan pengiriman.
+            </p>
+          </div>
 
           {/* Testimoni */}
           <section className="mb-10">
@@ -341,7 +348,7 @@ export default async function CargoRegionPage({ params }: Props) {
             <div className="relative">
               <h3 className="text-lg sm:text-xl font-black mb-2">Siap Kirim ke {config.label}?</h3>
               <p className="text-white/70 text-sm mb-5 max-w-sm mx-auto">
-                Chat langsung dengan tim BJA Logistic — cek harga, konfirmasi jadwal, dan booking dalam satu percakapan.
+                Chat langsung dengan tim BJA Logistic untuk cek tarif terbaru, memastikan layanan yang tersedia, dan konfirmasi jadwal kapal terdekat.
               </p>
               <WALink
                 href={waUrl}
