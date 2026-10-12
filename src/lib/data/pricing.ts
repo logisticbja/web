@@ -374,7 +374,7 @@ export const cityLautPricing: Record<string, CityLautPricing> = {
   gorontalo: { expressPrice: 8000, expressEtaMin: 7, expressEtaMax: 10, regulerPrice: null, regulerEtaMin: null, regulerEtaMax: null },
   bitung: { expressPrice: 9000, expressEtaMin: 7, expressEtaMax: 10, regulerPrice: null, regulerEtaMin: null, regulerEtaMax: null },
   kota_mubago: { expressPrice: 11000, expressEtaMin: 7, expressEtaMax: 10, regulerPrice: null, regulerEtaMin: null, regulerEtaMax: null },
-  manado: { expressPrice: 8000, expressEtaMin: 7, expressEtaMax: 10, regulerPrice: null, regulerEtaMin: null, regulerEtaMax: null },
+  manado: { expressPrice: 10000, expressEtaMin: 7, expressEtaMax: 10, regulerPrice: null, regulerEtaMin: null, regulerEtaMax: null },
   tomohon: { expressPrice: 11500, expressEtaMin: 7, expressEtaMax: 10, regulerPrice: null, regulerEtaMin: null, regulerEtaMax: null },
   tondano: { expressPrice: 7500, expressEtaMin: 7, expressEtaMax: 10, regulerPrice: null, regulerEtaMin: null, regulerEtaMax: null },
   tahuna: { expressPrice: 16500, expressEtaMin: 14, expressEtaMax: 16, regulerPrice: null, regulerEtaMin: null, regulerEtaMax: null },
