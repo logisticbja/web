@@ -398,7 +398,7 @@ export default async function KirimKePage({ params }: Props) {
     <>
       <BreadcrumbJsonLd items={[
         { name: "Beranda", url: "https://bjalogistic.id" },
-        { name: "Kirim ke", url: "https://bjalogistic.id/kirim-ke" },
+                { name: "Cargo", url: "https://bjalogistic.id/cargo" },
         {
           name: cityLabel,
           url: `https://bjalogistic.id/kirim-ke/${toSlug(resolvedDestinationValue)}`,
@@ -422,7 +422,7 @@ export default async function KirimKePage({ params }: Props) {
         )}
         <div className="max-w-5xl mx-auto relative">
           <div className="flex items-center gap-2 mb-3">
-            <Link href="/kirim-ke" className="text-white/60 text-sm hover:text-white">Tujuan</Link>
+            <Link href="/cargo" className="text-white/60 text-sm hover:text-white">Cargo</Link>
             <span className="text-white/40 text-sm">›</span>
             {region && (
               <>
