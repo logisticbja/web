@@ -14,7 +14,7 @@ import {
 import { BreadcrumbJsonLd } from "@/components/JsonLd";
 
 export const metadata: Metadata = {
-  title: "Ekspedisi Cargo ke Indonesia Timur | BJA Logistic",
+  title: { absolute: "Ekspedisi Cargo ke Indonesia Timur | BJA Logistic" },
   description:
     "Kirim cargo dari Jabodetabek dan Surabaya ke Papua, Maluku, NTT, dan Sulawesi bersama BJA Logistic. Minimum pengiriman 100 kg. Pilih kota tujuan untuk melihat tarif, layanan, dan estimasi pengiriman.",
   alternates: {
@@ -226,7 +226,12 @@ export default function KirimKePage() {
                       id={`region-${group.region.toLowerCase()}`}
                       className="text-xl font-black text-[#111111]"
                     >
-                      {group.region}
+                      <Link
+                        href={`/cargo/${group.region.toLowerCase()}`}
+                        className="hover:text-[#CC1F2A] transition-colors"
+                      >
+                        Cargo ke {group.region}
+                      </Link>
                     </h2>
                   </div>
                 </div>
