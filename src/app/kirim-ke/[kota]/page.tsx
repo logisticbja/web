@@ -124,11 +124,11 @@ function buildAutomaticCitySeo(
     : null;
 
   let title = startPrice
-    ? `Cargo ke ${city} — Rp${startPrice.toLocaleString("id-ID")}/kg | BJA Logistic`
-    : `Cargo ke ${city} | BJA Logistic`;
+    ? `Ekspedisi Cargo ke ${city} — Mulai Rp${startPrice.toLocaleString("id-ID")}/kg | BJA Logistic`
+    : `Ekspedisi Cargo ke ${city} | BJA Logistic`;
 
   if (title.length > 60) {
-    title = `Cargo ke ${city} | BJA Logistic`;
+    title = `Ekspedisi Cargo ke ${city} | BJA Logistic`;
   }
 
   const serviceText = available
@@ -207,7 +207,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const canonical = `https://bjalogistic.id/kirim-ke/${canonicalSlug}`;
 
   return {
-    title,
+    title: { absolute: title },
     description,
     keywords: [
       apiData?.focusKeyword?.trim(),
@@ -340,6 +340,7 @@ export default async function KirimKePage({ params }: Props) {
     ? (region.toLowerCase() as OngkirRegion)
     : null;
   const cityGroups = ongkirRegion ? getCitiesByRegion(ongkirRegion) : [];
+  const validCityValues = new Set(destinationCities.map((c) => c.value));
 
   const lautPrice = calculatePrice(resolvedDestinationValue, "laut", 1);
   const cp = getEffectiveCityPricing(resolvedDestinationValue, apiData);
@@ -421,11 +422,20 @@ export default async function KirimKePage({ params }: Props) {
         )}
         <div className="max-w-5xl mx-auto relative">
           <div className="flex items-center gap-2 mb-3">
-            <span className="text-white/60 text-sm">Tujuan</span>
+            <Link href="/kirim-ke" className="text-white/60 text-sm hover:text-white">Tujuan</Link>
             <span className="text-white/40 text-sm">›</span>
             {region && (
               <>
-                <span className="text-[#F5C518] text-sm font-semibold">{region}</span>
+                {ONGKIR_REGIONS.has(region.toLowerCase()) ? (
+                  <Link
+                    href={`/cargo/${region.toLowerCase()}`}
+                    className="text-[#F5C518] text-sm font-semibold hover:underline"
+                  >
+                    {region}
+                  </Link>
+                ) : (
+                  <span className="text-[#F5C518] text-sm font-semibold">{region}</span>
+                )}
                 <span className="text-white/40 text-sm">›</span>
               </>
             )}
@@ -444,7 +454,7 @@ export default async function KirimKePage({ params }: Props) {
                 Ekspedisi Cargo<br />ke {cityLabel}
               </h1>
               <p className="text-white/70 text-sm mb-5">
-                Pengiriman cargo ke {cityLabel} mulai dari{" "}
+                Ekspedisi cargo Jakarta ke {cityLabel}: kirim barang mulai dari{" "}
                 <strong className="text-[#F5C518]">
                   {`Rp ${primaryPrice.toLocaleString("id-ID")}/kg`}
                 </strong>{" "}
@@ -526,7 +536,7 @@ export default async function KirimKePage({ params }: Props) {
 
         {/* Pricing cards */}
         <div>
-          <h2 className="text-2xl font-black text-[#111111] mb-2">Pilih Layanan ke {cityLabel}</h2>
+          <h2 className="text-2xl font-black text-[#111111] mb-2">Ongkir Cargo ke {cityLabel}: Pilih Layanan</h2>
           <p className="text-gray-500 mb-8">Estimasi harga berdasarkan tarif per kg. Harga final menyesuaikan berat & volume aktual.</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             {serviceInfo.map((svc) => {
@@ -796,14 +806,24 @@ export default async function KirimKePage({ params }: Props) {
                     {group.groupLabel}
                   </p>
                   <div className="px-5 pb-4 flex flex-wrap gap-2">
-                    {group.cities.map((c) => (
-                      <span
-                        key={c.value}
-                        className="bg-[#F8FAFC] border border-gray-200 text-gray-700 text-xs font-medium px-3 py-1.5 rounded-full"
-                      >
-                        {c.label}
-                      </span>
-                    ))}
+                    {group.cities.map((c) =>
+                      validCityValues.has(c.value) ? (
+                        <Link
+                          key={c.value}
+                          href={`/kirim-ke/${toSlug(c.value)}`}
+                          className="bg-[#F8FAFC] border border-gray-200 hover:border-[#CC1F2A] hover:text-[#CC1F2A] text-gray-700 text-xs font-medium px-3 py-1.5 rounded-full transition-colors"
+                        >
+                          {c.label}
+                        </Link>
+                      ) : (
+                        <span
+                          key={c.value}
+                          className="bg-[#F8FAFC] border border-gray-200 text-gray-700 text-xs font-medium px-3 py-1.5 rounded-full"
+                        >
+                          {c.label}
+                        </span>
+                      )
+                    )}
                   </div>
                 </div>
               ))}
