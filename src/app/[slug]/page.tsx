@@ -9,6 +9,7 @@ import { fetchPricing } from "@/lib/sheets";
 import { buildDestinationMessage } from "@/lib/whatsapp";
 import { WALink } from "@/components/ui/WALink";
 import { BreadcrumbJsonLd } from "@/components/JsonLd";
+import { withBrand } from "@/lib/seoTitle";
 
 export const dynamicParams = false;
 
@@ -29,9 +30,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const isTimur = entry.region !== "jawa";
   const canonical = `${BASE_URL}/${slug}`;
 
+  // Tanpa "| BJA Logistic" — template di layout.tsx yang menambahkannya.
   const title = isTimur
-    ? `Ekspedisi Jakarta ${city} — Cargo Terpercaya & Terjangkau | BJA Logistic`
-    : `Cargo Jakarta ${city} | BJA Logistic`;
+    ? `Ekspedisi Jakarta ${city} — Cargo Terpercaya & Terjangkau`
+    : `Cargo Jakarta ${city}`;
   const description = isTimur
     ? `Jasa ekspedisi cargo dari Jakarta ke ${city}, ${getRegionLabel(entry.region)}. Layanan cargo laut, darat & udara. Door to door dari Jabodetabek & Surabaya. Cek harga sekarang.`
     : `Cek ongkir dan layanan ekspedisi Jakarta ${city}. BJA Logistic spesialis cargo ke Indonesia Timur — Papua, Maluku, NTT, dan Sulawesi.`;
@@ -46,7 +48,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       `kirim barang jakarta ${city.toLowerCase()}`,
     ],
     alternates: { canonical },
-    openGraph: { title, description, url: canonical, images: [{ url: "/og-image.png", width: 1200, height: 630 }] },
+    openGraph: { title: withBrand(title), description, url: canonical, images: [{ url: "/og-image.png", width: 1200, height: 630 }] },
   };
 }
 
