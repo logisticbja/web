@@ -1,9 +1,3 @@
-// src/lib/pageHero.ts
-//
-// Ambil konten hero halaman non-cargo (Homepage, Cek Ongkir, Jadwal Kapal,
-// Tracking) dari CRM (bja_settings key 'page_hero_images'), lewat endpoint
-// public-page-hero.php. Pola file ini identik dengan lib/cargoHero.ts.
-
 export interface PageHeroStat {
   value: string;
   label: string;
@@ -15,11 +9,11 @@ export interface PageHeroContent {
   tagline?: string;
   description?: string;
   stats?: PageHeroStat[];
-  // ── SEO on-page (Agustus 2026) — diedit dari CRM menu "Hero Halaman" ──
   seoMetaTitle?: string;
   seoMetaDescription?: string;
   seoFocusKeyword?: string;
   seoOgImage?: string;
+  content?: unknown;
 }
 
 const CRM_BASE_URL = process.env.CRM_API_URL ?? "https://invoice.bjalogistic.id";

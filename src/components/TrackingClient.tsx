@@ -19,6 +19,9 @@ import {
 import { buildTrackingMessage } from "@/lib/whatsapp";
 import { WALink } from "@/components/ui/WALink";
 import type { TrackingData } from "@/lib/sheets";
+import { TRACKING_DEFAULTS, type TrackingContent } from "@/lib/toolPages";
+import { cms } from "@/components/home/cms";
+import { InfoCards } from "@/components/tools/ToolHero";
 
 // ─── Status definitions ───────────────────────────────────────────────────────
 
@@ -77,7 +80,7 @@ type State =
   | { kind: "not_found"; resi: string }
   | { kind: "error" };
 
-export function TrackingClient() {
+export function TrackingClient({ content = TRACKING_DEFAULTS, edit }: { content?: TrackingContent; edit?: boolean }) {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -173,7 +176,8 @@ export function TrackingClient() {
                 setResi(e.target.value);
                 setState({ kind: "idle" });
               }}
-              placeholder="Masukkan nomor resi — contoh: BJA-2024-001"
+              placeholder={content.inputPlaceholder}
+              {...cms(edit, "content.inputPlaceholder")}
               className="
                 w-full
                 pl-9
@@ -860,69 +864,7 @@ export function TrackingClient() {
         gap-4
       ">
 
-        {[
-          {
-            icon: MessageCircle,
-            title: "WhatsApp",
-            desc: "Chat langsung dengan CS kami untuk info status real-time",
-          },
-          {
-            icon: Package,
-            title: "Nomor Resi",
-            desc: "Diberikan setelah barang diterima di gudang kami",
-          },
-          {
-            icon: Clock,
-            title: "Update Status",
-            desc: "Kami update status setiap ada perubahan posisi paket",
-          },
-        ].map((item) => (
-
-          <div
-            key={item.title}
-            className="
-              bg-white
-              rounded-xl
-              p-5
-              border
-              border-gray-100
-              flex
-              gap-3
-            "
-          >
-
-            <item.icon
-              size={20}
-              className="
-                text-[#CC1F2A]
-                shrink-0
-                mt-0.5
-              "
-            />
-
-            <div>
-
-              <p className="
-                font-bold
-                text-[#111111]
-                text-sm
-              ">
-                {item.title}
-              </p>
-
-              <p className="
-                text-xs
-                text-gray-500
-                mt-0.5
-              ">
-                {item.desc}
-              </p>
-
-            </div>
-
-          </div>
-
-        ))}
+        <InfoCards items={content.infoCards} path="content.infoCards" edit={edit} />
 
       </div>
 

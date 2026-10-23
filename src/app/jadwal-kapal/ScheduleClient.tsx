@@ -1,11 +1,13 @@
 "use client";
 import { useState } from "react";
-import Image from "next/image";
 import { Ship, MessageCircle, Filter } from "lucide-react";
 import { buildGeneralMessage, buildScheduleMessage } from "@/lib/whatsapp";
 import { WALink } from "@/components/ui/WALink";
 import { formatScheduleDate, formatServiceType, type ShipSchedule } from "@/lib/schedule";
 import type { PageHeroContent } from "@/lib/pageHero";
+import { jadwalKapalContent } from "@/lib/toolPages";
+import { cms } from "@/components/home/cms";
+import { heroBadges, ToolHero } from "@/components/tools/ToolHero";
 
 const regions = ["Semua", "Papua", "Maluku", "NTT", "Sulawesi"];
 
@@ -40,7 +42,8 @@ function EtaCell({ etaDate, route, ship, bold = true }: { etaDate: string | null
   );
 }
 
-export function ScheduleClient({ schedules, hero }: { schedules: ShipSchedule[]; hero?: PageHeroContent | null }) {
+export function ScheduleClient({ schedules, hero, edit }: { schedules: ShipSchedule[]; hero?: PageHeroContent | null; edit?: boolean }) {
+  const content = jadwalKapalContent(hero);
   const [activeRegion, setActiveRegion] = useState("Semua");
 
   const filtered = activeRegion === "Semua"
@@ -49,37 +52,16 @@ export function ScheduleClient({ schedules, hero }: { schedules: ShipSchedule[];
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
-      {/* Header — ukuran & gaya disamakan dengan hero /layanan/{slug} & /cargo/{region}. */}
-      <div className="relative bg-gradient-to-br from-[#CC1F2A] to-[#8B1219] min-h-[428px] flex items-center w-full">
-        {hero?.image && (
-          <>
-            <div className="absolute inset-0 overflow-hidden">
-              <Image src={hero.image} alt={hero.alt || "Jadwal Kapal"} fill priority sizes="100vw" className="object-cover" />
-            </div>
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
-          </>
-        )}
-        <div className="relative max-w-5xl mx-auto text-center px-4 w-full min-w-0">
-          <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-[#F5C518] flex items-center justify-center mx-auto mb-5">
-            <Ship size={30} className="text-[#1A1A1A]" />
-          </div>
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white mb-3">
-            {hero?.tagline || "Jadwal Kapal"}
-          </h1>
-          <p className="text-white/70 text-base sm:text-lg">
-            {hero?.description || "Jadwal keberangkatan kapal ke Papua & Indonesia Timur"}
-          </p>
-          {hero?.stats && hero.stats.length > 0 && (
-            <div className="flex items-center justify-center gap-4 mt-5 flex-wrap">
-              {hero.stats.map((s) => (
-                <span key={s.label} className="inline-flex items-center gap-1.5 bg-white/15 text-white text-sm font-semibold px-4 py-1.5 rounded-full">
-                  {s.value ? `${s.value} ${s.label}` : s.label}
-                </span>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
+      <ToolHero
+        icon={Ship}
+        hero={hero}
+        defaultTagline="Jadwal Kapal"
+        defaultDescription="Jadwal keberangkatan kapal ke Papua & Indonesia Timur"
+        defaultAlt="Jadwal Kapal"
+        badges={heroBadges(hero, " ")}
+        maxWidth="max-w-5xl"
+        edit={edit}
+      />
 
       <div className="max-w-5xl mx-auto px-4 py-12">
         {/* Filter */}
@@ -102,8 +84,8 @@ export function ScheduleClient({ schedules, hero }: { schedules: ShipSchedule[];
         </div>
 
         {filtered.length === 0 && (
-          <div className="bg-white rounded-2xl border border-gray-100 p-10 text-center text-sm text-gray-400 mb-6">
-            Belum ada jadwal kapal untuk wilayah ini. Konfirmasi jadwal terkini via WhatsApp.
+          <div className="bg-white rounded-2xl border border-gray-100 p-10 text-center text-sm text-gray-400 mb-6" {...cms(edit, "content.emptyText")}>
+            {content.emptyText}
           </div>
         )}
 
@@ -181,9 +163,8 @@ export function ScheduleClient({ schedules, hero }: { schedules: ShipSchedule[];
         </div>
         )}
 
-        {/* Disclaimer + CTA */}
-        <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-5 mb-6 text-sm text-yellow-800">
-          <strong>Perhatian:</strong> Jadwal di atas bersifat estimasi dan dapat berubah sewaktu-waktu tergantung cuaca, kondisi laut, dan kebijakan operator. Konfirmasi jadwal terkini via WhatsApp.
+        <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-5 mb-6 text-sm text-yellow-800" {...cms(edit, "content.noticeText")}>
+          <strong>{content.noticeLabel}</strong> {content.noticeText}
         </div>
 
         <WALink
@@ -191,7 +172,7 @@ export function ScheduleClient({ schedules, hero }: { schedules: ShipSchedule[];
           className="flex items-center justify-center gap-3 bg-[#25D366] hover:bg-[#20bc59] text-white font-black text-lg py-4 rounded-2xl transition-all hover:shadow-lg w-full"
         >
           <MessageCircle size={22} />
-          Konfirmasi Jadwal via WhatsApp
+          {edit ? <span data-cms="content.waLabel">{content.waLabel}</span> : content.waLabel}
         </WALink>
       </div>
     </div>
