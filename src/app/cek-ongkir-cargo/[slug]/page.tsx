@@ -6,6 +6,7 @@ import { cekOngkirArticles } from "@/lib/data/cekOngkirArticles";
 import { CekOngkirForm } from "@/components/CekOngkirForm";
 import { fetchPricing } from "@/lib/sheets";
 import { BreadcrumbJsonLd } from "@/components/JsonLd";
+import { withBrand } from "@/lib/seoTitle";
 
 export const dynamicParams = false;
 
@@ -54,9 +55,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const canonical = `${BASE_URL}/cek-ongkir-cargo/${slug}`;
   const isTimur = entry.region !== "jawa";
 
+  // Tanpa "| BJA Logistic" — template di layout.tsx yang menambahkannya.
   const title = isTimur
-    ? `Cek Ongkir Ekspedisi Jakarta ${city} — Harga Cargo | BJA Logistic`
-    : `Cek Ongkir Jakarta ${city} | BJA Logistic`;
+    ? `Cek Ongkir Ekspedisi Jakarta ${city} — Harga Cargo`
+    : `Cek Ongkir Jakarta ${city}`;
   const description = isTimur
     ? `Kalkulator ongkir ekspedisi Jakarta ke ${city}, ${getRegionLabel(entry.region)}. Hitung biaya cargo laut, darat & udara langsung di sini.`
     : `Cek ongkir dan estimasi biaya pengiriman dari Jakarta ke ${city}.`;
@@ -70,7 +72,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       `ongkir cargo jakarta ${city.toLowerCase()}`,
     ],
     alternates: { canonical },
-    openGraph: { title, description, url: canonical, images: [{ url: "/og-image.png", width: 1200, height: 630 }] },
+    openGraph: { title: withBrand(title), description, url: canonical, images: [{ url: "/og-image.png", width: 1200, height: 630 }] },
   };
 }
 
