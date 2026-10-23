@@ -14,6 +14,7 @@ import {
   BreadcrumbJsonLd,
 } from "@/components/JsonLd";
 import { Metadata } from "next";
+import { stripBrand } from "@/lib/seoTitle";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -29,7 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!post) return {};
 
   const canonical   = `${BASE_URL}/blog/${slug}`;
-  const metaTitle   = post.metaTitle   ?? post.title;
+  const metaTitle   = stripBrand(post.metaTitle ?? post.title);
   const metaDesc    = post.metaDesc    ?? post.excerpt;
   const ogTitle     = post.ogTitle     ?? metaTitle;
   const ogDesc      = post.ogDesc      ?? metaDesc;
@@ -41,7 +42,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   ];
 
   return {
-    title: metaTitle,
+    title: metaTitle || post.title,
     description: metaDesc,
     keywords: allKeywords,
     alternates: { canonical },
