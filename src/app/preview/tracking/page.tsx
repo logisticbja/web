@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
-import { ToolPreview } from "@/components/preview/ToolPreview";
+import { TrackingPreview } from "@/components/preview/ToolPreview";
+import { loadTracking } from "@/lib/sitePages/fetch";
 
 export const metadata: Metadata = {
   title: { absolute: "Preview Tracking — BJA Logistic" },
   robots: { index: false, follow: false },
 };
 
-export default function TrackingPreviewPage() {
-  return <ToolPreview page="tracking" />;
+export default async function TrackingPreviewPage() {
+  const { live, defaults } = await loadTracking();
+  return <TrackingPreview live={live} defaults={defaults} />;
 }

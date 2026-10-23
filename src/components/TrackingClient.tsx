@@ -19,9 +19,9 @@ import {
 import { buildTrackingMessage } from "@/lib/whatsapp";
 import { WALink } from "@/components/ui/WALink";
 import type { TrackingData } from "@/lib/sheets";
-import { TRACKING_DEFAULTS, type TrackingContent } from "@/lib/toolPages";
+import type { TrackingContent, TrackingSection } from "@/lib/sitePages/tracking";
 import { cms } from "@/components/home/cms";
-import { InfoCards } from "@/components/tools/ToolHero";
+import { InfoCards, Sec } from "@/components/tools/ToolHero";
 
 // ─── Status definitions ───────────────────────────────────────────────────────
 
@@ -80,7 +80,7 @@ type State =
   | { kind: "not_found"; resi: string }
   | { kind: "error" };
 
-export function TrackingClient({ content = TRACKING_DEFAULTS, edit }: { content?: TrackingContent; edit?: boolean }) {
+export function TrackingClient({ content, edit }: { content: TrackingContent; edit?: boolean }) {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -150,16 +150,17 @@ export function TrackingClient({ content = TRACKING_DEFAULTS, edit }: { content?
     doFetch(q);
   }
 
-  return (
-    <div className="max-w-3xl mx-auto px-4 py-12">
+  const blocks: Record<Exclude<TrackingSection, "hero">, React.ReactNode> = {
+    search: (
+      <>
 
       {/* ═════════════════════════════════════════════════════════════════════
           SEARCH BOX
       ═════════════════════════════════════════════════════════════════════ */}
 
       <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8 mb-6">
-        <label className="block text-sm font-bold text-gray-700 mb-2">
-          Nomor Resi
+        <label className="block text-sm font-bold text-gray-700 mb-2" {...cms(edit, "search.label")}>
+          {content.search.label}
         </label>
 
         <form onSubmit={handleSubmit} className="flex gap-3">
@@ -176,8 +177,8 @@ export function TrackingClient({ content = TRACKING_DEFAULTS, edit }: { content?
                 setResi(e.target.value);
                 setState({ kind: "idle" });
               }}
-              placeholder={content.inputPlaceholder}
-              {...cms(edit, "content.inputPlaceholder")}
+              placeholder={content.search.placeholder}
+              {...cms(edit, "search.placeholder")}
               className="
                 w-full
                 pl-9
@@ -223,7 +224,7 @@ export function TrackingClient({ content = TRACKING_DEFAULTS, edit }: { content?
               <Search size={16} />
             )}
 
-            Cek
+            {edit ? <span data-cms="search.buttonLabel">{content.search.buttonLabel}</span> : content.search.buttonLabel}
           </button>
         </form>
       </div>
@@ -852,22 +853,25 @@ export function TrackingClient({ content = TRACKING_DEFAULTS, edit }: { content?
 
         </div>
       )}
-
-      {/* ═════════════════════════════════════════════════════════════════════
-          INFO CARDS
-      ═════════════════════════════════════════════════════════════════════ */}
-
-      <div className="
-        grid
-        grid-cols-1
-        sm:grid-cols-3
-        gap-4
-      ">
-
-        <InfoCards items={content.infoCards} path="content.infoCards" edit={edit} />
-
+      </>
+    ),
+    infoCards: content.infoCards.items.length > 0 && (
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <InfoCards items={content.infoCards.items} path="infoCards.items" edit={edit} />
       </div>
+    ),
+  };
 
+  return (
+    <div className="max-w-3xl mx-auto px-4 py-12">
+      {content.order
+        .filter((k): k is Exclude<TrackingSection, "hero"> => k !== "hero" && !content.hidden.includes(k))
+        .map((k) => (
+          <Sec key={k} edit={edit} id={k}>
+            {blocks[k]}
+          </Sec>
+        ))}
     </div>
   );
 }
+

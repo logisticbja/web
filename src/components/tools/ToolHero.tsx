@@ -1,6 +1,10 @@
 import Image from "next/image";
 import {
   Anchor,
+  Award,
+  Box,
+  Globe,
+  Users,
   Calculator,
   Calendar,
   CheckCircle,
@@ -18,12 +22,11 @@ import {
   Zap,
 } from "lucide-react";
 import { cms } from "@/components/home/cms";
-import type { PageHeroContent } from "@/lib/pageHero";
-import type { ToolIconName, ToolInfoCard } from "@/lib/toolPages";
+import type { InfoCard, SiteHero, SiteIconName } from "@/lib/sitePages/core";
 
 type IconType = React.FC<{ size?: number; className?: string }>;
 
-export const TOOL_ICONS: Record<ToolIconName, IconType> = {
+export const TOOL_ICONS: Record<SiteIconName, IconType> = {
   Ship,
   Truck,
   Zap,
@@ -40,38 +43,33 @@ export const TOOL_ICONS: Record<ToolIconName, IconType> = {
   Star,
   Warehouse,
   Anchor,
+  Globe,
+  Users,
+  Award,
+  Box,
 };
 
-export function heroBadges(hero: PageHeroContent | null | undefined, sep: string): string[] {
-  return hero?.stats && hero.stats.length > 0 ? hero.stats.map((s) => (s.value ? `${s.value}${sep}${s.label}` : s.label)) : [];
+export function Sec({ edit, id, children }: { edit?: boolean; id: string; children: React.ReactNode }) {
+  return edit ? <div data-cms-section={id}>{children}</div> : <>{children}</>;
 }
 
 export function ToolHero({
   icon: Icon,
   hero,
-  defaultTagline,
-  defaultDescription,
-  defaultAlt,
-  badges,
   maxWidth,
   edit,
 }: {
   icon: IconType;
-  hero: PageHeroContent | null | undefined;
-  defaultTagline: string;
-  defaultDescription: string;
-  defaultAlt: string;
-  badges: string[];
+  hero: SiteHero;
   maxWidth: "max-w-3xl" | "max-w-5xl";
   edit?: boolean;
 }) {
-  const statsCms = hero?.stats && hero.stats.length > 0;
   return (
-    <div className="relative bg-gradient-to-br from-[#CC1F2A] to-[#8B1219] min-h-[428px] flex items-center w-full" {...cms(edit, "image")}>
-      {hero?.image && (
+    <div className="relative bg-gradient-to-br from-[#CC1F2A] to-[#8B1219] min-h-[428px] flex items-center w-full" {...cms(edit, "hero.image")}>
+      {hero.image && (
         <>
           <div className="absolute inset-0 overflow-hidden">
-            <Image src={hero.image} alt={hero.alt || defaultAlt} fill priority sizes="100vw" className="object-cover" unoptimized={edit} />
+            <Image src={hero.image} alt={hero.imageAlt} fill priority sizes="100vw" className="object-cover" unoptimized={edit} />
           </div>
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
         </>
@@ -80,19 +78,19 @@ export function ToolHero({
         <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-[#F5C518] flex items-center justify-center mx-auto mb-5">
           <Icon size={30} className="text-[#1A1A1A]" />
         </div>
-        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white mb-3" {...cms(edit, "tagline")}>
-          {hero?.tagline || defaultTagline}
+        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white mb-3" {...cms(edit, "hero.title")}>
+          {hero.title}
         </h1>
-        <p className="text-white/70 text-base sm:text-lg" {...cms(edit, "description")}>
-          {hero?.description || defaultDescription}
+        <p className="text-white/70 text-base sm:text-lg" {...cms(edit, "hero.description")}>
+          {hero.description}
         </p>
-        {badges.length > 0 && (
+        {hero.badges.length > 0 && (
           <div className="flex items-center justify-center gap-4 mt-5 flex-wrap">
-            {badges.map((b, i) => (
+            {hero.badges.map((b, i) => (
               <span
                 key={`${b}-${i}`}
                 className="inline-flex items-center gap-1.5 bg-white/15 text-white text-sm font-semibold px-4 py-1.5 rounded-full"
-                {...cms(edit, statsCms ? `stats.${i}` : "stats")}
+                {...cms(edit, `hero.badges.${i}`)}
               >
                 {b}
               </span>
@@ -104,7 +102,7 @@ export function ToolHero({
   );
 }
 
-export function InfoCards({ items, path, edit }: { items: ToolInfoCard[]; path: string; edit?: boolean }) {
+export function InfoCards({ items, path, edit }: { items: InfoCard[]; path: string; edit?: boolean }) {
   if (items.length === 0) return null;
   return (
     <>

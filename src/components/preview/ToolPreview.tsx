@@ -3,31 +3,44 @@ import { useState } from "react";
 import { CekOngkirView } from "@/components/tools/CekOngkirView";
 import { TrackingView } from "@/components/tools/TrackingView";
 import { ScheduleClient } from "@/app/jadwal-kapal/ScheduleClient";
-import type { PageHeroContent } from "@/lib/pageHero";
+import { mergeCekOngkir, type CekOngkirContent } from "@/lib/sitePages/cekOngkir";
+import { mergeJadwalKapal, type JadwalKapalContent } from "@/lib/sitePages/jadwalKapal";
+import { mergeTracking, type TrackingContent } from "@/lib/sitePages/tracking";
 import type { ShipSchedule } from "@/lib/schedule";
-import { normalizeHeroPreview } from "@/lib/toolPages";
 import { PreviewStyles, usePreviewBridge } from "./usePreviewBridge";
 
-export type ToolPage = "cek-ongkir" | "jadwal-kapal" | "tracking";
+function useSitePreview<T>(page: string, live: T, defaults: T, merge: (b: T, raw: unknown) => T): T {
+  const [content, setContent] = useState<T>(live);
+  usePreviewBridge({ page, live, defaults }, (raw) => setContent(merge(defaults, raw)));
+  return content;
+}
 
-export function ToolPreview({ page, schedules = [] }: { page: ToolPage; schedules?: ShipSchedule[] }) {
-  const [hero, setHero] = useState<PageHeroContent | null>(null);
-  usePreviewBridge({ page }, (raw) => setHero(normalizeHeroPreview(raw)));
-
-  if (!hero) {
-    return (
-      <div className="min-h-[60vh] flex items-center justify-center text-gray-400 text-sm">
-        Menunggu data dari CRM…
-      </div>
-    );
-  }
-
+export function CekOngkirPreview({ live, defaults }: { live: CekOngkirContent; defaults: CekOngkirContent }) {
+  const content = useSitePreview("cek-ongkir", live, defaults, mergeCekOngkir);
   return (
     <>
       <PreviewStyles />
-      {page === "cek-ongkir" && <CekOngkirView hero={hero} edit />}
-      {page === "jadwal-kapal" && <ScheduleClient schedules={schedules} hero={hero} edit />}
-      {page === "tracking" && <TrackingView hero={hero} edit />}
+      <CekOngkirView content={content} edit />
+    </>
+  );
+}
+
+export function JadwalKapalPreview({ live, defaults, schedules }: { live: JadwalKapalContent; defaults: JadwalKapalContent; schedules: ShipSchedule[] }) {
+  const content = useSitePreview("jadwal-kapal", live, defaults, mergeJadwalKapal);
+  return (
+    <>
+      <PreviewStyles />
+      <ScheduleClient schedules={schedules} content={content} edit />
+    </>
+  );
+}
+
+export function TrackingPreview({ live, defaults }: { live: TrackingContent; defaults: TrackingContent }) {
+  const content = useSitePreview("tracking", live, defaults, mergeTracking);
+  return (
+    <>
+      <PreviewStyles />
+      <TrackingView content={content} edit />
     </>
   );
 }

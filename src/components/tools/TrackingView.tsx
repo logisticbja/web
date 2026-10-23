@@ -1,9 +1,8 @@
 import { Suspense } from "react";
 import { Loader2, Package } from "lucide-react";
 import { TrackingClient } from "@/components/TrackingClient";
-import type { PageHeroContent } from "@/lib/pageHero";
-import { trackingContent } from "@/lib/toolPages";
-import { heroBadges, ToolHero } from "./ToolHero";
+import type { TrackingContent } from "@/lib/sitePages/tracking";
+import { Sec, ToolHero } from "./ToolHero";
 
 function TrackingFallback() {
   return (
@@ -13,22 +12,15 @@ function TrackingFallback() {
   );
 }
 
-export function TrackingView({ hero, edit }: { hero: PageHeroContent | null; edit?: boolean }) {
+export function TrackingView({ content, edit }: { content: TrackingContent; edit?: boolean }) {
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
-      <ToolHero
-        icon={Package}
-        hero={hero}
-        defaultTagline="Tracking Pengiriman"
-        defaultDescription="Cek status pengiriman Anda dengan nomor resi"
-        defaultAlt="Tracking Pengiriman"
-        badges={heroBadges(hero, " ")}
-        maxWidth="max-w-3xl"
-        edit={edit}
-      />
+      <Sec edit={edit} id="hero">
+        <ToolHero icon={Package} hero={content.hero} maxWidth="max-w-3xl" edit={edit} />
+      </Sec>
 
       <Suspense fallback={<TrackingFallback />}>
-        <TrackingClient content={trackingContent(hero)} edit={edit} />
+        <TrackingClient content={content} edit={edit} />
       </Suspense>
     </div>
   );
