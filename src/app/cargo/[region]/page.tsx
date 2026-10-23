@@ -11,6 +11,7 @@ import { getRegionConfig, getCitiesByRegion, regionConfigs } from "@/lib/data/re
 import { destinationValueToSlug } from "@/lib/data/pricing";
 import { getCargoHeroImage } from "@/lib/cargoHero";
 import { BreadcrumbJsonLd } from "@/components/JsonLd";
+import { stripBrand, withBrand } from "@/lib/seoTitle";
 
 const BASE_URL = "https://bjalogistic.id";
 
@@ -31,7 +32,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   // untuk tetap pakai teks default hasil racikan dari lib/data/regions.ts.
   const heroImage = await getCargoHeroImage(config.slug);
 
-  const title = heroImage?.seoMetaTitle || `Cargo ke ${config.label} — Harga Terjangkau & Terpercaya`;
+  const title = stripBrand(heroImage?.seoMetaTitle) || `Cargo ke ${config.label} — Harga Terjangkau & Terpercaya`;
   const description = heroImage?.seoMetaDescription || `Jasa ekspedisi cargo ke ${config.label}. ${config.description} Cek harga langsung, konfirmasi via WhatsApp.`;
   const canonical = `${BASE_URL}/cargo/${config.slug}`;
   const ogImage = heroImage?.seoOgImage || heroImage?.image || "/og-image.png";
@@ -41,7 +42,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description,
     alternates: { canonical },
     openGraph: {
-      title: heroImage?.seoMetaTitle ? title : `${title} | BJA Logistic`,
+      title: withBrand(title),
       description,
       url: canonical,
       images: [{ url: ogImage, width: 1200, height: 630 }],
