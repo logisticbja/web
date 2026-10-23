@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  revalidateTag("cms-content", "max");
+  revalidateTag("cms-content", { expire: 0 });
 
   return NextResponse.json({
     ok: true,
