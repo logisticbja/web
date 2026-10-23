@@ -5,6 +5,7 @@ import { buildServiceMessage } from "@/lib/whatsapp";
 import { BreadcrumbJsonLd } from "@/components/JsonLd";
 import { getServicePage, getAllServicePages, type ServicePageData } from "@/lib/servicePages";
 import { getServiceIcon } from "@/lib/serviceIcons";
+import { stripBrand, withBrand } from "@/lib/seoTitle";
 
 export const revalidate = 86400;
 
@@ -163,7 +164,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!data) return {};
 
   const canonical = `https://bjalogistic.id/layanan/${slug}`;
-  const title = data.metaTitle || `${data.title} | BJA Logistic`;
+  const title = stripBrand(data.metaTitle) || stripBrand(data.title);
   const description = data.metaDescription || data.description;
   // OG image: pakai override khusus (field baru "Gambar OG") kalau diisi,
   // fallback ke gambar banner halaman, fallback lagi ke gambar default situs.
@@ -174,12 +175,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description,
     alternates: { canonical },
     openGraph: {
-      title: data.metaTitle || data.title,
+      title: withBrand(title),
       description,
       url: canonical,
       images: [{ url: ogImage, width: 1200, height: 630 }],
     },
-    twitter: { card: "summary_large_image", title, description, images: [ogImage] },
+    twitter: { card: "summary_large_image", title: withBrand(title), description, images: [ogImage] },
   };
 }
 
