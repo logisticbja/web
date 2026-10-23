@@ -1,39 +1,32 @@
 import type { Metadata } from "next";
-import { Hero } from "@/components/home/Hero";
-import { StatsBar } from "@/components/home/StatsBar";
-import { ServicesGrid } from "@/components/home/ServicesGrid";
-import { WhyUs } from "@/components/home/WhyUs";
-import { CoverageSection } from "@/components/home/CoverageSection";
-import { Gallery } from "@/components/home/Gallery";
-import { ClientLogos } from "@/components/home/ClientLogos";
-import { Testimonials } from "@/components/home/Testimonials";
-import { FAQ } from "@/components/home/FAQ";
-import { FinalCTA } from "@/components/home/FinalCTA";
-import { FaqJsonLd } from "@/components/JsonLd";
+import { HomeSections } from "@/components/home/HomeSections";
+import { ArticleFaqJsonLd } from "@/components/JsonLd";
+import { getHomepageContent } from "@/lib/homepage/fetch";
 
-export const metadata: Metadata = {
-  title: { absolute: "BJA Logistic — Ekspedisi Spesialis Papua & Indonesia Timur" },
-  description:
-    "BJA Logistic, spesialis ekspedisi Papua & Indonesia Timur (Maluku, NTT, Sulawesi). Mulai Rp 7.000/kg, door to door Jabodetabek, 10+ tahun pengalaman.",
-  alternates: {
-    canonical: "https://bjalogistic.id",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const content = await getHomepageContent();
+  return {
+    title: { absolute: content.seo.title },
+    description: content.seo.description,
+    alternates: {
+      canonical: "https://bjalogistic.id",
+    },
+  };
+}
 
-export default function HomePage() {
+export default async function HomePage() {
+  const content = await getHomepageContent();
+  const showFaq = !content.hidden.includes("faq");
   return (
     <>
-      <FaqJsonLd />
-      <Hero />
-      <StatsBar />
-      <ServicesGrid />
-      <WhyUs />
-      <CoverageSection />
-      <Gallery />
-      <ClientLogos />
-      <Testimonials />
-      <FAQ />
-      <FinalCTA />
+      {showFaq && (
+        <ArticleFaqJsonLd
+          items={content.faq.items
+            .filter((f) => f.q.trim() && f.a.trim())
+            .map((f) => ({ question: f.q, answer: f.a }))}
+        />
+      )}
+      <HomeSections content={content} />
     </>
   );
 }

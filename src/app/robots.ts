@@ -5,6 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
+      disallow: ["/preview/"],
     },
     sitemap: "https://bjalogistic.id/sitemap.xml",
   };

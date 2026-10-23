@@ -4,7 +4,8 @@ import { MessageCircle, CheckCircle, Calculator, Ship, MapPin, Building2, Chevro
 import { buildGeneralMessage, buildCorporateMessage } from "@/lib/whatsapp";
 import { WALink } from "@/components/ui/WALink";
 import { TrackingInput } from "@/components/ui/TrackingInput";
-import { getPageHero } from "@/lib/pageHero";
+import type { HeroContent } from "@/lib/homepage/types";
+import { boldText, cms, type EditProps } from "./cms";
 
 const quickLinks = [
   { icon: Calculator, label: "Cek Ongkir", href: "/cek-ongkir", external: false },
@@ -12,36 +13,20 @@ const quickLinks = [
   { icon: MapPin, label: "Track Resi", href: "/tracking", external: false },
 ];
 
-const trustBadges = [
-  "10+ Tahun Pengalaman",
-  "50+ Kota Tujuan",
-  "Indomaret & BNI Percaya Kami",
-  "98% Tepat Waktu",
-];
-
-export async function Hero() {
-  // Konten hero (gambar/judul/deskripsi/badge) opsional dari CRM — menu "Hero
-  // Halaman" > Homepage. Kosongkan di CRM untuk tetap pakai teks default di
-  // bawah ini. Pola sama seperti getCargoHeroImage() di lib/cargoHero.ts.
-  const hero = await getPageHero("home");
-  const heroImage = hero?.image || "/hero-bg.jpg";
-  const heroAlt = hero?.alt || "Pelabuhan cargo Indonesia";
-  const badges = hero?.stats && hero.stats.length > 0
-    ? hero.stats.map((s) => (s.value ? `${s.value} ${s.label}` : s.label))
-    : trustBadges;
-
+export function Hero({ content, edit }: { content: HeroContent } & EditProps) {
   return (
     <section className="relative min-h-[560px] sm:min-h-[600px] lg:min-h-[640px] flex items-center">
       {/* Background image — di-clip terpisah dari konten teks, supaya badge/tombol
           di bawah gak ikut kepotong kalau kontennya lebih tinggi dari tinggi minimum. */}
-      <div className="absolute inset-0 overflow-hidden">
+      <div className="absolute inset-0 overflow-hidden" {...cms(edit, "hero.image")}>
         <Image
-          src={heroImage}
-          alt={heroAlt}
+          src={content.image}
+          alt={content.imageAlt}
           fill
           priority
           className="object-cover object-center"
           sizes="100vw"
+          {...(edit ? { unoptimized: true } : {})}
         />
         {/* Dark gradient overlay — left heavy for text legibility */}
         <div className="absolute inset-0 bg-gradient-to-r from-[#1A1A1A]/95 via-[#1A1A1A]/80 to-[#CC1F2A]/50" />
@@ -52,33 +37,27 @@ export async function Hero() {
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
         <div className="max-w-3xl">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 bg-[#F5C518]/20 border border-[#F5C518]/40 rounded-full px-4 py-1.5 mb-6">
-            <div className="w-2 h-2 rounded-full bg-[#F5C518] animate-pulse" />
-            <span className="text-[#F5C518] text-sm font-semibold">
-              #1 Ekspedisi Papua & Indonesia Timur
-            </span>
-          </div>
-
-          {/* Headline — kalau diisi dari CRM, tampil polos 1 warna (tanpa aksen
-              kuning di baris kedua, karena itu cuma ada di teks default). */}
-          {hero?.tagline ? (
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white leading-[1.15] mb-5">
-              {hero.tagline}
-            </h1>
-          ) : (
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white leading-[1.15] mb-5">
-              Ekspedisi Papua & Indonesia Timur,
-              <br />
-              <span className="text-[#F5C518]">Spesialis Cargo Terpercaya</span>
-            </h1>
+          {content.badge && (
+            <div className="inline-flex items-center gap-2 bg-[#F5C518]/20 border border-[#F5C518]/40 rounded-full px-4 py-1.5 mb-6">
+              <div className="w-2 h-2 rounded-full bg-[#F5C518] animate-pulse" />
+              <span className="text-[#F5C518] text-sm font-semibold" {...cms(edit, "hero.badge")}>
+                {content.badge}
+              </span>
+            </div>
           )}
 
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white leading-[1.15] mb-5" {...cms(edit, "hero.title")}>
+            {content.title}
+            {content.titleAccent && <br />}
+            {content.titleAccent && (
+              <span className="text-[#F5C518]" {...cms(edit, "hero.titleAccent")}>{content.titleAccent}</span>
+            )}
+          </h1>
+
           {/* Subheadline */}
-          {hero?.description ? (
-            <p className="text-white/75 text-lg sm:text-xl mb-6 leading-relaxed">{hero.description}</p>
-          ) : (
-            <p className="text-white/75 text-lg sm:text-xl mb-6 leading-relaxed">
-              Mulai <strong className="text-white">Rp 7.000/kg</strong> &nbsp;·&nbsp; Door to Door Service &nbsp;·&nbsp; Kapal Roro, PELNI & Pesawat
+          {content.description && (
+            <p className="text-white/75 text-lg sm:text-xl mb-6 leading-relaxed" {...cms(edit, "hero.description")}>
+              {boldText(content.description, "text-white")}
             </p>
           )}
 
@@ -92,21 +71,24 @@ export async function Hero() {
             <WALink
               href={buildGeneralMessage()}
               className="btn-primary text-base sm:text-lg px-7 py-4 rounded-xl shadow-2xl"
+              {...cms(edit, "hero.ctaLabel")}
             >
               <MessageCircle size={20} />
-              Cek Ongkir via WhatsApp
+              {content.ctaLabel}
             </WALink>
           </div>
 
           {/* Trust badges */}
-          <div className="flex flex-wrap gap-3 mb-8">
-            {badges.map((badge) => (
-              <div key={badge} className="flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-3 py-1.5">
-                <CheckCircle size={14} className="text-[#F5C518] shrink-0" />
-                <span className="text-white text-xs font-medium">{badge}</span>
-              </div>
-            ))}
-          </div>
+          {content.trustBadges.length > 0 && (
+            <div className="flex flex-wrap gap-3 mb-8">
+              {content.trustBadges.map((badge, i) => (
+                <div key={`${i}-${badge}`} className="flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-3 py-1.5" {...cms(edit, `hero.trustBadges.${i}`)}>
+                  <CheckCircle size={14} className="text-[#F5C518] shrink-0" />
+                  <span className="text-white text-xs font-medium">{badge}</span>
+                </div>
+              ))}
+            </div>
+          )}
 
           {/* Quick intent shortcuts */}
           <div className="flex items-center gap-1 flex-wrap pt-5 border-t border-white/15">

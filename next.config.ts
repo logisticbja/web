@@ -26,6 +26,22 @@ const nextConfig: NextConfig = {
     ],
   },
 
+  async headers() {
+    return [
+      {
+        source: "/preview/:path*",
+        headers: [
+          {
+            key: "Content-Security-Policy",
+            value: `frame-ancestors 'self' https://invoice.bjalogistic.id${process.env.NEXT_PUBLIC_CRM_ORIGIN ? ` ${process.env.NEXT_PUBLIC_CRM_ORIGIN}` : ""}`,
+          },
+          { key: "X-Robots-Tag", value: "noindex, nofollow" },
+          { key: "Cache-Control", value: "no-store" },
+        ],
+      },
+    ];
+  },
+
   async redirects() {
     return [
       // ─── SERVICE PAGES (URL lama → URL baru) ───
