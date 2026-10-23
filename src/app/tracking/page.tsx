@@ -4,6 +4,7 @@ import { Package, Loader2 } from "lucide-react";
 import type { Metadata } from "next";
 import { TrackingClient } from "@/components/TrackingClient";
 import { getPageHero } from "@/lib/pageHero";
+import { stripBrand } from "@/lib/seoTitle";
 
 const BASE_URL = "https://bjalogistic.id";
 const DEFAULT_TITLE = "Tracking Resi";
@@ -18,7 +19,7 @@ const DEFAULT_DESCRIPTION = "Cek status pengiriman Anda dengan nomor resi BJA Lo
 // masuk index Google (konten personal per-resi, gak ada nilai SEO).
 export async function generateMetadata(): Promise<Metadata> {
   const hero = await getPageHero("tracking");
-  const title = hero?.seoMetaTitle || DEFAULT_TITLE;
+  const title = stripBrand(hero?.seoMetaTitle) || DEFAULT_TITLE;
   const description = hero?.seoMetaDescription || DEFAULT_DESCRIPTION;
   const canonical = `${BASE_URL}/tracking`;
   const ogImage = hero?.seoOgImage || hero?.image || "/og-image.png";
