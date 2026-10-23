@@ -4,6 +4,7 @@ import { Calculator, Ship, Truck, Zap, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { CekOngkirForm } from "@/components/CekOngkirForm";
 import { getPageHero } from "@/lib/pageHero";
+import { stripBrand } from "@/lib/seoTitle";
 
 const BASE_URL = "https://bjalogistic.id";
 const DEFAULT_TITLE = "Cek Ongkir — Kalkulator Biaya Pengiriman";
@@ -16,7 +17,7 @@ const DEFAULT_DESCRIPTION = "Hitung estimasi ongkos kirim cargo ke Papua, Maluku
 // bukan punya halaman Cek Ongkir sendiri.
 export async function generateMetadata(): Promise<Metadata> {
   const hero = await getPageHero("cek-ongkir");
-  const title = hero?.seoMetaTitle || DEFAULT_TITLE;
+  const title = stripBrand(hero?.seoMetaTitle) || DEFAULT_TITLE;
   const description = hero?.seoMetaDescription || DEFAULT_DESCRIPTION;
   const canonical = `${BASE_URL}/cek-ongkir`;
   const ogImage = hero?.seoOgImage || hero?.image || "/og-image.png";
