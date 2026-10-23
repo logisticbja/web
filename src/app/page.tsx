@@ -12,7 +12,7 @@ import { FinalCTA } from "@/components/home/FinalCTA";
 import { FaqJsonLd } from "@/components/JsonLd";
 
 export const metadata: Metadata = {
-  title: "BJA Logistic — Ekspedisi Spesialis Papua & Indonesia Timur",
+  title: { absolute: "BJA Logistic — Ekspedisi Spesialis Papua & Indonesia Timur" },
   description:
     "BJA Logistic, spesialis ekspedisi Papua & Indonesia Timur (Maluku, NTT, Sulawesi). Mulai Rp 7.000/kg, door to door Jabodetabek, 10+ tahun pengalaman.",
   alternates: {
