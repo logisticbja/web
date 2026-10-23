@@ -1,4 +1,5 @@
 import { marked } from "marked";
+import { sanitizeArticleHtml } from "./articleHtml";
 
 export interface PostMeta {
   slug: string;
@@ -107,7 +108,7 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
 
     return {
       ...mapPost(row),
-      content:      await marked(row.content ?? "") as string,
+      content:      sanitizeArticleHtml(await marked(row.content ?? "")),
       metaTitle:    row.metaTitle       || undefined,
       metaDesc:     row.metaDescription || undefined,
       focusKeyword: row.focusKeyword    || undefined,

@@ -64,6 +64,18 @@ body {
   margin-bottom: 0.35rem;
 }
 
+.prose ol > li[data-list="bullet"] {
+  list-style-type: disc;
+}
+
+.prose ol > li[data-list="bullet"]::marker {
+  color: var(--tw-prose-bullets);
+}
+
+.prose .ql-ui {
+  display: none;
+}
+
 .prose table {
   font-size: 0.9rem;
   border-collapse: collapse;
