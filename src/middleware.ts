@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { resolveLegacyCityPath } from "@/lib/legacyCityRedirect";
 
 // Known top-level routes — skip middleware for these
 const STATIC_ROUTES = new Set([
@@ -25,6 +26,13 @@ const KNOWN_PREFIXES = [
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  const legacyCityTarget = resolveLegacyCityPath(pathname);
+  if (legacyCityTarget && legacyCityTarget !== pathname) {
+    const redirectUrl = new URL(legacyCityTarget, request.url);
+    redirectUrl.search = request.nextUrl.search;
+    return NextResponse.redirect(redirectUrl, 301);
+  }
 
   // Skip root and known routes
   if (pathname === "/" || STATIC_ROUTES.has(pathname)) return NextResponse.next();

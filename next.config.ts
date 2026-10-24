@@ -44,6 +44,13 @@ const nextConfig: NextConfig = {
 
   async redirects() {
     return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.bjalogistic.id" }],
+        destination: "https://bjalogistic.id/:path*",
+        statusCode: 301,
+      },
+
       // ─── SERVICE PAGES (URL lama → URL baru) ───
       { source: "/cek-ongkir-cargo-darat", destination: "/layanan/cargo-darat", permanent: true },
       { source: "/ekspedisi-cargo-laut-dengan-kapal-cepat-roro-pelni", destination: "/layanan/cargo-laut", permanent: true },
