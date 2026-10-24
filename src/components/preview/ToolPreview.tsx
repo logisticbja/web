@@ -10,6 +10,9 @@ import type { ShipSchedule } from "@/lib/schedule";
 import { TujuanView } from "@/components/tools/TujuanView";
 import { mergeTujuan, type TujuanContent } from "@/lib/sitePages/tujuan";
 import { getRegionConfig, type RegionSlug } from "@/lib/data/regions";
+import { BlogIndexView } from "@/components/tools/BlogIndexView";
+import { mergeBlogIndex, type BlogIndexContent } from "@/lib/sitePages/blogIndex";
+import type { PostMeta } from "@/lib/blog";
 import { PreviewStyles, usePreviewBridge } from "./usePreviewBridge";
 
 function useSitePreview<T>(page: string, live: T, defaults: T, merge: (b: T, raw: unknown) => T): T {
@@ -56,6 +59,16 @@ export function TujuanPreview({ region, live, defaults, schedules }: { region: R
     <>
       <PreviewStyles />
       <TujuanView config={config} content={content} schedules={schedules} edit />
+    </>
+  );
+}
+
+export function BlogIndexPreview({ live, defaults, posts }: { live: BlogIndexContent; defaults: BlogIndexContent; posts: PostMeta[] }) {
+  const content = useSitePreview("blog", live, defaults, mergeBlogIndex);
+  return (
+    <>
+      <PreviewStyles />
+      <BlogIndexView content={content} posts={posts} edit />
     </>
   );
 }

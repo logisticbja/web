@@ -6,6 +6,7 @@ import { mergeTracking, trackingDefaults, type TrackingContent } from "./trackin
 import { applyLegacyCargo, mergeTujuan, tujuanBase, type LegacyCargoHero, type TujuanContent } from "./tujuan";
 import { getCargoHeroImage } from "@/lib/cargoHero";
 import type { RegionConfig } from "@/lib/data/regions";
+import { BLOG_INDEX_DEFAULTS, mergeBlogIndex, type BlogIndexContent } from "./blogIndex";
 
 const CRM_BASE_URL = process.env.CRM_API_URL ?? "https://invoice.bjalogistic.id";
 const CRM_API_KEY = process.env.CRM_PUBLIC_API_KEY ?? "";
@@ -44,4 +45,9 @@ export async function loadTujuan(config: RegionConfig): Promise<{ live: TujuanCo
   const [legacy, published] = await Promise.all([getCargoHeroImage(config.slug), getPublished(`tujuan-${config.slug}`)]);
   const base = applyLegacyCargo(tujuanBase(config), legacy as LegacyCargoHero | null);
   return { live: mergeTujuan(base, published), defaults: base };
+}
+
+export async function loadBlogIndex(): Promise<{ live: BlogIndexContent; defaults: BlogIndexContent }> {
+  const published = await getPublished("blog");
+  return { live: mergeBlogIndex(BLOG_INDEX_DEFAULTS, published), defaults: BLOG_INDEX_DEFAULTS };
 }

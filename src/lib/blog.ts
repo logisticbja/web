@@ -1,5 +1,6 @@
 import { marked } from "marked";
 import { sanitizeArticleHtml } from "./articleHtml";
+export { formatDate } from "./blogDate";
 
 export interface PostMeta {
   slug: string;
@@ -134,11 +135,3 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
   }
 }
 
-export function formatDate(dateStr: string): string {
-  if (!dateStr) return "";
-  return new Date(dateStr).toLocaleDateString("id-ID", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
-}
