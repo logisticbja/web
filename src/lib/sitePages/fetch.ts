@@ -8,6 +8,7 @@ import { getCargoHeroImage } from "@/lib/cargoHero";
 import type { RegionConfig } from "@/lib/data/regions";
 import { BLOG_INDEX_DEFAULTS, mergeBlogIndex, type BlogIndexContent } from "./blogIndex";
 import { LAYANAN_DEFAULTS, mergeLayanan, type LayananContent } from "./layanan";
+import { KOTA_TEMPLATE_DEFAULTS, mergeKotaTemplate, type KotaTemplate } from "./kotaTemplate";
 
 const CRM_BASE_URL = process.env.CRM_API_URL ?? "https://invoice.bjalogistic.id";
 const CRM_API_KEY = process.env.CRM_PUBLIC_API_KEY ?? "";
@@ -56,4 +57,9 @@ export async function loadBlogIndex(): Promise<{ live: BlogIndexContent; default
 export async function loadLayanan(): Promise<{ live: LayananContent; defaults: LayananContent }> {
   const published = await getPublished("layanan");
   return { live: mergeLayanan(LAYANAN_DEFAULTS, published), defaults: LAYANAN_DEFAULTS };
+}
+
+export async function loadKotaTemplate(): Promise<{ live: KotaTemplate; defaults: KotaTemplate }> {
+  const published = await getPublished("kota-template");
+  return { live: mergeKotaTemplate(KOTA_TEMPLATE_DEFAULTS, published), defaults: KOTA_TEMPLATE_DEFAULTS };
 }

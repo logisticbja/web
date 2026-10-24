@@ -1,8 +1,9 @@
-import { MessageCircle, Package, Ship, MapPin, Zap } from "lucide-react";
+import { Ship, Zap } from "lucide-react";
 import { destinationCities, calculatePrice, cityLautPricing } from "@/lib/data/pricing";
 import { getCitiesByRegion } from "@/lib/data/regions";
 import type { OngkirRegion } from "@/lib/data/ongkir";
 import type { CityPageData } from "@/lib/cityPages";
+import { KOTA_TEMPLATE_DEFAULTS, fillTemplate, type KotaTemplate, type KotaVars } from "@/lib/sitePages/kotaTemplate";
 
 export const ONGKIR_REGIONS = new Set(["papua", "maluku", "ntt", "sulawesi"]);
 
@@ -154,77 +155,11 @@ export function buildAutomaticCitySeo(
 
 
 export const serviceInfo = [
-  {
-    type: "reguler" as const,
-    label: "Cargo Reguler",
-    icon: Ship,
-    color: "bg-blue-50 border-blue-200",
-    iconColor: "text-blue-600",
-    highlights: [
-      "Menggunakan kapal cargo",
-      "Lebih ekonomis untuk pengiriman non-urgent",
-      "Cocok untuk barang besar, berat, dan pengiriman rutin",
-      "Tracking pengiriman tersedia",
-    ],
-  },
-  {
-    type: "express" as const,
-    label: "Cargo Express",
-    icon: Zap,
-    color: "bg-purple-50 border-purple-200",
-    iconColor: "text-purple-600",
-    highlights: [
-      "Menggunakan kapal PELNI",
-      "Lebih cepat sampai dibanding layanan Reguler",
-      "Cocok untuk barang besar, berat, dan kebutuhan urgent",
-      "Tracking pengiriman tersedia",
-    ],
-  },
+  { type: "reguler" as const, icon: Ship, color: "bg-blue-50 border-blue-200", iconColor: "text-blue-600" },
+  { type: "express" as const, icon: Zap, color: "bg-purple-50 border-purple-200", iconColor: "text-purple-600" },
 ];
 
-export const corporateClients = [
-  { src: "/client/indomaret.webp", alt: "Indomaret" },
-  { src: "/client/bni.webp", alt: "BNI" },
-  { src: "/client/united-tractor.webp", alt: "United Tractors" },
-  { src: "/client/pln.webp", alt: "PLN" },
-  { src: "/client/cap.webp", alt: "Chandra Asri" },
-  { src: "/client/synnex.webp", alt: "Synnex Metrodata" },
-  { src: "/client/madesa.webp", alt: "Madesa" },
-  { src: "/client/sonton.webp", alt: "Sonton" },
-  { src: "/client/sigs.webp", alt: "SIGS" },
-  { src: "/client/aksara.webp", alt: "Aksara Grafika" },
-];
-
-export const orderSteps = [
-  { icon: MessageCircle, title: "Chat via WhatsApp", desc: "Konsultasi & cek ongkir gratis, respon cepat tim kami." },
-  { icon: Package, title: "Konfirmasi & Jemput Barang", desc: "Tim jemput langsung dari lokasi Anda di Jabodetabek & Surabaya." },
-  { icon: Ship, title: "Proses & Pengiriman", desc: "Barang ditimbang, dikemas, dan dikirim sesuai jadwal kapal." },
-  { icon: MapPin, title: "Tracking & Sampai Tujuan", desc: "Pantau status real-time hingga barang sampai." },
-];
-
-export const genericTestimonials = [
-  {
-    initial: "B",
-    name: "Budi Santoso",
-    role: "Owner Toko Material, Jayapura",
-    quote: "Sudah 3 tahun pakai BJA untuk kirim material bangunan dari Surabaya ke Jayapura. Harganya paling murah dibanding yang lain, dan barang selalu dateng tepat waktu. Pelayanan CS juga responsif banget!",
-  },
-  {
-    initial: "D",
-    name: "Dewi Rahayu",
-    role: "Distributor FMCG, Sorong",
-    quote: "Kirim 2-3 ton barang tiap bulan via cargo laut BJA. Trackingnya real-time, jadi saya bisa kasih info akurat ke customer saya di Sorong. Highly recommended untuk bisnis yang butuh logistik ke Papua!",
-  },
-  {
-    initial: "H",
-    name: "Hendra Wijaya",
-    role: "Pengusaha, Jakarta",
-    quote: "Awalnya ragu kirim mesin industri ke Timika, tapi BJA meyakinkan dengan solusi packing kayu dan asuransi. Alhamdulillah semua aman sampai tujuan. Proses koordinasinya juga mudah via WhatsApp.",
-  },
-];
-
-
-export function buildCityView(resolvedDestinationValue: string, apiData: CityPageData | null) {
+export function buildCityView(resolvedDestinationValue: string, apiData: CityPageData | null, tpl: KotaTemplate = KOTA_TEMPLATE_DEFAULTS) {
   const city = destinationCities.find((c) => c.value === resolvedDestinationValue);
   const cityLabel = apiData?.city ?? city?.label ?? "";
   const region = apiData?.region ?? city?.region ?? "";
@@ -255,34 +190,22 @@ export function buildCityView(resolvedDestinationValue: string, apiData: CityPag
       ? `Express ${cp.expressEtaMin}–${cp.expressEtaMax} hari`
       : "Express tidak tersedia",
   ];
-  const hardcodedFaqs = [
-    {
-      q: `Berapa ongkir ke ${cityLabel}?`,
-      a: `Ongkir ke ${cityLabel}: ${priceFaqParts.join(", ")} (min. ${cp.minWeightKg} kg). Harga final tergantung berat aktual dan dimensi barang.`,
-    },
-    {
-      q: `Berapa lama pengiriman ke ${cityLabel}?`,
-      a: `Estimasi waktu pengiriman ke ${cityLabel}: ${etaFaqParts.join(", ")}. Estimasi dihitung sejak kapal berangkat dari pelabuhan asal dan dapat berubah tergantung jadwal kapal, cuaca, operasional pelabuhan, serta kondisi perjalanan.`,
-    },
-    {
-      q: `Apakah tersedia layanan door to door ke ${cityLabel}?`,
-      a: `Ya, kami menyediakan layanan jemput barang langsung dari lokasi Anda di Jabodetabek dan Surabaya. Untuk pengantaran ke ${cityLabel}, tersedia untuk area tertentu — hubungi CS kami untuk konfirmasi.`,
-    },
-    {
-      q: `Apa saja barang yang bisa dikirim ke ${cityLabel}?`,
-      a: `Hampir semua jenis barang: sembako, elektronik, material bangunan, perabotan, mesin industri, alat pertanian, pakaian, dan barang dagangan umum. Untuk barang khusus (B3, senjata, dll), hubungi kami terlebih dahulu.`,
-    },
-    {
-      q: `Apakah ada asuransi pengiriman ke ${cityLabel}?`,
-      a: `Ya, asuransi pengiriman tersedia untuk semua layanan. Biaya asuransi dihitung dari nilai barang yang diasuransikan. Sangat direkomendasikan untuk barang elektronik, mesin, dan barang bernilai tinggi.`,
-    },
-  ];
+  const vars: KotaVars = {
+    kota: cityLabel,
+    wilayah: region,
+    harga: `Rp ${primaryPrice.toLocaleString("id-ID")}`,
+    minkg: String(cp.minWeightKg),
+    ongkir: priceFaqParts.join(", "),
+    estimasi: etaFaqParts.join(", "),
+  };
+  const t = (text: string, extra?: KotaVars) => fillTemplate(text, extra ? { ...vars, ...extra } : vars);
+  const templateFaqs = tpl.faq.items.map((f) => ({ q: t(f.q), a: t(f.a) })).filter((f) => f.q.trim() !== "");
 
   const faqs = apiData?.faqs && apiData.faqs.length > 0
     ? apiData.faqs.map((f) => ({ q: f.question, a: f.answer }))
-    : hardcodedFaqs;
+    : templateFaqs;
 
-  return { city, cityLabel, region, relatedCities, cityGroups, validCityValues, lautPrice, cp, primaryPrice, faqs };
+  return { city, cityLabel, region, relatedCities, cityGroups, validCityValues, lautPrice, cp, primaryPrice, faqs, tpl, vars, t };
 }
 
 export type CityView = ReturnType<typeof buildCityView>;
