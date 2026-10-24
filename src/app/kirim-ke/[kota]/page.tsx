@@ -5,6 +5,7 @@ import { BreadcrumbJsonLd } from "@/components/JsonLd";
 import { getCityPage } from "@/lib/cityPages";
 import { buildAutomaticCitySeo, buildCityView, fromSlug, getEffectiveCityPricing, toSlug } from "@/lib/cityPage";
 import { CityPageView } from "@/components/tools/CityPageView";
+import { loadKotaTemplate } from "@/lib/sitePages/fetch";
 
 export const revalidate = 86400;
 
@@ -100,16 +101,16 @@ export default async function KirimKePage({ params }: Props) {
   const city = destinationCities.find(
     (c) => c.value === resolvedDestinationValue
   );
-  const apiData = await getCityPage(toSlug(resolvedDestinationValue));
+  const [apiData, { live: tpl }] = await Promise.all([getCityPage(toSlug(resolvedDestinationValue)), loadKotaTemplate()]);
   if (!city && !apiData) notFound();
 
-  const view = buildCityView(resolvedDestinationValue, apiData);
+  const view = buildCityView(resolvedDestinationValue, apiData, tpl);
 
   return (
     <>
       <BreadcrumbJsonLd items={[
         { name: "Beranda", url: "https://bjalogistic.id" },
-                { name: "Cargo", url: "https://bjalogistic.id/cargo" },
+        { name: "Cargo", url: "https://bjalogistic.id/cargo" },
         {
           name: view.cityLabel,
           url: `https://bjalogistic.id/kirim-ke/${toSlug(resolvedDestinationValue)}`,
