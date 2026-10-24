@@ -3,6 +3,9 @@ import type { LegacyHero } from "./core";
 import { cekOngkirDefaults, mergeCekOngkir, type CekOngkirContent } from "./cekOngkir";
 import { jadwalKapalDefaults, mergeJadwalKapal, type JadwalKapalContent } from "./jadwalKapal";
 import { mergeTracking, trackingDefaults, type TrackingContent } from "./tracking";
+import { applyLegacyCargo, mergeTujuan, tujuanBase, type LegacyCargoHero, type TujuanContent } from "./tujuan";
+import { getCargoHeroImage } from "@/lib/cargoHero";
+import type { RegionConfig } from "@/lib/data/regions";
 
 const CRM_BASE_URL = process.env.CRM_API_URL ?? "https://invoice.bjalogistic.id";
 const CRM_API_KEY = process.env.CRM_PUBLIC_API_KEY ?? "";
@@ -36,3 +39,9 @@ export const loadJadwalKapal = (): Promise<{ live: JadwalKapalContent; defaults:
 
 export const loadTracking = (): Promise<{ live: TrackingContent; defaults: TrackingContent }> =>
   load("tracking", trackingDefaults, mergeTracking);
+
+export async function loadTujuan(config: RegionConfig): Promise<{ live: TujuanContent; defaults: TujuanContent }> {
+  const [legacy, published] = await Promise.all([getCargoHeroImage(config.slug), getPublished(`tujuan-${config.slug}`)]);
+  const base = applyLegacyCargo(tujuanBase(config), legacy as LegacyCargoHero | null);
+  return { live: mergeTujuan(base, published), defaults: base };
+}
