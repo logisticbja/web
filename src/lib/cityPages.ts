@@ -14,6 +14,12 @@ export interface CityPageFaq {
   answer: string;
 }
 
+export interface CityPagePopupInfo {
+  enabled: boolean;
+  minKg: number;
+  restrictedItems: string[];
+}
+
 export interface CityPageData {
   city: string;
   slug: string;
@@ -39,11 +45,11 @@ export interface CityPageData {
   faqs?: CityPageFaq[];
   focusKeyword?: string;
   ogImage?: string;
+  belowBannerContent?: string;
+  servedCities?: string[];
+  popupInfo?: CityPagePopupInfo;
 }
 
-// GET /public-city-pages.php?slug=<slug>
-// CMS adalah sumber utama data halaman kota. Revalidate dibuat singkat supaya
-// perubahan tarif/ETA/SEO di CMS cepat ikut tampil tanpa deploy GitHub.
 export async function getCityPage(slug: string): Promise<CityPageData | null> {
   try {
     const url = new URL(process.env.CITY_PAGES_API_URL!);
@@ -51,7 +57,7 @@ export async function getCityPage(slug: string): Promise<CityPageData | null> {
 
     const res = await fetch(url.toString(), {
       headers: { "X-API-Key": process.env.TRACKING_API_KEY ?? "" },
-      next: { revalidate: 60, tags: ["cms-content"] },
+      next: { revalidate: 3600, tags: ["cms-content"] },
     });
 
     const json = await res.json();
@@ -63,14 +69,13 @@ export async function getCityPage(slug: string): Promise<CityPageData | null> {
   }
 }
 
-// GET /public-city-pages.php (tanpa slug) — daftar semua kota published.
 export async function getAllCityPages(): Promise<CityPageData[]> {
   try {
     const url = new URL(process.env.CITY_PAGES_API_URL!);
 
     const res = await fetch(url.toString(), {
       headers: { "X-API-Key": process.env.TRACKING_API_KEY ?? "" },
-      next: { revalidate: 60, tags: ["cms-content"] },
+      next: { revalidate: 3600, tags: ["cms-content"] },
     });
 
     const json = await res.json();

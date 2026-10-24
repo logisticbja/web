@@ -11,7 +11,7 @@ function safeHrefAttr(attrs: string): { href: string; external: boolean } | null
   return { href, external: /^https?:\/\//i.test(raw) && !OWN_SITE.test(raw) };
 }
 
-export function sanitizeRichText(input: unknown): string {
+function sanitize(input: unknown, allowed: Set<string>, keepListType: boolean): string {
   if (typeof input !== "string" || input.trim() === "") return "";
   const s = input
     .slice(0, 20000)
@@ -21,8 +21,9 @@ export function sanitizeRichText(input: unknown): string {
 
   return s.replace(/<\/?([a-zA-Z][a-zA-Z0-9]*)\b([^>]*)>|<|>/g, (match, tag: string | undefined, attrs: string | undefined) => {
     if (!tag) return match === "<" ? "&lt;" : "&gt;";
-    const t = tag.toLowerCase();
-    if (!ALLOWED_TAGS.has(t)) return "";
+    const lower = tag.toLowerCase();
+    const t = keepListType && lower === "h1" ? "h2" : lower;
+    if (!allowed.has(t)) return "";
     const closing = match.startsWith("</");
     if (t === "br") return closing ? "" : "<br>";
     if (closing) return `</${t}>`;
@@ -33,6 +34,21 @@ export function sanitizeRichText(input: unknown): string {
         ? `<a href="${link.href}" target="_blank" rel="nofollow noopener noreferrer">`
         : `<a href="${link.href}">`;
     }
+    if (t === "li" && keepListType) {
+      const m = /\bdata-list\s*=\s*["']?(bullet|ordered)/i.exec(attrs ?? "");
+      if (m) return `<li data-list="${m[1].toLowerCase()}">`;
+    }
     return `<${t}>`;
   });
+}
+
+export function sanitizeRichText(input: unknown): string {
+  return sanitize(input, ALLOWED_TAGS, false);
+}
+
+const CITY_TAGS = new Set([...ALLOWED_TAGS, "h2", "h3", "h4", "blockquote", "s", "table", "thead", "tbody", "tr", "th", "td"]);
+
+export function sanitizeCityHtml(input: unknown): string {
+  const html = sanitize(input, CITY_TAGS, true);
+  return html.replace(/<(p|h2|h3|h4)>\s*(<br>)?\s*<\/\1>/g, "").trim();
 }
