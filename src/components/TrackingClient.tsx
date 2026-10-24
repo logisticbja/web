@@ -19,6 +19,9 @@ import {
 import { buildTrackingMessage } from "@/lib/whatsapp";
 import { WALink } from "@/components/ui/WALink";
 import type { TrackingData } from "@/lib/sheets";
+import type { TrackingContent, TrackingSection } from "@/lib/sitePages/tracking";
+import { cms } from "@/components/home/cms";
+import { InfoCards, Sec } from "@/components/tools/ToolHero";
 
 // ─── Status definitions ───────────────────────────────────────────────────────
 
@@ -77,7 +80,7 @@ type State =
   | { kind: "not_found"; resi: string }
   | { kind: "error" };
 
-export function TrackingClient() {
+export function TrackingClient({ content, edit }: { content: TrackingContent; edit?: boolean }) {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -147,16 +150,17 @@ export function TrackingClient() {
     doFetch(q);
   }
 
-  return (
-    <div className="max-w-3xl mx-auto px-4 py-12">
+  const blocks: Record<Exclude<TrackingSection, "hero">, React.ReactNode> = {
+    search: (
+      <>
 
       {/* ═════════════════════════════════════════════════════════════════════
           SEARCH BOX
       ═════════════════════════════════════════════════════════════════════ */}
 
       <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8 mb-6">
-        <label className="block text-sm font-bold text-gray-700 mb-2">
-          Nomor Resi
+        <label className="block text-sm font-bold text-gray-700 mb-2" {...cms(edit, "search.label")}>
+          {content.search.label}
         </label>
 
         <form onSubmit={handleSubmit} className="flex gap-3">
@@ -173,7 +177,8 @@ export function TrackingClient() {
                 setResi(e.target.value);
                 setState({ kind: "idle" });
               }}
-              placeholder="Masukkan nomor resi — contoh: BJA-2024-001"
+              placeholder={content.search.placeholder}
+              {...cms(edit, "search.placeholder")}
               className="
                 w-full
                 pl-9
@@ -219,7 +224,7 @@ export function TrackingClient() {
               <Search size={16} />
             )}
 
-            Cek
+            {edit ? <span data-cms="search.buttonLabel">{content.search.buttonLabel}</span> : content.search.buttonLabel}
           </button>
         </form>
       </div>
@@ -848,84 +853,25 @@ export function TrackingClient() {
 
         </div>
       )}
-
-      {/* ═════════════════════════════════════════════════════════════════════
-          INFO CARDS
-      ═════════════════════════════════════════════════════════════════════ */}
-
-      <div className="
-        grid
-        grid-cols-1
-        sm:grid-cols-3
-        gap-4
-      ">
-
-        {[
-          {
-            icon: MessageCircle,
-            title: "WhatsApp",
-            desc: "Chat langsung dengan CS kami untuk info status real-time",
-          },
-          {
-            icon: Package,
-            title: "Nomor Resi",
-            desc: "Diberikan setelah barang diterima di gudang kami",
-          },
-          {
-            icon: Clock,
-            title: "Update Status",
-            desc: "Kami update status setiap ada perubahan posisi paket",
-          },
-        ].map((item) => (
-
-          <div
-            key={item.title}
-            className="
-              bg-white
-              rounded-xl
-              p-5
-              border
-              border-gray-100
-              flex
-              gap-3
-            "
-          >
-
-            <item.icon
-              size={20}
-              className="
-                text-[#CC1F2A]
-                shrink-0
-                mt-0.5
-              "
-            />
-
-            <div>
-
-              <p className="
-                font-bold
-                text-[#111111]
-                text-sm
-              ">
-                {item.title}
-              </p>
-
-              <p className="
-                text-xs
-                text-gray-500
-                mt-0.5
-              ">
-                {item.desc}
-              </p>
-
-            </div>
-
-          </div>
-
-        ))}
-
+      </>
+    ),
+    infoCards: content.infoCards.items.length > 0 && (
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <InfoCards items={content.infoCards.items} path="infoCards.items" edit={edit} />
       </div>
+    ),
+  };
 
+  return (
+    <div className="max-w-3xl mx-auto px-4 py-12">
+      {content.order
+        .filter((k): k is Exclude<TrackingSection, "hero"> => k !== "hero" && !content.hidden.includes(k))
+        .map((k) => (
+          <Sec key={k} edit={edit} id={k}>
+            {blocks[k]}
+          </Sec>
+        ))}
     </div>
   );
 }
+
