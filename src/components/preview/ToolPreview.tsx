@@ -7,6 +7,9 @@ import { mergeCekOngkir, type CekOngkirContent } from "@/lib/sitePages/cekOngkir
 import { mergeJadwalKapal, type JadwalKapalContent } from "@/lib/sitePages/jadwalKapal";
 import { mergeTracking, type TrackingContent } from "@/lib/sitePages/tracking";
 import type { ShipSchedule } from "@/lib/schedule";
+import { TujuanView } from "@/components/tools/TujuanView";
+import { mergeTujuan, type TujuanContent } from "@/lib/sitePages/tujuan";
+import { getRegionConfig, type RegionSlug } from "@/lib/data/regions";
 import { PreviewStyles, usePreviewBridge } from "./usePreviewBridge";
 
 function useSitePreview<T>(page: string, live: T, defaults: T, merge: (b: T, raw: unknown) => T): T {
@@ -41,6 +44,18 @@ export function TrackingPreview({ live, defaults }: { live: TrackingContent; def
     <>
       <PreviewStyles />
       <TrackingView content={content} edit />
+    </>
+  );
+}
+
+export function TujuanPreview({ region, live, defaults, schedules }: { region: RegionSlug; live: TujuanContent; defaults: TujuanContent; schedules: ShipSchedule[] }) {
+  const content = useSitePreview(`tujuan-${region}`, live, defaults, mergeTujuan);
+  const config = getRegionConfig(region);
+  if (!config) return null;
+  return (
+    <>
+      <PreviewStyles />
+      <TujuanView config={config} content={content} schedules={schedules} edit />
     </>
   );
 }
