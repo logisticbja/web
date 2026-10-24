@@ -13,6 +13,8 @@ import { getRegionConfig, type RegionSlug } from "@/lib/data/regions";
 import { BlogIndexView } from "@/components/tools/BlogIndexView";
 import { mergeBlogIndex, type BlogIndexContent } from "@/lib/sitePages/blogIndex";
 import type { PostMeta } from "@/lib/blog";
+import { LayananView } from "@/components/tools/LayananView";
+import { mergeLayanan, type LayananContent } from "@/lib/sitePages/layanan";
 import { PreviewStyles, usePreviewBridge } from "./usePreviewBridge";
 
 function useSitePreview<T>(page: string, live: T, defaults: T, merge: (b: T, raw: unknown) => T): T {
@@ -69,6 +71,16 @@ export function BlogIndexPreview({ live, defaults, posts }: { live: BlogIndexCon
     <>
       <PreviewStyles />
       <BlogIndexView content={content} posts={posts} edit />
+    </>
+  );
+}
+
+export function LayananPreview({ live, defaults }: { live: LayananContent; defaults: LayananContent }) {
+  const content = useSitePreview("layanan", live, defaults, mergeLayanan);
+  return (
+    <>
+      <PreviewStyles />
+      <LayananView content={content} edit />
     </>
   );
 }
