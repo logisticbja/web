@@ -1,11 +1,6 @@
 import { notFound } from "next/navigation";
-import Link from "next/link";
-import Image from "next/image";
-import { MessageCircle, Clock, User, ArrowLeft, Tag } from "lucide-react";
-import BlogCoverImage from "../BlogCoverImage";
-import { getPostBySlug, formatDate } from "@/lib/blog";
-import { buildGeneralMessage } from "@/lib/whatsapp";
-import { WALink } from "@/components/ui/WALink";
+import { getPostBySlug } from "@/lib/blog";
+import { BlogPostView } from "@/components/blog/BlogPostView";
 import {
   ArticleJsonLd,
   ArticleFaqJsonLd,
@@ -69,12 +64,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-function estimateReadTime(htmlContent: string): number {
-  const text = htmlContent.replace(/<[^>]*>/g, "");
-  const words = text.trim().split(/\s+/).length;
-  return Math.max(1, Math.ceil(words / 200));
-}
-
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
   const post = await getPostBySlug(slug);
@@ -83,7 +72,6 @@ export default async function BlogPostPage({ params }: Props) {
 
   const canonical  = `${BASE_URL}/blog/${slug}`;
   const ogImage    = post.ogImage ?? post.cover ?? "/og-image.png";
-  const readTime   = estimateReadTime(post.content);
   const allKeywords = [
     ...(post.focusKeyword ? [post.focusKeyword] : []),
     ...(post.tags ?? []),
@@ -133,211 +121,7 @@ export default async function BlogPostPage({ params }: Props) {
         ]}
       />
 
-      <div className="min-h-screen bg-[#F8FAFC]">
-        {/* Header — bersih, tanpa gambar jadi background/hero. Gambar cover
-            turun ke bawah, muncul sebagai gambar biasa sebelum isi artikel
-            (pola sama seperti referensi troben.id/blog). */}
-        <div className="bg-white border-b border-gray-100">
-          <div className="max-w-3xl mx-auto px-4 pt-8 pb-7">
-            <nav aria-label="Breadcrumb" className="mb-4">
-              <ol className="flex items-center flex-wrap gap-1.5 text-xs text-gray-400">
-                <li><Link href="/" className="hover:text-[#CC1F2A] transition-colors">Beranda</Link></li>
-                <li>»</li>
-                <li><Link href="/blog" className="hover:text-[#CC1F2A] transition-colors">Blog</Link></li>
-                <li>»</li>
-                <li className="text-gray-500">{post.category}</li>
-              </ol>
-            </nav>
-
-            <span className="inline-block bg-[#CC1F2A]/10 text-[#CC1F2A] text-xs font-bold px-3 py-1 rounded-full mb-4">
-              {post.category}
-            </span>
-
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#111111] leading-snug mb-5">
-              {post.title}
-            </h1>
-
-            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-gray-500 text-sm">
-              {post.authorProfile?.avatar ? (
-                <span className="flex items-center gap-2">
-                  <span className="relative w-6 h-6 rounded-full overflow-hidden shrink-0 bg-gray-100">
-                    <Image src={post.authorProfile.avatar} alt={post.author} fill className="object-cover" sizes="24px" />
-                  </span>
-                  Oleh: {post.author}
-                </span>
-              ) : (
-                <span className="flex items-center gap-1.5">
-                  <User size={13} />
-                  {post.author}
-                </span>
-              )}
-              <span className="text-gray-300">·</span>
-              <time dateTime={post.date}>{formatDate(post.date)}</time>
-              <span className="text-gray-300">·</span>
-              <span className="flex items-center gap-1.5">
-                <Clock size={13} />
-                {readTime} menit baca
-              </span>
-            </div>
-          </div>
-        </div>
-
-        {/* Gambar cover — sekarang gambar biasa, bukan background hero */}
-        {post.cover && (
-  <div className="mx-auto px-4 pt-8">
-    <div className="relative w-full max-w-[738px] h-auto aspect-[738/416] mx-auto rounded-2xl overflow-hidden shadow-sm bg-gray-100">
-      <BlogCoverImage
-        src={post.cover}
-        alt={post.coverAlt ?? post.title}
-        category={post.category}
-        priority
-        fit="contain"
-      />
-    </div>
-  </div>
-)}
-        <div className="max-w-3xl mx-auto px-4 py-10">
-          {/* Excerpt / intro callout */}
-          {post.excerpt && (
-            <div className="bg-white border-l-4 border-[#CC1F2A] rounded-r-xl px-6 py-4 mb-8 shadow-sm">
-              <p className="text-gray-600 text-sm sm:text-base leading-relaxed italic">{post.excerpt}</p>
-            </div>
-          )}
-
-          {/* Article content */}
-          <article
-            className="bg-white rounded-2xl p-7 sm:p-10 shadow-sm border border-gray-100 prose prose-gray max-w-none"
-            dangerouslySetInnerHTML={{ __html: post.content }}
-          />
-
-          {/* HowTo — daftar langkah, cuma tampil kalau Schema Type = HowTo dan diisi */}
-          {post.schemaType === "HowTo" && post.howToSteps.length > 0 && (
-            <div className="mt-6 bg-white rounded-2xl p-7 sm:p-9 shadow-sm border border-gray-100">
-              <h2 className="text-lg sm:text-xl font-black text-[#111111] mb-5">Langkah-Langkah</h2>
-              <ol className="space-y-5">
-                {post.howToSteps.map((step, i) => (
-                  <li key={i} className="flex gap-4">
-                    <span className="shrink-0 w-8 h-8 rounded-full bg-[#CC1F2A] text-white font-black text-sm flex items-center justify-center">
-                      {i + 1}
-                    </span>
-                    <div>
-                      <p className="font-bold text-[#111111] mb-1">{step.title}</p>
-                      <p className="text-gray-600 text-sm leading-relaxed">{step.desc}</p>
-                    </div>
-                  </li>
-                ))}
-              </ol>
-            </div>
-          )}
-
-          {/* FAQ — blurb + daftar tanya-jawab, cuma tampil kalau Schema Type = FAQ dan diisi */}
-          {post.schemaType === "FAQPage" && post.faqItems.length > 0 && (
-            <div className="mt-6 bg-white rounded-2xl p-7 sm:p-9 shadow-sm border border-gray-100">
-              <h2 className="text-lg sm:text-xl font-black text-[#111111] mb-3">Pertanyaan Umum</h2>
-              {post.faqBlurb && (
-                <p className="text-gray-500 text-sm leading-relaxed mb-5">{post.faqBlurb}</p>
-              )}
-              <div className="space-y-3">
-                {post.faqItems.map((item, i) => (
-                  <details key={i} className="group border border-gray-100 rounded-xl overflow-hidden">
-                    <summary className="flex items-center justify-between px-5 py-3.5 cursor-pointer font-bold text-[#111111] text-sm list-none hover:bg-gray-50 transition-colors">
-                      {item.question}
-                      <span className="ml-4 shrink-0 text-gray-400 group-open:rotate-180 transition-transform duration-200">▼</span>
-                    </summary>
-                    <div className="px-5 pb-4 pt-1 text-gray-600 text-sm leading-relaxed border-t border-gray-100">
-                      {item.answer}
-                    </div>
-                  </details>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Tags */}
-          {post.tags && post.tags.length > 0 && (
-            <div className="mt-6 flex flex-wrap items-center gap-2">
-              <Tag size={14} className="text-gray-400" />
-              {post.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="bg-gray-100 text-gray-600 text-xs font-medium px-3 py-1 rounded-full"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          )}
-
-          {/* Kotak bio penulis — cuma muncul kalau nama penulis artikel ini
-              cocok dengan salah satu nama di CRM menu "Penulis". Kalau
-              belum didaftarkan/gak cocok, blok ini otomatis gak dirender
-              (bukan error, bukan kotak kosong). */}
-          {post.authorProfile && (
-            <div className="mt-6 bg-white rounded-2xl p-6 sm:p-7 shadow-sm border border-gray-100">
-              <div className="flex items-start gap-4">
-                {post.authorProfile.avatar ? (
-                  <div className="relative w-14 h-14 rounded-full overflow-hidden shrink-0 bg-gray-100">
-                    <Image src={post.authorProfile.avatar} alt={post.authorProfile.name} fill className="object-cover" sizes="56px" />
-                  </div>
-                ) : (
-                  <div className="w-14 h-14 rounded-full bg-[#CC1F2A]/10 flex items-center justify-center shrink-0">
-                    <User size={22} className="text-[#CC1F2A]" />
-                  </div>
-                )}
-                <div className="min-w-0">
-                  <p className="text-xs text-gray-400 mb-0.5">Ditulis oleh</p>
-                  <p className="font-black text-[#111111]">{post.authorProfile.name}</p>
-                  {post.authorProfile.role && (
-                    <p className="text-sm text-gray-500 mb-2">{post.authorProfile.role}</p>
-                  )}
-                  {post.authorProfile.bio && (
-                    <p className="text-sm text-gray-600 leading-relaxed mt-1.5">{post.authorProfile.bio}</p>
-                  )}
-                  {post.authorProfile.linkedin && (
-                    <a
-                      href={post.authorProfile.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer nofollow"
-                      className="inline-flex items-center gap-1 text-xs font-semibold text-[#CC1F2A] hover:underline mt-2"
-                    >
-                      Lihat LinkedIn →
-                    </a>
-                  )}
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* CTA */}
-          <div className="mt-8 bg-gradient-to-br from-[#CC1F2A] to-[#8B1219] rounded-2xl p-7 sm:p-9 text-white text-center relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-40 h-40 bg-white/5 rounded-full translate-x-1/2 -translate-y-1/2 pointer-events-none" />
-            <div className="relative">
-              <h3 className="text-lg sm:text-xl font-black mb-2">Siap Kirim Barang?</h3>
-              <p className="text-white/70 text-sm mb-6 max-w-sm mx-auto">
-                Chat tim BJA Logistic via WhatsApp — kami siap bantu dari cek ongkir hingga tracking resi.
-              </p>
-              <WALink
-                href={buildGeneralMessage()}
-                className="inline-flex items-center justify-center gap-2 bg-[#F5C518] hover:bg-[#D4A910] text-[#1A1A1A] font-bold py-3 px-8 rounded-xl transition-colors text-sm shadow-lg"
-              >
-                <MessageCircle size={16} />
-                Chat via WhatsApp
-              </WALink>
-            </div>
-          </div>
-
-          {/* Back link */}
-          <div className="mt-8 text-center">
-            <Link
-              href="/blog"
-              className="inline-flex items-center gap-1.5 text-gray-500 hover:text-[#CC1F2A] text-sm font-medium transition-colors"
-            >
-              <ArrowLeft size={14} />
-              Lihat semua artikel
-            </Link>
-          </div>
-        </div>
-      </div>
+      <BlogPostView post={post} />
     </>
   );
 }
