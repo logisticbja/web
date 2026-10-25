@@ -35,8 +35,8 @@ export const CEK_ONGKIR_DEFAULTS: CekOngkirContent = {
   order: [...CEK_ONGKIR_SECTIONS],
   hidden: [],
   seo: {
-    title: "Cek Ongkir — Kalkulator Biaya Pengiriman",
-    description: "Hitung estimasi ongkos kirim cargo ke Papua, Maluku, NTT, dan Sulawesi. Layanan Express dan Regular. Langsung konfirmasi via WhatsApp.",
+    title: "Cek Ongkir Cargo — Kalkulator Tarif Antar Pulau",
+    description: "Hitung estimasi biaya cargo laut ke Papua, Maluku, NTT & Sulawesi dari Jabodetabek & Surabaya. Tarif per kg, min. 100 kg, Reguler & Express. Hasil langsung keluar.",
     ogImage: "",
   },
   hero: {
