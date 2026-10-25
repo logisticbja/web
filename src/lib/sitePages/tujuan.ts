@@ -54,8 +54,8 @@ export function tujuanBase(config: RegionConfig): TujuanContent {
     order: [...TUJUAN_SECTIONS],
     hidden: [],
     seo: {
-      title: `Cargo ke ${config.label} — Harga Terjangkau & Terpercaya`,
-      description: `Jasa ekspedisi cargo ke ${config.label}. ${config.description} Cek harga langsung, konfirmasi via WhatsApp.`,
+      title: config.seoTitle ?? `Cargo ke ${config.label} — Harga Terjangkau & Terpercaya`,
+      description: config.seoDescription ?? `Jasa ekspedisi cargo ke ${config.label}. ${config.description} Cek harga langsung, konfirmasi via WhatsApp.`,
       ogImage: "",
     },
     hero: {
