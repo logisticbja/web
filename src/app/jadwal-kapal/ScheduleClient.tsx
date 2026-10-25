@@ -1,12 +1,14 @@
 "use client";
 import { useState } from "react";
-import { Ship, MessageCircle, Filter } from "lucide-react";
+import Link from "next/link";
+import { Ship, MessageCircle, Filter, Package, ArrowRight } from "lucide-react";
 import { buildGeneralMessage, buildScheduleMessage } from "@/lib/whatsapp";
 import { WALink } from "@/components/ui/WALink";
 import { formatScheduleDate, formatServiceType, type ShipSchedule } from "@/lib/schedule";
 import type { JadwalKapalContent, JadwalKapalSection } from "@/lib/sitePages/jadwalKapal";
 import { cms } from "@/components/home/cms";
 import { Sec, ToolHero } from "@/components/tools/ToolHero";
+import { scheduleCityLinks } from "@/lib/scheduleLinks";
 
 const regions = ["Semua", "Papua", "Maluku", "NTT", "Sulawesi"];
 
@@ -38,6 +40,66 @@ function EtaCell({ etaDate, route, ship, bold = true }: { etaDate: string | null
     >
       Tanya CS →
     </WALink>
+  );
+}
+
+function CargoCityLinks({ route }: { route: string }) {
+  const links = scheduleCityLinks(route);
+  if (links.length === 0) return null;
+  return (
+    <p className="text-xs text-gray-500 mt-2 leading-relaxed">
+      Kirim barang ke{" "}
+      {links.map((l, i) => (
+        <span key={l.href}>
+          {i > 0 && ", "}
+          <Link href={l.href} className="font-semibold text-[#CC1F2A] hover:underline">
+            {l.label}
+          </Link>
+        </span>
+      ))}
+    </p>
+  );
+}
+
+const cargoRegions = [
+  { label: "Papua", href: "/cargo/papua" },
+  { label: "Maluku", href: "/cargo/maluku" },
+  { label: "NTT", href: "/cargo/ntt" },
+  { label: "Sulawesi", href: "/cargo/sulawesi" },
+];
+
+function CargoBox() {
+  return (
+    <div className="bg-white rounded-2xl border border-[#CC1F2A]/20 shadow-sm p-6 mb-6">
+      <div className="flex items-start gap-3 mb-4">
+        <div className="w-10 h-10 rounded-xl bg-[#CC1F2A]/10 text-[#CC1F2A] flex items-center justify-center shrink-0">
+          <Package size={20} />
+        </div>
+        <div>
+          <h2 className="font-black text-[#111111] text-lg">Mau kirim barang, bukan naik kapal?</h2>
+          <p className="text-sm text-gray-600 mt-1">
+            BJA Logistic melayani pengiriman cargo minimal 100 kg dari Jakarta &amp; sekitarnya (Jabodetabek) atau Surabaya ke Indonesia Timur. Pilih wilayah tujuan untuk lihat kota, tarif, dan estimasi.
+          </p>
+        </div>
+      </div>
+      <div className="flex flex-wrap gap-2">
+        {cargoRegions.map((r) => (
+          <Link
+            key={r.href}
+            href={r.href}
+            className="px-4 py-2 rounded-full text-sm font-bold bg-[#CC1F2A]/10 text-[#CC1F2A] hover:bg-[#CC1F2A] hover:text-white transition-all"
+          >
+            Cargo ke {r.label}
+          </Link>
+        ))}
+        <Link
+          href="/cek-ongkir"
+          className="inline-flex items-center gap-1 px-4 py-2 rounded-full text-sm font-bold border border-gray-200 text-gray-700 hover:border-[#CC1F2A] transition-all"
+        >
+          Cek Ongkir <ArrowRight size={14} />
+        </Link>
+      </div>
+    </div>
   );
 }
 
@@ -96,6 +158,7 @@ export function ScheduleClient({ schedules, content, edit }: { schedules: ShipSc
                         <span className="text-xs px-2 py-0.5 rounded-full bg-[#CC1F2A]/10 text-[#CC1F2A] font-semibold mt-1 inline-block">
                           {s.region}
                         </span>
+                        <CargoCityLinks route={s.route} />
                       </td>
                       <td className="px-6 py-4 font-semibold text-sm text-gray-700">{s.ship || "-"}</td>
                       <td className="px-6 py-4"><ServiceTypeBadge type={s.serviceType} /></td>
@@ -121,6 +184,7 @@ export function ScheduleClient({ schedules, content, edit }: { schedules: ShipSc
                       <span className="text-xs px-2 py-0.5 rounded-full bg-[#CC1F2A]/10 text-[#CC1F2A] font-semibold mt-1 inline-block">
                         {s.region}
                       </span>
+                      <CargoCityLinks route={s.route} />
                     </div>
                     <ServiceTypeBadge type={s.serviceType} />
                   </div>
@@ -146,6 +210,8 @@ export function ScheduleClient({ schedules, content, edit }: { schedules: ShipSc
               ))}
             </div>
             )}
+
+            <CargoBox />
       </>
     ),
     notice: (
