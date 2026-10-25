@@ -36,7 +36,7 @@ export const regionConfigs: RegionConfig[] = [
   {
     slug: "papua",
     seoTitle: "Ekspedisi Cargo ke Papua via Laut dari Jakarta",
-    seoDescription: "Kirim barang ke Jayapura, Sorong, Merauke, Timika & kota Papua lain via kapal laut dari Jabodetabek & Surabaya. Min. 100 kg. Cek ongkir online, konfirmasi via WhatsApp.",
+    seoDescription: "Kirim barang ke Jayapura, Sorong, Merauke, Timika & kota Papua lain via kapal laut dari Jakarta & sekitarnya (Jabodetabek) atau Surabaya. Min. 100 kg. Cek ongkir online.",
     ongkirRegion: "papua",
     scheduleRegion: "Papua",
     label: "Papua",
@@ -95,7 +95,7 @@ export const regionConfigs: RegionConfig[] = [
   {
     slug: "maluku",
     seoTitle: "Ekspedisi Cargo ke Maluku & Maluku Utara",
-    seoDescription: "Kirim barang ke Ambon, Ternate, Tual, Tobelo, Saumlaki & kota Maluku lain dari Jabodetabek & Surabaya. Min. 100 kg. Cek ongkir online, konfirmasi via WhatsApp.",
+    seoDescription: "Kirim barang ke Ambon, Ternate, Tual, Tobelo, Saumlaki & kota Maluku lain dari Jakarta & sekitarnya (Jabodetabek) atau Surabaya. Min. 100 kg. Cek ongkir online.",
     ongkirRegion: "maluku",
     scheduleRegion: "Maluku",
     label: "Maluku",
@@ -154,7 +154,7 @@ export const regionConfigs: RegionConfig[] = [
   {
     slug: "ntt",
     seoTitle: "Ekspedisi Cargo ke NTT: Kupang, Flores & Sumba",
-    seoDescription: "Kirim barang ke Kupang, Maumere, Ende, Labuan Bajo, Sumba & Atambua dari Jabodetabek & Surabaya. Min. 100 kg. Cek tarif cargo ke NTT online, konfirmasi via WhatsApp.",
+    seoDescription: "Kirim barang ke Kupang, Maumere, Ende, Labuan Bajo, Sumba & Atambua dari Jakarta & sekitarnya (Jabodetabek) atau Surabaya. Min. 100 kg. Cek tarif cargo ke NTT online.",
     ongkirRegion: "ntt",
     scheduleRegion: "NTT",
     label: "NTT",
@@ -213,7 +213,7 @@ export const regionConfigs: RegionConfig[] = [
   {
     slug: "sulawesi",
     seoTitle: "Cargo Laut ke Sulawesi — Ekspedisi dari Jakarta",
-    seoDescription: "Ekspedisi cargo ke Makassar, Kendari, Manado, Palu, Morowali & kota Sulawesi lain dari Jabodetabek & Surabaya. Min. 100 kg. Cek ongkir online, konfirmasi via WhatsApp.",
+    seoDescription: "Ekspedisi cargo ke Makassar, Kendari, Manado, Palu, Morowali & kota Sulawesi lain dari Jakarta & sekitarnya (Jabodetabek) atau Surabaya. Min. 100 kg. Cek ongkir online.",
     ongkirRegion: "sulawesi",
     scheduleRegion: "Sulawesi",
     label: "Sulawesi",
