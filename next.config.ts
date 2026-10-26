@@ -271,6 +271,7 @@ const nextConfig: NextConfig = {
       { source: "/jakarta-wonosobo", destination: "/layanan/cargo-darat", permanent: true },
 
       // ─── JADWAL KAPAL LAMA (per-bulan, selalu expired) → hub /jadwal-kapal ───
+      { source: "/jadwal", destination: "/jadwal-kapal", permanent: true },
       { source: "/jadwal-km-:slug", destination: "/jadwal-kapal", permanent: true },
       { source: "/jadwal-kapal-:slug", destination: "/jadwal-kapal", permanent: true },
       { source: "/rute-jadwal-km-:slug", destination: "/jadwal-kapal", permanent: true },
