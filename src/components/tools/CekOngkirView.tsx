@@ -1,13 +1,19 @@
 import Link from "next/link";
 import { ArrowRight, Calculator } from "lucide-react";
 import { CekOngkirForm } from "@/components/CekOngkirForm";
+import { CekOngkirExample } from "@/components/tools/CekOngkirExample";
 import { cms } from "@/components/home/cms";
 import type { CekOngkirContent, CekOngkirSection } from "@/lib/sitePages/cekOngkir";
 import { InfoCards, Sec, ToolHero } from "./ToolHero";
 
 export function CekOngkirView({ content, edit }: { content: CekOngkirContent; edit?: boolean }) {
   const blocks: Record<Exclude<CekOngkirSection, "hero">, React.ReactNode> = {
-    calculator: <CekOngkirForm />,
+    calculator: (
+      <>
+        <CekOngkirForm />
+        <CekOngkirExample />
+      </>
+    ),
     routes: content.routes.items.length > 0 && (
       <div className="mt-8 mb-2">
         <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3" {...cms(edit, "routes.label")}>

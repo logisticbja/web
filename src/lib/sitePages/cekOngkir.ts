@@ -40,8 +40,8 @@ export const CEK_ONGKIR_DEFAULTS: CekOngkirContent = {
     ogImage: "",
   },
   hero: {
-    title: "Kalkulator Ongkir",
-    description: "Hitung estimasi biaya pengiriman ke Papua & Indonesia Timur dalam detik",
+    title: "Cek Ongkir",
+    description: "Hitung estimasi berat dan ongkirmu ke Papua & Indonesia Timur",
     image: "",
     imageAlt: "Cek Ongkir",
     badges: ["Regular: min. 100 kg", "Express: min. 100 kg"],

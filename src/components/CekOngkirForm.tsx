@@ -6,6 +6,8 @@ import {
   Calculator,
   ChevronDown,
   Clock,
+  Minus,
+  Plus,
   MapPin,
   MessageCircle,
   Package,
@@ -50,6 +52,17 @@ interface CalculatorResult {
 }
 
 const MIN_WEIGHT = 100;
+const VOLUME_DIVISOR = 4000;
+
+function roundChargeable(value: number) {
+  const whole = Math.floor(value + 1e-9);
+  const fraction = Math.round((value - whole) * 100) / 100;
+  return fraction >= 0.6 ? whole + 1 : whole;
+}
+
+function formatKg(value: number) {
+  return value.toLocaleString("id-ID", { maximumFractionDigits: 2 });
+}
 
 const allCities = ongkirGroups.flatMap((group) =>
   group.cities.map((city) => ({
@@ -132,6 +145,10 @@ export function CekOngkirForm({ defaultValues, autoCalculate }: Props) {
   const [toSearch, setToSearch] = useState(defaultValues?.toLabel ?? "");
   const [showDropdown, setShowDropdown] = useState(false);
   const [weight, setWeight] = useState(defaultValues?.weight ?? "");
+  const [showDimension, setShowDimension] = useState(false);
+  const [length, setLength] = useState("");
+  const [width, setWidth] = useState("");
+  const [height, setHeight] = useState("");
   const [service, setService] = useState<ServiceType>(
     defaultValues?.service ?? "Regular"
   );
@@ -231,13 +248,26 @@ export function CekOngkirForm({ defaultValues, autoCalculate }: Props) {
   };
 
   const weightNum = Number(weight);
+  const lengthNum = Number(length);
+  const widthNum = Number(width);
+  const heightNum = Number(height);
+  const hasDimension =
+    showDimension && lengthNum > 0 && widthNum > 0 && heightNum > 0;
+  const volumeKg = hasDimension
+    ? (lengthNum * widthNum * heightNum) / VOLUME_DIVISOR
+    : 0;
+  const usesVolume = hasDimension && volumeKg > weightNum;
+  const chargeableKg =
+    weightNum > 0 ? roundChargeable(Math.max(weightNum, volumeKg)) : 0;
   const weightTooLow =
-    weight !== "" && weightNum > 0 && weightNum < MIN_WEIGHT;
+    weight !== "" && weightNum > 0 && chargeableKg < MIN_WEIGHT;
+
+  const resetResult = () => setResult(null);
 
   const handleCalculate = () => {
     if (!from || !to || !weight || weightTooLow) return;
 
-    const nextResult = computeResult(from, to, weight, service);
+    const nextResult = computeResult(from, to, String(chargeableKg), service);
     setResult(nextResult);
   };
 
@@ -407,6 +437,69 @@ export function CekOngkirForm({ defaultValues, autoCalculate }: Props) {
               Berat pengiriman belum mencapai minimum 100 kg.
             </p>
           )}
+
+          <button
+            type="button"
+            onClick={() => {
+              setShowDimension((open) => !open);
+              resetResult();
+            }}
+            aria-expanded={showDimension}
+            className="mt-3 w-full flex items-center gap-2 rounded-xl border border-dashed border-gray-300 bg-gray-50 px-3 py-2.5 text-left text-sm font-bold text-gray-700 hover:border-[#CC1F2A] transition-colors"
+          >
+            <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#CC1F2A] text-white">
+              {showDimension ? <Minus size={12} /> : <Plus size={12} />}
+            </span>
+            Barang besar tapi ringan? Isi dimensi barang
+          </button>
+
+          {showDimension && (
+            <div className="mt-3 rounded-xl border border-[#CC1F2A]/20 bg-red-50/60 p-4">
+              <label className="block text-sm font-bold text-gray-700 mb-2">
+                Dimensi barang (cm)
+              </label>
+              <div className="grid grid-cols-3 gap-2">
+                {[
+                  { label: "Panjang", value: length, set: setLength },
+                  { label: "Lebar", value: width, set: setWidth },
+                  { label: "Tinggi", value: height, set: setHeight },
+                ].map((field) => (
+                  <input
+                    key={field.label}
+                    type="number"
+                    min="0"
+                    inputMode="decimal"
+                    aria-label={`${field.label} (cm)`}
+                    placeholder={field.label}
+                    value={field.value}
+                    onChange={(event) => {
+                      field.set(event.target.value);
+                      resetResult();
+                    }}
+                    className="w-full px-3 py-2.5 rounded-xl border border-gray-200 bg-white focus:outline-none focus:border-[#CC1F2A] font-medium text-gray-700"
+                  />
+                ))}
+              </div>
+              <p className="mt-2 text-xs text-gray-500">
+                Punya beberapa koli dengan ukuran berbeda? Tanya CS lewat
+                WhatsApp, kami bantu hitungkan.
+              </p>
+              {hasDimension && (
+                <p className="mt-3 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-700" aria-live="polite">
+                  Berat volume: {formatKg(volumeKg)} kg
+                  {weightNum > 0 && (
+                    <>
+                      {" "}→ ongkir dihitung dari{" "}
+                      <strong className="text-[#CC1F2A]">
+                        {formatKg(chargeableKg)} kg
+                      </strong>{" "}
+                      ({usesVolume ? "berat volume" : "berat timbangan"}).
+                    </>
+                  )}
+                </p>
+              )}
+            </div>
+          )}
         </div>
 
         <div>
@@ -468,7 +561,10 @@ export function CekOngkirForm({ defaultValues, autoCalculate }: Props) {
             const origin = fromLabel || "Jabodetabek";
             const destination = toLabel || "-";
             const shipmentWeight = weight ? `${weight} kg` : "-";
-            const message = `Halo BJA Logistic, saya mau tanya ongkir cargo:\n- Dari: ${origin}\n- Ke: ${destination}\n- Berat: ${shipmentWeight}\n\nBisa bantu info harga dan jadwal pengirimannya?`;
+            const dimensionLine = hasDimension
+              ? `\n- Dimensi: ${length} × ${width} × ${height} cm`
+              : "";
+            const message = `Halo BJA Logistic, saya mau tanya ongkir cargo:\n- Dari: ${origin}\n- Ke: ${destination}\n- Berat: ${shipmentWeight}${dimensionLine}\n\nBisa bantu info harga dan jadwal pengirimannya?`;
 
             return `https://api.whatsapp.com/send/?phone=6281513335157&text=${encodeURIComponent(
               message
@@ -542,7 +638,7 @@ export function CekOngkirForm({ defaultValues, autoCalculate }: Props) {
                 {formatPrice(result.total)}
               </p>
               <p className="text-white/60 text-xs mt-1">
-                {formatPrice(result.pricePerKg)}/kg × {weight} kg
+                {formatPrice(result.pricePerKg)}/kg × {formatKg(chargeableKg)} kg
               </p>
             </div>
 
@@ -581,9 +677,9 @@ export function CekOngkirForm({ defaultValues, autoCalculate }: Props) {
           </div>
 
           <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 text-sm text-gray-600 leading-relaxed">
-            Harga di atas merupakan estimasi berdasarkan berat aktual.
-            Perhitungan final dapat menyesuaikan berat volume/dimensi dan
-            ketentuan barang saat proses penerimaan.
+            {hasDimension
+              ? "Estimasi sudah memperhitungkan berat volume dari dimensi yang kamu isi. Perhitungan final mengikuti hasil timbang dan ukur saat barang kami terima."
+              : "Harga di atas berdasarkan berat yang kamu isi. Untuk barang besar tapi ringan, isi dimensi barang supaya estimasinya lebih akurat. Perhitungan final mengikuti hasil timbang dan ukur saat barang kami terima."}
           </div>
         </div>
       )}
