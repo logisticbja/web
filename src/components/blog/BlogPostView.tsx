@@ -7,6 +7,27 @@ import { buildGeneralMessage } from "@/lib/whatsapp";
 import { WALink } from "@/components/ui/WALink";
 import { cms } from "@/components/home/cms";
 import type { Post } from "@/lib/blog";
+import { VolumeCalculator } from "@/components/blog/VolumeCalculator";
+
+const EMBEDS: Record<string, () => React.ReactNode> = {
+  "kalkulator-volume": () => <VolumeCalculator />,
+};
+
+const EMBED_PATTERN = /<p>\s*\[(kalkulator-volume)\]\s*<\/p>/g;
+const HAS_EMBED = /<p>\s*\[(kalkulator-volume)\]\s*<\/p>/;
+
+function splitEmbeds(html: string): { html?: string; embed?: string }[] {
+  const parts: { html?: string; embed?: string }[] = [];
+  let last = 0;
+  for (const match of html.matchAll(EMBED_PATTERN)) {
+    const index = match.index ?? 0;
+    if (index > last) parts.push({ html: html.slice(last, index) });
+    parts.push({ embed: match[1] });
+    last = index + match[0].length;
+  }
+  if (last < html.length) parts.push({ html: html.slice(last) });
+  return parts;
+}
 
 export function estimateReadTime(htmlContent: string): number {
   const text = htmlContent.replace(/<[^>]*>/g, "");
@@ -86,11 +107,23 @@ export function BlogPostView({ post, edit }: { post: Post; edit?: boolean }) {
           </div>
         )}
 
-        <article
-          className="bg-white rounded-2xl p-7 sm:p-10 shadow-sm border border-gray-100 prose prose-gray max-w-none"
-          {...cms(edit, "content")}
-          dangerouslySetInnerHTML={{ __html: post.content }}
-        />
+        {edit || !HAS_EMBED.test(post.content) ? (
+          <article
+            className="bg-white rounded-2xl p-7 sm:p-10 shadow-sm border border-gray-100 prose prose-gray max-w-none"
+            {...cms(edit, "content")}
+            dangerouslySetInnerHTML={{ __html: post.content }}
+          />
+        ) : (
+          <article className="bg-white rounded-2xl p-7 sm:p-10 shadow-sm border border-gray-100 prose prose-gray max-w-none">
+            {splitEmbeds(post.content).map((part, i) =>
+              part.embed ? (
+                <div key={i}>{EMBEDS[part.embed]?.()}</div>
+              ) : (
+                <div key={i} dangerouslySetInnerHTML={{ __html: part.html ?? "" }} />
+              )
+            )}
+          </article>
+        )}
 
         {post.schemaType === "HowTo" && post.howToSteps.length > 0 && (
           <div className="mt-6 bg-white rounded-2xl p-7 sm:p-9 shadow-sm border border-gray-100">
