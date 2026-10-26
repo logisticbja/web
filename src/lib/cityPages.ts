@@ -50,23 +50,46 @@ export interface CityPageData {
   popupInfo?: CityPagePopupInfo;
 }
 
+const CITY_FETCH_ATTEMPTS = 3;
+
+function isBuildPhase() {
+  return process.env.NEXT_PHASE === "phase-production-build";
+}
+
+async function fetchCityPageOnce(slug: string) {
+  const url = new URL(process.env.CITY_PAGES_API_URL!);
+  url.searchParams.set("slug", slug);
+
+  const res = await fetch(url.toString(), {
+    headers: { "X-API-Key": process.env.TRACKING_API_KEY ?? "" },
+    next: { revalidate: 3600, tags: ["cms-content"] },
+  });
+
+  if (res.status >= 500) throw new Error(`City page API ${res.status} for ${slug}`);
+  if (!res.ok) return null;
+
+  const json = await res.json();
+  if (json.status !== "success") return null;
+
+  return json.data as CityPageData;
+}
+
 export async function getCityPage(slug: string): Promise<CityPageData | null> {
-  try {
-    const url = new URL(process.env.CITY_PAGES_API_URL!);
-    url.searchParams.set("slug", slug);
+  let lastError: unknown = null;
 
-    const res = await fetch(url.toString(), {
-      headers: { "X-API-Key": process.env.TRACKING_API_KEY ?? "" },
-      next: { revalidate: 3600, tags: ["cms-content"] },
-    });
-
-    const json = await res.json();
-    if (json.status !== "success") return null;
-
-    return json.data as CityPageData;
-  } catch {
-    return null;
+  for (let attempt = 1; attempt <= CITY_FETCH_ATTEMPTS; attempt++) {
+    try {
+      return await fetchCityPageOnce(slug);
+    } catch (error) {
+      lastError = error;
+      if (attempt < CITY_FETCH_ATTEMPTS) {
+        await new Promise((resolve) => setTimeout(resolve, attempt * 500));
+      }
+    }
   }
+
+  if (isBuildPhase()) return null;
+  throw lastError;
 }
 
 export async function getAllCityPages(): Promise<CityPageData[]> {
