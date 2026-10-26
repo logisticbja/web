@@ -115,13 +115,17 @@ export function buildAutomaticCitySeo(
     ? Math.min(...available.map((item) => item.price))
     : null;
 
-  let title = startPrice
-    ? `Ekspedisi Cargo ke ${city} — Mulai Rp${startPrice.toLocaleString("id-ID")}/kg | BJA Logistic`
-    : `Ekspedisi Cargo ke ${city} | BJA Logistic`;
-
-  if (title.length > 60) {
-    title = `Ekspedisi Cargo ke ${city} | BJA Logistic`;
-  }
+  const priceText = startPrice
+    ? ` — Mulai Rp${startPrice.toLocaleString("id-ID")}/kg`
+    : "";
+  const titleOptions = [
+    `Ekspedisi Jakarta ${city}${priceText} | BJA Logistic`,
+    `Ekspedisi Jakarta ${city}${priceText}`,
+    `Ekspedisi Jakarta ${city} | BJA Logistic`,
+  ];
+  const title =
+    titleOptions.find((option) => option.length <= 60) ??
+    `Ekspedisi Jakarta ${city}`;
 
   const serviceText = available
     .map(
@@ -132,14 +136,14 @@ export function buildAutomaticCitySeo(
     )
     .join(". ");
 
-  let description = `Jasa ekspedisi cargo ke ${city}${
+  let description = `Jasa ekspedisi cargo dari Jakarta ke ${city}${
     region ? `, ${region}` : ""
   }. ${serviceText ? `${serviceText}. ` : ""}Minimum ${
     pricing.minWeightKg
   } kg. Cek jadwal kapal BJA Logistic.`;
 
   if (description.length > 155) {
-    description = `Cargo ke ${city}${region ? `, ${region}` : ""}. ${
+    description = `Cargo Jakarta ke ${city}${region ? `, ${region}` : ""}. ${
       startPrice
         ? `Mulai Rp${startPrice.toLocaleString("id-ID")}/kg. `
         : ""
