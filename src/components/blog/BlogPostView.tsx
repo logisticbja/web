@@ -6,7 +6,8 @@ import { formatDate } from "@/lib/blogDate";
 import { buildGeneralMessage } from "@/lib/whatsapp";
 import { WALink } from "@/components/ui/WALink";
 import { cms } from "@/components/home/cms";
-import type { Post } from "@/lib/blog";
+import type { Post, PostMeta } from "@/lib/blog";
+import { RelatedPosts } from "@/components/blog/RelatedPosts";
 import { VolumeCalculator } from "@/components/blog/VolumeCalculator";
 
 const EMBEDS: Record<string, () => React.ReactNode> = {
@@ -35,7 +36,7 @@ export function estimateReadTime(htmlContent: string): number {
   return Math.max(1, Math.ceil(words / 200));
 }
 
-export function BlogPostView({ post, edit }: { post: Post; edit?: boolean }) {
+export function BlogPostView({ post, edit, related }: { post: Post; edit?: boolean; related?: PostMeta[] }) {
   const readTime = estimateReadTime(post.content);
 
   return (
@@ -215,6 +216,8 @@ export function BlogPostView({ post, edit }: { post: Post; edit?: boolean }) {
             </div>
           </div>
         )}
+
+        {related ? <RelatedPosts posts={related} /> : null}
 
         <div className="mt-8 bg-gradient-to-br from-[#CC1F2A] to-[#8B1219] rounded-2xl p-7 sm:p-9 text-white text-center relative overflow-hidden">
           <div className="absolute top-0 right-0 w-40 h-40 bg-white/5 rounded-full translate-x-1/2 -translate-y-1/2 pointer-events-none" />

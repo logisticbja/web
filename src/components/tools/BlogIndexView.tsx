@@ -6,6 +6,8 @@ import { cms } from "@/components/home/cms";
 import type { BlogIndexContent } from "@/lib/sitePages/blogIndex";
 import { Sec } from "./ToolHero";
 import { BlogPagination } from "@/components/blog/BlogPagination";
+import { BlogFilterBar } from "@/components/blog/BlogFilterBar";
+import type { BlogCategory } from "@/lib/blogCategories";
 
 const categoryColors: Record<string, string> = {
   "Tips Pengiriman": "bg-blue-50 text-blue-700 border border-blue-200",
@@ -53,12 +55,17 @@ export function BlogIndexView({
   posts,
   edit,
   page,
+  categories,
+  activeCategory,
 }: {
   content: BlogIndexContent;
   posts: PostMeta[];
   edit?: boolean;
-  page?: { current: number; total: number };
+  page?: { current: number; total: number; base?: string };
+  categories?: BlogCategory[];
+  activeCategory?: { slug: string; name: string };
 }) {
+  const subtitle = activeCategory ? `Kategori: ${activeCategory.name}` : "";
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
       <Sec edit={edit} id="hero">
@@ -73,7 +80,7 @@ export function BlogIndexView({
             </nav>
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#111111] mb-3" {...cms(edit, "hero.title")}>
               {content.hero.title}
-              {page && page.current > 1 ? <span className="block text-base sm:text-lg font-semibold text-gray-400 mt-1">Halaman {page.current}</span> : null}
+              {subtitle ? <span className="block text-base sm:text-lg font-semibold text-gray-400 mt-1">{subtitle}</span> : null}
             </h1>
             <p className="text-gray-500 text-sm sm:text-base max-w-xl" {...cms(edit, "hero.description")}>
               {content.hero.description}
@@ -84,6 +91,7 @@ export function BlogIndexView({
 
       <Sec edit={edit} id="posts">
         <div className="max-w-5xl mx-auto px-4 py-10">
+          {categories ? <BlogFilterBar categories={categories} active={activeCategory?.slug} /> : null}
           {posts.length === 0 ? (
             <p className="text-center text-gray-400 py-20" {...cms(edit, "posts.emptyText")}>{content.posts.emptyText}</p>
           ) : (
@@ -93,7 +101,7 @@ export function BlogIndexView({
               ))}
             </div>
           )}
-          {page ? <BlogPagination current={page.current} total={page.total} /> : null}
+          {page ? <BlogPagination current={page.current} total={page.total} base={page.base} /> : null}
         </div>
       </Sec>
     </div>

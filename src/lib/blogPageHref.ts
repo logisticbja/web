@@ -1,3 +1,3 @@
-export function blogPageHref(page: number) {
-  return page <= 1 ? "/blog" : `/blog/page/${page}`;
+export function blogPageHref(page: number, base = "/blog") {
+  return page <= 1 ? base : `${base}/page/${page}`;
 }

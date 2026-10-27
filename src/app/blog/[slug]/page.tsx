@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { getPostBySlug } from "@/lib/blog";
+import { getListablePosts, pickRelatedPosts } from "@/lib/blogPagination";
 import { BlogPostView } from "@/components/blog/BlogPostView";
 import {
   ArticleJsonLd,
@@ -66,9 +67,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
-  const post = await getPostBySlug(slug);
+  const [post, listable] = await Promise.all([getPostBySlug(slug), getListablePosts()]);
 
   if (!post) notFound();
+
+  const related = pickRelatedPosts(listable, { slug: post.slug, category: post.category, title: post.title, tags: post.tags ?? [] });
 
   const canonical  = `${BASE_URL}/blog/${slug}`;
   const ogImage    = post.ogImage ?? post.cover ?? "/og-image.png";
@@ -121,7 +124,7 @@ export default async function BlogPostPage({ params }: Props) {
         ]}
       />
 
-      <BlogPostView post={post} />
+      <BlogPostView post={post} related={related} />
     </>
   );
 }
