@@ -2,7 +2,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Ship, MessageCircle, Filter, Package, ArrowRight } from "lucide-react";
-import { buildGeneralMessage, buildScheduleMessage } from "@/lib/whatsapp";
+import { buildGeneralMessage, buildJadwalInquiryMessage, buildScheduleMessage, buildShipCargoMessage } from "@/lib/whatsapp";
 import { WALink } from "@/components/ui/WALink";
 import { formatScheduleDate, formatServiceType, type ShipSchedule } from "@/lib/schedule";
 import type { JadwalKapalContent, JadwalKapalSection } from "@/lib/sitePages/jadwalKapal";
@@ -26,9 +26,17 @@ function ServiceTypeBadge({ type }: { type: string }) {
   );
 }
 
-// ETA kosong (biasanya karena 1 kapal transit ke beberapa Wilayah sekaligus, jadi ETA per
-// tujuan beda-beda) -> tampilkan ajakan tanya CS langsung (dengan rute & kapalnya udah
-// disebut di pesan WA), bukan tanda "-" yang gak actionable.
+function ShipCargoLink({ route, etdDate }: { route: string; etdDate: string | null }) {
+  return (
+    <WALink
+      href={buildShipCargoMessage(route, etdDate ? formatScheduleDate(etdDate) : undefined)}
+      className="inline-flex items-center gap-1 text-xs font-bold text-[#25D366] hover:underline mt-2"
+    >
+      <MessageCircle size={13} /> Kirim barang dengan kapal ini
+    </WALink>
+  );
+}
+
 function EtaCell({ etaDate, route, ship, bold = true }: { etaDate: string | null; route: string; ship: string; bold?: boolean }) {
   if (etaDate) {
     return <span className={`text-[#CC1F2A] text-sm ${bold ? "font-bold" : ""}`}>{formatScheduleDate(etaDate)}</span>;
@@ -76,13 +84,19 @@ function CargoBox() {
           <Package size={20} />
         </div>
         <div>
-          <h2 className="font-black text-[#111111] text-lg">Mau kirim barang, bukan naik kapal?</h2>
+          <h2 className="font-black text-[#111111] text-lg">Kirim Cargo Ikut Jadwal Kapal Ini</h2>
           <p className="text-sm text-gray-600 mt-1">
-            BJA Logistic melayani pengiriman cargo minimal 100 kg dari Jakarta &amp; sekitarnya (Jabodetabek) atau Surabaya ke Indonesia Timur. Pilih wilayah tujuan untuk lihat kota, tarif, dan estimasi.
+            Minimal 100 kg, dari Jakarta atau Surabaya, diantar sampai alamat penerima. Pilih wilayah untuk lihat tarif dan estimasi.
           </p>
         </div>
       </div>
       <div className="flex flex-wrap gap-2">
+        <WALink
+          href={buildJadwalInquiryMessage()}
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold bg-[#25D366] text-white hover:bg-[#20bc59] transition-all"
+        >
+          <MessageCircle size={16} /> Tanya Tarif &amp; Jadwal
+        </WALink>
         {cargoRegions.map((r) => (
           <Link
             key={r.href}
@@ -103,7 +117,19 @@ function CargoBox() {
   );
 }
 
-export function ScheduleClient({ schedules, content, edit }: { schedules: ShipSchedule[]; content: JadwalKapalContent; edit?: boolean }) {
+export function ScheduleClient({
+  schedules,
+  content,
+  edit,
+  updatedAt,
+  extra,
+}: {
+  schedules: ShipSchedule[];
+  content: JadwalKapalContent;
+  edit?: boolean;
+  updatedAt?: string;
+  extra?: React.ReactNode;
+}) {
   const [activeRegion, setActiveRegion] = useState("Semua");
 
   const filtered = activeRegion === "Semua"
@@ -113,7 +139,8 @@ export function ScheduleClient({ schedules, content, edit }: { schedules: ShipSc
   const blocks: Record<Exclude<JadwalKapalSection, "hero">, React.ReactNode> = {
     schedule: (
       <>
-            <div className="flex items-center gap-3 mb-8 flex-wrap">
+            <CargoBox />
+            <div className="flex items-center gap-3 mb-3 flex-wrap">
               <Filter size={16} className="text-gray-400" />
               <span className="text-sm font-semibold text-gray-600" {...cms(edit, "schedule.filterLabel")}>{content.schedule.filterLabel}</span>
               {regions.map((r) => (
@@ -130,6 +157,7 @@ export function ScheduleClient({ schedules, content, edit }: { schedules: ShipSc
                 </button>
               ))}
             </div>
+            {updatedAt && <p className="text-xs text-gray-500 mb-6">Diperbarui {updatedAt}. Jadwal yang sudah berangkat otomatis disembunyikan.</p>}
 
             {filtered.length === 0 && (
               <div className="bg-white rounded-2xl border border-gray-100 p-10 text-center text-sm text-gray-400 mb-6" {...cms(edit, "schedule.emptyText")}>
@@ -159,6 +187,7 @@ export function ScheduleClient({ schedules, content, edit }: { schedules: ShipSc
                           {s.region}
                         </span>
                         <CargoCityLinks route={s.route} />
+                        <ShipCargoLink route={s.route} etdDate={s.etdDate} />
                       </td>
                       <td className="px-6 py-4 font-semibold text-sm text-gray-700">{s.ship || "-"}</td>
                       <td className="px-6 py-4"><ServiceTypeBadge type={s.serviceType} /></td>
@@ -206,12 +235,11 @@ export function ScheduleClient({ schedules, content, edit }: { schedules: ShipSc
                       <EtaCell etaDate={s.etaDate} route={s.route} ship={s.ship} bold={false} />
                     </div>
                   </div>
+                  <ShipCargoLink route={s.route} etdDate={s.etdDate} />
                 </div>
               ))}
             </div>
             )}
-
-            <CargoBox />
       </>
     ),
     notice: (
@@ -244,6 +272,7 @@ export function ScheduleClient({ schedules, content, edit }: { schedules: ShipSc
               {blocks[k]}
             </Sec>
           ))}
+        {!edit && extra}
       </div>
     </div>
   );
