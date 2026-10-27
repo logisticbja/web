@@ -35,7 +35,7 @@ export const LAYANAN_DEFAULTS: LayananContent = {
   hero: {
     breadcrumb: "Kirim Barang Kargo",
     title: "Kirim Barang Kargo ke Papua & Indonesia Timur",
-    description: "Pilih metode pengiriman sesuai kebutuhan dan budget kamu: laut, darat, atau udara. Cargo laut minimal 100 kg, cargo udara minimal 20 kg.",
+    description: "Pilih metode pengiriman sesuai kebutuhan dan budget kamu: laut, darat, atau udara. Cargo laut dan darat minimal 100 kg, cargo udara minimal 20 kg.",
     image: "https://assets.bjalogistic.id/blog/2026/09/4c30d03f37182e90dc2b.jpg",
     imageAlt: "Kirim Barang Kargo ke Papua & Indonesia Timur",
   },
@@ -43,7 +43,7 @@ export const LAYANAN_DEFAULTS: LayananContent = {
     linkLabel: "Lihat detail",
     items: [
       { slug: "cargo-laut", icon: "Ship", name: "Cargo Laut", tagline: "Paling hemat untuk barang berat & besar ke Indonesia Timur", price: "Mulai Rp 7.000/kg", eta: "4–25 hari" },
-      { slug: "cargo-darat", icon: "Truck", name: "Cargo Darat", tagline: "Pengiriman Jakarta ke kota-kota di Pulau Jawa", price: "Tanya tarif", eta: "Jakarta – Jawa" },
+      { slug: "cargo-darat", icon: "Truck", name: "Cargo Darat", tagline: "Pengiriman Jakarta ke kota-kota di Pulau Jawa", price: "Mulai Rp 2.500/kg", eta: "2–5 hari" },
       { slug: "cargo-udara", icon: "Plane", name: "Cargo Udara", tagline: "Tercepat untuk barang mendesak, minimal 20 kg", price: "Mulai Rp 102.000/kg", eta: "2–8 hari kerja" },
     ],
   },

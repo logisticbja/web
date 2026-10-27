@@ -1,13 +1,15 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import type { AirFreightRegion } from "@/lib/data/airFreight";
+export type FreightRow = { city: string; price: number; eta: string };
+
+export type FreightRegion = { region: string; rates: FreightRow[] };
 
 function rupiah(value: number) {
   return `Rp${value.toLocaleString("id-ID")}`;
 }
 
-export function AirFreightTable({ regions }: { regions: AirFreightRegion[] }) {
+export function FreightRateTable({ regions, idPrefix, placeholder }: { regions: FreightRegion[]; idPrefix: string; placeholder: string }) {
   const [region, setRegion] = useState(regions[0]?.region ?? "");
   const [query, setQuery] = useState("");
 
@@ -24,22 +26,22 @@ export function AirFreightTable({ regions }: { regions: AirFreightRegion[] }) {
   return (
     <div>
       <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center">
-        <label htmlFor="air-city" className="sr-only">
+        <label htmlFor={`${idPrefix}-city`} className="sr-only">
           Cari kota tujuan
         </label>
         <input
-          id="air-city"
+          id={`${idPrefix}-city`}
           type="search"
           value={query}
           onChange={(event) => setQuery(event.target.value)}
-          placeholder="Cari kota, mis. Jayapura"
+          placeholder={placeholder}
           className="w-full rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm outline-none focus:border-[#CC1F2A] sm:max-w-xs"
         />
-        <label htmlFor="air-region" className="sr-only">
+        <label htmlFor={`${idPrefix}-region`} className="sr-only">
           Pilih wilayah
         </label>
         <select
-          id="air-region"
+          id={`${idPrefix}-region`}
           value={region}
           onChange={(event) => {
             setRegion(event.target.value);
@@ -82,7 +84,7 @@ export function AirFreightTable({ regions }: { regions: AirFreightRegion[] }) {
                   <tr key={`${r.region}-${rate.city}`} className="bg-white">
                     <td className="px-4 py-3 font-semibold text-gray-900">{rate.city}</td>
                     <td className="px-4 py-3 text-gray-700">{rupiah(rate.price)}</td>
-                    <td className="px-4 py-3 text-gray-700">{rate.days} hari kerja</td>
+                    <td className="px-4 py-3 text-gray-700">{rate.eta}</td>
                   </tr>
                 ))}
               </tbody>
