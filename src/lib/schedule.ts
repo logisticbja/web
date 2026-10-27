@@ -31,21 +31,13 @@ export async function getSchedules(params?: {
   }
 }
 
-export const ROUTE_SHIP_LABEL = "Kapal Roro / Cargo";
-
 export function jakartaToday(): string {
   return new Date(Date.now() + 7 * 3600 * 1000).toISOString().slice(0, 10);
-}
-
-export function publicShipName(ship: string, serviceType: string): string {
-  if (!ship) return "";
-  return serviceType === "Express" ? ship : ROUTE_SHIP_LABEL;
 }
 
 export function publicSchedules(list: ShipSchedule[], today = jakartaToday()): ShipSchedule[] {
   return list
     .filter((s) => !s.etdDate || s.etdDate >= today)
-    .map((s) => ({ ...s, ship: publicShipName(s.ship, s.serviceType) }))
     .sort((a, b) => (a.etdDate ?? "9999").localeCompare(b.etdDate ?? "9999"));
 }
 
