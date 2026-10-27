@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ServicePageLayout } from "@/components/layout/ServicePageLayout";
+import { ServiceRateSection, hasServiceRates } from "@/components/layanan/ServiceRateSection";
 import { buildServiceMessage } from "@/lib/whatsapp";
 import { BreadcrumbJsonLd } from "@/components/JsonLd";
 import { getServicePage, getAllServicePages, type ServicePageData } from "@/lib/servicePages";
@@ -214,6 +215,7 @@ export default async function LayananSlugPage({ params }: Props) {
         features={data.features}
         details={data.details}
         relatedServices={data.relatedServices}
+        rateSection={hasServiceRates(slug) ? <ServiceRateSection slug={slug} /> : null}
       />
     </>
   );

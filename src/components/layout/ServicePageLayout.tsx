@@ -26,6 +26,7 @@ interface ServicePageLayoutProps {
   features: string[];
   details: Feature[];
   relatedServices: { name: string; href: string }[];
+  rateSection?: React.ReactNode;
   edit?: boolean;
 }
 
@@ -47,6 +48,7 @@ export function ServicePageLayout({
   features,
   details,
   relatedServices,
+  rateSection,
   edit,
 }: ServicePageLayoutProps) {
   return (
@@ -116,6 +118,7 @@ export function ServicePageLayout({
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main content */}
           <div className="lg:col-span-2 space-y-8">
+            {rateSection}
             {/* Features */}
             <div className="bg-white rounded-2xl p-7 shadow-sm border border-gray-100">
               <h2 className="text-xl font-black text-[#111111] mb-5">Keunggulan Layanan</h2>
