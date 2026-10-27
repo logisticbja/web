@@ -4,7 +4,7 @@ import { BlogIndexView } from "@/components/tools/BlogIndexView";
 import { loadBlogIndex } from "@/lib/sitePages/fetch";
 import { BLOG_INDEX_DEFAULTS } from "@/lib/sitePages/blogIndex";
 import { stripBrand, withBrand } from "@/lib/seoTitle";
-import { blogPageHref, getListablePosts, getPageCount, getPagePosts } from "@/lib/blogPagination";
+import { blogPageHref, getBlogListing, getListablePosts, getPageCount, getPagePosts } from "@/lib/blogPagination";
 
 export const revalidate = 86400;
 
@@ -46,7 +46,7 @@ export default async function BlogPagedPage({ params }: Props) {
   const { page } = await params;
   const current = parsePage(page);
   if (current === 1) permanentRedirect("/blog");
-  const [posts, { live }] = await Promise.all([getListablePosts(), loadBlogIndex()]);
+  const [{ posts, categories }, { live }] = await Promise.all([getBlogListing(), loadBlogIndex()]);
   const total = getPageCount(posts.length);
   if (!Number.isInteger(current) || current < 2 || current > total) notFound();
   return (
@@ -54,6 +54,7 @@ export default async function BlogPagedPage({ params }: Props) {
       content={live}
       posts={getPagePosts(posts, current)}
       page={{ current, total }}
+      categories={categories}
     />
   );
 }

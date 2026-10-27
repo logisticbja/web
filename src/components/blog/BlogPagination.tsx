@@ -12,13 +12,13 @@ function pageItems(current: number, total: number): (number | "gap")[] {
   return items;
 }
 
-export function BlogPagination({ current, total }: { current: number; total: number }) {
+export function BlogPagination({ current, total, base = "/blog" }: { current: number; total: number; base?: string }) {
   if (total <= 1) return null;
-  const base = "min-w-10 h-10 px-3 inline-flex items-center justify-center rounded-lg text-sm font-semibold transition-colors";
+  const btn = "min-w-10 h-10 px-3 inline-flex items-center justify-center rounded-lg text-sm font-semibold transition-colors";
   return (
     <nav aria-label="Halaman artikel" className="mt-12 flex flex-wrap items-center justify-center gap-2">
       {current > 1 ? (
-        <Link href={blogPageHref(current - 1)} rel="prev" className={`${base} border border-gray-200 bg-white text-gray-700 hover:border-[#CC1F2A] hover:text-[#CC1F2A]`}>
+        <Link href={blogPageHref(current - 1, base)} rel="prev" className={`${btn} border border-gray-200 bg-white text-gray-700 hover:border-[#CC1F2A] hover:text-[#CC1F2A]`}>
           ‹ Sebelumnya
         </Link>
       ) : null}
@@ -26,17 +26,17 @@ export function BlogPagination({ current, total }: { current: number; total: num
         item === "gap" ? (
           <span key={`gap-${i}`} className="px-1 text-gray-400">…</span>
         ) : item === current ? (
-          <span key={item} aria-current="page" className={`${base} bg-[#CC1F2A] text-white`}>
+          <span key={item} aria-current="page" className={`${btn} bg-[#CC1F2A] text-white`}>
             {item}
           </span>
         ) : (
-          <Link key={item} href={blogPageHref(item)} className={`${base} border border-gray-200 bg-white text-gray-700 hover:border-[#CC1F2A] hover:text-[#CC1F2A]`}>
+          <Link key={item} href={blogPageHref(item, base)} className={`${btn} border border-gray-200 bg-white text-gray-700 hover:border-[#CC1F2A] hover:text-[#CC1F2A]`}>
             {item}
           </Link>
         )
       )}
       {current < total ? (
-        <Link href={blogPageHref(current + 1)} rel="next" className={`${base} border border-gray-200 bg-white text-gray-700 hover:border-[#CC1F2A] hover:text-[#CC1F2A]`}>
+        <Link href={blogPageHref(current + 1, base)} rel="next" className={`${btn} border border-gray-200 bg-white text-gray-700 hover:border-[#CC1F2A] hover:text-[#CC1F2A]`}>
           Berikutnya ›
         </Link>
       ) : null}

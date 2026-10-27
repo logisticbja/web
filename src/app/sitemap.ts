@@ -6,6 +6,7 @@ import {
 } from "@/lib/data/pricing";
 import { getAllPosts } from "@/lib/blog";
 import { isRedirectedBlogSlug } from "@/lib/blogRedirects";
+import { buildCategories, categoryBase } from "@/lib/blogCategories";
 import { getAllCityPages } from "@/lib/cityPages";
 import { regionConfigs } from "@/lib/data/regions";
 import { getAllServicePages } from "@/lib/servicePages";
@@ -105,6 +106,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     };
   });
 
+  const categoryRoutes: MetadataRoute.Sitemap = buildCategories(
+    blogPosts.filter((post) => !isRedirectedBlogSlug(post.slug))
+  ).map((category) => ({
+    url: `${BASE_URL}${categoryBase(category.slug)}`,
+    lastModified,
+    changeFrequency: "weekly" as const,
+    priority: 0.6,
+  }));
+
   // Gabungkan destinationCities + CMS, lalu dedupe berdasarkan canonical slug.
   // Alias lama seperti /timika, /biak, atau /baubau tidak dimasukkan sebagai
   // URL terpisah di sitemap agar Google fokus ke URL canonical.
@@ -189,6 +199,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...staticRoutes,
     ...cargoRoutes,
     ...blogRoutes,
+    ...categoryRoutes,
     ...destinationRoutes,
     ...serviceRoutes,
   ];
