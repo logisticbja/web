@@ -65,10 +65,7 @@ export function BlogIndexView({
   categories?: BlogCategory[];
   activeCategory?: { slug: string; name: string };
 }) {
-  const subtitle = [
-    activeCategory ? `Kategori: ${activeCategory.name}` : null,
-    page && page.current > 1 ? `Halaman ${page.current}` : null,
-  ].filter(Boolean).join(" · ");
+  const subtitle = activeCategory ? `Kategori: ${activeCategory.name}` : "";
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
       <Sec edit={edit} id="hero">

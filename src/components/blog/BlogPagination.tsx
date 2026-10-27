@@ -14,29 +14,29 @@ function pageItems(current: number, total: number): (number | "gap")[] {
 
 export function BlogPagination({ current, total, base = "/blog" }: { current: number; total: number; base?: string }) {
   if (total <= 1) return null;
-  const btn = "min-w-10 h-10 px-3 inline-flex items-center justify-center rounded-lg text-sm font-semibold transition-colors";
+  const link = "px-2 py-1 text-sm text-gray-500 transition-colors hover:text-[#CC1F2A]";
   return (
-    <nav aria-label="Halaman artikel" className="mt-12 flex flex-wrap items-center justify-center gap-2">
+    <nav aria-label="Halaman artikel" className="mt-12 flex flex-wrap items-center justify-center gap-x-3 gap-y-2">
       {current > 1 ? (
-        <Link href={blogPageHref(current - 1, base)} rel="prev" className={`${btn} border border-gray-200 bg-white text-gray-700 hover:border-[#CC1F2A] hover:text-[#CC1F2A]`}>
+        <Link href={blogPageHref(current - 1, base)} rel="prev" className={link}>
           ‹ Sebelumnya
         </Link>
       ) : null}
       {pageItems(current, total).map((item, i) =>
         item === "gap" ? (
-          <span key={`gap-${i}`} className="px-1 text-gray-400">…</span>
+          <span key={`gap-${i}`} className="text-sm text-gray-300">…</span>
         ) : item === current ? (
-          <span key={item} aria-current="page" className={`${btn} bg-[#CC1F2A] text-white`}>
+          <span key={item} aria-current="page" className="px-2 py-1 text-sm font-bold text-[#111111] underline decoration-[#CC1F2A] decoration-2 underline-offset-8">
             {item}
           </span>
         ) : (
-          <Link key={item} href={blogPageHref(item, base)} className={`${btn} border border-gray-200 bg-white text-gray-700 hover:border-[#CC1F2A] hover:text-[#CC1F2A]`}>
+          <Link key={item} href={blogPageHref(item, base)} className={link}>
             {item}
           </Link>
         )
       )}
       {current < total ? (
-        <Link href={blogPageHref(current + 1, base)} rel="next" className={`${btn} border border-gray-200 bg-white text-gray-700 hover:border-[#CC1F2A] hover:text-[#CC1F2A]`}>
+        <Link href={blogPageHref(current + 1, base)} rel="next" className={link}>
           Berikutnya ›
         </Link>
       ) : null}

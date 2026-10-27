@@ -28,3 +28,14 @@ export function getPagePosts(posts: PostMeta[], page: number) {
   const start = (page - 1) * POSTS_PER_PAGE;
   return posts.slice(start, start + POSTS_PER_PAGE);
 }
+
+export function pickRelatedPosts(posts: PostMeta[], current: { slug: string; category: string }, limit = 4) {
+  const others = posts.filter((post) => post.slug !== current.slug);
+  const sameCategory = others.filter((post) => post.category === current.category);
+  const picked = sameCategory.slice(0, limit);
+  for (const post of others) {
+    if (picked.length >= limit) break;
+    if (!picked.includes(post)) picked.push(post);
+  }
+  return picked;
+}
