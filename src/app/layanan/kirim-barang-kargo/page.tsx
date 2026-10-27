@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { BreadcrumbJsonLd } from "@/components/JsonLd";
 import { LayananView } from "@/components/tools/LayananView";
+import { LayananDetails } from "@/components/layanan/LayananDetails";
 import { loadLayanan } from "@/lib/sitePages/fetch";
 import { LAYANAN_DEFAULTS, LAYANAN_OG_DESCRIPTION } from "@/lib/sitePages/layanan";
 import { stripBrand } from "@/lib/seoTitle";
@@ -37,6 +38,7 @@ export default async function KirimBarangKargoPage() {
         ]}
       />
       <LayananView content={live} />
+      <LayananDetails />
     </>
   );
 }
