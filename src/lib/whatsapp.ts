@@ -40,5 +40,10 @@ export function buildScheduleMessage(route: string, ship?: string) {
   const msg = `Halo BJA Logistic, saya ingin tanya estimasi waktu tiba (ETA) untuk jadwal kapal rute ${route}${shipPart}. Bisa bantu info lebih detail?`;
   return WA_BASE + encode(msg);
 }
+export function buildShipCargoMessage(route: string, etd?: string) {
+  const etdPart = etd ? ` yang berangkat ${etd}` : "";
+  const msg = `Halo BJA Logistic, saya mau kirim barang lewat kapal rute ${route}${etdPart}. Bisa bantu info tarif dan closing date-nya?`;
+  return WA_BASE + encode(msg);
+}
 export const WA_PHONE = "0815 1333 5157";
 export const WA_PHONE_RAW = "6281513335157";

@@ -25,10 +25,40 @@ export async function getSchedules(params?: {
 
     const json = await res.json();
     if (json.status !== "success") return [];
-    return json.data ?? [];
+    return publicSchedules(json.data ?? []);
   } catch {
     return [];
   }
+}
+
+export const ROUTE_SHIP_LABEL = "Kapal Roro / Cargo";
+
+export function jakartaToday(): string {
+  return new Date(Date.now() + 7 * 3600 * 1000).toISOString().slice(0, 10);
+}
+
+export function publicShipName(ship: string, serviceType: string): string {
+  if (!ship) return "";
+  return serviceType === "Express" ? ship : ROUTE_SHIP_LABEL;
+}
+
+export function publicSchedules(list: ShipSchedule[], today = jakartaToday()): ShipSchedule[] {
+  return list
+    .filter((s) => !s.etdDate || s.etdDate >= today)
+    .map((s) => ({ ...s, ship: publicShipName(s.ship, s.serviceType) }))
+    .sort((a, b) => (a.etdDate ?? "9999").localeCompare(b.etdDate ?? "9999"));
+}
+
+const MONTHS_LONG_ID = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+
+export function formatMonthYear(dateStr: string): string {
+  const [y, m] = dateStr.split("-").map(Number);
+  return `${MONTHS_LONG_ID[m - 1]} ${y}`;
+}
+
+export function formatLongDate(dateStr: string): string {
+  const [y, m, d] = dateStr.split("-").map(Number);
+  return `${d} ${MONTHS_LONG_ID[m - 1]} ${y}`;
 }
 
 // Format tanggal "YYYY-MM-DD" (atau null) jadi "10 Agu 2026" ala Indonesia.
