@@ -1,9 +1,9 @@
 "use client";
 
 import { useMemo, useState } from "react";
-export type FreightRow = { city: string; price: number; eta: string };
+import type { RateRegion } from "@/lib/rateTables";
 
-export type FreightRegion = { region: string; rates: FreightRow[] };
+export type FreightRegion = RateRegion;
 
 function rupiah(value: number) {
   return `Rp${value.toLocaleString("id-ID")}`;
