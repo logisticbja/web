@@ -2,7 +2,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Ship, MessageCircle, Filter, Package, ArrowRight } from "lucide-react";
-import { buildGeneralMessage, buildScheduleMessage, buildShipCargoMessage } from "@/lib/whatsapp";
+import { buildGeneralMessage, buildJadwalInquiryMessage, buildScheduleMessage, buildShipCargoMessage } from "@/lib/whatsapp";
 import { WALink } from "@/components/ui/WALink";
 import { formatScheduleDate, formatServiceType, type ShipSchedule } from "@/lib/schedule";
 import type { JadwalKapalContent, JadwalKapalSection } from "@/lib/sitePages/jadwalKapal";
@@ -91,6 +91,12 @@ function CargoBox() {
         </div>
       </div>
       <div className="flex flex-wrap gap-2">
+        <WALink
+          href={buildJadwalInquiryMessage()}
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold bg-[#25D366] text-white hover:bg-[#20bc59] transition-all"
+        >
+          <MessageCircle size={16} /> Tanya Tarif &amp; Jadwal
+        </WALink>
         {cargoRegions.map((r) => (
           <Link
             key={r.href}
