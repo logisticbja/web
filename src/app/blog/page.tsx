@@ -1,6 +1,5 @@
 import { Metadata } from "next";
-import { getAllPosts } from "@/lib/blog";
-import { isRedirectedBlogSlug } from "@/lib/blogRedirects";
+import { getListablePosts, getPageCount, getPagePosts } from "@/lib/blogPagination";
 import { BlogIndexView } from "@/components/tools/BlogIndexView";
 import { loadBlogIndex } from "@/lib/sitePages/fetch";
 import { BLOG_INDEX_DEFAULTS, BLOG_OG } from "@/lib/sitePages/blogIndex";
@@ -37,6 +36,12 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function BlogPage() {
-  const [posts, { live }] = await Promise.all([getAllPosts(), loadBlogIndex()]);
-  return <BlogIndexView content={live} posts={posts.filter((post) => !isRedirectedBlogSlug(post.slug))} />;
+  const [posts, { live }] = await Promise.all([getListablePosts(), loadBlogIndex()]);
+  return (
+    <BlogIndexView
+      content={live}
+      posts={getPagePosts(posts, 1)}
+      page={{ current: 1, total: getPageCount(posts.length) }}
+    />
+  );
 }

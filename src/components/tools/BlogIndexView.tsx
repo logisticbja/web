@@ -5,6 +5,7 @@ import BlogCoverImage from "@/app/blog/BlogCoverImage";
 import { cms } from "@/components/home/cms";
 import type { BlogIndexContent } from "@/lib/sitePages/blogIndex";
 import { Sec } from "./ToolHero";
+import { BlogPagination } from "@/components/blog/BlogPagination";
 
 const categoryColors: Record<string, string> = {
   "Tips Pengiriman": "bg-blue-50 text-blue-700 border border-blue-200",
@@ -47,7 +48,17 @@ function SimplePostCard({ post }: { post: PostMeta }) {
   );
 }
 
-export function BlogIndexView({ content, posts, edit }: { content: BlogIndexContent; posts: PostMeta[]; edit?: boolean }) {
+export function BlogIndexView({
+  content,
+  posts,
+  edit,
+  page,
+}: {
+  content: BlogIndexContent;
+  posts: PostMeta[];
+  edit?: boolean;
+  page?: { current: number; total: number };
+}) {
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
       <Sec edit={edit} id="hero">
@@ -62,6 +73,7 @@ export function BlogIndexView({ content, posts, edit }: { content: BlogIndexCont
             </nav>
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#111111] mb-3" {...cms(edit, "hero.title")}>
               {content.hero.title}
+              {page && page.current > 1 ? <span className="block text-base sm:text-lg font-semibold text-gray-400 mt-1">Halaman {page.current}</span> : null}
             </h1>
             <p className="text-gray-500 text-sm sm:text-base max-w-xl" {...cms(edit, "hero.description")}>
               {content.hero.description}
@@ -81,6 +93,7 @@ export function BlogIndexView({ content, posts, edit }: { content: BlogIndexCont
               ))}
             </div>
           )}
+          {page ? <BlogPagination current={page.current} total={page.total} /> : null}
         </div>
       </Sec>
     </div>
