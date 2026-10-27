@@ -5,6 +5,7 @@ import {
   resolveDestinationValue,
 } from "@/lib/data/pricing";
 import { getAllPosts } from "@/lib/blog";
+import { isRedirectedBlogSlug } from "@/lib/blogRedirects";
 import { getAllCityPages } from "@/lib/cityPages";
 import { regionConfigs } from "@/lib/data/regions";
 import { getAllServicePages } from "@/lib/servicePages";
@@ -85,7 +86,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const blogPosts = await getAllPosts();
   const now = Date.now();
 
-  const blogRoutes: MetadataRoute.Sitemap = blogPosts.map((post) => {
+  const blogRoutes: MetadataRoute.Sitemap = blogPosts
+    .filter((post) => !isRedirectedBlogSlug(post.slug))
+    .map((post) => {
     const postDate = post.date ? new Date(post.date) : lastModified;
     const ageMs = now - postDate.getTime();
     const ageMonths = ageMs / (1000 * 60 * 60 * 24 * 30);

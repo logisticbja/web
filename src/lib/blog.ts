@@ -85,7 +85,7 @@ function mapPost(row: Record<string, string>): PostMeta {
 export async function getAllPosts(): Promise<PostMeta[]> {
   try {
     const res = await fetch(
-      `${process.env.BLOG_API_URL}?limit=200`,
+      `${process.env.BLOG_API_URL}?limit=500`,
       { headers: apiHeaders(), next: { revalidate: 3600, tags: ["cms-content"] } }
     );
     const json = await res.json();
