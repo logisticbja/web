@@ -2,31 +2,16 @@ import Link from "next/link";
 import { MessageCircle } from "lucide-react";
 import { WALink } from "@/components/ui/WALink";
 import { buildGeneralMessage } from "@/lib/whatsapp";
-import { AIR_FREIGHT_MIN_KG, airFreightRates } from "@/lib/data/airFreight";
-import { LAND_FREIGHT_MIN_KG, landFreightRates } from "@/lib/data/landFreight";
-import { FreightRateTable, type FreightRegion } from "./FreightRateTable";
-
-const easternRegions = airFreightRates.filter((r) => r.region !== "Kota besar lainnya");
-const airMinPrice = Math.min(...easternRegions.flatMap((r) => r.rates.map((rate) => rate.price)));
-const landMinPrice = Math.min(...landFreightRates.flatMap((r) => r.rates.map((rate) => rate.price)));
-const landEtaMin = Math.min(...landFreightRates.flatMap((r) => r.rates.map((rate) => rate.etaMin)));
-const landEtaMax = Math.max(...landFreightRates.flatMap((r) => r.rates.map((rate) => rate.etaMax)));
-
-const airRegions: FreightRegion[] = airFreightRates.map((r) => ({
-  region: r.region,
-  rates: r.rates.map((rate) => ({ city: rate.city, price: rate.price, eta: `${rate.days} hari kerja` })),
-}));
-
-const landRegions: FreightRegion[] = landFreightRates.map((r) => ({
-  region: r.region,
-  rates: r.rates.map((rate) => ({ city: rate.city, price: rate.price, eta: `${rate.etaMin}–${rate.etaMax} hari` })),
-}));
+import { getRateTable, rateStats } from "@/lib/rateTables";
+import { FreightRateTable } from "./FreightRateTable";
 
 function rupiah(value: number) {
   return `Rp${value.toLocaleString("id-ID")}`;
 }
 
-const comparison = [
+type Stats = { landMinPrice: number; landEtaMin: number; landEtaMax: number; landMinKg: number; airMinPrice: number; airMinKg: number };
+
+const buildComparison = ({ landMinPrice, landEtaMin, landEtaMax, landMinKg, airMinPrice, airMinKg }: Stats) => [
   {
     label: "Cocok untuk",
     laut: "Barang berat dan besar: material proyek, mesin, stok toko, barang pindahan, kendaraan",
@@ -48,8 +33,8 @@ const comparison = [
   {
     label: "Minimal kirim",
     laut: "100 kg",
-    darat: `${LAND_FREIGHT_MIN_KG} kg`,
-    udara: `${AIR_FREIGHT_MIN_KG} kg`,
+    darat: `${landMinKg} kg`,
+    udara: `${airMinKg} kg`,
   },
   {
     label: "Tarif",
@@ -82,7 +67,18 @@ const faqs = [
   },
 ];
 
-export function LayananDetails() {
+export async function LayananDetails() {
+  const [land, air] = await Promise.all([getRateTable("darat"), getRateTable("udara")]);
+  const landStats = rateStats(land);
+  const airStats = rateStats(air, ["Kota besar lainnya"]);
+  const comparison = buildComparison({
+    landMinPrice: landStats.minPrice,
+    landEtaMin: landStats.minDays,
+    landEtaMax: landStats.maxDays,
+    landMinKg: land.minKg,
+    airMinPrice: airStats.minPrice,
+    airMinKg: air.minKg,
+  });
   return (
     <div className="bg-[#F8FAFC] pb-16">
       <section aria-labelledby="bandingkan" className="mx-auto max-w-6xl px-4 py-10">
@@ -158,9 +154,9 @@ export function LayananDetails() {
             Tarif Cargo Darat Jakarta – Jawa
           </h2>
           <p className="mb-5 max-w-2xl text-sm text-gray-500 sm:text-base">
-            Kirim barang dari Jakarta ke kota-kota di Jawa Barat, Jawa Tengah, DI Yogyakarta, dan Jawa Timur lewat jalur darat. Minimal pengiriman {LAND_FREIGHT_MIN_KG} kg.
+            Kirim barang dari Jakarta ke kota-kota di Jawa Barat, Jawa Tengah, DI Yogyakarta, dan Jawa Timur lewat jalur darat. Minimal pengiriman {land.minKg} kg.
           </p>
-          <FreightRateTable regions={landRegions} idPrefix="darat" placeholder="Cari kota, mis. Semarang" />
+          <FreightRateTable regions={land.regions} idPrefix="darat" placeholder="Cari kota, mis. Semarang" />
           <ul className="mt-5 list-disc space-y-1.5 pl-5 text-xs text-gray-500 sm:text-sm">
             <li>Berat yang dihitung adalah yang terbesar antara berat asli dan berat volume (P × L × T ÷ 4.000).</li>
             <li>Tarif belum termasuk packing dan asuransi.</li>
@@ -175,9 +171,9 @@ export function LayananDetails() {
             Tarif Cargo Udara dari Jakarta
           </h2>
           <p className="mb-5 max-w-2xl text-sm text-gray-500 sm:text-base">
-            Pilih wilayah atau cari nama kota untuk melihat tarif per kg dan estimasi waktu pengiriman. Minimal pengiriman {AIR_FREIGHT_MIN_KG} kg.
+            Pilih wilayah atau cari nama kota untuk melihat tarif per kg dan estimasi waktu pengiriman. Minimal pengiriman {air.minKg} kg.
           </p>
-          <FreightRateTable regions={airRegions} idPrefix="udara" placeholder="Cari kota, mis. Jayapura" />
+          <FreightRateTable regions={air.regions} idPrefix="udara" placeholder="Cari kota, mis. Jayapura" />
           <ul className="mt-5 list-disc space-y-1.5 pl-5 text-xs text-gray-500 sm:text-sm">
             <li>Berat yang dihitung adalah yang terbesar antara berat asli dan berat volume (P × L × T ÷ 5.000).</li>
             <li>Tarif belum termasuk packing, asuransi, serta biaya bongkar muat.</li>
