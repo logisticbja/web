@@ -11,6 +11,7 @@ import type { CityPageData } from "@/lib/cityPages";
 import { ONGKIR_REGIONS, serviceInfo, toSlug, type CityView } from "@/lib/cityPage";
 import type { KotaSection } from "@/lib/sitePages/kotaTemplate";
 import { TOOL_ICONS } from "./ToolHero";
+import { ExpandableHtml } from "@/components/ui/ExpandableHtml";
 
 export type CityEditMode = "city" | "template";
 
@@ -456,15 +457,15 @@ export function CityPageView({ view, data, edit }: { view: CityView; data: CityP
                 <p className="text-[#F5C518] text-xs sm:text-sm font-bold uppercase tracking-wide mb-5 text-center lg:text-left" {...p("hero.priceTitle")}>
                   {t(tpl.hero.priceTitle)}
                 </p>
-                <div className="flex flex-col gap-6">
+                <div className="flex flex-col gap-4 sm:gap-6 pl-6 lg:pl-0">
                   {[
                     { label: "Reguler", price: cp.regulerPrice },
                     { label: "Express", price: cp.expressPrice },
                   ].map((s) => (
                     <div key={s.label} className="relative" {...c(s.label === "Reguler" ? "priceRegular" : "priceExpress")}>
-                      <div className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-full bg-[#CC1F2A] z-10" />
-                      <div className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-[#F5C518] z-20" />
-                      <div className="bg-white rounded-full pl-16 pr-10 py-4 flex items-center gap-3 shadow-lg min-w-[320px]">
+                      <div className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 sm:w-20 sm:h-20 rounded-full bg-[#CC1F2A] z-10" />
+                      <div className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-[#F5C518] z-20" />
+                      <div className="bg-white rounded-full pl-10 pr-6 py-3 sm:pl-16 sm:pr-10 sm:py-4 flex items-center gap-2 sm:gap-3 shadow-lg sm:min-w-[320px]">
                         <span className="font-black text-[#111111] text-lg sm:text-xl whitespace-nowrap">{s.label} →</span>
                         {s.price !== null ? (
                           <span className="text-[#CC1F2A] font-black text-lg sm:text-xl whitespace-nowrap">
@@ -530,10 +531,11 @@ export function CityPageView({ view, data, edit }: { view: CityView; data: CityP
                 )
               )}
               {belowBanner && (
-                <div
+                <ExpandableHtml
+                  html={belowBanner}
+                  collapse={mode === null}
                   className="bg-white rounded-2xl border border-gray-100 p-6 sm:p-8 prose prose-gray max-w-none [&>*:first-child]:mt-0"
                   {...c("belowBannerContent")}
-                  dangerouslySetInnerHTML={{ __html: belowBanner }}
                 />
               )}
             </div>

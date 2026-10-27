@@ -65,7 +65,7 @@ export function ToolHero({
   edit?: boolean;
 }) {
   return (
-    <div className="relative bg-gradient-to-br from-[#CC1F2A] to-[#8B1219] min-h-[428px] flex items-center w-full" {...cms(edit, "hero.image")}>
+    <div className="relative bg-gradient-to-br from-[#CC1F2A] to-[#8B1219] min-h-[240px] py-8 sm:py-0 sm:min-h-[428px] flex items-center w-full" {...cms(edit, "hero.image")}>
       {hero.image && (
         <>
           <div className="absolute inset-0 overflow-hidden">
@@ -75,7 +75,7 @@ export function ToolHero({
         </>
       )}
       <div className={`relative ${maxWidth} mx-auto text-center px-4 w-full min-w-0`}>
-        <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-[#F5C518] flex items-center justify-center mx-auto mb-5">
+        <div className="hidden sm:flex w-16 h-16 rounded-2xl bg-[#F5C518] items-center justify-center mx-auto mb-5">
           <Icon size={30} className="text-[#1A1A1A]" />
         </div>
         <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white mb-3" {...cms(edit, "hero.title")}>

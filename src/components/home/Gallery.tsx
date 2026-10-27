@@ -52,7 +52,7 @@ export function Gallery({ content, edit }: { content: GalleryContent } & EditPro
         </div>
 
         {/* Mobile 2-col grid */}
-        <div className="grid lg:hidden grid-cols-2 gap-3">
+        <div className="m-swipe m-swipe-sm grid lg:hidden grid-cols-2 gap-3">
           {content.photos.map((photo, i) => (
             <GalleryItem
               key={`${i}-${photo.src}`}
