@@ -1,7 +1,7 @@
 "use client";
 import { useEffect } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { getUTMParams, saveUTM } from "@/lib/utm";
+import { appendUTMToWAHref, getUTMParams, isWhatsAppHref, saveUTM } from "@/lib/utm";
 
 export function UTMTracker() {
   const pathname = usePathname();
@@ -12,9 +12,6 @@ export function UTMTracker() {
     const current = new URLSearchParams(searchParams.toString());
     saveUTM(current);
 
-    // Re-append the session's UTM params to any page that lands without
-    // them, so the campaign trail stays visible in the URL as the user
-    // navigates around the site.
     const stored = getUTMParams();
     let changed = false;
     for (const [key, value] of Object.entries(stored)) {
@@ -27,6 +24,24 @@ export function UTMTracker() {
       router.replace(`${pathname}?${current.toString()}`, { scroll: false });
     }
   }, [pathname, searchParams, router]);
+
+  useEffect(() => {
+    function tag(event: Event) {
+      const target = event.target as Element | null;
+      const link = target?.closest?.("a[href]") as HTMLAnchorElement | null;
+      if (!link || !isWhatsAppHref(link.href)) return;
+      const next = appendUTMToWAHref(link.href);
+      if (next !== link.href) link.href = next;
+    }
+    document.addEventListener("click", tag, true);
+    document.addEventListener("auxclick", tag, true);
+    document.addEventListener("contextmenu", tag, true);
+    return () => {
+      document.removeEventListener("click", tag, true);
+      document.removeEventListener("auxclick", tag, true);
+      document.removeEventListener("contextmenu", tag, true);
+    };
+  }, []);
 
   return null;
 }
