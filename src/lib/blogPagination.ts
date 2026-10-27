@@ -29,13 +29,30 @@ export function getPagePosts(posts: PostMeta[], page: number) {
   return posts.slice(start, start + POSTS_PER_PAGE);
 }
 
-export function pickRelatedPosts(posts: PostMeta[], current: { slug: string; category: string }, limit = 4) {
-  const others = posts.filter((post) => post.slug !== current.slug);
-  const sameCategory = others.filter((post) => post.category === current.category);
-  const picked = sameCategory.slice(0, limit);
-  for (const post of others) {
-    if (picked.length >= limit) break;
-    if (!picked.includes(post)) picked.push(post);
-  }
-  return picked;
+const STOPWORDS = new Set(["dan", "di", "ke", "dari", "yang", "untuk", "dengan", "atau", "ini", "itu", "cara", "apa", "bagaimana", "kenapa", "lewat", "dalam", "pada", "bisa", "agar", "jadi", "tips", "panduan"]);
+
+function titleWords(title: string) {
+  return new Set(
+    title
+      .toLowerCase()
+      .replace(/[^a-z0-9\s]/g, " ")
+      .split(/\s+/)
+      .filter((word) => word.length > 2 && !STOPWORDS.has(word))
+  );
+}
+
+export function pickRelatedPosts(posts: PostMeta[], current: { slug: string; category: string; title: string; tags: string[] }, limit = 4) {
+  const words = titleWords(current.title);
+  const tags = new Set(current.tags.map((tag) => tag.toLowerCase().trim()).filter(Boolean));
+  return posts
+    .filter((post) => post.slug !== current.slug)
+    .map((post, order) => {
+      const sharedWords = [...titleWords(post.title)].filter((word) => words.has(word)).length;
+      const sharedTags = post.tags.filter((tag) => tags.has(tag.toLowerCase().trim())).length;
+      const score = sharedWords * 2 + sharedTags * 3 + (post.category === current.category ? 1 : 0);
+      return { post, score, order };
+    })
+    .sort((a, b) => b.score - a.score || a.order - b.order)
+    .slice(0, limit)
+    .map((item) => item.post);
 }

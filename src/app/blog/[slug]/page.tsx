@@ -71,7 +71,7 @@ export default async function BlogPostPage({ params }: Props) {
 
   if (!post) notFound();
 
-  const related = pickRelatedPosts(listable, { slug: post.slug, category: post.category });
+  const related = pickRelatedPosts(listable, { slug: post.slug, category: post.category, title: post.title, tags: post.tags ?? [] });
 
   const canonical  = `${BASE_URL}/blog/${slug}`;
   const ogImage    = post.ogImage ?? post.cover ?? "/og-image.png";
