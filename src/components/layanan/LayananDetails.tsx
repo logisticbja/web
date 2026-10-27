@@ -3,10 +3,24 @@ import { MessageCircle } from "lucide-react";
 import { WALink } from "@/components/ui/WALink";
 import { buildGeneralMessage } from "@/lib/whatsapp";
 import { AIR_FREIGHT_MIN_KG, airFreightRates } from "@/lib/data/airFreight";
-import { AirFreightTable } from "./AirFreightTable";
+import { LAND_FREIGHT_MIN_KG, landFreightRates } from "@/lib/data/landFreight";
+import { FreightRateTable, type FreightRegion } from "./FreightRateTable";
 
 const easternRegions = airFreightRates.filter((r) => r.region !== "Kota besar lainnya");
 const airMinPrice = Math.min(...easternRegions.flatMap((r) => r.rates.map((rate) => rate.price)));
+const landMinPrice = Math.min(...landFreightRates.flatMap((r) => r.rates.map((rate) => rate.price)));
+const landEtaMin = Math.min(...landFreightRates.flatMap((r) => r.rates.map((rate) => rate.etaMin)));
+const landEtaMax = Math.max(...landFreightRates.flatMap((r) => r.rates.map((rate) => rate.etaMax)));
+
+const airRegions: FreightRegion[] = airFreightRates.map((r) => ({
+  region: r.region,
+  rates: r.rates.map((rate) => ({ city: rate.city, price: rate.price, eta: `${rate.days} hari kerja` })),
+}));
+
+const landRegions: FreightRegion[] = landFreightRates.map((r) => ({
+  region: r.region,
+  rates: r.rates.map((rate) => ({ city: rate.city, price: rate.price, eta: `${rate.etaMin}–${rate.etaMax} hari` })),
+}));
 
 function rupiah(value: number) {
   return `Rp${value.toLocaleString("id-ID")}`;
@@ -16,31 +30,31 @@ const comparison = [
   {
     label: "Cocok untuk",
     laut: "Barang berat dan besar: material proyek, mesin, stok toko, barang pindahan, kendaraan",
-    darat: "Pengiriman antarkota di Pulau Jawa",
+    darat: "Distribusi stok, barang proyek, dan kiriman partai besar antarkota di Pulau Jawa",
     udara: "Barang mendesak dan bernilai tinggi: dokumen, sparepart, alat kesehatan",
   },
   {
     label: "Rute",
     laut: "Jakarta & sekitarnya atau Surabaya ke Papua, Maluku, NTT, dan Sulawesi",
-    darat: "Jakarta ke kota-kota di Pulau Jawa",
+    darat: "Jakarta ke Jawa Barat, Jawa Tengah, DI Yogyakarta, dan Jawa Timur",
     udara: "Jakarta ke Indonesia Timur dan kota besar lainnya",
   },
   {
     label: "Estimasi",
     laut: "4–25 hari setelah kapal berangkat, tergantung kota dan layanan",
-    darat: "Tanyakan ke tim kami",
+    darat: `${landEtaMin}–${landEtaMax} hari, tergantung kota tujuan`,
     udara: "2–8 hari kerja untuk sebagian besar kota",
   },
   {
     label: "Minimal kirim",
     laut: "100 kg",
-    darat: "Tanyakan ke tim kami",
+    darat: `${LAND_FREIGHT_MIN_KG} kg`,
     udara: `${AIR_FREIGHT_MIN_KG} kg`,
   },
   {
     label: "Tarif",
     laut: "Mulai Rp7.000/kg",
-    darat: "Tanyakan ke tim kami",
+    darat: `Mulai ${rupiah(landMinPrice)}/kg`,
     udara: `Mulai ${rupiah(airMinPrice)}/kg ke Indonesia Timur`,
   },
 ];
@@ -48,11 +62,11 @@ const comparison = [
 const faqs = [
   {
     q: "Mana yang lebih hemat, cargo laut atau cargo udara?",
-    a: "Cargo laut jauh lebih hemat untuk barang di atas 100 kg. Cargo udara lebih mahal per kg, tetapi barang tiba dalam hitungan hari kerja, sehingga cocok untuk kiriman kecil yang mendesak.",
+    a: "Untuk tujuan Indonesia Timur, cargo laut jauh lebih hemat untuk barang di atas 100 kg. Cargo udara lebih mahal per kg, tetapi barang tiba dalam hitungan hari kerja, sehingga cocok untuk kiriman kecil yang mendesak.",
   },
   {
     q: "Bagaimana berat kiriman dihitung?",
-    a: "Yang dihitung adalah berat terbesar antara berat asli dan berat volume. Berat volume cargo laut dan darat = panjang × lebar × tinggi (cm) ÷ 4.000, sedangkan cargo udara ÷ 6.000.",
+    a: "Yang dihitung adalah berat terbesar antara berat asli dan berat volume. Berat volume cargo laut dan darat = panjang × lebar × tinggi (cm) ÷ 4.000, sedangkan cargo udara ÷ 5.000.",
   },
   {
     q: "Apakah tarif sudah termasuk packing dan asuransi?",
@@ -138,6 +152,23 @@ export function LayananDetails() {
         </div>
       </section>
 
+      <section aria-labelledby="tarif-darat" className="mx-auto max-w-6xl px-4 py-6">
+        <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm sm:p-8">
+          <h2 id="tarif-darat" className="mb-2 text-xl font-black text-[#111111] sm:text-2xl">
+            Tarif Cargo Darat Jakarta – Jawa
+          </h2>
+          <p className="mb-5 max-w-2xl text-sm text-gray-500 sm:text-base">
+            Kirim barang dari Jakarta ke kota-kota di Jawa Barat, Jawa Tengah, DI Yogyakarta, dan Jawa Timur lewat jalur darat. Minimal pengiriman {LAND_FREIGHT_MIN_KG} kg.
+          </p>
+          <FreightRateTable regions={landRegions} idPrefix="darat" placeholder="Cari kota, mis. Semarang" />
+          <ul className="mt-5 list-disc space-y-1.5 pl-5 text-xs text-gray-500 sm:text-sm">
+            <li>Berat yang dihitung adalah yang terbesar antara berat asli dan berat volume (P × L × T ÷ 4.000).</li>
+            <li>Tarif belum termasuk packing dan asuransi.</li>
+            <li>Tarif dapat berubah sewaktu-waktu. Pastikan harga final saat konfirmasi pesanan.</li>
+          </ul>
+        </div>
+      </section>
+
       <section aria-labelledby="tarif-udara" className="mx-auto max-w-6xl px-4 py-6">
         <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm sm:p-8">
           <h2 id="tarif-udara" className="mb-2 text-xl font-black text-[#111111] sm:text-2xl">
@@ -146,9 +177,9 @@ export function LayananDetails() {
           <p className="mb-5 max-w-2xl text-sm text-gray-500 sm:text-base">
             Pilih wilayah atau cari nama kota untuk melihat tarif per kg dan estimasi waktu pengiriman. Minimal pengiriman {AIR_FREIGHT_MIN_KG} kg.
           </p>
-          <AirFreightTable regions={airFreightRates} />
+          <FreightRateTable regions={airRegions} idPrefix="udara" placeholder="Cari kota, mis. Jayapura" />
           <ul className="mt-5 list-disc space-y-1.5 pl-5 text-xs text-gray-500 sm:text-sm">
-            <li>Berat yang dihitung adalah yang terbesar antara berat asli dan berat volume (P × L × T ÷ 6.000).</li>
+            <li>Berat yang dihitung adalah yang terbesar antara berat asli dan berat volume (P × L × T ÷ 5.000).</li>
             <li>Tarif belum termasuk packing, asuransi, serta biaya bongkar muat.</li>
             <li>Tarif berlaku untuk kota tujuan. Pengiriman ke daerah terpencil dikenakan biaya penerusan.</li>
             <li>Estimasi dihitung dalam hari kerja, tidak termasuk hari libur.</li>

@@ -6,11 +6,11 @@ export function LocalBusinessJsonLd() {
     name: "BJA Logistic",
     alternateName: "BJA Logistics",
     description:
-      "Jasa ekspedisi cargo terpercaya ke Papua, Maluku, NTT, dan Sulawesi. Layanan cargo laut, darat, udara, kirim motor dan mobil. Mulai Rp 6.000/kg.",
+      "Jasa ekspedisi cargo terpercaya ke Papua, Maluku, NTT, dan Sulawesi. Layanan cargo laut, darat, udara, kirim motor dan mobil. Cargo laut mulai Rp 7.000/kg.",
     url: "https://bjalogistic.id",
     telephone: "+6281513335157",
     email: "info@bjalogistic.id",
-    priceRange: "Rp 6.000 – Rp 35.000 per kg",
+    priceRange: "Rp 2.500 – Rp 528.000 per kg",
     image: "https://bjalogistic.id/logo-putih-bja.webp",
     logo: "https://bjalogistic.id/logo-putih-bja.webp",
     address: {
@@ -58,20 +58,6 @@ export function LocalBusinessJsonLd() {
           },
           priceSpecification: {
             "@type": "UnitPriceSpecification",
-            price: "6000",
-            priceCurrency: "IDR",
-            unitText: "per kg",
-          },
-        },
-        {
-          "@type": "Offer",
-          itemOffered: {
-            "@type": "Service",
-            name: "Cargo Darat ke Papua",
-            description: "Pengiriman cargo via truk ke Papua dan Indonesia Timur",
-          },
-          priceSpecification: {
-            "@type": "UnitPriceSpecification",
             price: "7000",
             priceCurrency: "IDR",
             unitText: "per kg",
@@ -81,12 +67,26 @@ export function LocalBusinessJsonLd() {
           "@type": "Offer",
           itemOffered: {
             "@type": "Service",
-            name: "Cargo Udara ke Papua",
-            description: "Pengiriman express via pesawat ke Papua, 2-4 hari sampai",
+            name: "Cargo Darat Jakarta – Jawa",
+            description: "Pengiriman cargo via truk dari Jakarta ke kota-kota di Pulau Jawa, estimasi 2–5 hari",
           },
           priceSpecification: {
             "@type": "UnitPriceSpecification",
-            price: "20000",
+            price: "2500",
+            priceCurrency: "IDR",
+            unitText: "per kg",
+          },
+        },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "Cargo Udara ke Papua",
+            description: "Pengiriman via pesawat ke Papua dan Indonesia Timur, estimasi 2–8 hari kerja, minimal 20 kg",
+          },
+          priceSpecification: {
+            "@type": "UnitPriceSpecification",
+            price: "102000",
             priceCurrency: "IDR",
             unitText: "per kg",
           },
@@ -113,7 +113,7 @@ export function FaqJsonLd() {
         name: "Berapa ongkir kirim ke Papua?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Ongkir ke Papua mulai dari Rp 6.000/kg untuk cargo laut (min. 100 kg) dan Rp 7.000/kg untuk cargo darat. Cargo udara mulai Rp 20.000/kg. Hubungi WhatsApp 0815-1333-5157 untuk harga pasti.",
+          text: "Ongkir ke Papua lewat cargo laut mulai Rp 7.000/kg (min. 100 kg). Cargo udara ke Papua mulai Rp 186.000/kg (min. 20 kg). Hubungi WhatsApp 0815-1333-5157 untuk harga pasti.",
         },
       },
       {
