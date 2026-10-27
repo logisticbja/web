@@ -84,9 +84,9 @@ function CargoBox() {
           <Package size={20} />
         </div>
         <div>
-          <h2 className="font-black text-[#111111] text-lg">Mau kirim barang, bukan naik kapal?</h2>
+          <h2 className="font-black text-[#111111] text-lg">Kirim Cargo Ikut Jadwal Kapal Ini</h2>
           <p className="text-sm text-gray-600 mt-1">
-            BJA Logistic melayani pengiriman cargo minimal 100 kg dari Jakarta &amp; sekitarnya (Jabodetabek) atau Surabaya ke Indonesia Timur. Pilih wilayah tujuan untuk lihat kota, tarif, dan estimasi.
+            Minimal 100 kg, dari Jakarta atau Surabaya, diantar sampai alamat penerima. Pilih wilayah untuk lihat tarif dan estimasi.
           </p>
         </div>
       </div>
