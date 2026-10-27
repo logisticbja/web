@@ -26,6 +26,13 @@ function citySlug(slug: string) {
   return resolveDestinationValue(slug.replace(/-/g, "_")).replace(/_/g, "-");
 }
 
+function completeness(row: { reguler: SeaRate; express: SeaRate }) {
+  return [row.reguler, row.express].reduce(
+    (n, r) => n + (r ? 1 : 0) + (r?.eta ? 1 : 0),
+    0,
+  );
+}
+
 function buildSeaRegions(pages: CityPageData[]): SeaRegion[] {
   const groups = new Map<string, SeaRegion>();
   for (const page of pages) {
@@ -42,14 +49,13 @@ function buildSeaRegions(pages: CityPageData[]): SeaRegion[] {
     if (!reguler && !express) continue;
     const region = (page.region || "Lainnya").trim();
     if (!groups.has(region)) groups.set(region, { region, rows: [] });
-    groups
-      .get(region)!
-      .rows.push({
-        city: page.city,
-        slug: citySlug(page.slug),
-        reguler,
-        express,
-      });
+    const slug = citySlug(page.slug);
+    const row = { city: page.city, slug, reguler, express };
+    const rows = groups.get(region)!.rows;
+    const existing = rows.findIndex((r) => r.slug === slug);
+    if (existing === -1) rows.push(row);
+    else if (completeness(row) > completeness(rows[existing]))
+      rows[existing] = row;
   }
   const rank = (name: string) => {
     const i = SEA_REGION_ORDER.indexOf(name);
