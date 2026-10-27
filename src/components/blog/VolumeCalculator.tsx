@@ -6,7 +6,7 @@ import { ArrowRight, Calculator } from "lucide-react";
 
 type Mode = "laut" | "udara";
 
-const DIVISOR: Record<Mode, number> = { laut: 4000, udara: 6000 };
+const DIVISOR: Record<Mode, number> = { laut: 4000, udara: 5000 };
 
 function roundChargeable(value: number) {
   const whole = Math.floor(value + 1e-9);
@@ -63,7 +63,7 @@ export function VolumeCalculator() {
         {(
           [
             { value: "laut", label: "Laut / Darat", note: "÷ 4.000" },
-            { value: "udara", label: "Udara", note: "÷ 6.000" },
+            { value: "udara", label: "Udara", note: "÷ 5.000" },
           ] as const
         ).map((option) => (
           <button

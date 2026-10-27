@@ -66,7 +66,7 @@ const faqs = [
   },
   {
     q: "Bagaimana berat kiriman dihitung?",
-    a: "Yang dihitung adalah berat terbesar antara berat asli dan berat volume. Berat volume cargo laut dan darat = panjang × lebar × tinggi (cm) ÷ 4.000, sedangkan cargo udara ÷ 6.000.",
+    a: "Yang dihitung adalah berat terbesar antara berat asli dan berat volume. Berat volume cargo laut dan darat = panjang × lebar × tinggi (cm) ÷ 4.000, sedangkan cargo udara ÷ 5.000.",
   },
   {
     q: "Apakah tarif sudah termasuk packing dan asuransi?",
@@ -179,7 +179,7 @@ export function LayananDetails() {
           </p>
           <FreightRateTable regions={airRegions} idPrefix="udara" placeholder="Cari kota, mis. Jayapura" />
           <ul className="mt-5 list-disc space-y-1.5 pl-5 text-xs text-gray-500 sm:text-sm">
-            <li>Berat yang dihitung adalah yang terbesar antara berat asli dan berat volume (P × L × T ÷ 6.000).</li>
+            <li>Berat yang dihitung adalah yang terbesar antara berat asli dan berat volume (P × L × T ÷ 5.000).</li>
             <li>Tarif belum termasuk packing, asuransi, serta biaya bongkar muat.</li>
             <li>Tarif berlaku untuk kota tujuan. Pengiriman ke daerah terpencil dikenakan biaya penerusan.</li>
             <li>Estimasi dihitung dalam hari kerja, tidak termasuk hari libur.</li>

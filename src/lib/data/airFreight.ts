@@ -4,7 +4,7 @@ export type AirFreightRegion = { region: string; rates: AirFreightRate[] };
 
 export const AIR_FREIGHT_MIN_KG = 20;
 
-export const AIR_FREIGHT_VOLUME_DIVISOR = 6000;
+export const AIR_FREIGHT_VOLUME_DIVISOR = 5000;
 
 export const airFreightRates: AirFreightRegion[] = [
   {
