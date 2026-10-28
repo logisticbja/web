@@ -39,7 +39,7 @@ export function FinalCTA({ content, edit }: { content: FinalCtaContent } & EditP
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <WALink
             href={buildGeneralMessage()}
-            className="flex items-center justify-center gap-3 bg-[#CC1F2A] hover:bg-[#A01820] text-white font-black text-lg px-10 py-4 rounded-2xl transition-all hover:shadow-2xl hover:-translate-y-0.5"
+            className="flex items-center justify-center gap-3 bg-white hover:bg-gray-100 text-[#CC1F2A] font-black text-lg px-10 py-4 rounded-2xl transition-all hover:shadow-2xl hover:-translate-y-0.5"
             {...cms(edit, "finalCta.waLabel")}
           >
             <MessageCircle size={22} />

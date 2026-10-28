@@ -222,7 +222,7 @@ export function TujuanView({
           </p>
           <WALink
             href={waUrl}
-            className="inline-flex items-center justify-center gap-2.5 bg-[#CC1F2A] hover:bg-[#A01820] text-white font-black py-3.5 px-8 rounded-xl transition-colors text-sm shadow-lg"
+            className="inline-flex items-center justify-center gap-2.5 bg-white hover:bg-gray-100 text-[#CC1F2A] font-black py-3.5 px-8 rounded-xl transition-colors text-sm shadow-lg"
           >
             <MessageCircle size={18} />
             {edit ? <span data-cms="cta.waLabel">{content.cta.waLabel}</span> : content.cta.waLabel}
@@ -293,7 +293,7 @@ export function TujuanView({
 
             <WALink
               href={waUrl}
-              className="inline-flex items-center justify-center gap-2.5 bg-[#CC1F2A] hover:bg-[#A01820] text-white font-black py-3.5 px-8 rounded-xl transition-colors text-sm shadow-lg w-fit"
+              className="inline-flex items-center justify-center gap-2.5 bg-white hover:bg-gray-100 text-[#CC1F2A] font-black py-3.5 px-8 rounded-xl transition-colors text-sm shadow-lg w-fit"
             >
               <MessageCircle size={18} />
               {edit ? <span data-cms="hero.waLabel">{hero.waLabel}</span> : hero.waLabel}
