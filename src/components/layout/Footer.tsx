@@ -51,7 +51,7 @@ export function Footer() {
                 <IconFacebook size={16} />
               </a>
               <WALink href={buildGeneralMessage()}
-                className="w-9 h-9 rounded-lg bg-white/10 hover:bg-[#15803D] flex items-center justify-center transition-colors">
+                className="w-9 h-9 rounded-lg bg-white/10 hover:bg-[#CC1F2A] flex items-center justify-center transition-colors">
                 <MessageCircle size={16} />
               </WALink>
             </div>

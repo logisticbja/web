@@ -34,7 +34,6 @@ export default async function JadwalKapalPage() {
     <ScheduleClient
       schedules={schedules}
       content={withSeoDefaults(live)}
-      updatedAt={formatLongDate(jakartaToday())}
       extra={<ScheduleGuide />}
     />
   );

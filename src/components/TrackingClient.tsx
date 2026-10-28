@@ -704,8 +704,8 @@ export function TrackingClient({ content, edit }: { content: TrackingContent; ed
                 items-center
                 justify-center
                 gap-3
-                bg-[#15803D]
-                hover:bg-[#166534]
+                bg-[#CC1F2A]
+                hover:bg-[#A01820]
                 text-white
                 font-black
                 py-4
@@ -801,8 +801,8 @@ export function TrackingClient({ content, edit }: { content: TrackingContent; ed
               items-center
               justify-center
               gap-3
-              bg-[#15803D]
-              hover:bg-[#166534]
+              bg-[#CC1F2A]
+              hover:bg-[#A01820]
               text-white
               font-black
               py-4

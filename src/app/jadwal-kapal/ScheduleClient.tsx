@@ -33,7 +33,7 @@ function EtaCell({ s, bold = true }: { s: ShipSchedule; bold?: boolean }) {
   return (
     <WALink
       href={buildShipCargoMessage(s.route, s.ship, s.etdDate ? formatScheduleDate(s.etdDate) : undefined)}
-      className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-lg bg-[#15803D] px-3 py-2 text-xs font-bold text-white hover:bg-[#166534]"
+      className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-lg bg-[#CC1F2A] px-3 py-2 text-xs font-bold text-white hover:bg-[#A01820]"
     >
       <MessageCircle size={14} />
       Konfirmasi CS
@@ -63,13 +63,11 @@ export function ScheduleClient({
   schedules,
   content,
   edit,
-  updatedAt,
   extra,
 }: {
   schedules: ShipSchedule[];
   content: JadwalKapalContent;
   edit?: boolean;
-  updatedAt?: string;
   extra?: React.ReactNode;
 }) {
   const [activeRegion, setActiveRegion] = useState("Semua");
@@ -81,7 +79,7 @@ export function ScheduleClient({
   const blocks: Record<Exclude<JadwalKapalSection, "hero">, React.ReactNode> = {
     schedule: (
       <>
-            <div className="flex items-center gap-3 mb-3 flex-wrap">
+            <div className="flex items-center gap-3 mb-6 flex-wrap">
               <Filter size={16} className="text-gray-400" />
               <span className="text-sm font-semibold text-gray-600" {...cms(edit, "schedule.filterLabel")}>{content.schedule.filterLabel}</span>
               {regions.map((r) => (
@@ -98,7 +96,6 @@ export function ScheduleClient({
                 </button>
               ))}
             </div>
-            {updatedAt && <p className="text-xs text-gray-500 mb-6">Diperbarui {updatedAt}. Jadwal yang sudah berangkat otomatis disembunyikan.</p>}
 
             {filtered.length === 0 && (
               <div className="bg-white rounded-2xl border border-gray-100 p-10 text-center text-sm text-gray-400 mb-6" {...cms(edit, "schedule.emptyText")}>
@@ -111,29 +108,29 @@ export function ScheduleClient({
               <table className="w-full">
                 <thead>
                   <tr className="bg-[#CC1F2A] text-white">
-                    <th className="text-left px-6 py-4 text-sm font-bold">Rute</th>
-                    <th className="text-left px-6 py-4 text-sm font-bold">Nama Kapal</th>
-                    <th className="text-left px-6 py-4 text-sm font-bold">Jenis</th>
-                    <th className="text-left px-4 py-4 text-sm font-bold whitespace-nowrap">Closing Date</th>
-                    <th className="text-left px-4 py-4 text-sm font-bold whitespace-nowrap">ETD</th>
-                    <th className="text-left px-4 py-4 text-sm font-bold whitespace-nowrap">ETA</th>
+                    <th className="text-center px-6 py-4 text-sm font-bold">Rute</th>
+                    <th className="text-center px-6 py-4 text-sm font-bold">Nama Kapal</th>
+                    <th className="text-center px-6 py-4 text-sm font-bold">Jenis</th>
+                    <th className="text-center px-4 py-4 text-sm font-bold whitespace-nowrap">Closing Date</th>
+                    <th className="text-center px-4 py-4 text-sm font-bold whitespace-nowrap">ETD</th>
+                    <th className="text-center px-4 py-4 text-sm font-bold whitespace-nowrap">ETA</th>
                   </tr>
                 </thead>
                 <tbody>
                   {filtered.map((s, i) => (
                     <tr key={`${s.route}-${s.ship}-${s.etdDate}-${i}`} className={i % 2 === 0 ? "bg-white" : "bg-gray-50/50"}>
-                      <td className="px-6 py-4">
+                      <td className="text-center px-6 py-4">
                         <p className="font-bold text-[#111111] text-sm">{s.route}</p>
                         <span className="text-xs px-2 py-0.5 rounded-full bg-[#CC1F2A]/10 text-[#CC1F2A] font-semibold mt-1 inline-block">
                           {s.region}
                         </span>
                         <CargoCityLinks route={s.route} />
                       </td>
-                      <td className="px-6 py-4 font-semibold text-sm text-gray-700">{s.ship || "-"}</td>
-                      <td className="px-6 py-4"><ServiceTypeBadge type={s.serviceType} /></td>
-                      <td className="px-4 py-4 text-sm whitespace-nowrap text-gray-700">{formatScheduleDate(s.closingDate)}</td>
-                      <td className="px-4 py-4 text-sm whitespace-nowrap text-gray-700">{formatScheduleDate(s.etdDate)}</td>
-                      <td className="px-6 py-4">
+                      <td className="text-center px-6 py-4 font-semibold text-sm text-gray-700">{s.ship || "-"}</td>
+                      <td className="text-center px-6 py-4"><ServiceTypeBadge type={s.serviceType} /></td>
+                      <td className="text-center px-4 py-4 text-sm whitespace-nowrap text-gray-700">{formatScheduleDate(s.closingDate)}</td>
+                      <td className="text-center px-4 py-4 text-sm whitespace-nowrap text-gray-700">{formatScheduleDate(s.etdDate)}</td>
+                      <td className="text-center px-6 py-4">
                         <EtaCell s={s} />
                       </td>
                     </tr>
@@ -189,7 +186,7 @@ export function ScheduleClient({
     cta: (
             <WALink
               href={buildGeneralMessage()}
-              className="flex items-center justify-center gap-3 bg-[#15803D] hover:bg-[#166534] text-white font-black text-lg py-4 rounded-2xl transition-all hover:shadow-lg w-full"
+              className="flex items-center justify-center gap-3 bg-[#CC1F2A] hover:bg-[#A01820] text-white font-black text-lg py-4 rounded-2xl transition-all hover:shadow-lg w-full"
             >
               <MessageCircle size={22} />
               {edit ? <span data-cms="cta.waLabel">{content.cta.waLabel}</span> : content.cta.waLabel}

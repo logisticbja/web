@@ -97,7 +97,7 @@ export function ServicePageLayout({
               href={waHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 bg-[#15803D] hover:bg-[#166534] text-white font-black px-6 py-3.5 rounded-xl transition-all hover:shadow-lg text-base"
+              className="flex items-center gap-2 bg-[#CC1F2A] hover:bg-[#A01820] text-white font-black px-6 py-3.5 rounded-xl transition-all hover:shadow-lg text-base"
               {...cms(edit, "waLabel")}
             >
               <MessageCircle size={18} />

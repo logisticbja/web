@@ -19,7 +19,7 @@ export function MobileCtaBar() {
       </a>
       <WALink
         href={buildGeneralMessage()}
-        className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-[#15803D] py-3 text-base font-black text-white active:bg-[#166534]"
+        className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-[#CC1F2A] py-3 text-base font-black text-white active:bg-[#A01820]"
       >
         <MessageCircle size={20} />
         Chat WhatsApp

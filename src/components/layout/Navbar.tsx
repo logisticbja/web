@@ -132,7 +132,7 @@ export function Navbar() {
           <div className="flex items-center gap-3">
             <WALink
               href={buildGeneralMessage()}
-              className="hidden sm:flex items-center gap-2 bg-[#15803D] hover:bg-[#166534] text-white font-bold px-4 py-2 rounded-lg text-sm transition-all duration-200 hover:shadow-lg"
+              className="hidden sm:flex items-center gap-2 bg-[#CC1F2A] hover:bg-[#A01820] text-white font-bold px-4 py-2 rounded-lg text-sm transition-all duration-200 hover:shadow-lg"
             >
               <MessageCircle size={16} />
               Chat WhatsApp
@@ -200,7 +200,7 @@ export function Navbar() {
           <div className="pt-3">
             <WALink
               href={buildGeneralMessage()}
-              className="flex items-center justify-center gap-2 bg-[#15803D] text-white font-bold py-3 rounded-xl text-base w-full"
+              className="flex items-center justify-center gap-2 bg-[#CC1F2A] text-white font-bold py-3 rounded-xl text-base w-full"
             >
               <MessageCircle size={18} />
               Chat WhatsApp Sekarang

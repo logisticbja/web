@@ -130,7 +130,7 @@ export function CityPageView({ view, data, edit }: { view: CityView; data: CityP
                 </ul>
                 <WALink
                   href={waMsg}
-                  className="flex items-center justify-center gap-2 w-full bg-[#15803D] hover:bg-[#166534] text-white font-bold py-2.5 rounded-xl transition-colors text-sm"
+                  className="flex items-center justify-center gap-2 w-full bg-[#CC1F2A] hover:bg-[#A01820] text-white font-bold py-2.5 rounded-xl transition-colors text-sm"
                 >
                   <MessageCircle size={14} />
                   {t(tpl.services.orderLabel, svcVars)}
@@ -439,7 +439,7 @@ export function CityPageView({ view, data, edit }: { view: CityView; data: CityP
                 <div className="flex flex-wrap gap-3">
                   <WALink
                     href={buildDestinationMessage(cityLabel)}
-                    className="flex items-center gap-2 bg-[#15803D] hover:bg-[#166534] text-white font-black px-6 py-3.5 rounded-xl transition-all hover:shadow-lg text-base"
+                    className="flex items-center gap-2 bg-[#CC1F2A] hover:bg-[#A01820] text-white font-black px-6 py-3.5 rounded-xl transition-all hover:shadow-lg text-base"
                   >
                     <MessageCircle size={18} />
                     <span {...p("hero.waLabel")}>{t(tpl.hero.waLabel)}</span>
