@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Ship, MessageCircle, Filter } from "lucide-react";
 import { buildGeneralMessage, buildShipCargoMessage } from "@/lib/whatsapp";
@@ -71,10 +71,25 @@ export function ScheduleClient({
   extra?: React.ReactNode;
 }) {
   const [activeRegion, setActiveRegion] = useState("Semua");
+  const [list, setList] = useState(schedules);
+
+  useEffect(() => {
+    if (schedules.length > 0 || edit) return;
+    let active = true;
+    fetch("/api/jadwal-kapal")
+      .then((r) => (r.ok ? r.json() : []))
+      .then((data: ShipSchedule[]) => {
+        if (active && Array.isArray(data) && data.length > 0) setList(data);
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, [schedules, edit]);
 
   const filtered = activeRegion === "Semua"
-    ? schedules
-    : schedules.filter((s) => s.region === activeRegion);
+    ? list
+    : list.filter((s) => s.region === activeRegion);
 
   const blocks: Record<Exclude<JadwalKapalSection, "hero">, React.ReactNode> = {
     schedule: (
