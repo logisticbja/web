@@ -43,9 +43,10 @@ export function buildScheduleMessage(route: string, ship?: string) {
 export function buildJadwalInquiryMessage() {
   return WA_BASE + encode("Halo BJA Logistic, saya lihat jadwal kapal di website. Mau tanya tarif dan jadwal kirim barang.");
 }
-export function buildShipCargoMessage(route: string, etd?: string) {
+export function buildShipCargoMessage(route: string, ship?: string, etd?: string) {
+  const shipPart = ship ? ` dengan kapal ${ship}` : "";
   const etdPart = etd ? ` yang berangkat ${etd}` : "";
-  const msg = `Halo BJA Logistic, saya mau kirim barang lewat kapal rute ${route}${etdPart}. Bisa bantu info tarif dan closing date-nya?`;
+  const msg = `Halo BJA Logistic, saya mau kirim barang rute ${route}${shipPart}${etdPart}. Bisa info tarif, closing date, dan perkiraan tiba?`;
   return WA_BASE + encode(msg);
 }
 export const WA_PHONE = "0815 1333 5157";

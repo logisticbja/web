@@ -4,6 +4,7 @@ import { ArticleFaqJsonLd } from "@/components/JsonLd";
 const ROUTES = [
   {
     region: "Papua",
+    href: "/cargo/papua",
     text: "Kapal dari Surabaya ke Papua umumnya singgah di beberapa pelabuhan, misalnya Sorong dan Manokwari sebelum Jayapura, atau Timika sebelum Merauke.",
     cities: [
       ["Jayapura", "jayapura"],
@@ -17,6 +18,7 @@ const ROUTES = [
   },
   {
     region: "Maluku",
+    href: "/cargo/maluku",
     text: "Rute Maluku melayani Ambon dan Ternate, termasuk kapal yang transit di Ternate sebelum lanjut ke Papua.",
     cities: [
       ["Ambon", "ambon"],
@@ -26,6 +28,7 @@ const ROUTES = [
   },
   {
     region: "Sulawesi",
+    href: "/cargo/sulawesi",
     text: "Untuk Sulawesi, pengiriman dilayani ke pelabuhan utama seperti Makassar dan Bitung, lalu diteruskan ke kota sekitarnya.",
     cities: [
       ["Makassar", "makassar"],
@@ -36,6 +39,7 @@ const ROUTES = [
   },
   {
     region: "NTT",
+    href: "/cargo/ntt",
     text: "Pengiriman ke Nusa Tenggara Timur dilayani dengan tujuan utama Kupang.",
     cities: [["Kupang", "kupang"]],
   },
@@ -76,7 +80,7 @@ export function ScheduleGuide() {
           Rute Kapal dari Surabaya ke Indonesia Timur
         </h2>
         <p className="text-sm text-gray-600 mb-5">
-          Semua jadwal di atas berangkat dari Pelabuhan Tanjung Perak, Surabaya. Klik nama kota untuk melihat tarif, estimasi, dan cara kirim barang ke kota tersebut.
+          Semua jadwal di atas berangkat dari Pelabuhan Tanjung Perak, Surabaya. Klik nama kota untuk melihat tarif, estimasi, dan cara kirim barang ke kota tersebut, atau hitung sendiri di <Link href="/cek-ongkir" className="font-semibold text-[#CC1F2A] hover:underline">Cek Ongkir</Link>.
         </p>
         <div className="grid gap-5 sm:grid-cols-2">
           {ROUTES.map((r) => (
@@ -93,6 +97,9 @@ export function ScheduleGuide() {
                   </span>
                 ))}
               </p>
+              <Link href={r.href} className="mt-2 inline-block text-sm font-bold text-gray-700 hover:text-[#CC1F2A]">
+                Tarif cargo ke {r.region} →
+              </Link>
             </div>
           ))}
         </div>

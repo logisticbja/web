@@ -570,7 +570,7 @@ export function CekOngkirForm({ defaultValues, autoCalculate }: Props) {
               message
             )}`;
           })()}
-          className="flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20bc59] text-white font-black py-3.5 px-5 rounded-xl transition-colors text-sm whitespace-nowrap"
+          className="flex items-center justify-center gap-2 bg-[#15803D] hover:bg-[#166534] text-white font-black py-3.5 px-5 rounded-xl transition-colors text-sm whitespace-nowrap"
         >
           <MessageCircle size={18} />
           Minta Penawaran
@@ -596,7 +596,7 @@ export function CekOngkirForm({ defaultValues, autoCalculate }: Props) {
           </p>
           <WALink
             href={buildGeneralMessage()}
-            className="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#20bc59] text-white font-black px-6 py-3 rounded-xl transition-colors text-sm"
+            className="inline-flex items-center gap-2 bg-[#15803D] hover:bg-[#166534] text-white font-black px-6 py-3 rounded-xl transition-colors text-sm"
           >
             <MessageCircle size={16} />
             Tanya CS via WhatsApp

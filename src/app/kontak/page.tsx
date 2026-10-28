@@ -70,7 +70,7 @@ export default function KontakPage() {
             {/* WhatsApp */}
             <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 rounded-xl bg-[#25D366] flex items-center justify-center">
+                <div className="w-12 h-12 rounded-xl bg-[#15803D] flex items-center justify-center">
                   <MessageCircle size={22} className="text-white" />
                 </div>
                 <div>
@@ -84,7 +84,7 @@ export default function KontakPage() {
               <div className="flex flex-col sm:flex-row gap-3">
                 <WALink
                   href={buildGeneralMessage()}
-                  className="flex-1 flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20bc59] text-white font-bold py-3 rounded-xl transition-colors text-sm"
+                  className="flex-1 flex items-center justify-center gap-2 bg-[#15803D] hover:bg-[#166534] text-white font-bold py-3 rounded-xl transition-colors text-sm"
                 >
                   <MessageCircle size={16} />
                   Chat Sekarang
@@ -92,7 +92,7 @@ export default function KontakPage() {
                 <WALink
                   href={buildCorporateMessage()}
                   conversion="waCorporate"
-                  className="flex-1 flex items-center justify-center gap-2 border-2 border-[#25D366] text-[#25D366] hover:bg-[#25D366] hover:text-white font-bold py-3 rounded-xl transition-colors text-sm"
+                  className="flex-1 flex items-center justify-center gap-2 border-2 border-[#15803D] text-[#15803D] hover:bg-[#15803D] hover:text-white font-bold py-3 rounded-xl transition-colors text-sm"
                 >
                   Kerjasama Corporate
                 </WALink>

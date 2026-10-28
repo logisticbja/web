@@ -101,7 +101,7 @@ export default async function JakartaCityPage({ params }: Props) {
             {isTimur && entry.ongkirValue && (
               <WALink
                 href={buildDestinationMessage(city)}
-                className="flex items-center gap-2 bg-[#25D366] hover:bg-[#20bc59] text-white font-black px-5 py-3 rounded-xl transition-all text-sm"
+                className="flex items-center gap-2 bg-[#15803D] hover:bg-[#166534] text-white font-black px-5 py-3 rounded-xl transition-all text-sm"
               >
                 <MessageCircle size={16} />
                 Tanya Harga ke {city}
@@ -172,7 +172,7 @@ export default async function JakartaCityPage({ params }: Props) {
             </p>
             <WALink
               href={buildDestinationMessage(city)}
-              className="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#20bc59] text-white font-bold px-5 py-2.5 rounded-xl text-sm transition-colors"
+              className="inline-flex items-center gap-2 bg-[#15803D] hover:bg-[#166534] text-white font-bold px-5 py-2.5 rounded-xl text-sm transition-colors"
             >
               <MessageCircle size={15} />
               Tanya Harga via WhatsApp
