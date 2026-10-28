@@ -33,7 +33,7 @@ function ShipCargoButton({ s, full = false }: { s: ShipSchedule; full?: boolean 
       aria-label={`Chat WhatsApp untuk kirim barang rute ${s.route}`}
       className={
         full
-          ? "mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-[#15803D] py-3 text-sm font-bold text-white active:bg-[#166534]"
+          ? "mt-4 flex w-full items-center justify-center gap-2 rounded-xl border-2 border-[#15803D] bg-white py-2.5 text-sm font-bold text-[#15803D] active:bg-green-50"
           : "inline-flex items-center gap-1.5 whitespace-nowrap rounded-lg bg-[#15803D] px-3 py-2 text-xs font-bold text-white hover:bg-[#166534]"
       }
     >
@@ -45,9 +45,9 @@ function ShipCargoButton({ s, full = false }: { s: ShipSchedule; full?: boolean 
 
 function EtaCell({ etaDate, bold = true }: { etaDate: string | null; bold?: boolean }) {
   if (etaDate) {
-    return <span className={`text-[#CC1F2A] text-sm ${bold ? "font-bold" : ""}`}>{formatScheduleDate(etaDate)}</span>;
+    return <span className={`text-[#CC1F2A] text-sm whitespace-nowrap ${bold ? "font-bold" : ""}`}>{formatScheduleDate(etaDate)}</span>;
   }
-  return <span className="text-sm text-gray-500">Konfirmasi CS</span>;
+  return <span className="text-sm text-gray-500 whitespace-nowrap">Konfirmasi CS</span>;
 }
 
 function CargoCityLinks({ route }: { route: string }) {
@@ -141,9 +141,9 @@ export function ScheduleClient({
                     <th className="text-left px-6 py-4 text-sm font-bold">Rute</th>
                     <th className="text-left px-6 py-4 text-sm font-bold">Nama Kapal</th>
                     <th className="text-left px-6 py-4 text-sm font-bold">Jenis</th>
-                    <th className="text-left px-6 py-4 text-sm font-bold">Closing Date</th>
-                    <th className="text-left px-6 py-4 text-sm font-bold">ETD</th>
-                    <th className="text-left px-6 py-4 text-sm font-bold">ETA</th>
+                    <th className="text-left px-4 py-4 text-sm font-bold whitespace-nowrap">Closing Date</th>
+                    <th className="text-left px-4 py-4 text-sm font-bold whitespace-nowrap">ETD</th>
+                    <th className="text-left px-4 py-4 text-sm font-bold whitespace-nowrap">ETA</th>
                     <th className="px-4 py-4"><span className="sr-only">Pesan</span></th>
                   </tr>
                 </thead>
@@ -159,8 +159,8 @@ export function ScheduleClient({
                       </td>
                       <td className="px-6 py-4 font-semibold text-sm text-gray-700">{s.ship || "-"}</td>
                       <td className="px-6 py-4"><ServiceTypeBadge type={s.serviceType} /></td>
-                      <td className="px-6 py-4 text-sm text-gray-700">{formatScheduleDate(s.closingDate)}</td>
-                      <td className="px-6 py-4 text-sm text-gray-700">{formatScheduleDate(s.etdDate)}</td>
+                      <td className="px-4 py-4 text-sm whitespace-nowrap text-gray-700">{formatScheduleDate(s.closingDate)}</td>
+                      <td className="px-4 py-4 text-sm whitespace-nowrap text-gray-700">{formatScheduleDate(s.etdDate)}</td>
                       <td className="px-6 py-4">
                         <EtaCell etaDate={s.etaDate} />
                       </td>
