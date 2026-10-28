@@ -79,6 +79,7 @@ export function ScheduleClient({
   const blocks: Record<Exclude<JadwalKapalSection, "hero">, React.ReactNode> = {
     schedule: (
       <>
+            <h2 className="sr-only">Jadwal Keberangkatan Kapal Terdekat</h2>
             <div className="flex items-center gap-3 mb-6 flex-wrap">
               <Filter size={16} className="text-gray-400" />
               <span className="text-sm font-semibold text-gray-600" {...cms(edit, "schedule.filterLabel")}>{content.schedule.filterLabel}</span>
