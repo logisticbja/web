@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { MapPin, Phone, MessageCircle, Clock } from "lucide-react";
 import { Metadata } from "next";
 import { buildGeneralMessage, buildCorporateMessage, WA_PHONE, WA_PHONE_RAW } from "@/lib/whatsapp";
@@ -47,20 +46,13 @@ export const metadata: Metadata = {
     description: PAGE_DESCRIPTION,
     url: PAGE_URL,
     type: "website",
-    images: [
-      {
-        url: "/kontak/kantor-bja-logistic-bekasi.webp",
-        width: 1600,
-        height: 1200,
-        alt: "Tim BJA Logistic di depan kantor cabang Jakarta, Grand Galaxy City Bekasi",
-      },
-    ],
+    images: [{ url: "/og-image.png", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Kontak BJA Logistic — Kantor Surabaya & Bekasi",
     description: PAGE_DESCRIPTION,
-    images: ["/kontak/kantor-bja-logistic-bekasi.webp"],
+    images: ["/og-image.png"],
   },
 };
 
@@ -79,7 +71,7 @@ type Office = {
   lat: number;
   lng: number;
   mapsUrl: string;
-  photo?: { src: string; alt: string; width: number; height: number };
+  mapQuery: string;
   hours: OfficeHours;
   schemaHours: { dayOfWeek: string | string[]; opens: string; closes: string }[];
 };
@@ -96,14 +88,9 @@ const offices: Office[] = [
     postalCode: "60177",
     address: "Jl. Tanjung Sadari No. 125, Perak Barat, Krembangan, Surabaya 60177",
     lat: -7.2285461,
+    mapQuery: "BJA Logistic, Jl. Tanjung Sadari No. 125, Perak Barat, Krembangan, Surabaya",
     lng: 112.7225914,
     mapsUrl: "https://www.google.com/maps/place/BJA+Logistic/@-7.2285461,112.7200165,17z/data=!3m1!4b1!4m6!3m5!1s0x2dd7f9bad78ff50b:0xde7d0ef09506ab57!8m2!3d-7.2285461!4d112.7225914!16s%2Fg%2F11hsx6s5g7",
-    photo: {
-      src: "/kontak/kantor-bja-logistic-surabaya.webp",
-      alt: "Tim BJA Logistic di depan papan nama kantor pusat Surabaya, Perak Barat",
-      width: 864,
-      height: 648,
-    },
     hours: [
       { days: "Senin – Jumat", time: "08.00 – 20.00 WIB" },
       { days: "Sabtu", time: "08.00 – 17.00 WIB" },
@@ -124,14 +111,9 @@ const offices: Office[] = [
     postalCode: "17147",
     address: "Ruko Grand Galaxy City, Jl. Rose Garden 1 No. 33, Jaka Setia, Bekasi Selatan, Kota Bekasi 17147",
     lat: -6.2689044,
+    mapQuery: "BJA Logistic, Ruko Grand Galaxy City, Jl. Rose Garden 1 No. 33, Bekasi Selatan",
     lng: 106.9752626,
     mapsUrl: "https://www.google.com/maps/place/BJA+Logistic/@-6.2689044,106.9726877,17z/data=!3m1!4b1!4m6!3m5!1s0x2e698d000e04fbd5:0x9ab27113fe6d1c4d!8m2!3d-6.2689044!4d106.9752626!16s%2Fg%2F11wy0nytrb",
-    photo: {
-      src: "/kontak/kantor-bja-logistic-bekasi.webp",
-      alt: "Tim BJA Logistic di depan kantor cabang Jakarta, Ruko Grand Galaxy City Bekasi",
-      width: 1600,
-      height: 1200,
-    },
     hours: [
       { days: "Senin – Jumat", time: "09.00 – 17.00 WIB" },
       { days: "Sabtu", time: "09.00 – 13.00 WIB" },
@@ -162,9 +144,7 @@ function KontakJsonLd() {
       url: PAGE_URL,
       telephone: `+${WA_PHONE_RAW}`,
       priceRange: "$$",
-      image: office.photo
-        ? `https://bjalogistic.id${office.photo.src}`
-        : "https://bjalogistic.id/logo-putih-bja.webp",
+      image: "https://bjalogistic.id/logo-putih-bja.webp",
       address: {
         "@type": "PostalAddress",
         streetAddress: office.street,
@@ -310,23 +290,18 @@ export default function KontakPage() {
             <h2 className="text-xl font-black text-[#111111] mb-5">Lokasi Kantor Kami</h2>
             <div className="space-y-4">
               {offices.map((office) => (
-                <a
+                <div
                   key={office.id}
-                  href={office.mapsUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:border-[#CC1F2A]/40 hover:shadow-md transition-all"
+                  className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100"
                 >
-                  {office.photo && (
-                    <Image
-                      src={office.photo.src}
-                      alt={office.photo.alt}
-                      width={office.photo.width}
-                      height={office.photo.height}
-                      sizes="(min-width: 1024px) 480px, 100vw"
-                      className="w-full h-auto"
-                    />
-                  )}
+                  <iframe
+                    title={`Peta lokasi ${office.name}`}
+                    src={`https://maps.google.com/maps?q=${encodeURIComponent(office.mapQuery)}&z=16&output=embed`}
+                    className="w-full h-52 border-0 block"
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    allowFullScreen
+                  />
                   <div className="p-6 flex items-start gap-3">
                     <div className="w-10 h-10 rounded-xl bg-[#CC1F2A]/10 flex items-center justify-center shrink-0">
                       <MapPin size={18} className="text-[#CC1F2A]" />
@@ -336,10 +311,17 @@ export default function KontakPage() {
                       <p className="text-xs text-[#CC1F2A] font-semibold mb-2">{office.type}</p>
                       <address className="not-italic text-gray-600 text-sm">{office.address}</address>
                       <p className="text-gray-500 text-sm mt-2">{office.description}</p>
-                      <p className="text-[#CC1F2A] text-sm font-semibold mt-3">Buka di Google Maps →</p>
+                      <a
+                        href={office.mapsUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-block text-[#CC1F2A] hover:text-[#A01820] text-sm font-semibold mt-3"
+                      >
+                        Buka di Google Maps →
+                      </a>
                     </div>
                   </div>
-                </a>
+                </div>
               ))}
             </div>
 
