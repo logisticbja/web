@@ -14,6 +14,14 @@ function IconInstagram({ size = 16 }: { size?: number }) {
   );
 }
 
+function IconTiktok({ size = 16 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M16.6 5.82A4.28 4.28 0 0 1 15.54 3h-3.09v12.4a2.59 2.59 0 0 1-2.59 2.5c-1.42 0-2.6-1.16-2.6-2.6 0-1.72 1.66-3.01 3.37-2.48V9.66c-3.45-.46-6.47 2.22-6.47 5.64 0 3.33 2.76 5.7 5.69 5.7 3.14 0 5.69-2.55 5.69-5.7V9.01a7.35 7.35 0 0 0 4.3 1.38V7.3s-1.88.09-3.24-1.48z" />
+    </svg>
+  );
+}
+
 function IconFacebook({ size = 16 }: { size?: number }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -42,15 +50,19 @@ export function Footer() {
               Solusi logistik terpercaya ke Papua, Maluku, NTT, dan Sulawesi. Cepat, aman, dan harga kompetitif sejak lebih dari 10 tahun.
             </p>
             <div className="flex gap-3">
-              <a href="https://instagram.com/bja_logistic" target="_blank" rel="noopener noreferrer"
+              <a href="https://www.instagram.com/bjalogisticofficial/" target="_blank" rel="noopener noreferrer" aria-label="Instagram BJA Logistic"
                 className="w-9 h-9 rounded-lg bg-white/10 hover:bg-[#F5C518] hover:text-[#1A1A1A] flex items-center justify-center transition-colors">
                 <IconInstagram size={16} />
               </a>
-              <a href="https://facebook.com/BJALogistick" target="_blank" rel="noopener noreferrer"
+              <a href="https://www.facebook.com/profile.php?id=61592894893288" target="_blank" rel="noopener noreferrer" aria-label="Facebook BJA Logistic"
                 className="w-9 h-9 rounded-lg bg-white/10 hover:bg-[#F5C518] hover:text-[#1A1A1A] flex items-center justify-center transition-colors">
                 <IconFacebook size={16} />
               </a>
-              <WALink href={buildGeneralMessage()}
+              <a href="https://www.tiktok.com/@bjalogistic" target="_blank" rel="noopener noreferrer" aria-label="TikTok BJA Logistic"
+                className="w-9 h-9 rounded-lg bg-white/10 hover:bg-[#F5C518] hover:text-[#1A1A1A] flex items-center justify-center transition-colors">
+                <IconTiktok size={16} />
+              </a>
+              <WALink href={buildGeneralMessage()} aria-label="WhatsApp BJA Logistic"
                 className="w-9 h-9 rounded-lg bg-white/10 hover:bg-[#CC1F2A] flex items-center justify-center transition-colors">
                 <MessageCircle size={16} />
               </WALink>
