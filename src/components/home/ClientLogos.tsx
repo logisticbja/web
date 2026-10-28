@@ -17,12 +17,12 @@ export function ClientLogos({ content, edit }: { content: ClientsContent } & Edi
           </h2>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-4">
+        <div className="grid grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 mb-4">
           {content.logos.map((client, i) => (
             <div
               key={`${i}-${client.name}`}
-              className="bg-white rounded-xl px-5 py-5 shadow-sm border border-gray-100 hover:border-[#CC1F2A]/30 hover:shadow-md transition-all flex items-center justify-center"
-              style={{ minHeight: 88 }}
+              className="bg-white rounded-xl px-3 py-4 sm:px-5 sm:py-5 shadow-sm border border-gray-100 hover:border-[#CC1F2A]/30 hover:shadow-md transition-all flex items-center justify-center"
+              style={{ minHeight: 72 }}
               {...cms(edit, `clients.logos.${i}`)}
             >
               <Image
@@ -30,7 +30,8 @@ export function ClientLogos({ content, edit }: { content: ClientsContent } & Edi
                 alt={client.name}
                 width={client.width}
                 height={client.height}
-                className="object-contain max-h-12 w-auto"
+                sizes="160px"
+                className="object-contain max-h-10 sm:max-h-12 w-auto"
                 {...(edit ? { unoptimized: true } : {})}
               />
             </div>

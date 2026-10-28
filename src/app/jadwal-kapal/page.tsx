@@ -5,6 +5,7 @@ import { siteMetadata } from "@/lib/sitePages/metadata";
 import { JADWAL_KAPAL_DEFAULTS, type JadwalKapalContent } from "@/lib/sitePages/jadwalKapal";
 import { ScheduleClient } from "./ScheduleClient";
 import { ScheduleGuide } from "./ScheduleGuide";
+import { BreadcrumbJsonLd } from "@/components/JsonLd";
 
 export const revalidate = 3600;
 
@@ -31,11 +32,14 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function JadwalKapalPage() {
   const [schedules, { live }] = await Promise.all([getSchedules(), loadJadwalKapal()]);
   return (
-    <ScheduleClient
-      schedules={schedules}
-      content={withSeoDefaults(live)}
-      updatedAt={formatLongDate(jakartaToday())}
-      extra={<ScheduleGuide />}
-    />
+    <>
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Beranda", url: "https://bjalogistic.id" },
+          { name: "Jadwal Kapal", url: "https://bjalogistic.id/jadwal-kapal" },
+        ]}
+      />
+      <ScheduleClient schedules={schedules} content={withSeoDefaults(live)} extra={<ScheduleGuide />} />
+    </>
   );
 }

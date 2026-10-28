@@ -142,7 +142,7 @@ export function TujuanView({
                     {s.etaDate ? (
                       formatScheduleDate(s.etaDate)
                     ) : (
-                      <WALink href={buildScheduleMessage(s.route, s.ship)} className="text-xs font-bold text-[#25D366] hover:underline">
+                      <WALink href={buildScheduleMessage(s.route, s.ship)} className="text-xs font-bold text-[#CC1F2A] hover:underline">
                         Tanya CS →
                       </WALink>
                     )}
@@ -161,7 +161,7 @@ export function TujuanView({
                 {s.etaDate ? (
                   <span className="font-bold text-[#CC1F2A] text-sm">{formatScheduleDate(s.etaDate)}</span>
                 ) : (
-                  <WALink href={buildScheduleMessage(s.route, s.ship)} className="text-xs font-bold text-[#25D366] hover:underline">
+                  <WALink href={buildScheduleMessage(s.route, s.ship)} className="text-xs font-bold text-[#CC1F2A] hover:underline">
                     Tanya CS →
                   </WALink>
                 )}
@@ -222,7 +222,7 @@ export function TujuanView({
           </p>
           <WALink
             href={waUrl}
-            className="inline-flex items-center justify-center gap-2.5 bg-[#25D366] hover:bg-[#20bc59] text-white font-black py-3.5 px-8 rounded-xl transition-colors text-sm shadow-lg"
+            className="inline-flex items-center justify-center gap-2.5 bg-white hover:bg-gray-100 text-[#CC1F2A] font-black py-3.5 px-8 rounded-xl transition-colors text-sm shadow-lg"
           >
             <MessageCircle size={18} />
             {edit ? <span data-cms="cta.waLabel">{content.cta.waLabel}</span> : content.cta.waLabel}
@@ -293,7 +293,7 @@ export function TujuanView({
 
             <WALink
               href={waUrl}
-              className="inline-flex items-center justify-center gap-2.5 bg-[#25D366] hover:bg-[#20bc59] text-white font-black py-3.5 px-8 rounded-xl transition-colors text-sm shadow-lg w-fit"
+              className="inline-flex items-center justify-center gap-2.5 bg-white hover:bg-gray-100 text-[#CC1F2A] font-black py-3.5 px-8 rounded-xl transition-colors text-sm shadow-lg w-fit"
             >
               <MessageCircle size={18} />
               {edit ? <span data-cms="hero.waLabel">{hero.waLabel}</span> : hero.waLabel}

@@ -9,6 +9,6 @@ export const metadata: Metadata = {
 };
 
 export default async function JadwalKapalPreviewPage() {
-  const [schedules, { live, defaults }] = await Promise.all([getSchedules(), loadJadwalKapal()]);
+  const [schedules, { live, defaults }] = await Promise.all([getSchedules().catch(() => []), loadJadwalKapal()]);
   return <JadwalKapalPreview live={live} defaults={defaults} schedules={schedules} />;
 }

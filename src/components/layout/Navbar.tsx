@@ -57,8 +57,8 @@ export function Navbar() {
             <Image
               src="/bja-logo.png"
               alt="BJA Logistic"
-              width={3958}
-              height={709}
+              width={268}
+              height={48}
               className="h-12 w-auto"
               priority
             />

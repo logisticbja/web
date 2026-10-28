@@ -18,6 +18,6 @@ export default async function TujuanPreviewPage({ params }: { params: Promise<{ 
   const { region } = await params;
   const config = getRegionConfig(region);
   if (!config) notFound();
-  const [{ live, defaults }, schedules] = await Promise.all([loadTujuan(config), getSchedules({ region: config.scheduleRegion })]);
+  const [{ live, defaults }, schedules] = await Promise.all([loadTujuan(config), getSchedules({ region: config.scheduleRegion }).catch(() => [])]);
   return <TujuanPreview region={config.slug} live={live} defaults={defaults} schedules={schedules} />;
 }

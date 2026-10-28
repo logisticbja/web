@@ -56,7 +56,7 @@ export function ServicePageLayout({
       {/* Hero — ukuran & gaya disamakan PERSIS dengan hero /cargo/{region} (lihat
           app/cargo/[region]/page.tsx): min-height sama, padding sama, gradient
           overlay sama, biar konsisten di seluruh situs. */}
-      <div className="relative bg-gradient-to-br from-[#CC1F2A] to-[#8B1219] min-h-[428px] flex items-end w-full" {...cms(edit, "imageBanner")}>
+      <div className="relative bg-gradient-to-br from-[#CC1F2A] to-[#8B1219] min-h-[300px] sm:min-h-[428px] flex items-end w-full" {...cms(edit, "imageBanner")}>
         {imageBanner && (
           <>
                                 <div className="absolute inset-0 overflow-hidden">
@@ -97,7 +97,7 @@ export function ServicePageLayout({
               href={waHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 bg-[#25D366] hover:bg-[#20bc59] text-white font-black px-6 py-3.5 rounded-xl transition-all hover:shadow-lg text-base"
+              className="flex items-center gap-2 bg-white hover:bg-gray-100 text-[#CC1F2A] font-black px-6 py-3.5 rounded-xl transition-all hover:shadow-lg text-base"
               {...cms(edit, "waLabel")}
             >
               <MessageCircle size={18} />

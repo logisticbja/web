@@ -28,7 +28,7 @@ export function CoverageSection({ content, edit }: { content: CoverageContent } 
           )}
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="m-swipe grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {content.regions.map((region, i) => (
             <div
               key={`${i}-${region.name}`}

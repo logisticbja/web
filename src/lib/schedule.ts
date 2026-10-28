@@ -13,22 +13,28 @@ export async function getSchedules(params?: {
   region?: string;
   q?: string;
 }): Promise<ShipSchedule[]> {
-  try {
-    const url = new URL(process.env.SHIP_SCHEDULE_API_URL!);
-    if (params?.region) url.searchParams.set("region", params.region);
-    if (params?.q)      url.searchParams.set("q", params.q);
+  const url = new URL(process.env.SHIP_SCHEDULE_API_URL!);
+  if (params?.region) url.searchParams.set("region", params.region);
+  if (params?.q) url.searchParams.set("q", params.q);
 
-    const res = await fetch(url.toString(), {
-      headers: { "X-API-Key": process.env.TRACKING_API_KEY ?? "" },
-      next: { revalidate: 300 },
-    });
-
-    const json = await res.json();
-    if (json.status !== "success") return [];
-    return publicSchedules(json.data ?? []);
-  } catch {
-    return [];
+  let lastError: unknown = null;
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    try {
+      const res = await fetch(url.toString(), {
+        headers: { "X-API-Key": process.env.TRACKING_API_KEY ?? "" },
+        next: { revalidate: 300 },
+      });
+      if (!res.ok) throw new Error(`Schedule API ${res.status}`);
+      const json = await res.json();
+      if (json.status !== "success" || !Array.isArray(json.data)) throw new Error("Schedule API invalid payload");
+      return publicSchedules(json.data);
+    } catch (error) {
+      lastError = error;
+      if (attempt < 3) await new Promise((r) => setTimeout(r, attempt * 500));
+    }
   }
+  if (process.env.NEXT_PHASE === "phase-production-build") return [];
+  throw lastError;
 }
 
 export function jakartaToday(): string {

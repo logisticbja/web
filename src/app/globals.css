@@ -163,3 +163,33 @@ html {
   0%, 100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.4); }
   50% { box-shadow: 0 0 0 12px rgba(37, 211, 102, 0); }
 }
+
+@media (max-width: 639px) {
+  input:not([type="checkbox"]):not([type="radio"]),
+  select,
+  textarea {
+    font-size: 16px;
+  }
+  .m-swipe {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 1rem;
+    gap: 1rem;
+    margin-inline: -1rem;
+    padding-inline: 1rem;
+    padding-bottom: 0.75rem;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .m-swipe::-webkit-scrollbar {
+    display: none;
+  }
+  .m-swipe > * {
+    flex: 0 0 84%;
+    scroll-snap-align: start;
+  }
+  .m-swipe-sm > * {
+    flex-basis: 62%;
+  }
+}

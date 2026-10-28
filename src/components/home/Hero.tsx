@@ -34,7 +34,7 @@ export function Hero({ content, edit }: { content: HeroContent } & EditProps) {
         <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#CC1F2A]" />
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
+      <div className="relative w-full min-w-0 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
         <div className="max-w-3xl">
           {/* Badge */}
           {content.badge && (

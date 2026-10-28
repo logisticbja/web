@@ -20,7 +20,7 @@ export function Testimonials({ content, edit }: { content: TestimonialsContent }
           )}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="m-swipe grid grid-cols-1 md:grid-cols-3 gap-6">
           {content.items.map((t, i) => (
             <div key={`${i}-${t.name}`} className="bg-[#F8FAFC] rounded-2xl p-7 relative border border-gray-100" {...cms(edit, `testimonials.items.${i}`)}>
               <Quote size={32} className="text-[#CC1F2A]/10 absolute top-6 right-6" />

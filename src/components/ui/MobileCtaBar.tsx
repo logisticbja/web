@@ -5,20 +5,24 @@ import { WALink } from "@/components/ui/WALink";
 
 export function MobileCtaBar() {
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-40 flex md:hidden border-t border-gray-200 bg-white shadow-2xl">
+    <div
+      className="fixed bottom-0 left-0 right-0 z-40 flex gap-2 md:hidden border-t border-gray-200 bg-white px-3 pt-2 shadow-[0_-4px_16px_rgba(0,0,0,0.08)]"
+      style={{ paddingBottom: "max(0.5rem, env(safe-area-inset-bottom))" }}
+    >
       <a
         href={`tel:+${WA_PHONE_RAW}`}
-        className="flex-1 flex flex-col items-center justify-center gap-1 py-3 text-[#CC1F2A] hover:bg-gray-50 transition-colors"
+        aria-label="Telepon BJA Logistic"
+        className="flex items-center justify-center gap-1.5 rounded-xl border border-gray-200 px-4 py-3 text-sm font-bold text-gray-700 active:bg-gray-50"
       >
-        <Phone size={20} />
-        <span className="text-xs font-semibold">Telepon</span>
+        <Phone size={18} />
+        Telepon
       </a>
       <WALink
         href={buildGeneralMessage()}
-        className="flex-1 flex flex-col items-center justify-center gap-1 py-3 bg-[#25D366] text-white hover:bg-[#20bc59] transition-colors"
+        className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-[#CC1F2A] py-3 text-base font-black text-white active:bg-[#A01820]"
       >
         <MessageCircle size={20} />
-        <span className="text-xs font-bold">WhatsApp</span>
+        Chat WhatsApp
       </WALink>
     </div>
   );

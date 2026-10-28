@@ -10,7 +10,7 @@ export function LayananView({ content, edit }: { content: LayananContent; edit?:
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
       <Sec edit={edit} id="hero">
-        <div className="relative bg-gradient-to-br from-[#CC1F2A] to-[#8B1219] min-h-[428px] flex items-end w-full overflow-hidden" {...cms(edit, "hero.image")}>
+        <div className="relative bg-gradient-to-br from-[#CC1F2A] to-[#8B1219] min-h-[300px] sm:min-h-[428px] flex items-end w-full overflow-hidden" {...cms(edit, "hero.image")}>
           {hero.image && (
             <>
               <div className="absolute inset-0">

@@ -24,7 +24,7 @@ export function TrackingInput() {
         value={resi}
         onChange={(e) => setResi(e.target.value)}
         placeholder="Cek resi — contoh: BJA-2024-001"
-        className="flex-1 bg-transparent text-white placeholder-white/40 text-sm font-medium outline-none"
+        className="flex-1 w-0 min-w-0 bg-transparent text-white placeholder-white/40 text-sm font-medium outline-none"
       />
       <button
         type="submit"

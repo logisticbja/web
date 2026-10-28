@@ -24,8 +24,8 @@ export function WAButton({
   };
 
   const variantClasses = {
-    primary: "bg-[#25D366] hover:bg-[#20bc59] text-white",
-    outline: "border-2 border-[#25D366] text-[#25D366] hover:bg-[#25D366] hover:text-white",
+    primary: "bg-[#CC1F2A] hover:bg-[#A01820] text-white",
+    outline: "border-2 border-[#CC1F2A] text-[#CC1F2A] hover:bg-[#CC1F2A] hover:text-white",
     white: "bg-white text-[#CC1F2A] hover:bg-gray-100",
   };
 
