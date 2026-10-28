@@ -31,7 +31,7 @@ const navLinks = [
   },
   { label: "Cek Ongkir", href: "/cek-ongkir" },
   { label: "Jadwal Kapal", href: "/jadwal-kapal" },
-  { label: "Tracking", href: "/tracking" },
+  { label: "Cek Resi", href: "/cek-resi" },
   { label: "Blog", href: "/blog" },
   { label: "Corporate", href: "/corporate" },
   { label: "Kontak", href: "/kontak" },

@@ -97,9 +97,12 @@ export function TrackingClient({ content, edit }: { content: TrackingContent; ed
     setState({ kind: "loading" });
 
     try {
-      const res = await fetch(
-        `/api/tracking?resi=${encodeURIComponent(q)}`
-      );
+      const lookup = (value: string) => fetch(`/api/tracking?resi=${encodeURIComponent(value)}`);
+      let res = await lookup(q);
+      const stripped = q.replace(/^0+(?=\d)/, "");
+      if (res.status === 404 && /^\d+$/.test(q) && stripped !== q) {
+        res = await lookup(stripped);
+      }
 
       if (res.status === 404) {
         setState({
@@ -145,7 +148,7 @@ export function TrackingClient({ content, edit }: { content: TrackingContent; ed
 
     if (!q) return;
 
-    router.push(`/tracking?resi=${encodeURIComponent(q)}`);
+    router.push(`/cek-resi?resi=${encodeURIComponent(q)}`);
 
     doFetch(q);
   }

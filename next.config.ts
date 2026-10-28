@@ -277,13 +277,14 @@ const nextConfig: NextConfig = {
       // ─── PANDUAN CEK ONGKIR/RESI LAMA → halaman fungsi terkait ───
       { source: "/cara-cek-ongkir-:slug", destination: "/cek-ongkir", permanent: true },
       { source: "/:num(\\d+)-cara-cek-ongkir-:slug", destination: "/cek-ongkir", permanent: true },
-      { source: "/cara-cek-resi-:slug", destination: "/tracking", permanent: true },
-      { source: "/cek-resi-:slug", destination: "/tracking", permanent: true },
-      { source: "/:num(\\d+)-cara-cek-resi-:slug", destination: "/tracking", permanent: true },
-      { source: "/cara-lacak-paket-:slug", destination: "/tracking", permanent: true },
-      { source: "/cara-tracking-:slug", destination: "/tracking", permanent: true },
+      { source: "/cara-cek-resi-:slug", destination: "/cek-resi", permanent: true },
+      { source: "/cek-resi-:slug", destination: "/cek-resi", permanent: true },
+      { source: "/:num(\\d+)-cara-cek-resi-:slug", destination: "/cek-resi", permanent: true },
+      { source: "/cara-lacak-paket-:slug", destination: "/cek-resi", permanent: true },
+      { source: "/cara-tracking-:slug", destination: "/cek-resi", permanent: true },
 
       // ─── HALAMAN STATIS LAMA → halaman baru ───
+      { source: "/tracking", destination: "/cek-resi", permanent: true },
       { source: "/tentang-kami", destination: "/kontak", permanent: true },
       { source: "/privacy-policy", destination: "/privacy", permanent: true },
       { source: "/terms-conditions", destination: "/terms", permanent: true },

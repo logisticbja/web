@@ -10,7 +10,7 @@ import { boldText, cms, type EditProps } from "./cms";
 const quickLinks = [
   { icon: Calculator, label: "Cek Ongkir", href: "/cek-ongkir", external: false },
   { icon: Ship, label: "Jadwal Kapal", href: "/jadwal-kapal", external: false },
-  { icon: MapPin, label: "Track Resi", href: "/tracking", external: false },
+  { icon: MapPin, label: "Cek Resi", href: "/cek-resi", external: false },
 ];
 
 export function Hero({ content, edit }: { content: HeroContent } & EditProps) {

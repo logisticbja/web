@@ -10,7 +10,7 @@ export function TrackingInput() {
   const handleSubmit = (e?: React.FormEvent) => {
     e?.preventDefault();
     if (!resi.trim()) return;
-    router.push(`/tracking?resi=${encodeURIComponent(resi.trim())}`);
+    router.push(`/cek-resi?resi=${encodeURIComponent(resi.trim())}`);
   };
 
   return (
@@ -23,7 +23,7 @@ export function TrackingInput() {
         type="text"
         value={resi}
         onChange={(e) => setResi(e.target.value)}
-        placeholder="Cek resi — contoh: BJA-2024-001"
+        placeholder="Cek resi — contoh: 8203"
         className="flex-1 w-0 min-w-0 bg-transparent text-white placeholder-white/40 text-sm font-medium outline-none"
       />
       <button

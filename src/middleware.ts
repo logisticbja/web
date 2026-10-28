@@ -8,6 +8,7 @@ const STATIC_ROUTES = new Set([
   "/corporate",
   "/jadwal-kapal",
   "/kontak",
+  "/cek-resi",
   "/tracking",
 ]);
 

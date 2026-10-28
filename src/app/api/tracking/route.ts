@@ -54,6 +54,10 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "server_error" }, { status: 502 });
   }
 
+  if (res.status === 404) {
+    return NextResponse.json({ error: "not_found" }, { status: 404 });
+  }
+
   if (!res.ok) {
     return NextResponse.json({ error: "server_error" }, { status: 502 });
   }
