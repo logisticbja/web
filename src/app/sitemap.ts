@@ -65,7 +65,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     },
     {
-      url: `${BASE_URL}/tracking`,
+      url: `${BASE_URL}/cek-resi`,
       lastModified,
       changeFrequency: "monthly",
       priority: 0.6,

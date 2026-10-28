@@ -12,7 +12,7 @@ function TrackingFallback() {
   );
 }
 
-export function TrackingView({ content, edit }: { content: TrackingContent; edit?: boolean }) {
+export function TrackingView({ content, edit, extra }: { content: TrackingContent; edit?: boolean; extra?: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
       <Sec edit={edit} id="hero">
@@ -22,6 +22,7 @@ export function TrackingView({ content, edit }: { content: TrackingContent; edit
       <Suspense fallback={<TrackingFallback />}>
         <TrackingClient content={content} edit={edit} />
       </Suspense>
+      {extra}
     </div>
   );
 }

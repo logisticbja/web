@@ -98,7 +98,7 @@ export function TrackingClient({ content, edit }: { content: TrackingContent; ed
 
     try {
       const res = await fetch(
-        `/api/tracking?resi=${encodeURIComponent(q)}`
+        `/api/cek-resi?resi=${encodeURIComponent(q)}`
       );
 
       if (res.status === 404) {
@@ -145,7 +145,7 @@ export function TrackingClient({ content, edit }: { content: TrackingContent; ed
 
     if (!q) return;
 
-    router.push(`/tracking?resi=${encodeURIComponent(q)}`);
+    router.push(`/cek-resi?resi=${encodeURIComponent(q)}`);
 
     doFetch(q);
   }

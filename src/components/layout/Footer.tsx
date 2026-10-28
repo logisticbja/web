@@ -84,7 +84,7 @@ export function Footer() {
             <ul className="space-y-2.5">
               {[
                 ["Cek Ongkir", "/cek-ongkir"],
-                ["Tracking Resi", "/tracking"],
+                ["Cek Resi", "/cek-resi"],
                 ["Jadwal Kapal", "/jadwal-kapal"],
                 ["Tentang Kami", "/kontak"],
                 ["Blog", "/blog"],

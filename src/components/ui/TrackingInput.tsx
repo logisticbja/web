@@ -10,7 +10,7 @@ export function TrackingInput() {
   const handleSubmit = (e?: React.FormEvent) => {
     e?.preventDefault();
     if (!resi.trim()) return;
-    router.push(`/tracking?resi=${encodeURIComponent(resi.trim())}`);
+    router.push(`/cek-resi?resi=${encodeURIComponent(resi.trim())}`);
   };
 
   return (

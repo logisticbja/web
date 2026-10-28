@@ -13,20 +13,20 @@ export const TRACKING_DEFAULTS: TrackingContent = {
   order: [...TRACKING_SECTIONS],
   hidden: [],
   seo: {
-    title: "Tracking Resi",
-    description: "Cek status pengiriman Anda dengan nomor resi BJA Logistic.",
+    title: "Cek Resi BJA Logistic – Lacak Pengiriman Cargo",
+    description: "Cek resi BJA Logistic: masukkan nomor STT untuk melihat status dan riwayat perjalanan cargo Anda ke Papua, Maluku, NTT, dan Sulawesi.",
     ogImage: "",
   },
   hero: {
-    title: "Tracking Pengiriman",
-    description: "Cek status pengiriman Anda dengan nomor resi",
+    title: "Cek Resi BJA Logistic",
+    description: "Masukkan nomor resi (STT) untuk melihat status dan posisi kiriman Anda",
     image: "",
-    imageAlt: "Tracking Pengiriman",
+    imageAlt: "Cek Resi BJA Logistic",
     badges: [],
   },
   search: {
     label: "Nomor Resi",
-    placeholder: "Masukkan nomor resi — contoh: BJA-2024-001",
+    placeholder: "Contoh: STT-20261028-AB12",
     buttonLabel: "Cek",
   },
   infoCards: {
