@@ -47,7 +47,7 @@ export default async function CargoRegionPage({ params }: Props) {
   const config = getRegionConfig(region);
   if (!config) notFound();
 
-  const [{ live }, regionSchedules] = await Promise.all([loadTujuan(config), getSchedules({ region: config.scheduleRegion })]);
+  const [{ live }, regionSchedules] = await Promise.all([loadTujuan(config), getSchedules({ region: config.scheduleRegion }).catch(() => [])]);
   const canonical = `${BASE_URL}/cargo/${config.slug}`;
 
   return (
