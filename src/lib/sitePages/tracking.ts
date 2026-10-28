@@ -13,7 +13,7 @@ export const TRACKING_DEFAULTS: TrackingContent = {
   order: [...TRACKING_SECTIONS],
   hidden: [],
   seo: {
-    title: "Cek Resi BJA Logistic – Lacak Pengiriman Cargo",
+    title: "Cek Resi – Lacak Pengiriman Cargo",
     description: "Cek resi BJA Logistic: masukkan nomor STT untuk melihat status dan riwayat perjalanan cargo Anda ke Papua, Maluku, NTT, dan Sulawesi.",
     ogImage: "",
   },

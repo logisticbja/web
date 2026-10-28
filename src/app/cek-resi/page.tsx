@@ -37,7 +37,7 @@ function withCekResiDefaults(live: TrackingContent): TrackingContent {
 
 export async function generateMetadata(): Promise<Metadata> {
   const { live } = await loadTracking();
-  return siteMetadata(withCekResiDefaults(live), "/cek-resi", "Cek Resi BJA Logistic – Lacak Pengiriman Cargo");
+  return siteMetadata(withCekResiDefaults(live), "/cek-resi", "Cek Resi – Lacak Pengiriman Cargo");
 }
 
 export default async function CekResiPage() {
