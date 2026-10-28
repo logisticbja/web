@@ -122,9 +122,6 @@ export function ScheduleClient({
                     <tr key={`${s.route}-${s.ship}-${s.etdDate}-${i}`} className={i % 2 === 0 ? "bg-white" : "bg-gray-50/50"}>
                       <td className="text-center px-6 py-4">
                         <p className="font-bold text-[#111111] text-sm">{s.route}</p>
-                        <span className="text-xs px-2 py-0.5 rounded-full bg-[#CC1F2A]/10 text-[#CC1F2A] font-semibold mt-1 inline-block">
-                          {s.region}
-                        </span>
                         <CargoCityLinks route={s.route} />
                       </td>
                       <td className="text-center px-6 py-4 font-semibold text-sm text-gray-700">{s.ship || "-"}</td>
@@ -148,9 +145,6 @@ export function ScheduleClient({
                   <div className="flex items-start justify-between mb-3">
                     <div>
                       <p className="font-black text-[#111111]">{s.route}</p>
-                      <span className="text-xs px-2 py-0.5 rounded-full bg-[#CC1F2A]/10 text-[#CC1F2A] font-semibold mt-1 inline-block">
-                        {s.region}
-                      </span>
                       <CargoCityLinks route={s.route} />
                     </div>
                     <ServiceTypeBadge type={s.serviceType} />
