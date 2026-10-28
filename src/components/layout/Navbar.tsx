@@ -29,12 +29,12 @@ const navLinks = [
       { label: "Cargo ke Sulawesi", href: "/cargo/sulawesi" },
     ],
   },
-  { label: "Cek Ongkir", href: "/cek-ongkir" },
   { label: "Jadwal Kapal", href: "/jadwal-kapal" },
+  { label: "Cek Ongkir", href: "/cek-ongkir" },
   { label: "Cek Resi", href: "/cek-resi" },
   { label: "Blog", href: "/blog" },
-  { label: "Corporate", href: "/corporate" },
   { label: "Kontak", href: "/kontak" },
+  { label: "Corporate", href: "/corporate" },
 ];
 
 export function Navbar() {
