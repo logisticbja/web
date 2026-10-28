@@ -12,6 +12,7 @@ import { ONGKIR_REGIONS, serviceInfo, toSlug, type CityView } from "@/lib/cityPa
 import type { KotaSection } from "@/lib/sitePages/kotaTemplate";
 import { TOOL_ICONS } from "./ToolHero";
 import { ExpandableHtml } from "@/components/ui/ExpandableHtml";
+import { buildAutoCityArticle } from "@/lib/cityAutoArticle";
 
 export type CityEditMode = "city" | "template";
 
@@ -39,14 +40,17 @@ export function CityPageView({ view, data, edit }: { view: CityView; data: CityP
   const c = (path: string) => cms(mode === "city", path);
   const p = (path: string) => cms(mode === "template", path);
 
-  const belowBanner = sanitizeCityHtml(data?.belowBannerContent);
+  const ownArticle = sanitizeCityHtml(data?.belowBannerContent);
+  const belowBanner = ownArticle || (mode === null ? buildAutoCityArticle(view) : "");
   const servedCities = (data?.servedCities ?? []).filter((x) => typeof x === "string" && x.trim() !== "");
   const popup = data?.popupInfo?.enabled
     ? {
         minKg: data.popupInfo.minKg || cp.minWeightKg,
         restrictedItems: (data.popupInfo.restrictedItems ?? []).filter((x) => typeof x === "string" && x.trim() !== ""),
       }
-    : null;
+    : mode === null
+      ? { minKg: cp.minWeightKg, restrictedItems: ["Hewan Hidup / Mati", "Frozen Food"] }
+      : null;
   const hasApiTestimonials = !!data && data.testimonials.length > 0;
   const hasApiFaqs = !!data?.faqs && data.faqs.length > 0;
   const hidden = new Set(tpl.hidden);
