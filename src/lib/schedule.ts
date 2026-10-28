@@ -17,8 +17,10 @@ export async function getSchedules(params?: {
   if (params?.region) url.searchParams.set("region", params.region);
   if (params?.q) url.searchParams.set("q", params.q);
 
+  const building = process.env.NEXT_PHASE === "phase-production-build";
+  const attempts = building ? 5 : 3;
   let lastError: unknown = null;
-  for (let attempt = 1; attempt <= 3; attempt++) {
+  for (let attempt = 1; attempt <= attempts; attempt++) {
     try {
       const res = await fetch(url.toString(), {
         headers: { "X-API-Key": process.env.TRACKING_API_KEY ?? "" },
@@ -30,10 +32,10 @@ export async function getSchedules(params?: {
       return publicSchedules(json.data);
     } catch (error) {
       lastError = error;
-      if (attempt < 3) await new Promise((r) => setTimeout(r, attempt * 500));
+      if (attempt < attempts) await new Promise((r) => setTimeout(r, attempt * (building ? 1000 : 500)));
     }
   }
-  if (process.env.NEXT_PHASE === "phase-production-build") return [];
+  if (building) return [];
   throw lastError;
 }
 
@@ -42,9 +44,11 @@ export function jakartaToday(): string {
 }
 
 export function publicSchedules(list: ShipSchedule[], today = jakartaToday()): ShipSchedule[] {
-  return list
+  const upcoming = list
     .filter((s) => !s.etdDate || s.etdDate >= today)
     .sort((a, b) => (a.etdDate ?? "9999").localeCompare(b.etdDate ?? "9999"));
+  if (upcoming.length > 0) return upcoming;
+  return [...list].sort((a, b) => (b.etdDate ?? "").localeCompare(a.etdDate ?? "")).slice(0, 15);
 }
 
 const MONTHS_LONG_ID = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
