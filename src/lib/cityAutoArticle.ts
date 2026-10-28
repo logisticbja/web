@@ -52,6 +52,9 @@ export function buildAutoCityArticle(view: CityView): string {
   parts.push(
     `<p>Untuk barang yang besar tetapi ringan, ongkir dihitung dari <a href="/blog/cara-hitung-volume-barang-untuk-pengiriman-cargo-dan-jasa-ekspedisi">berat volume</a> jika lebih besar dari berat timbangan. Harga final dikonfirmasi tim kami sebelum barang dikirim.</p>`
   );
+  parts.push(
+    `<p>Pengiriman ke ${k} sudah termasuk pengantaran sampai alamat penerima (door to door) untuk wilayah kota. Untuk alamat di luar wilayah kota, biaya pengantaran dihitung terpisah.</p>`
+  );
 
   const nearby = (group?.cities ?? []).filter((x) => x.value !== value && validCityValues.has(x.value)).slice(0, 6);
   if (nearby.length > 0) {

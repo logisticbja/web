@@ -49,8 +49,9 @@ export function CityPageView({ view, data, edit }: { view: CityView; data: CityP
         restrictedItems: (data.popupInfo.restrictedItems ?? []).filter((x) => typeof x === "string" && x.trim() !== ""),
       }
     : mode === null
-      ? { minKg: cp.minWeightKg, restrictedItems: ["Hewan Hidup / Mati", "Frozen Food"] }
+      ? { minKg: cp.minWeightKg, restrictedItems: [] as string[] }
       : null;
+  if (popup && popup.restrictedItems.length === 0 && mode === null) popup.restrictedItems = ["Hewan Hidup / Mati", "Frozen Food"];
   const hasApiTestimonials = !!data && data.testimonials.length > 0;
   const hasApiFaqs = !!data?.faqs && data.faqs.length > 0;
   const hidden = new Set(tpl.hidden);
