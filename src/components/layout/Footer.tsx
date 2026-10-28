@@ -83,10 +83,9 @@ export function Footer() {
             <h3 className="font-bold text-sm uppercase tracking-wider text-gray-400 mb-4">Informasi</h3>
             <ul className="space-y-2.5">
               {[
+                ["Jadwal Kapal", "/jadwal-kapal"],
                 ["Cek Ongkir", "/cek-ongkir"],
                 ["Cek Resi", "/cek-resi"],
-                ["Jadwal Kapal", "/jadwal-kapal"],
-                ["Tentang Kami", "/kontak"],
                 ["Blog", "/blog"],
                 ["Kontak", "/kontak"],
               ].map(([label, href]) => (
