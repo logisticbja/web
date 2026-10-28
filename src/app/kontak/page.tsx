@@ -188,7 +188,7 @@ export default function KontakPage() {
 
       <div className="max-w-5xl mx-auto px-4 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div className="space-y-5">
+          <div className="flex flex-col gap-5">
             <h2 className="text-xl font-black text-[#111111]">Cara Menghubungi Kami</h2>
 
             <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
@@ -269,7 +269,7 @@ export default function KontakPage() {
               </div>
             </div>
 
-            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+            <div className="flex-1 bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
               <p className="font-black text-[#111111] mb-4">Ikuti Kami</p>
               <div className="flex flex-wrap gap-3">
                 <a href="https://www.instagram.com/bjalogisticofficial/" target="_blank" rel="noopener noreferrer"
@@ -286,18 +286,18 @@ export default function KontakPage() {
             </div>
           </div>
 
-          <div>
-            <h2 className="text-xl font-black text-[#111111] mb-5">Lokasi Kantor Kami</h2>
-            <div className="space-y-4">
+          <div className="flex flex-col gap-5">
+            <h2 className="text-xl font-black text-[#111111]">Lokasi Kantor Kami</h2>
+            <div className="flex-1 flex flex-col gap-5">
               {offices.map((office) => (
                 <div
                   key={office.id}
-                  className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100"
+                  className="flex-1 flex flex-col bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100"
                 >
                   <iframe
                     title={`Peta lokasi ${office.name}`}
                     src={`https://maps.google.com/maps?q=${encodeURIComponent(office.mapQuery)}&z=16&output=embed`}
-                    className="w-full h-52 border-0 block"
+                    className="w-full flex-1 min-h-52 border-0 block"
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
                     allowFullScreen
@@ -325,33 +325,36 @@ export default function KontakPage() {
               ))}
             </div>
 
-            <div className="mt-6 bg-gradient-to-br from-[#CC1F2A] to-[#A01820] rounded-2xl p-7 text-white">
-              <h3 className="text-xl font-black mb-2">Tertarik Kerjasama Corporate?</h3>
-              <p className="text-white/70 text-sm mb-5">
-                Dapatkan harga khusus, diskon volume, asuransi pengiriman, dan layanan dedicated team untuk bisnis Anda.
-              </p>
-              <ul className="space-y-2 mb-5 text-sm text-white/70">
-                {[
-                  "Harga kontrak khusus",
-                  "Tim dedicated & account manager",
-                  "Laporan pengiriman bulanan",
-                ].map((item) => (
-                  <li key={item} className="flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-[#F5C518]" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-              <WALink
-                href={buildCorporateMessage()}
-                conversion="waCorporate"
-                className="flex items-center justify-center gap-2 bg-[#F5C518] hover:bg-[#D4A910] text-[#1A1A1A] font-bold py-3 rounded-xl transition-colors text-sm w-full"
-              >
-                <MessageCircle size={16} />
-                Hubungi untuk Kerjasama
-              </WALink>
-            </div>
           </div>
+        </div>
+
+        <div className="mt-8 bg-gradient-to-br from-[#CC1F2A] to-[#A01820] rounded-2xl p-7 lg:p-10 text-white grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-6 lg:gap-10 items-center">
+          <div>
+            <h3 className="text-xl lg:text-2xl font-black mb-2">Tertarik Kerjasama Corporate?</h3>
+            <p className="text-white/70 text-sm lg:text-base mb-5">
+              Dapatkan harga khusus, diskon volume, asuransi pengiriman, dan layanan dedicated team untuk bisnis Anda.
+            </p>
+            <ul className="flex flex-col sm:flex-row sm:flex-wrap gap-2 sm:gap-x-6 text-sm text-white/70">
+              {[
+                "Harga kontrak khusus",
+                "Tim dedicated & account manager",
+                "Laporan pengiriman bulanan",
+              ].map((item) => (
+                <li key={item} className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#F5C518]" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <WALink
+            href={buildCorporateMessage()}
+            conversion="waCorporate"
+            className="flex items-center justify-center gap-2 bg-[#F5C518] hover:bg-[#D4A910] text-[#1A1A1A] font-bold py-3 lg:py-4 px-8 rounded-xl transition-colors text-sm w-full lg:w-auto whitespace-nowrap"
+          >
+            <MessageCircle size={16} />
+            Hubungi untuk Kerjasama
+          </WALink>
         </div>
       </div>
     </div>
