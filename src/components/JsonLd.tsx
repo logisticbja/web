@@ -42,8 +42,8 @@ export function LocalBusinessJsonLd() {
     ],
     sameAs: [
       "https://www.instagram.com/bjalogisticofficial/",
-      "https://facebook.com/BJALogistick",
-      "https://tiktok.com/@bjalogistic",
+      "https://www.facebook.com/profile.php?id=61592894893288",
+      "https://www.tiktok.com/@bjalogistic",
     ],
     hasOfferCatalog: {
       "@type": "OfferCatalog",
