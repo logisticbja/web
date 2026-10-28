@@ -2,7 +2,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Ship, MessageCircle, Filter } from "lucide-react";
-import { buildGeneralMessage, buildJadwalInquiryMessage, buildShipCargoMessage } from "@/lib/whatsapp";
+import { buildGeneralMessage, buildShipCargoMessage } from "@/lib/whatsapp";
 import { WALink } from "@/components/ui/WALink";
 import { formatScheduleDate, formatServiceType, type ShipSchedule } from "@/lib/schedule";
 import type { JadwalKapalContent, JadwalKapalSection } from "@/lib/sitePages/jadwalKapal";
@@ -26,28 +26,19 @@ function ServiceTypeBadge({ type }: { type: string }) {
   );
 }
 
-function ShipCargoButton({ s, full = false }: { s: ShipSchedule; full?: boolean }) {
+function EtaCell({ s, bold = true }: { s: ShipSchedule; bold?: boolean }) {
+  if (s.etaDate) {
+    return <span className={`text-[#CC1F2A] text-sm whitespace-nowrap ${bold ? "font-bold" : ""}`}>{formatScheduleDate(s.etaDate)}</span>;
+  }
   return (
     <WALink
       href={buildShipCargoMessage(s.route, s.ship, s.etdDate ? formatScheduleDate(s.etdDate) : undefined)}
-      aria-label={`Chat WhatsApp untuk kirim barang rute ${s.route}`}
-      className={
-        full
-          ? "mt-4 flex w-full items-center justify-center gap-2 rounded-xl border-2 border-[#15803D] bg-white py-2.5 text-sm font-bold text-[#15803D] active:bg-green-50"
-          : "inline-flex items-center gap-1.5 whitespace-nowrap rounded-lg bg-[#15803D] px-3 py-2 text-xs font-bold text-white hover:bg-[#166534]"
-      }
+      className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-lg bg-[#15803D] px-3 py-2 text-xs font-bold text-white hover:bg-[#166534]"
     >
-      <MessageCircle size={full ? 17 : 14} />
-      {full ? "Kirim dengan kapal ini" : "Pesan"}
+      <MessageCircle size={14} />
+      Konfirmasi CS
     </WALink>
   );
-}
-
-function EtaCell({ etaDate, bold = true }: { etaDate: string | null; bold?: boolean }) {
-  if (etaDate) {
-    return <span className={`text-[#CC1F2A] text-sm whitespace-nowrap ${bold ? "font-bold" : ""}`}>{formatScheduleDate(etaDate)}</span>;
-  }
-  return <span className="text-sm text-gray-500 whitespace-nowrap">Konfirmasi CS</span>;
 }
 
 function CargoCityLinks({ route }: { route: string }) {
@@ -65,23 +56,6 @@ function CargoCityLinks({ route }: { route: string }) {
         </span>
       ))}
     </p>
-  );
-}
-
-function CargoBox() {
-  return (
-    <div className="mb-6 flex flex-col gap-3 rounded-2xl border border-gray-100 bg-white p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:p-5">
-      <div>
-        <h2 className="font-black text-[#111111]">Kirim Cargo Ikut Jadwal Kapal Ini</h2>
-        <p className="mt-0.5 text-sm text-gray-600">Minimal 100 kg, dari Jakarta atau Surabaya, diantar sampai alamat.</p>
-      </div>
-      <WALink
-        href={buildJadwalInquiryMessage()}
-        className="flex shrink-0 items-center justify-center gap-2 rounded-xl bg-[#15803D] px-5 py-3 text-sm font-bold text-white hover:bg-[#166534]"
-      >
-        <MessageCircle size={18} /> Tanya Tarif &amp; Jadwal
-      </WALink>
-    </div>
   );
 }
 
@@ -107,7 +81,6 @@ export function ScheduleClient({
   const blocks: Record<Exclude<JadwalKapalSection, "hero">, React.ReactNode> = {
     schedule: (
       <>
-            <CargoBox />
             <div className="flex items-center gap-3 mb-3 flex-wrap">
               <Filter size={16} className="text-gray-400" />
               <span className="text-sm font-semibold text-gray-600" {...cms(edit, "schedule.filterLabel")}>{content.schedule.filterLabel}</span>
@@ -144,7 +117,6 @@ export function ScheduleClient({
                     <th className="text-left px-4 py-4 text-sm font-bold whitespace-nowrap">Closing Date</th>
                     <th className="text-left px-4 py-4 text-sm font-bold whitespace-nowrap">ETD</th>
                     <th className="text-left px-4 py-4 text-sm font-bold whitespace-nowrap">ETA</th>
-                    <th className="px-4 py-4"><span className="sr-only">Pesan</span></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -162,10 +134,7 @@ export function ScheduleClient({
                       <td className="px-4 py-4 text-sm whitespace-nowrap text-gray-700">{formatScheduleDate(s.closingDate)}</td>
                       <td className="px-4 py-4 text-sm whitespace-nowrap text-gray-700">{formatScheduleDate(s.etdDate)}</td>
                       <td className="px-6 py-4">
-                        <EtaCell etaDate={s.etaDate} />
-                      </td>
-                      <td className="px-4 py-4 text-right">
-                        <ShipCargoButton s={s} />
+                        <EtaCell s={s} />
                       </td>
                     </tr>
                   ))}
@@ -203,10 +172,9 @@ export function ScheduleClient({
                     </div>
                     <div>
                       <p className="text-gray-400 text-xs">ETA</p>
-                      <EtaCell etaDate={s.etaDate} bold={false} />
+                      <EtaCell s={s} bold={false} />
                     </div>
                   </div>
-                  <ShipCargoButton s={s} full />
                 </div>
               ))}
             </div>

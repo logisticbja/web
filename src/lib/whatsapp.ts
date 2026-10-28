@@ -40,9 +40,6 @@ export function buildScheduleMessage(route: string, ship?: string) {
   const msg = `Halo BJA Logistic, saya ingin tanya estimasi waktu tiba (ETA) untuk jadwal kapal rute ${route}${shipPart}. Bisa bantu info lebih detail?`;
   return WA_BASE + encode(msg);
 }
-export function buildJadwalInquiryMessage() {
-  return WA_BASE + encode("Halo BJA Logistic, saya lihat jadwal kapal di website. Mau tanya tarif dan jadwal kirim barang.");
-}
 export function buildShipCargoMessage(route: string, ship?: string, etd?: string) {
   const shipPart = ship ? ` dengan kapal ${ship}` : "";
   const etdPart = etd ? ` yang berangkat ${etd}` : "";
