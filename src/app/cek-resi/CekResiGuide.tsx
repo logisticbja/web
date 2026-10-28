@@ -5,12 +5,12 @@ import { buildGeneralMessage } from "@/lib/whatsapp";
 
 const STEPS = [
   {
-    title: "Siapkan nomor resi (STT)",
-    text: "Nomor resi ada di dokumen STT atau tanda terima saat barang diserahkan, di invoice, dan juga dikirim CS kami lewat WhatsApp setelah barang diterima di gudang.",
+    title: "Cari nomor BJA No.",
+    text: "Nomor resi adalah BJA No. yang ada di pojok kanan atas STT (Surat Tanda Terima), atau di bagian BJA No pada invoice. Nomor ini juga bisa ditanyakan ke CS kami lewat WhatsApp.",
   },
   {
-    title: "Ketik nomor resi di kolom pencarian",
-    text: "Tulis lengkap beserta tanda strip, misalnya STT-20261028-AB12. Pastikan tidak ada spasi di awal atau akhir.",
+    title: "Ketik nomornya tanpa angka 0 di depan",
+    text: "Contoh: BJA No. 008203 cukup ditulis 8203, dan 009875 ditulis 9875. Kalau di invoice tertulis 10702, ketik 10702.",
   },
   {
     title: "Klik tombol Cek",
@@ -37,15 +37,15 @@ const STATUSES = [
 export const CEK_RESI_FAQS = [
   {
     question: "Di mana saya bisa menemukan nomor resi BJA Logistic?",
-    answer: "Nomor resi (STT) tertera di dokumen STT atau tanda terima saat barang diserahkan, di invoice, dan dikirimkan oleh CS BJA Logistic lewat WhatsApp setelah barang diterima di gudang.",
+    answer: "Nomor resi adalah BJA No. yang tertera di pojok kanan atas STT (Surat Tanda Terima) dan di bagian BJA No pada invoice. Anda juga bisa menanyakannya ke CS BJA Logistic lewat WhatsApp.",
   },
   {
-    question: "Seperti apa format nomor resi BJA Logistic?",
-    answer: "Nomor resi diawali STT, diikuti tanggal dan kode unik, contohnya STT-20261028-AB12. Ketik lengkap beserta tanda strip.",
+    question: "Bagaimana cara menulis nomor resi saat cek resi?",
+    answer: "Ketik nomor BJA No. tanpa angka 0 di depan. Contohnya, BJA No. 008203 cukup ditulis 8203.",
   },
   {
     question: "Kenapa nomor resi saya tidak ditemukan?",
-    answer: "Pastikan nomor resi diketik lengkap dan benar. Jika barang baru saja diserahkan, data mungkin belum masuk ke sistem. Hubungi CS kami lewat WhatsApp untuk dicek langsung.",
+    answer: "Pastikan nomor BJA No. diketik benar tanpa angka 0 di depan. Jika barang baru saja diserahkan, data mungkin belum masuk ke sistem. Hubungi CS kami lewat WhatsApp untuk dicek langsung.",
   },
   {
     question: "Apakah bisa cek resi lewat WhatsApp?",
