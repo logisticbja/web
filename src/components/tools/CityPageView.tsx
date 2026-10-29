@@ -8,7 +8,7 @@ import { WALink } from "@/components/ui/WALink";
 import { cms } from "@/components/home/cms";
 import { sanitizeCityHtml } from "@/lib/safeHtml";
 import type { CityPageData } from "@/lib/cityPages";
-import { ONGKIR_REGIONS, serviceInfo, toSlug, type CityView } from "@/lib/cityPage";
+import { ONGKIR_REGIONS, formatEta, serviceInfo, toSlug, type CityView } from "@/lib/cityPage";
 import type { KotaSection } from "@/lib/sitePages/kotaTemplate";
 import { TOOL_ICONS } from "./ToolHero";
 import { ExpandableHtml } from "@/components/ui/ExpandableHtml";
@@ -120,7 +120,7 @@ export function CityPageView({ view, data, edit }: { view: CityView; data: CityP
                         <span className="text-xs font-bold uppercase tracking-wide text-gray-500">Estimasi</span>
                       </div>
                       <p className="text-base font-black text-[#111111]">
-                        {etaMin}–{etaMax} hari*
+                        {formatEta(etaMin, etaMax)}*
                       </p>
                     </div>
                   </div>
