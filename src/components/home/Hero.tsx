@@ -23,7 +23,9 @@ export function Hero({ content, edit }: { content: HeroContent } & EditProps) {
           src={content.image}
           alt={content.imageAlt}
           fill
-          priority
+          loading="eager"
+          fetchPriority="high"
+          quality={60}
           className="object-cover object-center"
           sizes="100vw"
           {...(edit ? { unoptimized: true } : {})}

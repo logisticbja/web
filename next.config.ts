@@ -2,8 +2,12 @@ import type { NextConfig } from "next";
 import { blogRedirects } from "./src/lib/blogRedirects";
 
 const nextConfig: NextConfig = {
+  experimental: {
+    inlineCss: true,
+  },
   images: {
-    minimumCacheTTL: 60 * 60 * 24 * 30,  
+    minimumCacheTTL: 60 * 60 * 24 * 30,
+    qualities: [60, 75],
     remotePatterns: [
       {
         protocol: "https",
