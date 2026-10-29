@@ -188,10 +188,10 @@ export function buildCityView(resolvedDestinationValue: string, apiData: CityPag
   ];
   const etaFaqParts = [
     cp.regulerEtaMin !== null && cp.regulerEtaMax !== null
-      ? `Reguler ${cp.regulerEtaMin}–${cp.regulerEtaMax} hari`
+      ? `Reguler ${formatEta(cp.regulerEtaMin, cp.regulerEtaMax)}`
       : "Reguler tidak tersedia",
     cp.expressEtaMin !== null && cp.expressEtaMax !== null
-      ? `Express ${cp.expressEtaMin}–${cp.expressEtaMax} hari`
+      ? `Express ${formatEta(cp.expressEtaMin, cp.expressEtaMax)}`
       : "Express tidak tersedia",
   ];
   const vars: KotaVars = {
