@@ -125,7 +125,6 @@ export function Gallery({ content, edit }: { content: GalleryContent } & EditPro
                     src={photo.src}
                     alt={photo.alt}
                     fill
-                    priority={i === 0}
                     className="object-cover"
                     sizes="(min-width: 1024px) 1024px, 100vw"
                     {...(edit ? { unoptimized: true } : {})}

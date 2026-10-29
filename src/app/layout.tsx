@@ -80,23 +80,6 @@ export default function RootLayout({
     <html lang="id" className="h-full">
       <head>
         <LocalBusinessJsonLd />
-        {/* Google Tag Manager */}
-        <Script
-          id="gtm-script"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-              if(!location.pathname.startsWith('/preview/')){
-              (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-              'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-              })(window,document,'script','dataLayer','GTM-W3BHM7PF');
-              }
-            `,
-          }}
-        />
-        {/* End Google Tag Manager */}
       </head>
       <body className="min-h-full flex flex-col antialiased">
         {/* Google Tag Manager (noscript) */}
@@ -119,26 +102,31 @@ export default function RootLayout({
         <Footer />
         <FloatingWA />
         <MobileCtaBar />
-        {GA_ID && (
-          <>
-            <Script
-              src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
-              strategy="afterInteractive"
-            />
-            <Script id="ga4-init" strategy="afterInteractive">
-              {`
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                window.gtag = gtag;
-                if (!location.pathname.startsWith('/preview/')) {
-                gtag('js', new Date());
-                gtag('config', '${GA_ID}', { send_page_view: true });
-                ${GOOGLE_ADS_ID && GOOGLE_ADS_ID !== "AW-XXXXXXXXXX" ? `gtag('config', '${GOOGLE_ADS_ID}');` : ""}
-                }
-              `}
-            </Script>
-          </>
-        )}
+        <Script id="tag-loader" strategy="afterInteractive">
+          {`
+            (function(){
+              if (location.pathname.startsWith('/preview/')) return;
+              window.dataLayer = window.dataLayer || [];
+              window.gtag = window.gtag || function(){ window.dataLayer.push(arguments); };
+              ${GA_ID ? `gtag('js', new Date());
+              gtag('config', '${GA_ID}', { send_page_view: true });
+              ${GOOGLE_ADS_ID && GOOGLE_ADS_ID !== "AW-XXXXXXXXXX" ? `gtag('config', '${GOOGLE_ADS_ID}');` : ""}` : ""}
+              var loaded = false;
+              var events = ['pointerdown', 'keydown', 'touchstart', 'scroll', 'mousemove'];
+              function add(src){ var s = document.createElement('script'); s.async = true; s.src = src; document.head.appendChild(s); }
+              function load(){
+                if (loaded) return;
+                loaded = true;
+                events.forEach(function(e){ window.removeEventListener(e, load, { passive: true }); });
+                window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+                add('https://www.googletagmanager.com/gtm.js?id=GTM-W3BHM7PF');
+                ${GA_ID ? `add('https://www.googletagmanager.com/gtag/js?id=${GA_ID}');` : ""}
+              }
+              events.forEach(function(e){ window.addEventListener(e, load, { passive: true }); });
+              setTimeout(load, 6000);
+            })();
+          `}
+        </Script>
       </body>
     </html>
   );
