@@ -6,7 +6,7 @@ import { BreadcrumbJsonLd } from "@/components/JsonLd";
 import { TujuanView } from "@/components/tools/TujuanView";
 import { loadTujuan } from "@/lib/sitePages/fetch";
 import { stripBrand, withBrand } from "@/lib/seoTitle";
-import { RegionGuidePapua } from "@/components/tools/RegionGuidePapua";
+import { RegionGuide } from "@/components/tools/RegionGuide";
 
 const BASE_URL = "https://bjalogistic.id";
 
@@ -78,7 +78,7 @@ export default async function CargoRegionPage({ params }: Props) {
         config={config}
         content={live}
         schedules={regionSchedules}
-        guide={config.slug === "papua" ? <RegionGuidePapua /> : undefined}
+        guide={<RegionGuide config={config} />}
       />
     </>
   );
