@@ -147,7 +147,7 @@ export function Footer() {
 
       <div className="border-t border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-gray-500">
-          <p>© {new Date().getFullYear()} BJA Logistic (CV Berkah Jaya Abadi). All rights reserved.</p>
+          <p>© {new Date().getFullYear()} BJA Logistic. All rights reserved.</p>
           <div className="flex gap-4">
             <Link href="/privacy" prefetch={false} className="hover:text-gray-300 transition-colors">Privacy Policy</Link>
             <Link href="/terms" prefetch={false} className="hover:text-gray-300 transition-colors">Terms & Conditions</Link>
