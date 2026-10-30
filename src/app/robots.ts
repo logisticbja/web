@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: ["/preview/"],
     },
-    sitemap: "https://bjalogistic.id/sitemap.xml",
+    sitemap: ["https://bjalogistic.id/sitemap.xml", "https://bjalogistic.id/sitemap-lama.xml"],
   };
 }
