@@ -53,17 +53,6 @@ export function publicSchedules(list: ShipSchedule[], today = jakartaToday()): S
 
 const MONTHS_LONG_ID = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
 
-export function formatUpcomingMonths(dateStr: string): string {
-  const [y, m, d] = dateStr.split("-").map(Number);
-  const start = d >= 20 ? m : m - 1;
-  const a = { y: y + Math.floor(start / 12), m: start % 12 };
-  const bIdx = start + 1;
-  const b = { y: y + Math.floor(bIdx / 12), m: bIdx % 12 };
-  return a.y === b.y
-    ? `${MONTHS_LONG_ID[a.m]}–${MONTHS_LONG_ID[b.m]} ${b.y}`
-    : `${MONTHS_LONG_ID[a.m]} ${a.y}–${MONTHS_LONG_ID[b.m]} ${b.y}`;
-}
-
 export function formatMonthYear(dateStr: string): string {
   const [y, m] = dateStr.split("-").map(Number);
   return `${MONTHS_LONG_ID[m - 1]} ${y}`;

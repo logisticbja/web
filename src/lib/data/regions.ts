@@ -35,13 +35,13 @@ export interface RegionConfig {
 export const regionConfigs: RegionConfig[] = [
   {
     slug: "papua",
-    seoTitle: "Ekspedisi Cargo ke Papua via Laut dari Jakarta",
-    seoDescription: "Kirim barang ke Jayapura, Sorong, Merauke, Timika & kota Papua lain via kapal laut dari Jakarta & sekitarnya (Jabodetabek) atau Surabaya. Min. 100 kg. Cek ongkir online.",
+    seoTitle: "Ekspedisi Pengiriman ke Papua: Cargo & Kirim Barang ke Papua",
+    seoDescription: "Ekspedisi spesialis Papua. Kirim barang ke Jayapura, Sorong, Manokwari, Merauke, Timika & kota Papua lain dari Jakarta & Surabaya. Min. 100 kg, cek ongkir online.",
     ongkirRegion: "papua",
     scheduleRegion: "Papua",
     label: "Papua",
-    tagline: "Cargo ke Papua — Reguler & Express Sesuai Kota Tujuan",
-    description: "Pengiriman cargo dari Jabodetabek dan Surabaya ke berbagai kota di Papua. Tarif, layanan, dan estimasi mengikuti kota tujuan.",
+    tagline: "Ekspedisi Pengiriman ke Papua dari Jakarta & Surabaya",
+    description: "Cargo ke Papua lewat kapal laut untuk barang 100 kg ke atas. Kirim barang ke Jayapura, Sorong, Manokwari, Merauke, Timika, dan kota Papua lainnya.",
     defaultCityValue: "sorong",
     defaultCityLabel: "Sorong",
     stats: [
@@ -88,6 +88,14 @@ export const regionConfigs: RegionConfig[] = [
       {
         q: "Apakah bisa kirim barang elektronik atau alat berat ke Papua?",
         a: "Ya, kami berpengalaman menangani barang elektronik, mesin, alat berat, dan material proyek ke Papua dengan penanganan dan packing khusus.",
+      },
+      {
+        q: "Berapa ongkir kirim barang ke Papua?",
+        a: "Ongkir ke Papua dihitung per kg dan berbeda untuk setiap kota tujuan serta layanan Reguler atau Express. Tabel ongkir per kota ada di halaman ini, dan harga final dikonfirmasi tim kami sesuai berat dan ukuran barang.",
+      },
+      {
+        q: "Apakah bisa kirim barang ke Papua dari Surabaya?",
+        a: "Bisa. BJA Logistic menerima barang dari Surabaya maupun Jakarta & sekitarnya (Jabodetabek), lalu mengirimnya ke Papua sesuai jadwal kapal terdekat.",
       },
     ],
     waText: "Halo BJA Logistic, saya ingin cek ongkir, layanan yang tersedia, dan jadwal kapal terdekat untuk pengiriman cargo ke Papua. Bisa bantu saya?",

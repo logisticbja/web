@@ -54,11 +54,13 @@ export function TujuanView({
   content,
   schedules,
   edit,
+  guide,
 }: {
   config: RegionConfig;
   content: TujuanContent;
   schedules: ShipSchedule[];
   edit?: boolean;
+  guide?: React.ReactNode;
 }) {
   const cityGroups = getCitiesByRegion(config.ongkirRegion);
   const waUrl = `https://api.whatsapp.com/send/?phone=6281513335157&text=${encodeURIComponent(content.hero.waText)}`;
@@ -308,6 +310,7 @@ export function TujuanView({
           .map((k) => (
             <Sec key={k} edit={edit} id={k}>
               {blocks[k]}
+              {k === "main" && guide}
             </Sec>
           ))}
       </div>

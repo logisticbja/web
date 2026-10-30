@@ -6,6 +6,7 @@ import { BreadcrumbJsonLd } from "@/components/JsonLd";
 import { TujuanView } from "@/components/tools/TujuanView";
 import { loadTujuan } from "@/lib/sitePages/fetch";
 import { stripBrand, withBrand } from "@/lib/seoTitle";
+import { RegionGuidePapua } from "@/components/tools/RegionGuidePapua";
 
 const BASE_URL = "https://bjalogistic.id";
 
@@ -59,7 +60,26 @@ export default async function CargoRegionPage({ params }: Props) {
           { name: config.label, url: canonical },
         ]}
       />
-      <TujuanView config={config} content={live} schedules={regionSchedules} />
+      {live.faq.items.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              mainEntity: live.faq.items
+                .filter((f) => f.q && f.a)
+                .map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+            }),
+          }}
+        />
+      )}
+      <TujuanView
+        config={config}
+        content={live}
+        schedules={regionSchedules}
+        guide={config.slug === "papua" ? <RegionGuidePapua /> : undefined}
+      />
     </>
   );
 }
