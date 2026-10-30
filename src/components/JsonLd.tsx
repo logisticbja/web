@@ -5,7 +5,7 @@ export function LocalBusinessJsonLd() {
     "@id": "https://bjalogistic.id/#business",
     name: "BJA Logistic",
     legalName: "CV Berkah Jaya Abadi",
-    alternateName: ["BJA Logistics", "BJA Logistik", "BJA Cargo", "Berkah Jaya Abadi", "CV Berkah Jaya Abadi"],
+    alternateName: ["BJA Logistics", "BJA Logistik"],
     description:
       "Jasa ekspedisi cargo terpercaya ke Papua, Maluku, NTT, dan Sulawesi. Layanan cargo laut, darat, udara, kirim motor dan mobil. Cargo laut mulai Rp 7.000/kg.",
     url: "https://bjalogistic.id",
