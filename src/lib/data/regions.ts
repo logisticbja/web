@@ -46,7 +46,7 @@ export const regionConfigs: RegionConfig[] = [
     defaultCityLabel: "Sorong",
     stats: [
       { label: "Minimum", value: "100 kg" },
-      { label: "Tujuan", value: "57 Kota" },
+      { label: "Tujuan", value: "50+ Kota" },
       { label: "Layanan", value: "Sesuai Rute" },
     ],
     testimonials: [
