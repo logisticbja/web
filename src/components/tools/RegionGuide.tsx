@@ -115,7 +115,7 @@ export async function RegionGuide({ config }: { config: RegionConfig }) {
   return (
     <div className="space-y-10 mb-10">
       <section className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 sm:p-8">
-        <Title>Ekspedisi Pengiriman ke {label} dari Jakarta dan Surabaya</Title>
+        <Title>Layanan Cargo ke {label} dari Jakarta dan Surabaya</Title>
         <div className="space-y-3 text-sm text-gray-600 leading-relaxed">
           <p>
             BJA Logistic adalah ekspedisi spesialis Papua dan Indonesia Timur. Kami melayani cargo ke {label} untuk barang

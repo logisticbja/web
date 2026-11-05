@@ -70,7 +70,7 @@ export const HOMEPAGE_DEFAULTS: HomepageContent = {
       {
         icon: "DollarSign",
         title: "Harga Paling Kompetitif",
-        desc: "Tarif mulai Rp 6.000/kg tanpa biaya tersembunyi. Jauh lebih hemat dari ekspedisi umum.",
+        desc: "Tarif mulai Rp 7.000/kg tanpa biaya tersembunyi. Jauh lebih hemat dari ekspedisi umum.",
       },
       {
         icon: "Home",

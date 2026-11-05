@@ -2,7 +2,15 @@ import Link from "next/link";
 import { MapPin, MessageCircle, ArrowRight } from "lucide-react";
 import { buildServiceMessage } from "@/lib/whatsapp";
 import { WALink } from "@/components/ui/WALink";
+import { destinationValueToSlug } from "@/lib/data/pricing";
 import type { CoverageContent } from "@/lib/homepage/types";
+
+const CARGO_LABEL: Record<string, string> = {
+  papua: "Papua",
+  maluku: "Maluku",
+  ntt: "NTT",
+  sulawesi: "Sulawesi",
+};
 import { cms, type EditProps } from "./cms";
 
 const REGION_COLORS = {
@@ -46,7 +54,7 @@ export function CoverageSection({ content, edit }: { content: CoverageContent } 
                       <span className="text-white/50 italic">{city.name}</span>
                     ) : city.slug ? (
                       <Link
-                        href={`/kirim-ke/${city.slug}`}
+                        href={`/kirim-ke/${destinationValueToSlug(city.slug.replace(/-/g, "_"))}`}
                         className="flex items-center gap-1.5 text-white/80 hover:text-[#F5C518] transition-colors group"
                       >
                         <span className="text-white/40 group-hover:text-[#F5C518]/60">•</span>
@@ -65,7 +73,7 @@ export function CoverageSection({ content, edit }: { content: CoverageContent } 
                     className="flex-1 flex items-center justify-center gap-1.5 bg-white/15 hover:bg-white/25 border border-white/30 text-white font-bold py-2.5 rounded-xl transition-colors text-sm"
                   >
                     <ArrowRight size={14} />
-                    Cek Harga
+                    Cargo ke {CARGO_LABEL[region.cargoSlug] ?? region.name}
                   </Link>
                 )}
                 <WALink

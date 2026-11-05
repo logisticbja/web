@@ -23,7 +23,7 @@ const plans = [
   {
     name: "Cargo Laut",
     tagline: "Paling Populer & Hemat",
-    priceFrom: "Rp 6.000",
+    priceFrom: "Rp 7.000",
     unit: "/kg",
     minWeight: "min. 100 kg",
     eta: "14–20 hari",

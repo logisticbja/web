@@ -15,7 +15,7 @@ export const services: Service[] = [
     id: "cargo-laut",
     name: "Cargo Laut",
     description: "Pengiriman cargo via kapal ke Papua, Maluku, NTT & Sulawesi — solusi ekonomis untuk muatan besar",
-    priceFrom: "Rp 6.000/kg",
+    priceFrom: "Rp 7.000/kg",
     eta: "14–20 hari",
     icon: "Ship",
     href: "/layanan/cargo-laut",
