@@ -39,8 +39,8 @@ export function buildAutoCityArticle(view: CityView): string {
   ]);
 
   const parts: string[] = [];
-  parts.push(`<h2>Pengiriman Cargo dari Jakarta ke ${k}</h2>`);
-  parts.push(`<p>${intro}</p>`);
+  parts.push(`<h2>Ekspedisi Jakarta ${k}: Kirim Barang &amp; Cargo ke ${k}</h2>`);
+  parts.push(`<p>Butuh ekspedisi Jakarta ${k} yang bisa diandalkan? BJA Logistic melayani kirim barang ke ${k} lewat cargo laut, dengan minimal pengiriman ${cp.minWeightKg} kg. ${intro}</p>`);
   parts.push(
     `<p>Barang bisa dikirim dari Jakarta dan sekitarnya (Jabodetabek) maupun dari Surabaya, dengan minimal pengiriman <strong>${cp.minWeightKg} kg</strong>. Untuk tujuan ${k} tersedia layanan berikut:</p>`
   );

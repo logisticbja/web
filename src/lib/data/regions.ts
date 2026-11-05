@@ -35,7 +35,7 @@ export interface RegionConfig {
 export const regionConfigs: RegionConfig[] = [
   {
     slug: "papua",
-    seoTitle: "Ekspedisi Pengiriman ke Papua: Cargo & Kirim Barang ke Papua",
+    seoTitle: "Ekspedisi & Cargo ke Papua dari Jakarta",
     seoDescription: "Ekspedisi spesialis Papua. Kirim barang ke Jayapura, Sorong, Manokwari, Merauke, Timika & kota Papua lain dari Jakarta & Surabaya. Min. 100 kg, cek ongkir online.",
     ongkirRegion: "papua",
     scheduleRegion: "Papua",
@@ -102,7 +102,7 @@ export const regionConfigs: RegionConfig[] = [
   },
   {
     slug: "maluku",
-    seoTitle: "Ekspedisi ke Maluku: Cargo & Kirim Barang ke Ambon, Ternate",
+    seoTitle: "Ekspedisi & Cargo ke Maluku: Ambon, Ternate",
     seoDescription: "Ekspedisi pengiriman ke Maluku & Maluku Utara. Kirim barang ke Ambon, Ternate, Tual, Saumlaki, Tobelo & kota lain dari Jakarta & Surabaya. Min. 100 kg.",
     ongkirRegion: "maluku",
     scheduleRegion: "Maluku",
@@ -169,7 +169,7 @@ export const regionConfigs: RegionConfig[] = [
   },
   {
     slug: "ntt",
-    seoTitle: "Ekspedisi ke NTT: Cargo & Kirim Barang ke Kupang & Flores",
+    seoTitle: "Ekspedisi & Cargo ke NTT: Kupang, Flores",
     seoDescription: "Ekspedisi pengiriman ke NTT. Kirim barang ke Kupang, Labuan Bajo, Maumere, Ende, Sumba & Atambua dari Jakarta & Surabaya. Min. 100 kg, cek ongkir online.",
     ongkirRegion: "ntt",
     scheduleRegion: "NTT",
@@ -236,7 +236,7 @@ export const regionConfigs: RegionConfig[] = [
   },
   {
     slug: "sulawesi",
-    seoTitle: "Ekspedisi ke Sulawesi: Cargo ke Makassar, Manado & Kendari",
+    seoTitle: "Ekspedisi & Cargo ke Sulawesi: Makassar, Kendari",
     seoDescription: "Ekspedisi pengiriman ke Sulawesi. Kirim barang ke Makassar, Manado, Kendari, Palu, Morowali & kota lain dari Jakarta & Surabaya. Min. 100 kg, cek ongkir.",
     ongkirRegion: "sulawesi",
     scheduleRegion: "Sulawesi",
