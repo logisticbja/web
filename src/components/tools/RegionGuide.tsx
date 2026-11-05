@@ -7,10 +7,12 @@ type GuideConfig = {
   area: string;
   keyCities: { value: string; label: string }[];
   note?: string;
+  intro?: string;
 };
 
 const GUIDES: Partial<Record<RegionConfig["slug"], GuideConfig>> = {
   papua: {
+    intro: "Butuh ekspedisi ke Papua atau cargo ke Papua yang bisa diandalkan? BJA Logistic melayani kirim barang ke Papua lewat cargo laut dari Jakarta dan Surabaya, ke Jayapura, Sorong, Manokwari, Merauke, Timika, dan kota Papua lainnya.",
     area: "Papua, Papua Barat, Papua Barat Daya, Papua Tengah, Papua Selatan, dan Papua Pegunungan",
     keyCities: [
       { value: "jayapura", label: "Jayapura" },
@@ -28,6 +30,7 @@ const GUIDES: Partial<Record<RegionConfig["slug"], GuideConfig>> = {
     note: "Untuk kota di pegunungan seperti Wamena, barang dikirim lewat laut ke kota pesisir, lalu diteruskan dengan pesawat cargo. Karena itu tarifnya lebih tinggi.",
   },
   maluku: {
+    intro: "Butuh ekspedisi ke Maluku? BJA Logistic melayani ekspedisi Jakarta Maluku dan cargo ke Maluku Utara lewat jalur laut, untuk kirim barang ke Ambon, Ternate, Tual, sampai Halmahera dari Jakarta maupun Surabaya.",
     area: "Maluku dan Maluku Utara, termasuk Pulau Seram, Kepulauan Kei, Kepulauan Aru, Tanimbar, dan Halmahera",
     keyCities: [
       { value: "ambon", label: "Ambon" },
@@ -42,6 +45,7 @@ const GUIDES: Partial<Record<RegionConfig["slug"], GuideConfig>> = {
     ],
   },
   ntt: {
+    intro: "Butuh cargo ke NTT? BJA Logistic melayani ekspedisi dan pengiriman barang ke Kupang, Flores, Sumba, dan Timor lewat cargo laut dari Jakarta dan Surabaya.",
     area: "Nusa Tenggara Timur, mulai dari Pulau Timor, Flores, Sumba, sampai Lembata dan Rote",
     keyCities: [
       { value: "kupang", label: "Kupang" },
@@ -56,6 +60,7 @@ const GUIDES: Partial<Record<RegionConfig["slug"], GuideConfig>> = {
     ],
   },
   sulawesi: {
+    intro: "Butuh cargo Sulawesi untuk barang dalam jumlah besar? BJA Logistic melayani cargo laut ke Sulawesi dari Jakarta dan Surabaya. Pengiriman barang ke Sulawesi bisa ke Makassar, Kendari, Manado, Palu, dan kota lainnya.",
     area: "Sulawesi Selatan, Sulawesi Barat, Sulawesi Tengah, Sulawesi Tenggara, Sulawesi Utara, dan Gorontalo",
     keyCities: [
       { value: "makassar", label: "Makassar" },
@@ -117,6 +122,7 @@ export async function RegionGuide({ config }: { config: RegionConfig }) {
       <section className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 sm:p-8">
         <Title>Layanan Cargo ke {label} dari Jakarta dan Surabaya</Title>
         <div className="space-y-3 text-sm text-gray-600 leading-relaxed">
+          {guide.intro && <p>{guide.intro}</p>}
           <p>
             BJA Logistic adalah ekspedisi spesialis Papua dan Indonesia Timur. Kami melayani cargo ke {label} untuk barang
             dalam jumlah besar, mulai dari stok toko, material proyek, mesin, sampai barang pindahan, dengan minimal
