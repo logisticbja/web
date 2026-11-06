@@ -79,6 +79,13 @@ export function ScheduleGuide() {
         <h2 id="rute-kapal" className="text-xl font-black text-[#111111] mb-2">
           Rute Kapal dari Surabaya ke Indonesia Timur
         </h2>
+        <p className="text-sm text-gray-600 mb-3">
+          <strong>Mau kirim barang, bukan naik kapal?</strong> BJA Logistic adalah ekspedisi cargo minimal 100 kg, bukan penjual tiket penumpang. Cek ongkir{" "}
+          <Link href="/cargo/papua" className="font-semibold text-[#CC1F2A] hover:underline">cargo ke Papua</Link>,{" "}
+          <Link href="/cargo/maluku" className="font-semibold text-[#CC1F2A] hover:underline">cargo ke Maluku</Link>,{" "}
+          <Link href="/cargo/sulawesi" className="font-semibold text-[#CC1F2A] hover:underline">cargo ke Sulawesi</Link>, atau{" "}
+          <Link href="/cargo/ntt" className="font-semibold text-[#CC1F2A] hover:underline">cargo ke NTT</Link>.
+        </p>
         <p className="text-sm text-gray-600 mb-5">
           Semua jadwal di atas berangkat dari Pelabuhan Tanjung Perak, Surabaya. Klik nama kota untuk melihat tarif, estimasi, dan cara kirim barang ke kota tersebut, atau hitung sendiri di <Link href="/cek-ongkir" className="font-semibold text-[#CC1F2A] hover:underline">Cek Ongkir</Link>.
         </p>
@@ -98,7 +105,7 @@ export function ScheduleGuide() {
                 ))}
               </p>
               <Link href={r.href} className="mt-2 inline-block text-sm font-bold text-gray-700 hover:text-[#CC1F2A]">
-                Tarif cargo ke {r.region} →
+                Kirim barang ke {r.region} →
               </Link>
             </div>
           ))}
