@@ -44,6 +44,10 @@ const regionHub: Record<string, string> = {
   morowali_utara: "/kirim-ke/morowali",
   polman: "/cargo/sulawesi",
   papua: "/cargo/papua",
+  jogja: "/layanan/cargo-darat",
+  sukoharjo: "/layanan/cargo-darat",
+  purwokerto: "/layanan/cargo-darat",
+  bondowoso: "/layanan/cargo-darat",
 };
 
 const lowerCityMap = new Map(
