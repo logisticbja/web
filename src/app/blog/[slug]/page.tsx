@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { buildBlogRouteLinks } from "@/lib/blogRouteLinks";
 import { getPostBySlug } from "@/lib/blog";
 import { getListablePosts, pickRelatedPosts } from "@/lib/blogPagination";
 import { BlogPostView } from "@/components/blog/BlogPostView";
@@ -73,6 +74,8 @@ export default async function BlogPostPage({ params }: Props) {
 
   const related = pickRelatedPosts(listable, { slug: post.slug, category: post.category, title: post.title, tags: post.tags ?? [] });
 
+  const routeLinks = buildBlogRouteLinks(post.title, post.content);
+
   const canonical  = `${BASE_URL}/blog/${slug}`;
   const ogImage    = post.ogImage ?? post.cover ?? "/og-image.png";
   const allKeywords = [
@@ -124,7 +127,7 @@ export default async function BlogPostPage({ params }: Props) {
         ]}
       />
 
-      <BlogPostView post={post} related={related} />
+      <BlogPostView post={post} related={related} routeLinks={routeLinks} />
     </>
   );
 }

@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { notFound, permanentRedirect } from "next/navigation";
 import { destinationCities, destinationAliases, resolveDestinationValue } from "@/lib/data/pricing";
-import { BreadcrumbJsonLd } from "@/components/JsonLd";
+import { ArticleFaqJsonLd, BreadcrumbJsonLd, ServiceJsonLd } from "@/components/JsonLd";
 import { getCityPage } from "@/lib/cityPages";
 import { buildAutomaticCitySeo, buildCityView, fromSlug, getEffectiveCityPricing, toSlug } from "@/lib/cityPage";
 import { CityPageView } from "@/components/tools/CityPageView";
@@ -116,6 +116,18 @@ export default async function KirimKePage({ params }: Props) {
           url: `https://bjalogistic.id/kirim-ke/${toSlug(resolvedDestinationValue)}`,
         },
       ]} />
+      <ServiceJsonLd
+        name={`Ekspedisi Cargo ke ${view.cityLabel}`}
+        url={`https://bjalogistic.id/kirim-ke/${toSlug(resolvedDestinationValue)}`}
+        areaServed={view.cityLabel}
+        region={view.region}
+        pricePerKg={view.primaryPrice}
+      />
+      <ArticleFaqJsonLd
+        items={view.faqs
+          .filter((f) => f.q.trim() && f.a.trim())
+          .map((f) => ({ question: f.q, answer: f.a }))}
+      />
       <CityPageView view={view} data={apiData} />
     </>
   );

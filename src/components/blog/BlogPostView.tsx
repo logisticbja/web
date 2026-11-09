@@ -8,6 +8,8 @@ import { WALink } from "@/components/ui/WALink";
 import { cms } from "@/components/home/cms";
 import type { Post, PostMeta } from "@/lib/blog";
 import { RelatedPosts } from "@/components/blog/RelatedPosts";
+import { RouteLinks } from "@/components/blog/RouteLinks";
+import type { RouteLink } from "@/lib/blogRouteLinks";
 import { VolumeCalculator } from "@/components/blog/VolumeCalculator";
 
 const EMBEDS: Record<string, () => React.ReactNode> = {
@@ -36,7 +38,7 @@ export function estimateReadTime(htmlContent: string): number {
   return Math.max(1, Math.ceil(words / 200));
 }
 
-export function BlogPostView({ post, edit, related }: { post: Post; edit?: boolean; related?: PostMeta[] }) {
+export function BlogPostView({ post, edit, related, routeLinks }: { post: Post; edit?: boolean; related?: PostMeta[]; routeLinks?: RouteLink[] }) {
   const readTime = estimateReadTime(post.content);
 
   return (
@@ -216,6 +218,8 @@ export function BlogPostView({ post, edit, related }: { post: Post; edit?: boole
             </div>
           </div>
         )}
+
+        {routeLinks ? <RouteLinks links={routeLinks} /> : null}
 
         {related ? <RelatedPosts posts={related} /> : null}
 
