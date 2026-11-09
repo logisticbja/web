@@ -317,3 +317,44 @@ export function BreadcrumbJsonLd({ items }: { items: { name: string; url: string
     />
   );
 }
+
+interface ServiceJsonLdProps {
+  name: string;
+  url: string;
+  areaServed: string;
+  region?: string;
+  pricePerKg?: number | null;
+}
+export function ServiceJsonLd({ name, url, areaServed, region, pricePerKg }: ServiceJsonLdProps) {
+  const data: Record<string, unknown> = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name,
+    url,
+    serviceType: "Ekspedisi cargo laut",
+    provider: { "@id": "https://bjalogistic.id/#business" },
+    areaServed: {
+      "@type": "City",
+      name: areaServed,
+      ...(region ? { containedInPlace: { "@type": "AdministrativeArea", name: region } } : {}),
+    },
+  };
+  if (pricePerKg && pricePerKg > 0) {
+    data.offers = {
+      "@type": "Offer",
+      priceCurrency: "IDR",
+      priceSpecification: {
+        "@type": "UnitPriceSpecification",
+        price: pricePerKg,
+        priceCurrency: "IDR",
+        unitText: "kg",
+      },
+    };
+  }
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data).replace(/</g, "\\u003c") }}
+    />
+  );
+}

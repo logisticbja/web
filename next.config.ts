@@ -287,6 +287,26 @@ const nextConfig: NextConfig = {
       { source: "/cara-lacak-paket-:slug", destination: "/cek-resi", permanent: true },
       { source: "/cara-tracking-:slug", destination: "/cek-resi", permanent: true },
 
+      // ─── ARSIP WORDPRESS LAMA (404 Coverage report 9 Nov 2026) ───
+      { source: "/category/cargo/:region(papua|maluku|ntt|sulawesi)/:rest*", destination: "/cargo/:region", permanent: true },
+      { source: "/category/cargo/jawa/:rest*", destination: "/layanan/cargo-darat", permanent: true },
+      { source: "/category/jadwal-kapal/:rest*", destination: "/jadwal-kapal", permanent: true },
+      { source: "/category/:cat(berita|bisnis|cargo|logistik|tips|marketing)/:rest*", destination: "/blog", permanent: true },
+      { source: "/:year(20\\d{2})/:month(\\d{2})/:day(\\d{2})", destination: "/blog", permanent: true },
+      { source: "/blog/page/:num(\\d+)", destination: "/blog", permanent: true },
+
+      // ─── ARTIKEL BLOG GANTI SLUG → versi baru ───
+      { source: "/blog/4-jenis-kapal-laut-untuk-pengiriman-antar-pulau", destination: "/blog/jenis-jenis-kapal-laut-untuk-pengiriman-antar-pulau", permanent: true },
+      { source: "/blog/km-labobar-update-jadwal-dan-rute-kapal-pelni-2025", destination: "/blog/km-labobar-update-jadwal-dan-rute-kapal-pelni-2026", permanent: true },
+      { source: "/blog/update-jadwal-km-dorolonda-dari-jakarta-ke-timur-2025", destination: "/blog/update-jadwal-km-dorolonda-dari-jakarta-ke-timur-2026", permanent: true },
+      { source: "/blog/km-sinabung-2025-jadwal-rute-super-jauh", destination: "/blog/km-sinabung-2026-jadwal-rute-super-jauh", permanent: true },
+      { source: "/blog/pengiriman-barang-dari-gudang-ke-tujuan-dengan-cara-yang-efisien-dan-aman", destination: "/blog/pengiriman-barang-dari-gudang-ke-tujuan", permanent: true },
+      { source: "/blog/harga-di-papua-3x-lebih-mahal-begini-penjelasannya", destination: "/blog/kenapa-harga-barang-di-papua-mahal", permanent: true },
+      { source: "/blog/10-jenis-alat-berat-dan-fungsinya", destination: "/blog/jenis-alat-berat-dan-fungsinya", permanent: true },
+      { source: "/blog/ka-log-cerita-di-balik-perjalanan-barang", destination: "/blog/kereta-api-logistik-dan-pengiriman-indonesia-timur", permanent: true },
+      { source: "/blog/km-lambelu-2025-jadwal-pelayaran-dan-rute-lengkap", destination: "/jadwal-kapal", permanent: true },
+      { source: "/blog/informasi-lengkap-rute-km-egon-terbaru-2025", destination: "/jadwal-kapal", permanent: true },
+
       // ─── HALAMAN STATIS LAMA → halaman baru ───
       { source: "/tracking", destination: "/cek-resi", permanent: true },
       { source: "/tentang-kami", destination: "/kontak", permanent: true },
