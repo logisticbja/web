@@ -1,5 +1,6 @@
 import { getAllPosts, type PostMeta } from "@/lib/blog";
 import { isRedirectedBlogSlug } from "@/lib/blogRedirects";
+import { isLegacyCityBlogSlug } from "@/lib/legacyCityRedirect";
 import { buildCategories, categorySlug, type BlogCategory } from "@/lib/blogCategories";
 
 export { blogPageHref } from "@/lib/blogPageHref";
@@ -8,7 +9,7 @@ export const POSTS_PER_PAGE = 24;
 
 export async function getListablePosts(): Promise<PostMeta[]> {
   const posts = await getAllPosts();
-  return posts.filter((post) => !isRedirectedBlogSlug(post.slug));
+  return posts.filter((post) => !isRedirectedBlogSlug(post.slug) && !isLegacyCityBlogSlug(post.slug));
 }
 
 export async function getBlogListing(): Promise<{ posts: PostMeta[]; categories: BlogCategory[] }> {
