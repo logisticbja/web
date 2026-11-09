@@ -6,6 +6,7 @@ import {
 } from "@/lib/data/pricing";
 import { getAllPosts } from "@/lib/blog";
 import { isRedirectedBlogSlug } from "@/lib/blogRedirects";
+import { isLegacyCityBlogSlug } from "@/lib/legacyCityRedirect";
 import { buildCategories, categoryBase } from "@/lib/blogCategories";
 import { getAllCityPages } from "@/lib/cityPages";
 import { regionConfigs } from "@/lib/data/regions";
@@ -88,7 +89,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = Date.now();
 
   const blogRoutes: MetadataRoute.Sitemap = blogPosts
-    .filter((post) => !isRedirectedBlogSlug(post.slug))
+    .filter((post) => !isRedirectedBlogSlug(post.slug) && !isLegacyCityBlogSlug(post.slug))
     .map((post) => {
     const postDate = post.date ? new Date(post.date) : lastModified;
     const ageMs = now - postDate.getTime();
@@ -107,7 +108,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   });
 
   const categoryRoutes: MetadataRoute.Sitemap = buildCategories(
-    blogPosts.filter((post) => !isRedirectedBlogSlug(post.slug))
+    blogPosts.filter((post) => !isRedirectedBlogSlug(post.slug) && !isLegacyCityBlogSlug(post.slug))
   ).map((category) => ({
     url: `${BASE_URL}${categoryBase(category.slug)}`,
     lastModified,

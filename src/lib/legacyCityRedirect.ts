@@ -2,7 +2,7 @@ import { destinationCities, resolveDestinationValue } from "@/lib/data/pricing";
 import { jakartaCityMap } from "@/lib/data/jakartaCities";
 
 const LEGACY_CITY_PATTERN =
-  /^\/(?:cek-ongkir-cargo\/)?(?:ekspedisi-|cargo-|jasa-ekspedisi-)?(?:jakarta|surabaya)-([a-z0-9-]+)\/?$/i;
+  /^\/(?:cek-ongkir-cargo\/|blog\/)?(?:ekspedisi-|cargo-|jasa-ekspedisi-)?(?:jakarta|surabaya)-(?:ke-)?([a-z0-9-]+?)\.?\/?$/i;
 
 const destinationValues = new Set(destinationCities.map((c) => c.value));
 
@@ -27,6 +27,8 @@ const legacyTypos: Record<string, string> = {
   fak_fak: "fakfak",
   labuhan_bajo: "labuan_bajo",
   kotamobagu: "kota_mubago",
+  batul_toli: "batul_tolli",
+  dabo_singkep: "dabo",
 };
 
 const regionHub: Record<string, string> = {
@@ -40,6 +42,12 @@ const regionHub: Record<string, string> = {
   aimas: "/kirim-ke/sorong",
   konawe: "/kirim-ke/konawe-selatan",
   morowali_utara: "/kirim-ke/morowali",
+  polman: "/cargo/sulawesi",
+  papua: "/cargo/papua",
+  jogja: "/layanan/cargo-darat",
+  sukoharjo: "/layanan/cargo-darat",
+  purwokerto: "/layanan/cargo-darat",
+  bondowoso: "/layanan/cargo-darat",
 };
 
 const lowerCityMap = new Map(
@@ -67,4 +75,8 @@ export function resolveLegacyCityPath(pathname: string): string | null {
   }
 
   return null;
+}
+
+export function isLegacyCityBlogSlug(slug: string): boolean {
+  return resolveLegacyCityPath(`/blog/${slug}`) !== null;
 }
