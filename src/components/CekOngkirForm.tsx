@@ -17,6 +17,7 @@ import {
 import {
   cityLautPricing,
   formatPrice,
+  getServiceLabels,
   originCities,
   resolveDestinationValue,
 } from "@/lib/data/pricing";
@@ -45,6 +46,7 @@ interface Props {
 
 interface CalculatorResult {
   service: ServiceType;
+  serviceLabel: string;
   pricePerKg: number;
   total: number;
   estimation: string;
@@ -94,6 +96,7 @@ function getServiceData(destinationValue: string, service: ServiceType) {
       pricePerKg: pricing.expressPrice,
       etaMin: pricing.expressEtaMin,
       etaMax: pricing.expressEtaMax,
+      minKg: pricing.expressMinKg ?? pricing.minWeightKg ?? MIN_WEIGHT,
     };
   }
 
@@ -109,7 +112,13 @@ function getServiceData(destinationValue: string, service: ServiceType) {
     pricePerKg: pricing.regulerPrice,
     etaMin: pricing.regulerEtaMin,
     etaMax: pricing.regulerEtaMax,
+    minKg: pricing.minWeightKg ?? MIN_WEIGHT,
   };
+}
+
+function serviceLabel(destinationValue: string, service: ServiceType) {
+  if (service === "Express") return "Express";
+  return destinationValue ? getServiceLabels(toPricingKey(destinationValue)).reguler : "Reguler";
 }
 
 function formatEta(min: number, max: number) {
@@ -129,13 +138,15 @@ function computeResult(
 
   const serviceData = getServiceData(to, service);
   if (!serviceData) return "not_found";
+  if (weightNum < serviceData.minKg) return null;
 
   return {
     service,
+    serviceLabel: serviceLabel(to, service),
     pricePerKg: serviceData.pricePerKg,
     total: serviceData.pricePerKg * weightNum,
     estimation: formatEta(serviceData.etaMin, serviceData.etaMax),
-    minWeightKg: MIN_WEIGHT,
+    minWeightKg: serviceData.minKg,
   };
 }
 
@@ -259,8 +270,11 @@ export function CekOngkirForm({ defaultValues, autoCalculate }: Props) {
   const usesVolume = hasDimension && volumeKg > weightNum;
   const chargeableKg =
     weightNum > 0 ? roundChargeable(Math.max(weightNum, volumeKg)) : 0;
+  const currentMinKg = to
+    ? getServiceData(to, service)?.minKg ?? MIN_WEIGHT
+    : MIN_WEIGHT;
   const weightTooLow =
-    weight !== "" && weightNum > 0 && chargeableKg < MIN_WEIGHT;
+    weight !== "" && weightNum > 0 && chargeableKg < currentMinKg;
 
   const resetResult = () => setResult(null);
 
@@ -287,8 +301,8 @@ export function CekOngkirForm({ defaultValues, autoCalculate }: Props) {
   }[] = [
     {
       value: "Regular",
-      label: "Regular",
-      desc: "Lebih ekonomis",
+      label: serviceLabel(to, "Regular"),
+      desc: to && serviceLabel(to, "Regular") === "Roro" ? "Kapal Roro" : "Lebih ekonomis",
       icon: Clock,
       available: !to || regularAvailable,
     },
@@ -428,13 +442,13 @@ export function CekOngkirForm({ defaultValues, autoCalculate }: Props) {
           </div>
 
           <p className="mt-1.5 text-xs font-semibold text-gray-500">
-            Minimum pengiriman 100 kg.
+            Minimum pengiriman {currentMinKg} kg.
           </p>
 
           {weightTooLow && (
             <p className="mt-1.5 flex items-center gap-1.5 text-xs font-semibold text-red-600">
               <AlertCircle size={13} />
-              Berat pengiriman belum mencapai minimum 100 kg.
+              Berat pengiriman belum mencapai minimum {currentMinKg} kg.
             </p>
           )}
 
@@ -542,6 +556,11 @@ export function CekOngkirForm({ defaultValues, autoCalculate }: Props) {
               </button>
             ))}
           </div>
+          <p className="mt-2 text-xs text-gray-500 leading-relaxed">
+            Pilihan kapal: PELNI, kapal cargo, dan Roro (Roro untuk tujuan NTT).
+            Express lebih cepat karena memakai kapal PELNI, bersama kapal
+            penumpang, dan jadwal berangkatnya jarang mundur.
+          </p>
         </div>
       </div>
 
@@ -587,7 +606,7 @@ export function CekOngkirForm({ defaultValues, autoCalculate }: Props) {
             Layanan Belum Tersedia
           </h3>
           <p className="text-gray-600 text-sm mb-4">
-            Layanan {service} untuk rute{" "}
+            Layanan {serviceLabel(to, service)} untuk rute{" "}
             <strong>
               {fromLabel} → {toLabel}
             </strong>{" "}
@@ -624,7 +643,7 @@ export function CekOngkirForm({ defaultValues, autoCalculate }: Props) {
                 Layanan
               </p>
               <span className="inline-flex items-center gap-1 bg-white border border-gray-200 rounded-full px-3 py-1 text-sm font-black text-[#CC1F2A]">
-                {result.service}
+                {result.serviceLabel}
               </span>
             </div>
           </div>

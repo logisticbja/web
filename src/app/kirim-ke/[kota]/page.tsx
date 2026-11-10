@@ -121,7 +121,7 @@ export default async function KirimKePage({ params }: Props) {
         url={`https://bjalogistic.id/kirim-ke/${toSlug(resolvedDestinationValue)}`}
         areaServed={view.cityLabel}
         region={view.region}
-        pricePerKg={view.primaryPrice}
+        pricePerKg={view.cp.hasPrice ? view.primaryPrice : undefined}
       />
       <ArticleFaqJsonLd
         items={view.faqs

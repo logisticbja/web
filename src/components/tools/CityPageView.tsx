@@ -56,7 +56,17 @@ export function CityPageView({ view, data, edit }: { view: CityView; data: CityP
   const hasApiFaqs = !!data?.faqs && data.faqs.length > 0;
   const hidden = new Set(tpl.hidden);
 
-  const heroDesc = tpl.hero.description.split(/(\{harga\}(?:\/kg)?)/);
+  const heroDesc = (cp.hasPrice ? tpl.hero.description : tpl.hero.description.replace(/mulai(?: dari)? \{harga\}(?:\/kg)?/gi, "dengan {harga}")).split(/(\{harga\}(?:\/kg)?)/);
+  const roroCopy = {
+    label: "Cargo Roro",
+    highlights: [
+      "Menggunakan kapal Roro, khusus tujuan NTT",
+      "Tarif hemat untuk barang besar dan berat",
+      "Cocok untuk pengiriman rutin dan barang proyek",
+      "Tracking pengiriman tersedia",
+    ],
+  };
+  const visibleServices = serviceInfo.filter((svc) => !(cp.isRoro && svc.type === "express" && cp.expressPrice === null));
 
   const sections: Record<Exclude<KotaSection, "hero" | "info">, () => React.ReactNode> = {
     services: () => (
@@ -64,9 +74,10 @@ export function CityPageView({ view, data, edit }: { view: CityView; data: CityP
         <h2 className="text-2xl font-black text-[#111111] mb-2" {...p("services.title")}>{t(tpl.services.title)}</h2>
         <p className="text-gray-500 mb-8" {...p("services.description")}>{t(tpl.services.description)}</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-          {serviceInfo.map((svc) => {
+          {visibleServices.map((svc) => {
             const isExpress = svc.type === "express";
-            const copy = isExpress ? tpl.services.express : tpl.services.reguler;
+            const copy = isExpress ? tpl.services.express : cp.isRoro ? roroCopy : tpl.services.reguler;
+            const minKg = isExpress && cp.expressMinKg ? cp.expressMinKg : cp.minWeightKg;
             const price = isExpress ? cp.expressPrice : cp.regulerPrice;
             const etaMin = isExpress ? cp.expressEtaMin : cp.regulerEtaMin;
             const etaMax = isExpress ? cp.expressEtaMax : cp.regulerEtaMax;
@@ -84,8 +95,8 @@ export function CityPageView({ view, data, edit }: { view: CityView; data: CityP
                     <div className="flex items-start gap-3">
                       <AlertCircle size={18} className="text-gray-400 shrink-0 mt-0.5" />
                       <div>
-                        <p className="font-bold text-gray-700 mb-1">{t(tpl.services.unavailableTitle, svcVars)}</p>
-                        <p className="text-sm text-gray-500 leading-relaxed">{t(tpl.services.unavailableText, svcVars)}</p>
+                        <p className="font-bold text-gray-700 mb-1">{cp.hasPrice ? t(tpl.services.unavailableTitle, svcVars) : "Harga via CS"}</p>
+                        <p className="text-sm text-gray-500 leading-relaxed">{cp.hasPrice ? t(tpl.services.unavailableText, svcVars) : `Tarif ke ${cityLabel} dikonfirmasi langsung oleh CS BJA Logistic. Hubungi kami lewat WhatsApp untuk harga dan jadwal terbaru.`}</p>
                       </div>
                     </div>
                   </div>
@@ -93,7 +104,7 @@ export function CityPageView({ view, data, edit }: { view: CityView; data: CityP
               );
             }
 
-            const waMsg = buildOngkirMessage("Jabodetabek", cityLabel, cp.minWeightKg, copy.label, formatPrice(price * 100));
+            const waMsg = buildOngkirMessage("Jabodetabek", cityLabel, minKg, copy.label, formatPrice(price * minKg));
 
             return (
               <div key={svc.type} className={`rounded-2xl border-2 p-6 ${svc.color}`} {...p(`services.${svc.type}.label`)}>
@@ -112,7 +123,7 @@ export function CityPageView({ view, data, edit }: { view: CityView; data: CityP
                         <Scale size={15} className="text-[#CC1F2A] shrink-0" />
                         <span className="text-xs font-bold uppercase tracking-wide text-gray-500">Minimum</span>
                       </div>
-                      <p className="text-base font-black text-[#111111]">{cp.minWeightKg} kg</p>
+                      <p className="text-base font-black text-[#111111]">{minKg} kg</p>
                     </div>
                     <div className="rounded-xl bg-white/80 border border-gray-200 px-4 py-3">
                       <div className="flex items-center gap-2 mb-1">
@@ -464,10 +475,10 @@ export function CityPageView({ view, data, edit }: { view: CityView; data: CityP
                 </p>
                 <div className="flex flex-col gap-4 sm:gap-6 pl-6 lg:pl-0">
                   {[
-                    { label: "Reguler", price: cp.regulerPrice },
-                    { label: "Express", price: cp.expressPrice },
-                  ].map((s) => (
-                    <div key={s.label} className="relative" {...c(s.label === "Reguler" ? "priceRegular" : "priceExpress")}>
+                    { key: "reguler", label: cp.regulerLabel, price: cp.regulerPrice },
+                    { key: "express", label: "Express", price: cp.expressPrice },
+                  ].filter((s) => !(cp.isRoro && s.key === "express" && s.price === null)).map((s) => (
+                    <div key={s.key} className="relative" {...c(s.key === "reguler" ? "priceRegular" : "priceExpress")}>
                       <div className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 sm:w-20 sm:h-20 rounded-full bg-[#CC1F2A] z-10" />
                       <div className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-[#F5C518] z-20" />
                       <div className="bg-white rounded-full pl-10 pr-6 py-3 sm:pl-16 sm:pr-10 sm:py-4 flex items-center gap-2 sm:gap-3 shadow-lg sm:min-w-[320px]">
@@ -477,7 +488,7 @@ export function CityPageView({ view, data, edit }: { view: CityView; data: CityP
                             Rp {s.price.toLocaleString("id-ID")}/kg
                           </span>
                         ) : (
-                          <span className="text-gray-500 font-bold text-sm sm:text-base">Layanan tidak tersedia untuk tujuan ini</span>
+                          <span className="text-gray-500 font-bold text-sm sm:text-base">{cp.hasPrice ? "Layanan tidak tersedia untuk tujuan ini" : "Hubungi CS untuk harga"}</span>
                         )}
                       </div>
                     </div>
