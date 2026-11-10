@@ -240,12 +240,12 @@ export function buildCityView(resolvedDestinationValue: string, apiData: CityPag
   const vars: KotaVars = {
     kota: cityLabel,
     wilayah: region,
-    harga: cp.hasPrice ? `Rp ${primaryPrice.toLocaleString("id-ID")}` : "harga khusus (hubungi CS)",
+    harga: cp.hasPrice ? `Rp ${primaryPrice.toLocaleString("id-ID")}` : "harga dari CS",
     minkg: String(cp.minWeightKg),
     ongkir: priceFaqParts.join(", "),
     estimasi: etaFaqParts.join(", "),
   };
-  const noPrice = (text: string) => (cp.hasPrice ? text : text.replace(/\{harga\}\/kg/g, "{harga}"));
+  const noPrice = (text: string) => (cp.hasPrice ? text : text.replace(/mulai(?: dari)? \{harga\}(?:\/kg)?/gi, "dengan {harga}").replace(/\{harga\}\/kg/g, "{harga}"));
   const t = (text: string, extra?: KotaVars) => fillTemplate(noPrice(text), extra ? { ...vars, ...extra } : vars);
   const templateFaqs = tpl.faq.items.map((f) => ({ q: t(f.q), a: t(f.a) })).filter((f) => f.q.trim() !== "");
 
