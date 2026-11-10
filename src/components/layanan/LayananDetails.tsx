@@ -124,7 +124,7 @@ export async function LayananDetails() {
             Tarif Cargo Laut ke Indonesia Timur
           </h2>
           <p className="mb-5 max-w-2xl text-sm text-gray-500 sm:text-base">
-            Tarif cargo laut berbeda untuk setiap kota tujuan, mulai Rp7.000/kg dengan minimal 100 kg. Pilihan kapal: PELNI, kapal cargo, dan Roro (untuk tujuan NTT). Express lebih cepat karena kapalnya, pengantaran/penerusan yang didahulukan, atau keduanya.
+            Tarif cargo laut berbeda untuk setiap kota tujuan, mulai Rp7.000/kg dengan minimal 100 kg. Pilihan kapal: PELNI, kapal cargo, dan Roro (untuk tujuan NTT). Express lebih cepat karena memakai kapal PELNI, bersama kapal penumpang. Jadwal berangkatnya juga jarang mundur, kecuali ada kendala pada kapalnya sendiri.
           </p>
           <div className="mb-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
             {[

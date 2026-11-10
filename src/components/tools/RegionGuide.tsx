@@ -214,9 +214,9 @@ export async function RegionGuide({ config }: { config: RegionConfig }) {
                   rutin yang tidak dikejar waktu.
                 </p>
                 <p>
-                  <strong>Express</strong> lebih cepat sampai karena kapalnya lebih cepat (PELNI), pengantaran atau penerusan
-                  ke alamat didahulukan, atau keduanya. Cocok untuk barang yang ditunggu, misalnya kebutuhan proyek atau stok
-                  toko yang hampir habis.
+                  <strong>Express</strong> lebih cepat karena menggunakan kapal PELNI, bersama kapal penumpang. Cocok untuk barang
+                  yang ditunggu, misalnya kebutuhan proyek atau stok toko yang hampir habis. Jadwal berangkat Express juga
+                  jarang mundur, kecuali ada kendala pada kapalnya sendiri.
                 </p>
                 <p>Tidak semua kota memiliki kedua layanan. Tabel ongkir di atas menunjukkan layanan yang tersedia di tiap kota.</p>
               </>

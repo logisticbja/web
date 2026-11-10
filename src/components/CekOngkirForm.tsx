@@ -558,8 +558,8 @@ export function CekOngkirForm({ defaultValues, autoCalculate }: Props) {
           </div>
           <p className="mt-2 text-xs text-gray-500 leading-relaxed">
             Pilihan kapal: PELNI, kapal cargo, dan Roro (Roro untuk tujuan NTT).
-            Express lebih cepat karena kapalnya, pengantaran/penerusan ke alamat
-            yang didahulukan, atau keduanya.
+            Express lebih cepat karena memakai kapal PELNI, bersama kapal
+            penumpang, dan jadwal berangkatnya jarang mundur.
           </p>
         </div>
       </div>

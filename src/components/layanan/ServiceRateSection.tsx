@@ -96,8 +96,9 @@ async function SeaRateSection() {
           Roro, jadi tarif NTT tampil di kolom Reguler/Roro.
         </li>
         <li>
-          Express lebih cepat karena kapalnya, pengantaran/penerusan ke alamat
-          yang didahulukan, atau keduanya.
+          Express lebih cepat karena memakai kapal PELNI, bersama kapal
+          penumpang. Jadwal berangkatnya juga jarang mundur, kecuali ada kendala
+          pada kapalnya sendiri.
         </li>
         <li>
           Berat yang dihitung adalah yang terbesar antara berat asli dan berat
@@ -156,7 +157,7 @@ const FAQS: Record<string, { q: string; a: string }[]> = {
     },
     {
       q: "Apa bedanya layanan Reguler, Roro, dan Express?",
-      a: "Ada 3 pilihan kapal: PELNI, kapal cargo, dan Roro. Reguler memakai kapal cargo sehingga tarifnya lebih hemat. Roro kami pakai untuk tujuan NTT. Express lebih cepat sampai karena kapalnya lebih cepat (PELNI), pengantaran atau penerusan ke alamat didahulukan, atau keduanya. Tidak semua kota memiliki semua layanan.",
+      a: "Ada 3 pilihan kapal: PELNI, kapal cargo, dan Roro. Reguler memakai kapal cargo sehingga tarifnya lebih hemat. Roro kami pakai untuk tujuan NTT. Express lebih cepat karena memakai kapal PELNI, bersama kapal penumpang. Jadwal berangkatnya juga jarang mundur, kecuali ada kendala pada kapalnya sendiri. Tidak semua kota memiliki semua layanan.",
     },
     {
       q: "Berapa berat minimal kirim cargo laut?",

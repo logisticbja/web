@@ -47,7 +47,7 @@ export function buildAutoCityArticle(view: CityView): string {
 
   const svc: string[] = [];
   if (reg) svc.push(`<li><strong>${cp.regulerLabel}</strong>: ${reg.price}/kg${reg.eta ? `, estimasi ${reg.eta} setelah kapal berangkat` : ""}. ${cp.isRoro ? "Memakai kapal Roro, pilihan hemat untuk barang besar dan berat." : "Memakai kapal cargo, pilihan paling hemat untuk barang dalam jumlah besar."}</li>`);
-  if (exp) svc.push(`<li><strong>Express</strong>: ${exp.price}/kg${exp.eta ? `, estimasi ${exp.eta} setelah kapal berangkat` : ""}${cp.expressMinKg ? `, minimal ${cp.expressMinKg} kg` : ""}. Lebih cepat sampai karena kapalnya lebih cepat (PELNI), pengantaran atau penerusan ke alamat didahulukan, atau keduanya.</li>`);
+  if (exp) svc.push(`<li><strong>Express</strong>: ${exp.price}/kg${exp.eta ? `, estimasi ${exp.eta} setelah kapal berangkat` : ""}${cp.expressMinKg ? `, minimal ${cp.expressMinKg} kg` : ""}. Lebih cepat karena memakai kapal PELNI bersama kapal penumpang, dan jadwal berangkatnya jarang mundur. Cocok untuk barang yang perlu tiba lebih cepat.</li>`);
   if (svc.length) parts.push(`<ul>${svc.join("")}</ul>`);
   else parts.push(`<p>Tarif ke ${k} dikonfirmasi langsung oleh CS BJA Logistic. Hubungi kami lewat WhatsApp untuk harga dan jadwal kapal terbaru.</p>`);
   parts.push(
