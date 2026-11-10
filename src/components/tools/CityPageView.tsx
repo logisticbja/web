@@ -56,7 +56,7 @@ export function CityPageView({ view, data, edit }: { view: CityView; data: CityP
   const hasApiFaqs = !!data?.faqs && data.faqs.length > 0;
   const hidden = new Set(tpl.hidden);
 
-  const heroDesc = tpl.hero.description.split(/(\{harga\}(?:\/kg)?)/);
+  const heroDesc = (cp.hasPrice ? tpl.hero.description : tpl.hero.description.replace(/mulai(?: dari)? \{harga\}(?:\/kg)?/gi, "dengan {harga}")).split(/(\{harga\}(?:\/kg)?)/);
   const roroCopy = {
     label: "Cargo Roro",
     highlights: [
