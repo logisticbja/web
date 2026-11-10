@@ -1,4 +1,6 @@
 import Link from "next/link";
+import Image from "next/image";
+import { SHIPMENT_PHOTOS } from "@/lib/data/shipmentPhotos";
 import { getAllCityPages } from "@/lib/cityPages";
 import { getEffectiveCityPricing, formatEta, toSlug } from "@/lib/cityPage";
 import { getCitiesByRegion, type RegionConfig } from "@/lib/data/regions";
@@ -96,6 +98,7 @@ export async function RegionGuide({ config }: { config: RegionConfig }) {
   if (!guide) return null;
   const label = config.label;
   const isNtt = config.ongkirRegion === "ntt";
+  const photos = SHIPMENT_PHOTOS[config.slug] ?? [];
 
   const pages = await getAllCityPages();
   const bySlug = new Map(pages.map((p) => [p.slug, p]));
@@ -141,6 +144,36 @@ export async function RegionGuide({ config }: { config: RegionConfig }) {
           </p>
         </div>
       </section>
+
+      {photos.length > 0 && (
+        <section className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 sm:p-8">
+          <Title>Dokumentasi Pengiriman ke {label}</Title>
+          <p className="text-sm text-gray-600 leading-relaxed mb-5">
+            Foto asli dari pengiriman yang kami tangani, mulai dari pickup dan muat barang sampai barang diterima di kota tujuan.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {photos.map((ph) => (
+              <figure key={ph.src} className="rounded-xl overflow-hidden border border-gray-100 bg-gray-50">
+                <div className="relative aspect-[4/3]">
+                  <Image
+                    src={ph.src}
+                    alt={ph.alt}
+                    fill
+                    sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                    className="object-cover"
+                  />
+                </div>
+                <figcaption className="px-4 py-3 text-xs text-gray-600 leading-relaxed">
+                  {ph.caption}{" "}
+                  <Link href={`/kirim-ke/${ph.citySlug}`} className="text-[#CC1F2A] font-semibold hover:underline">
+                    Lihat ongkir
+                  </Link>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </section>
+      )}
 
       <section>
         <Title>Ongkir Cargo ke {label} per Kota</Title>
