@@ -10,6 +10,7 @@ import { getCitiesByRegion, type RegionConfig } from "@/lib/data/regions";
 import { destinationValueToSlug } from "@/lib/data/pricing";
 import { TUJUAN_FIXED, type TujuanContent, type TujuanSection } from "@/lib/sitePages/tujuan";
 import { Sec } from "./ToolHero";
+import { ShipmentCarousel } from "./ShipmentCarousel";
 
 function StarRating({ rating }: { rating: number }) {
   return (
@@ -131,38 +132,7 @@ export function TujuanView({
             Belum ada foto. Tambahkan foto dari CRM.
           </p>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {content.gallery.items.map((ph, i) => (
-              <figure
-                key={`${ph.image}-${i}`}
-                className="rounded-xl overflow-hidden border border-gray-100 bg-white shadow-sm"
-                {...cms(edit, `gallery.items.${i}`)}
-              >
-                <div className="relative aspect-[4/3] bg-gray-100">
-                  <Image
-                    src={ph.image}
-                    alt={ph.alt || ph.caption || content.gallery.title}
-                    fill
-                    sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                    className="object-cover"
-                  />
-                </div>
-                {(ph.caption.trim() !== "" || ph.citySlug !== "") && (
-                  <figcaption className="px-4 py-3 text-xs text-gray-600 leading-relaxed">
-                    {ph.caption}
-                    {ph.citySlug !== "" && (
-                      <>
-                        {" "}
-                        <Link href={`/kirim-ke/${ph.citySlug}`} className="text-[#CC1F2A] font-semibold hover:underline">
-                          Lihat ongkir
-                        </Link>
-                      </>
-                    )}
-                  </figcaption>
-                )}
-              </figure>
-            ))}
-          </div>
+          <ShipmentCarousel items={content.gallery.items} title={content.gallery.title} edit={edit} />
         )}
       </section>
     ),
