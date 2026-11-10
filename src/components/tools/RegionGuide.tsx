@@ -95,6 +95,7 @@ export async function RegionGuide({ config }: { config: RegionConfig }) {
   const guide = GUIDES[config.slug];
   if (!guide) return null;
   const label = config.label;
+  const isNtt = config.ongkirRegion === "ntt";
 
   const pages = await getAllCityPages();
   const bySlug = new Map(pages.map((p) => [p.slug, p]));
@@ -148,8 +149,8 @@ export async function RegionGuide({ config }: { config: RegionConfig }) {
             <thead>
               <tr className="bg-[#CC1F2A] text-white">
                 <th className="text-left px-5 py-3 font-bold">Kota Tujuan</th>
-                <th className="text-left px-5 py-3 font-bold">Reguler</th>
-                <th className="text-left px-5 py-3 font-bold">Express</th>
+                <th className="text-left px-5 py-3 font-bold">{isNtt ? "Roro" : "Reguler"}</th>
+                {!isNtt && <th className="text-left px-5 py-3 font-bold">Express</th>}
               </tr>
             </thead>
             <tbody>
@@ -161,11 +162,13 @@ export async function RegionGuide({ config }: { config: RegionConfig }) {
                     </Link>
                   </td>
                   <td className="px-5 py-3 text-gray-600">
-                    {r.reguler === null ? "Tidak tersedia" : `${rupiah(r.reguler)}${r.regulerEta ? ` · ${r.regulerEta}` : ""}`}
+                    {r.reguler === null ? (isNtt && r.express === null ? "Hubungi CS" : "Tidak tersedia") : `${rupiah(r.reguler)}${r.regulerEta ? ` · ${r.regulerEta}` : ""}`}
                   </td>
-                  <td className="px-5 py-3 text-gray-600">
-                    {r.express === null ? "Tidak tersedia" : `${rupiah(r.express)}${r.expressEta ? ` · ${r.expressEta}` : ""}`}
-                  </td>
+                  {!isNtt && (
+                    <td className="px-5 py-3 text-gray-600">
+                      {r.express === null ? "Tidak tersedia" : `${rupiah(r.express)}${r.expressEta ? ` · ${r.expressEta}` : ""}`}
+                    </td>
+                  )}
                 </tr>
               ))}
             </tbody>
@@ -196,17 +199,28 @@ export async function RegionGuide({ config }: { config: RegionConfig }) {
 
       <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-          <Title>Reguler atau Express ke {label}?</Title>
+          <Title>{isNtt ? `Kapal Roro ke ${label}` : `Reguler atau Express ke ${label}?`}</Title>
           <div className="space-y-3 text-sm text-gray-600 leading-relaxed">
-            <p>
-              <strong>Reguler</strong> memakai kapal cargo. Tarifnya paling hemat, cocok untuk barang besar dan pengiriman
-              rutin yang tidak dikejar waktu.
-            </p>
-            <p>
-              <strong>Express</strong> memakai kapal PELNI sehingga lebih cepat sampai. Cocok untuk barang yang ditunggu,
-              misalnya kebutuhan proyek atau stok toko yang hampir habis.
-            </p>
-            <p>Tidak semua kota memiliki kedua layanan. Tabel ongkir di atas menunjukkan layanan yang tersedia di tiap kota.</p>
+            <p>Ada 3 pilihan kapal di BJA Logistic: PELNI, kapal cargo, dan Roro.</p>
+            {isNtt ? (
+              <p>
+                Pengiriman ke {label} memakai <strong>kapal Roro</strong>. Tarifnya hemat dan cocok untuk barang besar,
+                berat, maupun pengiriman rutin.
+              </p>
+            ) : (
+              <>
+                <p>
+                  <strong>Reguler</strong> memakai kapal cargo. Tarifnya paling hemat, cocok untuk barang besar dan pengiriman
+                  rutin yang tidak dikejar waktu.
+                </p>
+                <p>
+                  <strong>Express</strong> lebih cepat sampai karena kapalnya lebih cepat (PELNI), pengantaran atau penerusan
+                  ke alamat didahulukan, atau keduanya. Cocok untuk barang yang ditunggu, misalnya kebutuhan proyek atau stok
+                  toko yang hampir habis.
+                </p>
+                <p>Tidak semua kota memiliki kedua layanan. Tabel ongkir di atas menunjukkan layanan yang tersedia di tiap kota.</p>
+              </>
+            )}
             {guide.note && <p>{guide.note}</p>}
           </div>
         </div>

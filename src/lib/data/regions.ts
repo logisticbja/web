@@ -142,7 +142,7 @@ export const regionConfigs: RegionConfig[] = [
     faqs: [
       {
         q: "Berapa lama pengiriman cargo dari Jakarta ke Ambon?",
-        a: "Estimasi pengiriman ke Maluku berbeda untuk setiap kota dan layanan. Ambon Express sekitar 4–5 hari dan Reguler 10–15 hari. Ternate, Tual, dan kota lainnya memiliki estimasi masing-masing. Estimasi dihitung sejak kapal berangkat dari pelabuhan asal.",
+        a: "Estimasi pengiriman ke Maluku berbeda untuk setiap kota dan layanan. Ambon Express sekitar 4–5 hari dan Reguler 10–14 hari. Ternate, Tual, dan kota lainnya memiliki estimasi masing-masing. Estimasi dihitung sejak kapal berangkat dari pelabuhan asal.",
       },
       {
         q: "Apakah BJA melayani pengiriman ke pulau-pulau kecil di Maluku?",
@@ -175,7 +175,7 @@ export const regionConfigs: RegionConfig[] = [
     scheduleRegion: "NTT",
     label: "NTT",
     tagline: "Ekspedisi Pengiriman ke NTT: Kupang, Flores, Sumba & Timor",
-    description: "Pengiriman cargo dari Jabodetabek dan Surabaya ke Kupang, Flores, Sumba, Timor, dan berbagai tujuan lain di NTT. Ketersediaan Reguler atau Express mengikuti kota tujuan.",
+    description: "Pengiriman cargo dari Jabodetabek dan Surabaya ke Kupang, Flores, Sumba, Timor, dan berbagai tujuan lain di NTT. Pengiriman ke NTT memakai kapal Roro.",
     defaultCityValue: "kupang",
     defaultCityLabel: "Kupang",
     stats: [
@@ -209,7 +209,7 @@ export const regionConfigs: RegionConfig[] = [
     faqs: [
       {
         q: "Berapa lama pengiriman cargo dari Jakarta ke Kupang?",
-        a: "Estimasi pengiriman ke NTT berbeda untuk setiap kota dan layanan. Untuk Kupang, layanan Reguler memiliki estimasi 8–11 hari. Kota lain seperti Ende, Maumere, Labuan Bajo, atau Sumba memiliki estimasi masing-masing. Estimasi dihitung sejak kapal berangkat dari pelabuhan asal.",
+        a: "Estimasi pengiriman ke NTT berbeda untuk setiap kota dan layanan. Untuk Kupang, layanan Roro memiliki estimasi 10–14 hari. Kota lain seperti Ende, Maumere, Labuan Bajo, atau Sumba memiliki estimasi masing-masing. Estimasi dihitung sejak kapal berangkat dari pelabuhan asal.",
       },
       {
         q: "Apakah BJA melayani pengiriman ke Labuan Bajo dan Flores?",
@@ -221,11 +221,11 @@ export const regionConfigs: RegionConfig[] = [
       },
       {
         q: "Berapa minimum pengiriman ke NTT?",
-        a: "Minimum pengiriman BJA Logistic adalah 100 kg. Ketersediaan layanan Reguler dan Express berbeda untuk setiap kota tujuan.",
+        a: "Minimum pengiriman BJA Logistic adalah 100 kg. Pengiriman ke kota-kota di NTT memakai kapal Roro.",
       },
       {
         q: "Berapa ongkir kirim barang ke NTT?",
-        a: "Ongkir ke NTT dihitung per kg dan berbeda untuk setiap kota tujuan serta layanan Reguler atau Express. Tabel ongkir per kota ada di halaman ini, dan harga final dikonfirmasi tim kami sesuai berat dan ukuran barang.",
+        a: "Ongkir ke NTT dihitung per kg dan berbeda untuk setiap kota tujuan, dengan layanan kapal Roro. Tabel ongkir per kota ada di halaman ini, dan harga final dikonfirmasi tim kami sesuai berat dan ukuran barang.",
       },
       {
         q: "Apakah bisa kirim barang ke NTT dari Surabaya?",

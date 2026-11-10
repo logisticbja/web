@@ -75,7 +75,7 @@ export function SeaFreightTable({ regions }: { regions: SeaRegion[] }) {
             <thead className="bg-gray-50 text-left text-xs uppercase tracking-wide text-gray-500">
               <tr>
                 <th className="px-4 py-3 font-semibold">Kota tujuan</th>
-                <th className="px-4 py-3 font-semibold">Reguler / kg</th>
+                <th className="px-4 py-3 font-semibold">{!query && region === "NTT" ? "Roro / kg" : "Reguler / Roro / kg"}</th>
                 <th className="px-4 py-3 font-semibold">Express / kg</th>
               </tr>
             </thead>

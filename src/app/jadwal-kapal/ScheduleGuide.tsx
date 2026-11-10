@@ -60,7 +60,7 @@ const FAQS = [
   },
   {
     question: "Apa bedanya kapal Express (PELNI) dan Reguler?",
-    answer: "Express memakai kapal PELNI yang lebih cepat sampai. Reguler memakai kapal Roro dan kapal cargo dengan tarif yang lebih hemat. Tidak semua kota memiliki kedua layanan.",
+    answer: "Ada 3 pilihan kapal: PELNI, kapal cargo, dan Roro. Reguler memakai kapal cargo dengan tarif lebih hemat, dan Roro kami pakai untuk tujuan NTT. Express lebih cepat sampai karena kapalnya lebih cepat (PELNI), pengantaran atau penerusan ke alamat didahulukan, atau keduanya. Tidak semua kota memiliki semua layanan.",
   },
   {
     question: "Apakah BJA Logistic menjual tiket kapal PELNI?",

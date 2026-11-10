@@ -84,7 +84,7 @@ export const KOTA_TEMPLATE_DEFAULTS: KotaTemplate = {
     express: {
       label: "Cargo Express",
       highlights: [
-        "Menggunakan kapal PELNI",
+        "Lebih cepat lewat kapal PELNI, pengantaran/penerusan yang didahulukan, atau keduanya",
         "Lebih cepat sampai dibanding layanan Reguler",
         "Cocok untuk barang besar, berat, dan kebutuhan urgent",
         "Tracking pengiriman tersedia",

@@ -92,6 +92,14 @@ async function SeaRateSection() {
       <ul className="mt-5 list-disc space-y-1.5 pl-5 text-xs text-gray-500 sm:text-sm">
         <li>Estimasi dihitung sejak kapal berangkat dari pelabuhan asal.</li>
         <li>
+          Pilihan kapal: PELNI, kapal cargo, dan Roro. Tujuan NTT memakai kapal
+          Roro, jadi tarif NTT tampil di kolom Reguler/Roro.
+        </li>
+        <li>
+          Express lebih cepat karena kapalnya, pengantaran/penerusan ke alamat
+          yang didahulukan, atau keduanya.
+        </li>
+        <li>
           Berat yang dihitung adalah yang terbesar antara berat asli dan berat
           volume (P × L × T ÷ 4.000).
         </li>
@@ -144,11 +152,11 @@ const FAQS: Record<string, { q: string; a: string }[]> = {
   "cargo-laut": [
     {
       q: "Berapa lama kirim cargo laut ke Papua?",
-      a: "Layanan Reguler umumnya 15–25 hari dan Express 6–17 hari, tergantung kota tujuan. Estimasi dihitung sejak kapal berangkat. Estimasi tiap kota ada di tabel di atas.",
+      a: "Layanan Reguler umumnya 15–30 hari dan Express 6–20 hari, tergantung kota tujuan. Estimasi dihitung sejak kapal berangkat. Estimasi tiap kota ada di tabel di atas.",
     },
     {
-      q: "Apa bedanya layanan Reguler dan Express?",
-      a: "Reguler memakai kapal cargo dan Roro, sehingga tarifnya lebih hemat. Express memakai kapal PELNI yang lebih cepat sampai. Tidak semua kota memiliki kedua layanan.",
+      q: "Apa bedanya layanan Reguler, Roro, dan Express?",
+      a: "Ada 3 pilihan kapal: PELNI, kapal cargo, dan Roro. Reguler memakai kapal cargo sehingga tarifnya lebih hemat. Roro kami pakai untuk tujuan NTT. Express lebih cepat sampai karena kapalnya lebih cepat (PELNI), pengantaran atau penerusan ke alamat didahulukan, atau keduanya. Tidak semua kota memiliki semua layanan.",
     },
     {
       q: "Berapa berat minimal kirim cargo laut?",

@@ -42,13 +42,14 @@ export function buildAutoCityArticle(view: CityView): string {
   parts.push(`<h2>Ekspedisi Jakarta ${k}: Kirim Barang &amp; Cargo ke ${k}</h2>`);
   parts.push(`<p>Butuh ekspedisi Jakarta ${k} yang bisa diandalkan? BJA Logistic melayani kirim barang ke ${k} lewat cargo laut, dengan minimal pengiriman ${cp.minWeightKg} kg. ${intro}</p>`);
   parts.push(
-    `<p>Barang bisa dikirim dari Jakarta dan sekitarnya (Jabodetabek) maupun dari Surabaya, dengan minimal pengiriman <strong>${cp.minWeightKg} kg</strong>. Untuk tujuan ${k} tersedia layanan berikut:</p>`
+    `<p>Barang bisa dikirim dari Jakarta dan sekitarnya (Jabodetabek) maupun dari Surabaya, dengan minimal pengiriman <strong>${cp.minWeightKg} kg</strong>. ${reg || exp ? `Untuk tujuan ${k} tersedia layanan berikut:` : ""}</p>`
   );
 
   const svc: string[] = [];
-  if (reg) svc.push(`<li><strong>Reguler</strong>: ${reg.price}/kg${reg.eta ? `, estimasi ${reg.eta} setelah kapal berangkat` : ""}. Pilihan paling hemat untuk barang dalam jumlah besar.</li>`);
-  if (exp) svc.push(`<li><strong>Express</strong>: ${exp.price}/kg${exp.eta ? `, estimasi ${exp.eta} setelah kapal berangkat` : ""}. Memakai kapal PELNI, cocok untuk barang yang perlu tiba lebih cepat.</li>`);
+  if (reg) svc.push(`<li><strong>${cp.regulerLabel}</strong>: ${reg.price}/kg${reg.eta ? `, estimasi ${reg.eta} setelah kapal berangkat` : ""}. ${cp.isRoro ? "Memakai kapal Roro, pilihan hemat untuk barang besar dan berat." : "Memakai kapal cargo, pilihan paling hemat untuk barang dalam jumlah besar."}</li>`);
+  if (exp) svc.push(`<li><strong>Express</strong>: ${exp.price}/kg${exp.eta ? `, estimasi ${exp.eta} setelah kapal berangkat` : ""}${cp.expressMinKg ? `, minimal ${cp.expressMinKg} kg` : ""}. Lebih cepat sampai karena kapalnya lebih cepat (PELNI), pengantaran atau penerusan ke alamat didahulukan, atau keduanya.</li>`);
   if (svc.length) parts.push(`<ul>${svc.join("")}</ul>`);
+  else parts.push(`<p>Tarif ke ${k} dikonfirmasi langsung oleh CS BJA Logistic. Hubungi kami lewat WhatsApp untuk harga dan jadwal kapal terbaru.</p>`);
   parts.push(
     `<p>Untuk barang yang besar tetapi ringan, ongkir dihitung dari <a href="/blog/cara-hitung-volume-barang-untuk-pengiriman-cargo-dan-jasa-ekspedisi">berat volume</a> jika lebih besar dari berat timbangan. Harga final dikonfirmasi tim kami sebelum barang dikirim.</p>`
   );

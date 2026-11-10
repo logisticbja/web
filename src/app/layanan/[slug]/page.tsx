@@ -27,7 +27,7 @@ const hardcodedServices: Record<string, ServicePageData> = {
     waLabel: "Tanya Harga Cargo Laut",
     features: ["Kapal Roro & PELNI terpercaya", "Cocok untuk barang berat & besar", "Harga paling terjangkau", "Tracking pengiriman real-time", "Packing kayu tersedia", "Asuransi pengiriman tersedia", "Door to door Jabodetabek & Surabaya", "Coverage 50+ kota tujuan"],
     details: [
-      { title: "Kapal yang Digunakan", desc: "Kami menggunakan armada kapal PELNI (KM Tidar, KM Ciremai, KM Dorolonda, dll) dan kapal Roro berlisensi resmi dengan standar keamanan tinggi." },
+      { title: "Kapal yang Digunakan", desc: "Ada 3 pilihan kapal: PELNI (KM Tidar, KM Ciremai, KM Dorolonda, dll), kapal cargo, dan kapal Roro untuk tujuan NTT. Semua berlisensi resmi dengan standar keamanan tinggi." },
       { title: "Proses Pengiriman", desc: "Barang dijemput atau diserahkan ke gudang kami → proses administrasi & penimbangan → muat ke kapal sesuai jadwal → pengiriman hingga pelabuhan tujuan → antar ke alamat (opsional)." },
       { title: "Jenis Barang yang Dilayani", desc: "Barang dagangan, sembako, material bangunan, elektronik, perabotan, mesin industri, alat pertanian, dan hampir semua jenis kargo umum." },
       { title: "Area Jemput (Door to Door)", desc: "Layanan penjemputan tersedia di seluruh area Jabodetabek dan Surabaya dan sekitarnya. Hubungi kami untuk informasi penjemputan ke daerah lain." },

@@ -1,5 +1,5 @@
 import { Ship, Zap } from "lucide-react";
-import { destinationCities, calculatePrice, cityLautPricing } from "@/lib/data/pricing";
+import { destinationCities, calculatePrice, cityLautPricing, getServiceLabels, isRoroDestination } from "@/lib/data/pricing";
 import { getCitiesByRegion } from "@/lib/data/regions";
 import type { OngkirRegion } from "@/lib/data/ongkir";
 import type { CityPageData } from "@/lib/cityPages";
@@ -22,7 +22,13 @@ export type EffectiveCityPricing = {
   expressEtaMin: number | null;
   expressEtaMax: number | null;
   minWeightKg: number;
+  expressMinKg: number | null;
+  regulerLabel: string;
+  isRoro: boolean;
+  hasPrice: boolean;
 };
+
+type BaseCityPricing = Omit<EffectiveCityPricing, "expressMinKg" | "regulerLabel" | "isRoro" | "hasPrice">;
 
 function parsePriceStr(v?: string | null): number | null {
   if (!v) return null;
@@ -35,6 +41,23 @@ export function getEffectiveCityPricing(
   apiData: CityPageData | null
 ): EffectiveCityPricing {
   const master = cityLautPricing[destinationValue];
+  const base = getBaseCityPricing(destinationValue, apiData);
+  const isRoro = isRoroDestination(destinationValue);
+  return {
+    ...base,
+    expressMinKg: master?.expressMinKg ?? null,
+    regulerLabel: getServiceLabels(destinationValue).reguler,
+    isRoro,
+    hasPrice: base.regulerPrice !== null || base.expressPrice !== null,
+  };
+}
+
+function getBaseCityPricing(
+  destinationValue: string,
+  apiData: CityPageData | null
+): BaseCityPricing {
+  const master = cityLautPricing[destinationValue];
+  const masterMinKg = master?.minWeightKg ?? 100;
 
   if (apiData) {
     const regulerPrice = parsePriceStr(apiData.priceRegular);
@@ -60,15 +83,20 @@ export function getEffectiveCityPricing(
         expressPrice: expressComplete ? expressPrice : null,
         expressEtaMin: expressComplete ? apiData.expressEtaMin : null,
         expressEtaMax: expressComplete ? apiData.expressEtaMax : null,
-        minWeightKg: apiData.minWeightKg || 100,
+        minWeightKg: apiData.minWeightKg || masterMinKg,
       };
     }
   }
 
   if (master) {
     return {
-      ...master,
-      minWeightKg: 100,
+      regulerPrice: master.regulerPrice,
+      regulerEtaMin: master.regulerEtaMin,
+      regulerEtaMax: master.regulerEtaMax,
+      expressPrice: master.expressPrice,
+      expressEtaMin: master.expressEtaMin,
+      expressEtaMax: master.expressEtaMax,
+      minWeightKg: masterMinKg,
     };
   }
 
@@ -97,7 +125,7 @@ export function buildAutomaticCitySeo(
   const available = [
     pricing.regulerPrice !== null
       ? {
-          label: "Reguler",
+          label: pricing.regulerLabel,
           price: pricing.regulerPrice,
           eta: formatEta(pricing.regulerEtaMin, pricing.regulerEtaMax),
         }
@@ -177,32 +205,48 @@ export function buildCityView(resolvedDestinationValue: string, apiData: CityPag
   const validCityValues = new Set(destinationCities.map((c) => c.value));
   const lautPrice = calculatePrice(resolvedDestinationValue, "laut", 1);
   const cp = getEffectiveCityPricing(resolvedDestinationValue, apiData);
-  const primaryPrice = cp.regulerPrice ?? cp.expressPrice ?? lautPrice.priceMin;
-  const priceFaqParts = [
-    cp.regulerPrice !== null
-      ? `Reguler Rp ${cp.regulerPrice.toLocaleString("id-ID")}/kg`
-      : "Reguler tidak tersedia",
-    cp.expressPrice !== null
-      ? `Express Rp ${cp.expressPrice.toLocaleString("id-ID")}/kg`
-      : "Express tidak tersedia",
-  ];
-  const etaFaqParts = [
-    cp.regulerEtaMin !== null && cp.regulerEtaMax !== null
-      ? `Reguler ${formatEta(cp.regulerEtaMin, cp.regulerEtaMax)}`
-      : "Reguler tidak tersedia",
-    cp.expressEtaMin !== null && cp.expressEtaMax !== null
-      ? `Express ${formatEta(cp.expressEtaMin, cp.expressEtaMax)}`
-      : "Express tidak tersedia",
-  ];
+  const prices = [cp.regulerPrice, cp.expressPrice].filter((v): v is number => v !== null);
+  const primaryPrice = prices.length ? Math.min(...prices) : lautPrice.priceMin;
+  const rl = cp.regulerLabel;
+  const showExpressFaq = !cp.isRoro || cp.expressPrice !== null;
+  const priceFaqParts = cp.hasPrice
+    ? [
+        cp.regulerPrice !== null
+          ? `${rl} Rp ${cp.regulerPrice.toLocaleString("id-ID")}/kg`
+          : `${rl} tidak tersedia`,
+        ...(showExpressFaq
+          ? [
+              cp.expressPrice !== null
+                ? `Express Rp ${cp.expressPrice.toLocaleString("id-ID")}/kg${cp.expressMinKg ? ` (minimal ${cp.expressMinKg} kg)` : ""}`
+                : "Express tidak tersedia",
+            ]
+          : []),
+      ]
+    : ["Harga dikonfirmasi langsung oleh CS BJA Logistic"];
+  const etaFaqParts = cp.hasPrice
+    ? [
+        cp.regulerEtaMin !== null && cp.regulerEtaMax !== null
+          ? `${rl} ${formatEta(cp.regulerEtaMin, cp.regulerEtaMax)}`
+          : `${rl} tidak tersedia`,
+        ...(showExpressFaq
+          ? [
+              cp.expressEtaMin !== null && cp.expressEtaMax !== null
+                ? `Express ${formatEta(cp.expressEtaMin, cp.expressEtaMax)}`
+                : "Express tidak tersedia",
+            ]
+          : []),
+      ]
+    : ["Estimasi dikonfirmasi langsung oleh CS BJA Logistic"];
   const vars: KotaVars = {
     kota: cityLabel,
     wilayah: region,
-    harga: `Rp ${primaryPrice.toLocaleString("id-ID")}`,
+    harga: cp.hasPrice ? `Rp ${primaryPrice.toLocaleString("id-ID")}` : "harga khusus (hubungi CS)",
     minkg: String(cp.minWeightKg),
     ongkir: priceFaqParts.join(", "),
     estimasi: etaFaqParts.join(", "),
   };
-  const t = (text: string, extra?: KotaVars) => fillTemplate(text, extra ? { ...vars, ...extra } : vars);
+  const noPrice = (text: string) => (cp.hasPrice ? text : text.replace(/\{harga\}\/kg/g, "{harga}"));
+  const t = (text: string, extra?: KotaVars) => fillTemplate(noPrice(text), extra ? { ...vars, ...extra } : vars);
   const templateFaqs = tpl.faq.items.map((f) => ({ q: t(f.q), a: t(f.a) })).filter((f) => f.q.trim() !== "");
 
   const faqs = apiData?.faqs && apiData.faqs.length > 0
