@@ -1,7 +1,8 @@
 import type { RegionConfig } from "@/lib/data/regions";
+import { SHIPMENT_PHOTOS } from "@/lib/data/shipmentPhotos";
 import { isObj, list, mergeSeo, obj, safeImage, sectionKeys, str, type SiteSeo } from "./core";
 
-export const TUJUAN_SECTIONS = ["hero", "main", "schedule", "notice", "testimonials", "faq", "cta"] as const;
+export const TUJUAN_SECTIONS = ["hero", "main", "gallery", "schedule", "notice", "testimonials", "faq", "cta"] as const;
 export type TujuanSection = (typeof TUJUAN_SECTIONS)[number];
 export const TUJUAN_FIXED: TujuanSection[] = ["hero", "main"];
 
@@ -18,6 +19,13 @@ export interface TujuanTestimonial {
   text: string;
 }
 
+export interface TujuanGalleryItem {
+  image: string;
+  alt: string;
+  caption: string;
+  citySlug: string;
+}
+
 export interface TujuanFaq {
   q: string;
   a: string;
@@ -30,6 +38,7 @@ export interface TujuanContent {
   seo: SiteSeo;
   hero: { title: string; description: string; image: string; imageAlt: string; stats: TujuanStat[]; waLabel: string; waText: string };
   main: { calculatorTitle: string; citiesTitle: string };
+  gallery: { title: string; description: string; items: TujuanGalleryItem[] };
   schedule: { title: string; linkLabel: string; note: string };
   notice: { label: string; text: string };
   testimonials: { title: string; items: TujuanTestimonial[] };
@@ -70,6 +79,11 @@ export function tujuanBase(config: RegionConfig): TujuanContent {
     main: {
       calculatorTitle: `Cek Harga Cargo ke ${config.label}`,
       citiesTitle: `Kota yang Dilayani di ${config.label}`,
+    },
+    gallery: {
+      title: `Dokumentasi Pengiriman ke ${config.label}`,
+      description: "Foto asli dari pengiriman yang kami tangani, mulai dari pickup dan muat barang sampai barang diterima di kota tujuan.",
+      items: (SHIPMENT_PHOTOS[config.slug] ?? []).map((p) => ({ ...p })),
     },
     schedule: {
       title: `Jadwal Kapal ke ${config.label}`,
@@ -138,10 +152,25 @@ function rating(v: unknown, fallback: number): number {
   return Math.min(5, Math.max(1, Math.round(n)));
 }
 
+function safeCitySlug(v: unknown, fallback: string): string {
+  if (typeof v !== "string") return fallback;
+  const t = v.trim().toLowerCase();
+  return /^[a-z0-9-]{0,60}$/.test(t) ? t : fallback;
+}
+
+function withGalleryAfterMain(rawOrder: unknown, order: TujuanSection[]): TujuanSection[] {
+  if (Array.isArray(rawOrder) && rawOrder.includes("gallery")) return order;
+  const rest: TujuanSection[] = order.filter((k) => k !== "gallery");
+  const i = rest.indexOf("main");
+  rest.splice(i === -1 ? rest.length : i + 1, 0, "gallery");
+  return rest;
+}
+
 export function mergeTujuan(base: TujuanContent, raw: unknown): TujuanContent {
   if (!isObj(raw)) return base;
   const hero = obj(raw, "hero");
   const main = obj(raw, "main");
+  const gallery = obj(raw, "gallery");
   const schedule = obj(raw, "schedule");
   const notice = obj(raw, "notice");
   const testimonials = obj(raw, "testimonials");
@@ -149,7 +178,7 @@ export function mergeTujuan(base: TujuanContent, raw: unknown): TujuanContent {
   const cta = obj(raw, "cta");
   return {
     version: 1,
-    order: sectionKeys(raw.order, TUJUAN_SECTIONS, base.order, true),
+    order: withGalleryAfterMain(raw.order, sectionKeys(raw.order, TUJUAN_SECTIONS, base.order, true)),
     hidden: sectionKeys(raw.hidden, TUJUAN_SECTIONS, base.hidden, false).filter((k) => !TUJUAN_FIXED.includes(k)),
     seo: mergeSeo(raw, base.seo, safeImage),
     hero: {
@@ -164,6 +193,16 @@ export function mergeTujuan(base: TujuanContent, raw: unknown): TujuanContent {
     main: {
       calculatorTitle: str(main.calculatorTitle, base.main.calculatorTitle),
       citiesTitle: str(main.citiesTitle, base.main.citiesTitle),
+    },
+    gallery: {
+      title: str(gallery.title, base.gallery.title),
+      description: str(gallery.description, base.gallery.description),
+      items: list(gallery.items, base.gallery.items, (x, b) => ({
+        image: safeImage(x.image, b.image),
+        alt: str(x.alt, b.alt),
+        caption: str(x.caption, b.caption),
+        citySlug: safeCitySlug(x.citySlug, b.citySlug),
+      }), { image: "", alt: "", caption: "", citySlug: "" }).filter((it) => it.image !== ""),
     },
     schedule: {
       title: str(schedule.title, base.schedule.title),

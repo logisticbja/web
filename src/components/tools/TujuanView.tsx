@@ -10,6 +10,7 @@ import { getCitiesByRegion, type RegionConfig } from "@/lib/data/regions";
 import { destinationValueToSlug } from "@/lib/data/pricing";
 import { TUJUAN_FIXED, type TujuanContent, type TujuanSection } from "@/lib/sitePages/tujuan";
 import { Sec } from "./ToolHero";
+import { ShipmentCarousel } from "./ShipmentCarousel";
 
 function StarRating({ rating }: { rating: number }) {
   return (
@@ -66,6 +67,13 @@ export function TujuanView({
   const waUrl = `https://api.whatsapp.com/send/?phone=6281513335157&text=${encodeURIComponent(content.hero.waText)}`;
   const { hero } = content;
 
+  const visible = content.order.filter(
+    (k): k is Exclude<TujuanSection, "hero"> => k !== "hero" && (TUJUAN_FIXED.includes(k) || !content.hidden.includes(k)),
+  );
+  const mainIdx = visible.indexOf("main");
+  const galleryShown = content.gallery.items.length > 0 || !!edit;
+  const guideAfter = visible[mainIdx + 1] === "gallery" && galleryShown ? "gallery" : "main";
+
   const blocks: Record<Exclude<TujuanSection, "hero">, React.ReactNode> = {
     main: (
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-6 mb-10 lg:items-stretch">
@@ -110,6 +118,23 @@ export function TujuanView({
           </div>
         </div>
       </div>
+    ),
+    gallery: galleryShown && (
+      <section className="mb-10">
+        <SectionTitle edit={edit} path="gallery.title">{content.gallery.title}</SectionTitle>
+        {content.gallery.description.trim() !== "" && (
+          <p className="text-sm text-gray-600 leading-relaxed mb-5 -mt-1" {...cms(edit, "gallery.description")}>
+            {content.gallery.description}
+          </p>
+        )}
+        {content.gallery.items.length === 0 ? (
+          <p className="rounded-xl border border-dashed border-gray-300 bg-white px-4 py-6 text-center text-sm text-gray-400">
+            Belum ada foto. Tambahkan foto dari CRM.
+          </p>
+        ) : (
+          <ShipmentCarousel items={content.gallery.items} title={content.gallery.title} edit={edit} />
+        )}
+      </section>
     ),
     schedule: schedules.length > 0 && (
       <section className="mb-10">
@@ -305,14 +330,12 @@ export function TujuanView({
       </Sec>
 
       <div className="max-w-6xl mx-auto px-4 py-6">
-        {content.order
-          .filter((k): k is Exclude<TujuanSection, "hero"> => k !== "hero" && (TUJUAN_FIXED.includes(k) || !content.hidden.includes(k)))
-          .map((k) => (
-            <Sec key={k} edit={edit} id={k}>
-              {blocks[k]}
-              {k === "main" && guide}
-            </Sec>
-          ))}
+        {visible.map((k) => (
+          <Sec key={k} edit={edit} id={k}>
+            {blocks[k]}
+            {k === guideAfter && guide}
+          </Sec>
+        ))}
       </div>
     </div>
   );
