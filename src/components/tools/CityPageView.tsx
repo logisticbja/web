@@ -404,12 +404,14 @@ export function CityPageView({ view, data, edit }: { view: CityView; data: CityP
   return (
     <>
       <Sec on={mode === "template"} id="hero">
-        <div className={`relative py-8 px-4 overflow-hidden ${data?.imageBanner ? "" : "bg-[#CC1F2A]"}`} {...c("imageBanner")}>
-          {data?.imageBanner && (
+        <div className="relative py-8 px-4 overflow-hidden bg-[#CC1F2A]" {...c("imageBanner")}>
+          {data?.imageBanner ? (
             <>
               <Image src={data.imageBanner} alt={`Banner ${cityLabel}`} fill priority sizes="100vw" className="object-cover" unoptimized={mode !== null} />
               <div className="absolute inset-0 bg-[#CC1F2A]/80" />
             </>
+          ) : (
+            <Image src="/images/hero-kirim-ke.webp" alt="" fill priority sizes="100vw" className="object-cover" />
           )}
           <div className="max-w-5xl mx-auto relative">
             <div className="flex items-center gap-2 mb-3">

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import {
   ArrowRight,
   MapPin,
@@ -73,8 +74,9 @@ export default function KirimKePage() {
       />
 
       {/* HERO */}
-      <section className="bg-[#CC1F2A] px-4 py-14 sm:py-20">
-        <div className="max-w-5xl mx-auto">
+      <section className="relative overflow-hidden bg-[#CC1F2A] px-4 py-14 sm:py-20">
+        <Image src="/images/hero-kirim-ke.webp" alt="" fill priority sizes="100vw" className="object-cover" />
+        <div className="relative max-w-5xl mx-auto">
           <div className="max-w-3xl">
             <div className="flex items-center gap-2 text-sm text-white/70 mb-5">
               <Link
