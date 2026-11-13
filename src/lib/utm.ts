@@ -9,6 +9,7 @@ export interface UTMData {
   content?: string;
   term?: string;
   clickId?: string;
+  city?: string;
   savedAt?: number;
 }
 
@@ -19,6 +20,16 @@ const UTM_PARAM_NAMES: Record<"source" | "medium" | "campaign" | "content" | "te
   content: "utm_content",
   term: "utm_term",
 };
+
+function cityFromPath(pathname: string | undefined): string | undefined {
+  const match = pathname?.match(/^\/kirim-ke\/([^/?#]+)/i);
+  if (!match) return undefined;
+  try {
+    return decodeURIComponent(match[1]).toLowerCase();
+  } catch {
+    return match[1].toLowerCase();
+  }
+}
 
 function readStore(storage: Storage | undefined): UTMData | null {
   try {
@@ -59,6 +70,7 @@ export function saveUTM(params: URLSearchParams): void {
     content: params.get("utm_content") || undefined,
     term: params.get("utm_term") || undefined,
     clickId: clickParam || undefined,
+    city: cityFromPath(typeof window === "undefined" ? undefined : window.location.pathname),
   };
   if (!data.source && data.clickId) {
     data.source = "google";
@@ -86,7 +98,13 @@ function isAds(data: UTMData) {
 export function getUTMRef(): string {
   const data = readUTM();
   if (!data?.source) return "";
-  const label = isAds(data) && /google/i.test(data.source) ? "Google Ads" : [data.source, data.medium].filter(Boolean).join(" / ");
+  if (isAds(data) && /google/i.test(data.source)) {
+    const region = data.content || data.campaign;
+    const city = cityFromPath(typeof window === "undefined" ? undefined : window.location.pathname) || data.city;
+    const parts = ["Google Ads", region, city, data.term].filter(Boolean);
+    return `\n\n[Ref: ${parts.join(" / ")}]`;
+  }
+  const label = [data.source, data.medium].filter(Boolean).join(" / ");
   const parts = [label, data.campaign, data.content, data.term].filter(Boolean);
   return `\n\n[Ref: ${parts.join(" / ")}]`;
 }
