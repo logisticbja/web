@@ -306,6 +306,23 @@ const nextConfig: NextConfig = {
       { source: "/blog/ka-log-cerita-di-balik-perjalanan-barang", destination: "/blog/kereta-api-logistik-dan-pengiriman-indonesia-timur", permanent: true },
       { source: "/blog/km-lambelu-2025-jadwal-pelayaran-dan-rute-lengkap", destination: "/jadwal-kapal", permanent: true },
       { source: "/blog/informasi-lengkap-rute-km-egon-terbaru-2025", destination: "/jadwal-kapal", permanent: true },
+      { source: "/blog/lokasi-jembatan-timbang-yang-ada-di-indonesia-2025", destination: "/blog/Jembatan-Timbang", permanent: true },
+      { source: "/blog/prosedur-lengkap-pengiriman-obat-vaksin-lewat-jasa-ekspedisi", destination: "/blog/pengiriman-obat-dan-vaksin", permanent: true },
+      { source: "/blog/stretch%20film,%20bubble%20wrap,%20kardus,%20atau%20kayu", destination: "/blog/stretch-film-bubble-wrap-kardus-atau-kayu", permanent: true },
+
+      { source: "/cara-mudah-cek-ongkir-pengiriman-barang-ke-papua", destination: "/cargo/papua", permanent: true },
+      { source: "/harga-di-papua-3x-lebih-mahal-begini-penjelasannya", destination: "/blog/kenapa-harga-barang-di-papua-mahal", permanent: true },
+      { source: "/cara-menghitung-ongkos-kirim", destination: "/cek-ongkir", permanent: true },
+      { source: "/5-satuan-berat-dalam-pengiriman-barang", destination: "/cek-ongkir", permanent: true },
+      { source: "/13-perbedaan-kirim-barang-reguler-dan-express", destination: "/layanan/cargo-laut", permanent: true },
+      { source: "/7-cara-kirim-motor-ke-luar-kota-praktis-anti-ribet", destination: "/layanan/kirim-motor", permanent: true },
+      { source: "/rute-jadwal-kapal-tanto-januari-2026", destination: "/jadwal-kapal", permanent: true },
+      { source: "/rute-jadwal-kapal-dorolonda-februari-2026", destination: "/blog/update-jadwal-km-dorolonda-dari-jakarta-ke-timur-2026", permanent: true },
+      { source: "/10-jenis-kontainer-yang-harus-kamu-tau", destination: "/blog/jenis-jenis-kontainer", permanent: true },
+      { source: "/4-jenis-kapal-laut-untuk-pengiriman-antar-pulau", destination: "/blog/jenis-jenis-kapal-laut-untuk-pengiriman-antar-pulau", permanent: true },
+      { source: "/jenis-jenis-truk-untuk-pengiriman-barang", destination: "/blog/jenis-truk-untuk-pengiriman-barang", permanent: true },
+      { source: "/pengiriman-barang-dari-gudang-ke-tujuan-dengan-cara-yang-efisien-dan-aman", destination: "/blog/pengiriman-barang-dari-gudang-ke-tujuan", permanent: true },
+      { source: "/prosedur-lengkap-pengiriman-obat-vaksin-lewat-jasa-ekspedisi", destination: "/blog/pengiriman-obat-dan-vaksin", permanent: true },
 
       // ─── HALAMAN STATIS LAMA → halaman baru ───
       { source: "/tracking", destination: "/cek-resi", permanent: true },
