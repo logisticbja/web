@@ -45,7 +45,10 @@ export function jakartaToday(): string {
 
 export function publicSchedules(list: ShipSchedule[], today = jakartaToday()): ShipSchedule[] {
   const upcoming = list
-    .filter((s) => !s.etdDate || s.etdDate >= today)
+    .filter((s) => {
+      const cutoff = s.closingDate ?? s.etdDate;
+      return !cutoff || cutoff >= today;
+    })
     .sort((a, b) => (a.etdDate ?? "9999").localeCompare(b.etdDate ?? "9999"));
   if (upcoming.length > 0) return upcoming;
   return [...list].sort((a, b) => (b.etdDate ?? "").localeCompare(a.etdDate ?? "")).slice(0, 15);
