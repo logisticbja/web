@@ -35,6 +35,14 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(redirectUrl, 301);
   }
 
+  const trackingGuideSlug = pathname.slice(1);
+  if (/^(\d+-)?(cara-cek-resi|cek-resi|cara-lacak-paket|cara-tracking)-[^/]+$/.test(trackingGuideSlug)) {
+    if (trackingGuideSlug.includes("bja")) {
+      return NextResponse.redirect(new URL("/cek-resi", request.url), 301);
+    }
+    return new NextResponse(null, { status: 410, headers: { "X-Robots-Tag": "noindex" } });
+  }
+
   // Skip root and known routes
   if (pathname === "/" || STATIC_ROUTES.has(pathname)) return NextResponse.next();
 

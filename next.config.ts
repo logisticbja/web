@@ -281,11 +281,6 @@ const nextConfig: NextConfig = {
       // ─── PANDUAN CEK ONGKIR/RESI LAMA → halaman fungsi terkait ───
       { source: "/cara-cek-ongkir-:slug", destination: "/cek-ongkir", permanent: true },
       { source: "/:num(\\d+)-cara-cek-ongkir-:slug", destination: "/cek-ongkir", permanent: true },
-      { source: "/cara-cek-resi-:slug", destination: "/cek-resi", permanent: true },
-      { source: "/cek-resi-:slug", destination: "/cek-resi", permanent: true },
-      { source: "/:num(\\d+)-cara-cek-resi-:slug", destination: "/cek-resi", permanent: true },
-      { source: "/cara-lacak-paket-:slug", destination: "/cek-resi", permanent: true },
-      { source: "/cara-tracking-:slug", destination: "/cek-resi", permanent: true },
 
       // ─── ARSIP WORDPRESS LAMA (404 Coverage report 9 Nov 2026) ───
       { source: "/category/cargo/:region(papua|maluku|ntt|sulawesi)/:rest*", destination: "/cargo/:region", permanent: true },
