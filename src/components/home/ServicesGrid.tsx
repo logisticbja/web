@@ -55,7 +55,15 @@ export function ServicesGrid({ content, edit }: { content: ServicesContent } & E
                   </div>
 
                   {/* Content */}
-                  <h3 className="text-lg font-black text-white mb-2" {...cms(edit, `services.items.${i}.name`)}>{service.name}</h3>
+                  <h3 className="text-lg font-black text-white mb-2" {...cms(edit, `services.items.${i}.name`)}>
+                    {edit ? (
+                      service.name
+                    ) : (
+                      <Link href="/corporate" className="after:absolute after:inset-0 after:rounded-2xl">
+                        {service.name}
+                      </Link>
+                    )}
+                  </h3>
                   <p className="text-white/55 text-sm mb-4 leading-relaxed" {...cms(edit, `services.items.${i}.description`)}>{service.description}</p>
 
                   {/* Highlights */}
@@ -73,7 +81,7 @@ export function ServicesGrid({ content, edit }: { content: ServicesContent } & E
                     href={buildCorporateMessage()}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 w-full bg-[#F5C518] hover:bg-[#D4A910] text-[#1A1A1A] font-black py-2.5 rounded-xl transition-colors text-sm"
+                    className="relative z-10 flex items-center justify-center gap-2 w-full bg-[#F5C518] hover:bg-[#D4A910] text-[#1A1A1A] font-black py-2.5 rounded-xl transition-colors text-sm"
                   >
                     <MessageCircle size={15} />
                     Hubungi Tim Corporate
@@ -85,7 +93,7 @@ export function ServicesGrid({ content, edit }: { content: ServicesContent } & E
             return (
               <div
                 key={key}
-                className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-xl border border-gray-100 transition-all duration-300 hover:-translate-y-1 group"
+                className="relative bg-white rounded-2xl p-6 shadow-sm hover:shadow-xl border border-gray-100 transition-all duration-300 hover:-translate-y-1 group"
                 {...cms(edit, `services.items.${i}`)}
               >
                 {/* Icon */}
@@ -94,7 +102,15 @@ export function ServicesGrid({ content, edit }: { content: ServicesContent } & E
                 </div>
 
                 {/* Content */}
-                <h3 className="text-lg font-black text-[#111111] mb-2" {...cms(edit, `services.items.${i}.name`)}>{service.name}</h3>
+                <h3 className="text-lg font-black text-[#111111] mb-2" {...cms(edit, `services.items.${i}.name`)}>
+                  {edit ? (
+                    service.name
+                  ) : (
+                    <Link href={service.href} className="after:absolute after:inset-0 after:rounded-2xl">
+                      {service.name}
+                    </Link>
+                  )}
+                </h3>
                 <p className="text-gray-500 text-sm mb-4 leading-relaxed" {...cms(edit, `services.items.${i}.description`)}>{service.description}</p>
 
                 {/* Highlights */}
@@ -108,7 +124,7 @@ export function ServicesGrid({ content, edit }: { content: ServicesContent } & E
                 </ul>
 
                 {/* CTAs */}
-                <div className="flex gap-2">
+                <div className="relative z-10 flex gap-2">
                   <WAButton
                     href={buildServiceMessage(service.waService || service.name)}
                     label="Tanya WA"
